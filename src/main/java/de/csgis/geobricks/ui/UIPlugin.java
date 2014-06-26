@@ -2,8 +2,6 @@ package de.csgis.geobricks.ui;
 
 import de.csgis.geobricks.NonRequireDependency;
 import de.csgis.geobricks.PluginDescriptor;
-import de.csgis.geobricks.servlet.FilterDescriptor;
-import de.csgis.geobricks.servlet.ServletDescriptor;
 
 public class UIPlugin implements PluginDescriptor {
 	public static final String ID = "ui";
@@ -40,15 +38,5 @@ public class UIPlugin implements PluginDescriptor {
 	@Override
 	public String[] getModules() {
 		return new String[] { "ui" };
-	}
-
-	@Override
-	public FilterDescriptor[] getFilters() {
-		return null;
-	}
-
-	@Override
-	public ServletDescriptor[] getServlets() {
-		return null;
 	}
 }
