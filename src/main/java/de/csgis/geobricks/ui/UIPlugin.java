@@ -5,7 +5,7 @@ import de.csgis.geobricks.PluginDescriptor;
 import de.csgis.geobricks.servlet.FilterDescriptor;
 import de.csgis.geobricks.servlet.ServletDescriptor;
 
-public class UIPluginDescriptor implements PluginDescriptor {
+public class UIPlugin implements PluginDescriptor {
 	public static final String ID = "ui";
 	public static final String NAME = "UI";
 
