@@ -1,0 +1,70 @@
+.autocomplete {
+	z-index: 1000;
+	position: absolute;
+	top: 20px;
+	left: 55px;
+}
+
+.autocomplete-input {
+	padding: 0.3em 3em 0.3em 1em;
+	border-radius: 5px;
+	height: 2em;
+	width: 20em;
+}
+
+.autocomplete-dropdown {
+	overflow-y: auto !important;
+	padding: 10px 1em !important;
+	width: 13em !important;
+	border-radius: 5px !important;
+}
+
+.autocomplete-icon {
+	background: url(../images/search.png) no-repeat center;
+	height: 100%;
+	width: 36px;
+	position: absolute;
+	right: 0px;
+	cursor: pointer;
+	top: 0px;
+}
+
+.tt-query {
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+	color: #999
+}
+
+.tt-dropdown-menu {
+	width: 15em;
+	margin-top: 5px;
+	padding: 8px 0;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	-webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+	-moz-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+}
+
+.tt-suggestion {
+	padding: 3px 20px;
+	font-size: 0.95em;
+	line-height: 2.5em;
+}
+
+.tt-suggestion.tt-cursor {
+	color: #fff;
+	background-color: #888;
+}
+
+.tt-suggestion p {
+	margin: 0;
+}

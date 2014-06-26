@@ -1,0 +1,36 @@
+.toolbar-container {
+	position: absolute;
+	left: 50%;
+	top: 20px;
+	z-index: 2000;
+}
+
+.toolbar {
+	position: relative;
+	left: -55%;
+	box-shadow: 5px 5px 5px #888888;
+	border-radius: 10px;
+	height: 40px;
+}
+
+.toolbar-button {
+	border-top: 1px solid gray;
+	border-bottom: 1px solid gray;
+	border-left: 1px solid gray;
+	width: 40px;
+	height: 40px;
+	background-color: rgba(0, 0, 0, 0);
+	float: left;
+	width: 40px;
+}
+
+.toolbar-button:first-child {
+	border-bottom-left-radius: 5px;
+	border-top-left-radius: 5px;
+}
+
+.toolbar-button:last-child {
+	border-bottom-right-radius: 5px;
+	border-top-right-radius: 5px;
+	border-right: 1px solid gray;
+}

@@ -1,0 +1,37 @@
+.button-enabled {
+	overflow: hidden;
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF),
+		color-stop(1, #EDF2F8));
+	background-image: -o-linear-gradient(bottom, #FFFFFF 0%, #EDF2F8 100%);
+	background-image: -moz-linear-gradient(bottom, #FFFFFF 0%, #EDF2F8 100%);
+	background-image: -webkit-linear-gradient(bottom, #FFFFFF 0%, #EDF2F8 100%);
+	background-image: -ms-linear-gradient(bottom, #FFFFFF 0%, #EDF2F8 100%);
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #EDF2F8 100%);
+	cursor: pointer;
+}
+
+.button-enabled-image {
+	width: 100%;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	-webkit-background-origin: border;
+}
+
+.button-active {
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF),
+		color-stop(1, #7492B3));
+	background-image: -o-linear-gradient(bottom, #FFFFFF 0%, #7492B3 100%);
+	background-image: -moz-linear-gradient(bottom, #FFFFFF 0%, #7492B3 100%);
+	background-image: -webkit-linear-gradient(bottom, #FFFFFF 0%, #7492B3 100%);
+	background-image: -ms-linear-gradient(bottom, #FFFFFF 0%, #7492B3 100%);
+	background-image: linear-gradient(to bottom, #FFFFFF 0%, #7492B3 100%);
+	cursor: pointer;
+}
+
+.button-disabled {
+	background-color: black;
+	background-image: none;
+	overflow: hidden;
+	cursor: default;
+}
