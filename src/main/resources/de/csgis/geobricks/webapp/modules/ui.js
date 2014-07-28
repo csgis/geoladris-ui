@@ -1,7 +1,7 @@
 var controls = [ "ui-selectable-list", "ui-exclusive-list", "ui-text-area", "ui-accordion", //
 "ui-html", "ui-dialog", "ui-search", "ui-buttons", //
 "ui-container", "ui-choice-field", "ui-numeric-field", "ui-text-area-field", //
-"ui-form-collector", "ui-divstack", "ui-slider", "ui-autocomplete" ];
+"ui-form-collector", "ui-divstack", "ui-slider", "ui-autocomplete", "ui-alerts" ];
 var baseDeps = [ "jquery", "message-bus", "module", "ui-commons" ];
 
 define(baseDeps.concat(controls), function($, bus, module, commons) {

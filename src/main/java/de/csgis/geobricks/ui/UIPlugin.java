@@ -22,7 +22,8 @@ public class UIPlugin implements PluginDescriptor {
 	public String[] getStyleSheets() {
 		return new String[] { "modules/accordion.css", "modules/title.css",
 				"modules/toolbar.css", "modules/buttons.css",
-				"modules/dialog.css", "modules/autocomplete.css" };
+				"modules/dialog.css", "modules/autocomplete.css",
+				"modules/alerts.css" };
 	}
 
 	@Override
