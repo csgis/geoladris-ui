@@ -21,7 +21,6 @@ define([ "jquery", "message-bus", "module" ], function($, bus, module) {
 
 	function updateMessage() {
 		var keys = Object.keys(ids);
-		console.log(keys);
 		if (keys.length == 1) {
 			message = keys[0];
 		} else {
@@ -31,7 +30,6 @@ define([ "jquery", "message-bus", "module" ], function($, bus, module) {
 	}
 
 	bus.listen("ui-loading:start", function(e, msg) {
-		console.log(msg);
 		if (ids[msg]) {
 			ids[msg]++;
 		} else {
@@ -62,6 +60,9 @@ define([ "jquery", "message-bus", "module" ], function($, bus, module) {
 		}
 
 		ids[msg]--;
+		if (!ids[msg]) {
+			delete ids[msg];
+		}
 
 		var anyoneLoading = false;
 		$.each(ids, function(key, value) {
