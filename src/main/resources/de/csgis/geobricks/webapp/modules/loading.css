@@ -1,0 +1,34 @@
+#loading-shade {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	z-index: 9999;
+	cursor: wait;
+}
+
+#loading-container {
+	top: -100px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	position: absolute;
+	margin: auto;
+	width: 60%;
+	height: 100px;
+	line-height: 100px;
+	vertical-align: middle;
+	text-align: center;
+	background: white;
+	border-radius: 10px;
+	cursor: wait;
+}
+
+#loading-msg {
+	margin: auto;
+	font-size: 2em;
+	display: inline-block;
+	text-align: left;
+}

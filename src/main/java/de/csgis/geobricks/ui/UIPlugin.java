@@ -23,7 +23,7 @@ public class UIPlugin implements PluginDescriptor {
 		return new String[] { "modules/accordion.css", "modules/title.css",
 				"modules/toolbar.css", "modules/buttons.css",
 				"modules/dialog.css", "modules/autocomplete.css",
-				"modules/alerts.css" };
+				"modules/alerts.css", "modules/loading.css" };
 	}
 
 	@Override
