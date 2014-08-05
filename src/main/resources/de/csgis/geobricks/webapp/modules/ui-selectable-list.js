@@ -9,7 +9,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		textCell.addClass("selectable-list-text");
 		inputCell.addClass("selectable-list-input");
 
-		var row = $("<div/>");
+		var row = $("<div/>").attr("id", div + "-container");
 		row.append(inputCell);
 		row.append(textCell);
 
@@ -45,6 +45,10 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		bus.listen(baseEventName + ":" + id + ":add-item", function(e, msg) {
 			addItemToList(id, msg.id, msg.text);
+		});
+
+		bus.listen(baseEventName + ":" + id + ":remove-item", function(e, msg) {
+			$("#" + msg + "-container").remove();
 		});
 
 		bus.listen(baseEventName + ":" + id + ":set-item", function(e, msg) {
