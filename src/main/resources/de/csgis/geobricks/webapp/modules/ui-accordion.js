@@ -13,7 +13,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		var visible = msg.visible;
 
 		var accordion = $("#" + accordionId);
-		var header = $("<div/>");
+		var header = $("<div/>").attr("id", groupId + "-header");
 		var content = $("<div/>").attr("id", groupId);
 		var headerText = $("<p/>").text(title);
 
@@ -35,5 +35,21 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		header.append(headerText);
 		accordion.append(header);
 		accordion.append(content);
+	});
+
+	function visibility(id, visibility) {
+		if (visibility !== undefined) {
+			var div = $("#" + id);
+			if (visibility) {
+				div.show();
+			} else {
+				div.hide();
+			}
+		}
+	}
+
+	bus.listen("ui-accordion:visibility", function(e, msg) {
+		visibility(msg.id + "-header", msg.header);
+		visibility(msg.id, msg.content);
 	});
 });
