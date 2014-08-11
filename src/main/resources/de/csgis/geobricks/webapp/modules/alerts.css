@@ -34,3 +34,7 @@
 .ui-alert-info {
 	background: #EEEEFF;
 }
+
+.ui-alert-error {
+	background: #FF8888;
+}
