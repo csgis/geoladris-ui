@@ -1,11 +1,11 @@
 define([ "jquery", "message-bus" ], function($, bus) {
-	bus.listen("ui-numeric-field:create", function(e, msg) {
+	bus.listen("ui-input-field:create", function(e, msg) {
 		var div = $("<div/>");
-		div.addClass("ui-numeric-field-container");
+		div.addClass("ui-input-field-container");
 		div.addClass(msg.css);
 
 		if (msg.label) {
-			var label = $("<label/>").text(msg.label).addClass("ui-numeric-field-label");
+			var label = $("<label/>").text(msg.label).addClass("ui-input-field-label");
 			div.append(label);
 		}
 
