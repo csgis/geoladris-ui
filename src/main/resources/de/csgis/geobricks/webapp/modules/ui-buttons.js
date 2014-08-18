@@ -11,6 +11,11 @@ define([ "jquery", "message-bus" ], function($, bus) {
 			button.addClass("button-enabled");
 			button.append(imageDiv);
 		}
+
+		if (msg.tooltip) {
+			button.attr("title", msg.tooltip);
+		}
+
 		button.attr("id", msg.div);
 		button.attr("enabled", true);
 		button.addClass(msg.css);
