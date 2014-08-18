@@ -10,25 +10,19 @@
 }
 
 #loading-container {
-	top: -100px;
-	bottom: 0px;
-	left: 0px;
-	right: 0px;
+	top: 40%;
+	left: 50%;
 	position: absolute;
-	margin: auto;
-	width: 60%;
-	height: 100px;
-	line-height: 100px;
-	vertical-align: middle;
-	text-align: center;
-	background: white;
-	border-radius: 10px;
 	cursor: wait;
 }
 
 #loading-msg {
-	margin: auto;
-	font-size: 2em;
-	display: inline-block;
+	position: relative;
+	left: -50%;
+	padding: 20px;
+	font-size: 1.3em;
+	background: white;
+	border-radius: 10px;
+	cursor: wait;
 	text-align: left;
 }
