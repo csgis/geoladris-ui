@@ -1,5 +1,9 @@
 package de.csgis.geobricks.ui;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 import de.csgis.geobricks.NonRequireDependency;
 import de.csgis.geobricks.PluginDescriptor;
 
@@ -40,4 +44,9 @@ public class UIPlugin implements PluginDescriptor {
 	public String[] getModules() {
 		return new String[] { "ui" };
 	}
+
+	public void config(HttpServletRequest request,
+			HttpServletResponse response, JSONObject staticConfig,
+			String confDir) {
+	};
 }
