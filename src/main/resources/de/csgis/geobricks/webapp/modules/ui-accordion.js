@@ -48,7 +48,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		}
 	}
 
-	bus.listen("ui-accordion:visibility", function(e, msg) {
+	bus.listen(baseEventName + ":visibility", function(e, msg) {
 		visibility(msg.id + "-header", msg.header);
 		visibility(msg.id, msg.content);
 	});

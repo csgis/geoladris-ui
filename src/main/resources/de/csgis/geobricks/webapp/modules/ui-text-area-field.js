@@ -1,6 +1,9 @@
 define([ "jquery", "message-bus" ], function($, bus) {
 	bus.listen("ui-text-area-field:create", function(e, msg) {
-		var div = $("<div/>").addClass("ui-text-area-field-container");
+		var div = $("<div/>");
+		div.addClass(msg.css);
+		div.addClass("ui-text-area-field-container");
+
 		var label = $("<label/>").text(msg.label).addClass("ui-text-area-field-label");
 		var text = $("<textarea/>");
 		if (msg.cols) {

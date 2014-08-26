@@ -19,11 +19,11 @@ define(baseDeps.concat(controls), function($, bus, module, commons) {
 	});
 
 	bus.listen("ui-set-content", function(e, msg) {
-		$("#" + msg.id).html(msg.content);
+		$("#" + msg.div).html(msg.content);
 	});
 
 	bus.listen("ui-set-position", function(e, msg) {
-		var div = $("#" + msg.id);
+		var div = $("#" + msg.div);
 		div.css({
 			position : "absolute",
 			top : msg.y,

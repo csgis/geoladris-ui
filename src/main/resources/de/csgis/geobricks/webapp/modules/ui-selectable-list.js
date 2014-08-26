@@ -15,11 +15,11 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		$("#" + parentDiv).append(row);
 
-		input.change(div, function(event) {
+		input.change(function() {
 			if (input.get(0).checked) {
-				bus.send("ui-selectable-list:" + parentDiv + ":item-selected", event.data);
+				bus.send("ui-selectable-list:" + parentDiv + ":item-selected", div);
 			} else {
-				bus.send("ui-selectable-list:" + parentDiv + ":item-unselected", event.data);
+				bus.send("ui-selectable-list:" + parentDiv + ":item-unselected", div);
 			}
 		});
 		textCell.click(div, function(event) {
@@ -31,30 +31,19 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		var id = msg.div;
 		var div = commons.getOrCreateDiv(id, msg.parentDiv);
 		div.addClass(msg.css);
-		if (msg.url) {
-			$.ajax({
-				url : msg.url,
-				dataType : "json",
-				success : function(data) {
-					for (var i = 0; i < data.length; i++) {
-						addItemToList(id, data[i], data[i]);
-					}
-				}
-			});
-		}
 
 		bus.listen(baseEventName + ":" + id + ":add-item", function(e, msg) {
 			addItemToList(id, msg.id, msg.text);
 		});
 
-		bus.listen(baseEventName + ":" + id + ":remove-item", function(e, msg) {
-			$("#" + msg + "-container").remove();
+		bus.listen(baseEventName + ":" + id + ":remove-item", function(e, id) {
+			$("#" + id + "-container").remove();
 		});
 
 		bus.listen(baseEventName + ":" + id + ":set-item", function(e, msg) {
 			var div = $("#" + msg.id);
 			if (div.length > 0) {
-				div.get(0).checked = msg.enabled;
+				div.get(0).checked = msg.selected;
 			}
 		});
 	});

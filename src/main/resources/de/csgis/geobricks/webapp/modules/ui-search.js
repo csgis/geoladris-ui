@@ -20,7 +20,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		input.keydown(function(e) {
 			if (e.keyCode == 13) {
-				msg.searchFunc(input.val());
+				bus.send("ui-search-box:" + msg.div + ":search", input.val());
 				return false;
 			}
 		});
@@ -28,12 +28,13 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		var div = $("<div/>").attr("id", msg.div);
 		div.append(input);
 		div.addClass("ui-search-div");
+		div.addClass(msg.css);
 
 		if (msg.icon) {
 			var icon = $("<div/>");
 			icon.addClass("ui-search-icon");
 			icon.click(function() {
-				msg.searchFunc(input.val());
+				bus.send("ui-search-box:" + msg.div + ":search", input.val());
 			});
 			div.append(icon);
 		}
@@ -51,6 +52,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		div.append(close);
 		div.append(list);
 
+		div.addClass(msg.css);
 		div.addClass("ui-search-results-div");
 		title.addClass("ui-search-results-title");
 		close.addClass("ui-search-results-close");
@@ -69,14 +71,16 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		});
 	});
 
-	bus.listen("ui-search-results:clear", function(e, msg) {
-		$("#" + msg.id + "-list").empty();
+	bus.listen("ui-search-results:clear", function(e, id) {
+		$("#" + id + "-list").empty();
 	});
 
 	bus.listen("ui-search-results:add", function(e, msg) {
 		var li = $("<li/>").text(msg.text);
 		li.addClass("ui-search-results-result");
-		li.click(msg.clickFunc);
+		li.click(function() {
+			bus.send("ui-search-results:" + msg.id + ":selected", msg.text);
+		});
 		$("#" + msg.id + "-list").append(li);
 	});
 });

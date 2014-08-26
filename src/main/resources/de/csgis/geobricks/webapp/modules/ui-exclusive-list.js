@@ -15,9 +15,9 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		$("#" + divId).find("table").first().append(row);
 
-		input.change(id, function(event) {
+		input.change( function() {
 			if (input.get(0).checked) {
-				bus.send("ui-exclusive-list:" + divId + ":item-selected", event.data);
+				bus.send("ui-exclusive-list:" + divId + ":item-selected", id);
 			}
 		});
 		textCell.click(id, function(event) {
@@ -26,19 +26,9 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	}
 
 	bus.listen(baseEventName + ":create", function(e, msg) {
-		var id = msg["div"];
-		var div = commons.getOrCreateDiv(id, msg["parentDiv"]);
+		var div = commons.getOrCreateDiv(msg.div, msg.parentDiv);
+		div.addClass(msg.css);
 		div.append($("<table/>"));
-		var dataGetter = msg["data-getter"];
-		if (dataGetter) {
-			var callback = function(ids, options) {
-				for (var i = 0; i < options.length; i++) {
-					addItemToList(id, ids[i], options[i]);
-				}
-			};
-
-			dataGetter(callback);
-		}
 	});
 
 	bus.listen(baseEventName + ":add-item", function(e, msg) {
