@@ -1,0 +1,9 @@
+{
+	"id" : "ui",
+	"default-conf" : {
+		"ui" : []
+	},
+	"non-require-deps" : {
+		"typeahead" : "jslib/typeahead/0.10.2/typeahead.jquery.min"
+	}
+}
