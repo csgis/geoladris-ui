@@ -38,8 +38,8 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		$("#" + id + "-container").remove();
 	});
 
-	bus.listen(baseEventName + ":set-item", function(e, msg) {
-		var div = $("#" + msg.id);
+	bus.listen(baseEventName + ":set-item", function(e, id) {
+		var div = $("#" + id);
 		if (div.length > 0) {
 			div.get(0).checked = true;
 		}
