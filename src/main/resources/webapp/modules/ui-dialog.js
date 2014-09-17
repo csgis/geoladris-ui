@@ -46,6 +46,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		var startX, startY;
 		var startOffset;
 
+		var originalCursor = title.css("cursor");
 		title.mousedown(function(event) {
 			title.css('cursor', 'move');
 			dragging = true;
@@ -54,7 +55,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			startOffset = div.offset();
 		}).mouseup(function() {
 			dragging = false;
-			title.css('cursor', 'default');
+			title.css('cursor', originalCursor);
 		});
 
 		$(window).mousemove(function(event) {
