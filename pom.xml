@@ -32,6 +32,13 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<preloadSources>
+						<source>/brick-loader/jslib/jquery-1.11.0.min.js</source>
+						<source>/brick-loader/modules/message-bus.js</source>
+						<source>/jslib/typeahead/0.10.2/typeahead.jquery.min.js</source>
+					</preloadSources>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>com.github.timurstrekalov</groupId>

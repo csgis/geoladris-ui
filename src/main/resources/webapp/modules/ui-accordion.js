@@ -41,9 +41,9 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		if (visibility !== undefined) {
 			var div = $("#" + id);
 			if (visibility) {
-				div.show();
+				bus.send("ui-show", id);
 			} else {
-				div.hide();
+				bus.send("ui-hide", id);
 			}
 		}
 	}

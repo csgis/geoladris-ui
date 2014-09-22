@@ -7,8 +7,7 @@ define([ "jquery", "message-bus" ], function($, bus) {
 			button = $("<div/>");
 			var imageDiv = $("<div/>");
 			imageDiv.css("background-image", "url(" + msg.image + ")");
-			imageDiv.addClass("button-enabled-image");
-			button.addClass("button-enabled");
+			imageDiv.addClass("button-image");
 			button.append(imageDiv);
 		}
 
@@ -53,7 +52,6 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		if (msg.enableEventName) {
 			bus.listen(msg.enableEventName, function() {
 				var div = $("#" + msg.div);
-				div.addClass("button-enabled");
 				div.removeClass("button-disabled");
 				div.attr("enabled", true);
 			});
@@ -61,7 +59,6 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		if (msg.disableEventName) {
 			bus.listen(msg.disableEventName, function() {
 				var div = $("#" + msg.div);
-				div.removeClass("button-enabled");
 				div.addClass("button-disabled");
 				div.removeAttr("enabled");
 			});
@@ -69,19 +66,19 @@ define([ "jquery", "message-bus" ], function($, bus) {
 	});
 
 	bus.listen("ui-button:activate", function(e, id) {
-		$("#" + id).addClass("button-active");
+		$("#" + id).removeClass("button-disabled");
 	});
 
 	bus.listen("ui-button:deactivate", function(e, id) {
-		$("#" + id).removeClass("button-active");
+		$("#" + id).addClass("button-disabled");
 	});
 
 	bus.listen("ui-button:toggle", function(e, id) {
 		var div = $("#" + id);
-		if (div.hasClass("button-active")) {
-			div.removeClass("button-active");
+		if (div.hasClass("button-disabled")) {
+			div.removeClass("button-disabled");
 		} else {
-			div.addClass("button-active");
+			div.addClass("button-disabled");
 		}
 	});
 });

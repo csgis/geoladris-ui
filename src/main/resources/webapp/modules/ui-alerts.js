@@ -10,13 +10,10 @@ define([ "jquery", "message-bus", "ui-commons", "layout", "module" ], function($
 	var container = commons.getOrCreateDiv("ui-alerts-container", wrapper.attr("id"));
 
 	bus.listen("ui-alert", function(e, msg) {
-		var severity = msg.severity;
-		var message = msg.message;
-
 		var div = $("<div/>");
 		div.addClass("ui-alert");
-		div.addClass("ui-alert-" + severity);
-		div.text(message);
+		div.addClass("ui-alert-" + msg.severity);
+		div.text(msg.message);
 
 		var close = $("<div/>");
 		close.addClass("ui-alerts-close");

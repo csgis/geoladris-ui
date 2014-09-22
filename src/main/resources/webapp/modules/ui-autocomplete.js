@@ -17,7 +17,7 @@ define([ "jquery", "message-bus", "typeahead" ], function($, bus) {
 		input.addClass("typeahead");
 		input.addClass("autocomplete-input");
 		icon.addClass("autocomplete-icon");
-
+		
 		input.typeahead({
 			hint : true,
 			highlight : true,
