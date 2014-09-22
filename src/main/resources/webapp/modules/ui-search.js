@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
+define([ "jquery", "message-bus" ], function($, bus) {
 	bus.listen("ui-search-box:create", function(e, msg) {
 		var placeholderClass = "search-placeholder";
 
@@ -18,8 +18,8 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			}
 		}).blur();
 
-		input.keydown(function(e) {
-			if (e.keyCode == 13) {
+		input.keypress(function(e) {
+			if (e.which == 13) {
 				bus.send("ui-search-box:" + msg.div + ":search", input.val());
 				return false;
 			}
@@ -67,7 +67,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		}
 
 		close.click(function() {
-			div.hide();
+			bus.send("ui-hide", msg.div);
 		});
 	});
 

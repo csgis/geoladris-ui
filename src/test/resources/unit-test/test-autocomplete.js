@@ -3,14 +3,7 @@ describe("ui-autocomplete", function() {
 	var id = "myautocomplete";
 
 	beforeEach(function() {
-		var previous = document.getElementById(parentId);
-		if (previous) {
-			document.body.removeChild(previous);
-		}
-
-		var parent = document.createElement('div');
-		parent.setAttribute("id", parentId);
-		document.body.appendChild(parent);
+		replaceParent(parentId);
 
 		_bus.unbind();
 		spyOn(_bus, "send").and.callThrough();

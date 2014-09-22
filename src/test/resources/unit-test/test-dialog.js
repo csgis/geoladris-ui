@@ -2,14 +2,7 @@ describe("ui-dialog", function() {
 	var parentId = "myparent";
 
 	beforeEach(function() {
-		var previous = document.getElementById(parentId);
-		if (previous) {
-			document.body.removeChild(previous);
-		}
-
-		var parent = document.createElement('div');
-		parent.setAttribute("id", parentId);
-		document.body.appendChild(parent);
+		replaceParent(parentId);
 
 		_bus.unbind();
 		spyOn(_bus, "send").and.callThrough();
@@ -104,5 +97,43 @@ describe("ui-dialog", function() {
 		var close = $("#mydialog").children(".dialog-close");
 		close.trigger("click");
 		expect(_bus.send).toHaveBeenCalledWith("ui-hide", "mydialog");
+	});
+
+	it("hides the shade when dialog is hidden if modal", function() {
+		_bus.send("ui-dialog:create", {
+			div : "mydialog",
+			parentDiv : parentId,
+			modal : true,
+			visible : true
+		});
+
+		expect($("#" + parentId).children(".dialog-shade").css("display")).not.toBe("none");
+		_bus.send("ui-hide", "mydialog");
+		expect($("#" + parentId).children(".dialog-shade").css("display")).toBe("none");
+	});
+	it("shows the shade when dialog is shown if modal", function() {
+		_bus.send("ui-dialog:create", {
+			div : "mydialog",
+			parentDiv : parentId,
+			modal : true,
+			visible : false
+		});
+
+		expect($("#" + parentId).children(".dialog-shade").css("display")).toBe("none");
+		_bus.send("ui-show", "mydialog");
+		expect($("#" + parentId).children(".dialog-shade").css("display")).not.toBe("none");
+	});
+
+	it("toggles the shade when dialog is toggled if modal", function() {
+		_bus.send("ui-dialog:create", {
+			div : "mydialog",
+			parentDiv : parentId,
+			modal : true,
+			visible : true
+		});
+
+		expect($("#" + parentId).children(".dialog-shade").css("display")).not.toBe("none");
+		_bus.send("ui-toggle", "mydialog");
+		expect($("#" + parentId).children(".dialog-shade").css("display")).toBe("none");
 	});
 });

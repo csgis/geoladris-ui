@@ -7,14 +7,7 @@ describe("ui-alerts", function() {
 	var containerId = "ui-alerts-container";
 
 	beforeEach(function() {
-		var previous = document.getElementById(layout.center);
-		if (previous) {
-			document.body.removeChild(previous);
-		}
-
-		var center = document.createElement('div');
-		center.setAttribute("id", layout.center);
-		document.body.appendChild(center);
+		replaceParent(layout.center);
 
 		_bus.unbind();
 		spyOn(_bus, "send").and.callThrough();

@@ -3,9 +3,9 @@ var controls = [ "ui-selectable-list", "ui-exclusive-list", "ui-accordion", //
 "ui-choice-field", "ui-input-field", "ui-text-area-field", //
 "ui-form-collector", "ui-divstack", "ui-slider", "ui-autocomplete", "ui-alerts", //
 "ui-loading" ];
-var baseDeps = [ "jquery", "message-bus", "module", "ui-commons" ];
+var baseDeps = [ "jquery", "message-bus", "module" ];
 
-define(baseDeps.concat(controls), function($, bus, module, commons) {
+define(baseDeps.concat(controls), function($, bus, module) {
 	bus.listen("ui-show", function(e, id) {
 		$("#" + id).show();
 	});
@@ -20,15 +20,6 @@ define(baseDeps.concat(controls), function($, bus, module, commons) {
 
 	bus.listen("ui-set-content", function(e, msg) {
 		$("#" + msg.div).html(msg.content);
-	});
-
-	bus.listen("ui-set-position", function(e, msg) {
-		var div = $("#" + msg.div);
-		div.css({
-			position : "absolute",
-			top : msg.y,
-			left : msg.x
-		});
 	});
 
 	bus.listen("ui-open-url", function(e, msg) {

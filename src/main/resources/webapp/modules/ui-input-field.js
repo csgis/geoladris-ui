@@ -1,6 +1,6 @@
 define([ "jquery", "message-bus" ], function($, bus) {
 	bus.listen("ui-input-field:create", function(e, msg) {
-		var div = $("<div/>");
+		var div = $("<div/>").attr("id", msg.div);
 		div.addClass("ui-input-field-container");
 		div.addClass(msg.css);
 
