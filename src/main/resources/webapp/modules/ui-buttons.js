@@ -16,8 +16,8 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		}
 
 		button.attr("id", msg.div);
-		button.attr("enabled", true);
 		button.addClass(msg.css);
+		button.addClass("button-enabled");
 
 		var parent = $("#" + msg.parentDiv);
 		var nextDiv;
@@ -43,7 +43,7 @@ define([ "jquery", "message-bus" ], function($, bus) {
 
 		if (msg.sendEventName) {
 			button.click(function() {
-				if ($("#" + msg.div).attr("enabled")) {
+				if ($("#" + msg.div).hasClass("button-enabled")) {
 					bus.send(msg.sendEventName, msg.sendEventMessage);
 				}
 			});
@@ -52,33 +52,33 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		if (msg.enableEventName) {
 			bus.listen(msg.enableEventName, function() {
 				var div = $("#" + msg.div);
+				div.addClass("button-enabled");
 				div.removeClass("button-disabled");
-				div.attr("enabled", true);
 			});
 		}
 		if (msg.disableEventName) {
 			bus.listen(msg.disableEventName, function() {
 				var div = $("#" + msg.div);
 				div.addClass("button-disabled");
-				div.removeAttr("enabled");
+				div.removeClass("button-enabled");
 			});
 		}
 	});
 
 	bus.listen("ui-button:activate", function(e, id) {
-		$("#" + id).removeClass("button-disabled");
+		$("#" + id).addClass("button-active");
 	});
 
 	bus.listen("ui-button:deactivate", function(e, id) {
-		$("#" + id).addClass("button-disabled");
+		$("#" + id).removeClass("button-active");
 	});
 
 	bus.listen("ui-button:toggle", function(e, id) {
 		var div = $("#" + id);
-		if (div.hasClass("button-disabled")) {
-			div.removeClass("button-disabled");
+		if (div.hasClass("button-active")) {
+			div.removeClass("button-active");
 		} else {
-			div.addClass("button-disabled");
+			div.addClass("button-active");
 		}
 	});
 });

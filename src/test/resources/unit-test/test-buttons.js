@@ -40,6 +40,18 @@ describe("ui-buttons", function() {
 		expect($("#mybutton").attr("title")).toBe(tooltip);
 	});
 
+	it("creates the button with the default css classes", function() {
+		_bus.send("ui-button:create", {
+			div : "mybutton",
+			parentDiv : parentId,
+			img : "url_to_image",
+		});
+
+		expect($("#mybutton").hasClass("button-enabled")).toBe(true);
+		expect($("#mybutton").hasClass("button-disabled")).toBe(false);
+		expect($("#mybutton").hasClass("button-active")).toBe(false);
+	});
+
 	it("sets button to correct position if priority specified on create", function() {
 		_bus.send("ui-button:create", {
 			div : "mybutton1",
@@ -87,6 +99,7 @@ describe("ui-buttons", function() {
 
 		_bus.send(enableEvent);
 		expect($("#mybutton").hasClass("button-disabled")).toBe(false);
+		expect($("#mybutton").hasClass("button-enabled")).toBe(true);
 	});
 
 	it("disables button on event if disableEventName specified on create", function() {
@@ -99,33 +112,34 @@ describe("ui-buttons", function() {
 
 		_bus.send(disableEvent);
 		expect($("#mybutton").hasClass("button-disabled")).toBe(true);
+		expect($("#mybutton").hasClass("button-enabled")).toBe(false);
 	});
-	
+
 	it("changes css on deactivate/activate events", function() {
 		var disableEvent = "disable-button";
 		_bus.send("ui-button:create", {
 			div : "mybutton",
 			parentDiv : parentId
 		});
-		
-		expect($("#mybutton").hasClass("button-disabled")).toBe(false);
-		_bus.send("ui-button:deactivate", "mybutton");
-		expect($("#mybutton").hasClass("button-disabled")).toBe(true);
+
+		expect($("#mybutton").hasClass("button-active")).toBe(false);
 		_bus.send("ui-button:activate", "mybutton");
-		expect($("#mybutton").hasClass("button-disabled")).toBe(false);
+		expect($("#mybutton").hasClass("button-active")).toBe(true);
+		_bus.send("ui-button:deactivate", "mybutton");
+		expect($("#mybutton").hasClass("button-active")).toBe(false);
 	});
-	
+
 	it("changes css on toggle events", function() {
 		var disableEvent = "disable-button";
 		_bus.send("ui-button:create", {
 			div : "mybutton",
 			parentDiv : parentId
 		});
-		
-		expect($("#mybutton").hasClass("button-disabled")).toBe(false);
+
+		expect($("#mybutton").hasClass("button-active")).toBe(false);
 		_bus.send("ui-button:toggle", "mybutton");
-		expect($("#mybutton").hasClass("button-disabled")).toBe(true);
+		expect($("#mybutton").hasClass("button-active")).toBe(true);
 		_bus.send("ui-button:toggle", "mybutton");
-		expect($("#mybutton").hasClass("button-disabled")).toBe(false);
+		expect($("#mybutton").hasClass("button-active")).toBe(false);
 	});
 });
