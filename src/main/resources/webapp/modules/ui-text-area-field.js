@@ -4,7 +4,11 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		div.addClass(msg.css);
 		div.addClass("ui-text-area-field-container");
 
-		var label = $("<label/>").text(msg.label).addClass("ui-text-area-field-label");
+		if (msg.label) {
+			var label = $("<label/>").text(msg.label).addClass("ui-text-area-field-label");
+			div.append(label);
+		}
+
 		var text = $("<textarea/>");
 		if (msg.cols) {
 			text.attr("cols", msg.cols);
@@ -13,7 +17,6 @@ define([ "jquery", "message-bus" ], function($, bus) {
 			text.attr("rows", msg.rows);
 		}
 
-		div.append(label);
 		div.append(text);
 
 		$("#" + msg.parentDiv).append(div);
