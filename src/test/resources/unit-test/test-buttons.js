@@ -86,31 +86,27 @@ describe("ui-buttons", function() {
 		expect(_bus.send).toHaveBeenCalledWith(event, eventMessage);
 	});
 
-	it("enables button on event if enableEventName specified on create", function() {
-		var enableEvent = "enable-button";
+	it("enables button on ui-button:enable", function() {
 		_bus.send("ui-button:create", {
 			div : "mybutton",
-			parentDiv : parentId,
-			enableEventName : enableEvent
+			parentDiv : parentId
 		});
 
 		var button = $("#mybutton");
 		button.attr("class", "button-disabled");
 
-		_bus.send(enableEvent);
+		_bus.send("ui-button:enable", "mybutton");
 		expect($("#mybutton").hasClass("button-disabled")).toBe(false);
 		expect($("#mybutton").hasClass("button-enabled")).toBe(true);
 	});
 
-	it("disables button on event if disableEventName specified on create", function() {
-		var disableEvent = "disable-button";
+	it("disables button on ui-button:disable", function() {
 		_bus.send("ui-button:create", {
 			div : "mybutton",
-			parentDiv : parentId,
-			disableEventName : disableEvent
+			parentDiv : parentId
 		});
 
-		_bus.send(disableEvent);
+		_bus.send("ui-button:disable", "mybutton");
 		expect($("#mybutton").hasClass("button-disabled")).toBe(true);
 		expect($("#mybutton").hasClass("button-enabled")).toBe(false);
 	});

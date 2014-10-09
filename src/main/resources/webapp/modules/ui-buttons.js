@@ -48,21 +48,18 @@ define([ "jquery", "message-bus" ], function($, bus) {
 				}
 			});
 		}
+	});
 
-		if (msg.enableEventName) {
-			bus.listen(msg.enableEventName, function() {
-				var div = $("#" + msg.div);
-				div.addClass("button-enabled");
-				div.removeClass("button-disabled");
-			});
-		}
-		if (msg.disableEventName) {
-			bus.listen(msg.disableEventName, function() {
-				var div = $("#" + msg.div);
-				div.addClass("button-disabled");
-				div.removeClass("button-enabled");
-			});
-		}
+	bus.listen("ui-button:enable", function(e, id) {
+		var div = $("#" + id);
+		div.addClass("button-enabled");
+		div.removeClass("button-disabled");
+	});
+
+	bus.listen("ui-button:disable", function(e, id) {
+		var div = $("#" + id);
+		div.addClass("button-disabled");
+		div.removeClass("button-enabled");
 	});
 
 	bus.listen("ui-button:activate", function(e, id) {
