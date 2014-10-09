@@ -1,9 +1,11 @@
 define([ "jquery", "message-bus" ], function($, bus) {
 	bus.listen("ui-slider:create", function(e, msg) {
+
 		bus.send("ui-choice-field:create", msg);
-	});
-	
-	bus.listen("ui-slider:add-value", function(e, msg) {
-		bus.send("ui-choice-field:add-value", msg);
+
+		var id = msg.div;
+		bus.listen("ui-slider:" + id + ":add-value", function(e, msg) {
+			bus.send("ui-choice-field:" + id + ":add-value", msg);
+		});
 	});
 });

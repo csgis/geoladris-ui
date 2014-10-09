@@ -64,10 +64,7 @@ describe("ui-choice-field", function() {
 			values : [ "One", "Two", "Three" ]
 		});
 
-		_bus.send("ui-choice-field:add-value", {
-			div : "mychoice",
-			value : "Four"
-		});
+		_bus.send("ui-choice-field:mychoice:add-value", "Four");
 
 		var combo = $("#mychoice").find("select");
 		expect(combo.length).toBe(1);

@@ -17,10 +17,12 @@ describe("ui-slider", function() {
 
 	it("calls ui-choice-field on add-item", function() {
 		var msg = {
-			div : "mychoice",
-			value : "Four"
+			div : "myslider",
+			parent : "parent"
 		};
-		_bus.send("ui-slider:add-value", msg);
-		expect(_bus.send).toHaveBeenCalledWith("ui-choice-field:add-value", msg);
+		_bus.send("ui-slider:create", msg);
+
+		_bus.send("ui-slider:myslider:add-value", "Four");
+		expect(_bus.send).toHaveBeenCalledWith("ui-choice-field:myslider:add-value", "Four");
 	});
 });

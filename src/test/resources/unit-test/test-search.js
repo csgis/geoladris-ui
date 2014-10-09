@@ -80,7 +80,7 @@ describe("ui-search", function() {
 		list.append("<li>C</li>");
 
 		expect($("#mysearchresults").children("ul").children().length).toBe(3);
-		_bus.send("ui-search-results:clear", "mysearchresults");
+		_bus.send("ui-search-results:mysearchresults:clear");
 		expect($("#mysearchresults").children("ul").children().length).toBe(0);
 	});
 
@@ -90,10 +90,7 @@ describe("ui-search", function() {
 			parentDiv : parentId,
 		});
 
-		_bus.send("ui-search-results:add", {
-			id : "mysearchresults",
-			text : "Result 1"
-		});
+		_bus.send("ui-search-results:mysearchresults:add", "Result 1");
 
 		var element = $("#mysearchresults").find("li");
 		expect(element.length).toBe(1);
@@ -137,10 +134,7 @@ describe("ui-search", function() {
 			div : "mysearchresults",
 			parentDiv : parentId
 		});
-		_bus.send("ui-search-results:add", {
-			id : "mysearchresults",
-			text : "Result 1"
-		});
+		_bus.send("ui-search-results:mysearchresults:add", "Result 1");
 
 		var element = $("#mysearchresults").find("li");
 		element.trigger("click");

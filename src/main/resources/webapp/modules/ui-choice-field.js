@@ -1,6 +1,7 @@
 define([ "jquery", "message-bus" ], function($, bus) {
 	bus.listen("ui-choice-field:create", function(e, msg) {
-		var div = $("<div/>").attr("id", msg.div);
+		var id = msg.div;
+		var div = $("<div/>").attr("id", id);
 		div.addClass("ui-choice-field-container");
 		div.addClass(msg.css);
 
@@ -25,14 +26,14 @@ define([ "jquery", "message-bus" ], function($, bus) {
 
 		$("#" + msg.parentDiv).append(div);
 
+		bus.listen("ui-choice-field:" + id + ":add-value", function(e, value) {
+			var select = $($("#" + id).find("select")[0]);
+			var option = $("<option/>").text(value).attr("value", value);
+			select.append(option);
+		});
+
 		bus.listen(msg.div + "-field-value-fill", function(e, message) {
 			message[msg.div] = combo.val();
 		});
-	});
-
-	bus.listen("ui-choice-field:add-value", function(e, msg) {
-		var select = $($("#" + msg.div).find("select")[0]);
-		var option = $("<option/>").text(msg.value).attr("value", msg.value);
-		select.append(option);
 	});
 });

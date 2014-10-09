@@ -1,6 +1,17 @@
 define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	var baseEventName = "ui-accordion";
 
+	function visibility(id, visibility) {
+		if (visibility !== undefined) {
+			var div = $("#" + id);
+			if (visibility) {
+				bus.send("ui-show", id);
+			} else {
+				bus.send("ui-hide", id);
+			}
+		}
+	}
+
 	bus.listen(baseEventName + ":create", function(e, msg) {
 		var accordion = commons.getOrCreateDiv(msg.div, msg.parentDiv);
 		accordion.addClass(msg.css);
@@ -35,21 +46,10 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		header.append(headerText);
 		accordion.append(header);
 		accordion.append(content);
-	});
 
-	function visibility(id, visibility) {
-		if (visibility !== undefined) {
-			var div = $("#" + id);
-			if (visibility) {
-				bus.send("ui-show", id);
-			} else {
-				bus.send("ui-hide", id);
-			}
-		}
-	}
-
-	bus.listen(baseEventName + ":visibility", function(e, msg) {
-		visibility(msg.id + "-header", msg.header);
-		visibility(msg.id, msg.content);
+		bus.listen(baseEventName + ":" + groupId + ":visibility", function(e, msg) {
+			visibility(groupId + "-header", msg.header);
+			visibility(groupId, msg.content);
+		});
 	});
 });

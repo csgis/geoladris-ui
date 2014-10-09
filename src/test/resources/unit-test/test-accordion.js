@@ -1,4 +1,4 @@
-describe("ui-exclusive-list", function() {
+describe("ui-accordion", function() {
 	var parentId = "myparent";
 	var accordionId = "myaccordion";
 	var groupId = "mygroup";
@@ -86,9 +86,7 @@ describe("ui-exclusive-list", function() {
 		initAccordion();
 		initGroup(true);
 
-		_bus.send("ui-accordion:visibility", {
-			id : groupId
-		});
+		_bus.send("ui-accordion:" + groupId + ":visibility", {});
 
 		expect(header().css("visibility")).not.toBe("hidden");
 		expect(content().css("visibility")).not.toBe("hidden");
@@ -98,8 +96,7 @@ describe("ui-exclusive-list", function() {
 		initAccordion();
 		initGroup();
 
-		_bus.send("ui-accordion:visibility", {
-			id : groupId,
+		_bus.send("ui-accordion:" + groupId + ":visibility", {
 			header : false,
 			content : false
 		});

@@ -11,6 +11,9 @@ describe("ui-exclusive-list", function() {
 		_initModule("ui-exclusive-list", [ $, _bus, commons ]);
 	});
 
+	afterEach(function() {
+	});
+
 	it("creates a table on ui-exclusive-list:create", function() {
 		_bus.send("ui-exclusive-list:create", {
 			div : "mylist",
@@ -28,8 +31,7 @@ describe("ui-exclusive-list", function() {
 			parentDiv : parentId
 		});
 
-		_bus.send("ui-exclusive-list:add-item", {
-			listId : "mylist",
+		_bus.send("ui-exclusive-list:mylist:add-item", {
 			id : "myitem",
 			text : "Item 1"
 		});
@@ -49,15 +51,14 @@ describe("ui-exclusive-list", function() {
 
 		var n = 5;
 		for (var i = 0; i < n; i++) {
-			_bus.send("ui-exclusive-list:add-item", {
-				listId : "mylist",
+			_bus.send("ui-exclusive-list:mylist:add-item", {
 				id : "myitem" + i,
 				text : "Item " + i
 			});
 		}
 
 		expect($("#mylist").find("input").length).toBe(5);
-		_bus.send("ui-exclusive-list:remove-item", "myitem0");
+		_bus.send("ui-exclusive-list:mylist:remove-item", "myitem0");
 		expect($("#mylist").find("input").length).toBe(4);
 	});
 
@@ -67,8 +68,7 @@ describe("ui-exclusive-list", function() {
 			parentDiv : parentId
 		});
 
-		_bus.send("ui-exclusive-list:add-item", {
-			listId : "mylist",
+		_bus.send("ui-exclusive-list:mylist:add-item", {
 			id : "myitem",
 			text : "Item 1"
 		});
@@ -86,8 +86,7 @@ describe("ui-exclusive-list", function() {
 			parentDiv : parentId
 		});
 
-		_bus.send("ui-exclusive-list:add-item", {
-			listId : "mylist",
+		_bus.send("ui-exclusive-list:mylist:add-item", {
 			id : "myitem",
 			text : "Item 1"
 		});
@@ -103,14 +102,23 @@ describe("ui-exclusive-list", function() {
 	});
 
 	it("sets the right item on set-item", function() {
-		var id = "osm";
-		var div = $("<input id='" + id + "' type='radio'\>");
-		$("body").append(div);
+		var list = "myexclusivelist";
+		_bus.send("ui-exclusive-list:create", {
+			div : list,
+			parentDiv : parentId
+		});
 
-		expect($("#" + id).get(0).checked).toBe(false);
-		_bus.send("ui-exclusive-list:set-item", id);
-		expect($("#" + id).get(0).checked).toBe(true);
+		_bus.send("ui-exclusive-list:" + list + ":add-item", {
+			id : "myitem1",
+			text : "Item 1"
+		});
+		_bus.send("ui-exclusive-list:" + list + ":add-item", {
+			id : "myitem2",
+			text : "Item 2"
+		});
 
-		div.remove();
+		expect($("#myitem2").get(0).checked).toBe(false);
+		_bus.send("ui-exclusive-list:" + list + ":set-item", "myitem2");
+		expect($("#myitem2").get(0).checked).toBe(true);
 	});
 });

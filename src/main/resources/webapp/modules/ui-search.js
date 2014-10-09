@@ -43,7 +43,9 @@ define([ "jquery", "message-bus" ], function($, bus) {
 	});
 
 	bus.listen("ui-search-results:create", function(e, msg) {
-		var div = $("<div/>").attr("id", msg.div);
+		var id = msg.div;
+
+		var div = $("<div/>").attr("id", id);
 		var title = $("<div>" + msg.title + "</div>");
 		var close = $("<div/>");
 		var list = $("<ul/>").attr("id", msg.div + "-list");
@@ -67,20 +69,21 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		}
 
 		close.click(function() {
-			bus.send("ui-hide", msg.div);
+			bus.send("ui-hide", id);
+		});
+
+		bus.listen("ui-search-results:" + id + ":clear", function() {
+			$("#" + id + "-list").empty();
+		});
+
+		bus.listen("ui-search-results:" + id + ":add", function(e, value) {
+			var li = $("<li/>").text(value);
+			li.addClass("ui-search-results-result");
+			li.click(function() {
+				bus.send("ui-search-results:" + id + ":selected", value);
+			});
+			$("#" + id + "-list").append(li);
 		});
 	});
 
-	bus.listen("ui-search-results:clear", function(e, id) {
-		$("#" + id + "-list").empty();
-	});
-
-	bus.listen("ui-search-results:add", function(e, msg) {
-		var li = $("<li/>").text(msg.text);
-		li.addClass("ui-search-results-result");
-		li.click(function() {
-			bus.send("ui-search-results:" + msg.id + ":selected", msg.text);
-		});
-		$("#" + msg.id + "-list").append(li);
-	});
 });
