@@ -5,7 +5,7 @@
 	},
 	"requirejs" : {
 		"paths" : {
-			"typeahead" : "jslib/typeahead/0.10.2/typeahead.jquery.min"
+			"typeahead" : "../jslib/typeahead/0.10.2/typeahead.jquery.min"
 		}
 	}
 }
