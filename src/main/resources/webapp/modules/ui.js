@@ -1,11 +1,9 @@
-var controls = [ "ui-selectable-list", "ui-exclusive-list", "ui-accordion", //
+define([ "jquery", "message-bus", "module", //
+"ui-selectable-list", "ui-exclusive-list", "ui-accordion", //
 "ui-html", "ui-dialog", "ui-search", "ui-buttons", //
 "ui-choice-field", "ui-input-field", "ui-text-area-field", //
 "ui-form-collector", "ui-divstack", "ui-slider", "ui-autocomplete", "ui-alerts", //
-"ui-loading" ];
-var baseDeps = [ "jquery", "message-bus", "module" ];
-
-define(baseDeps.concat(controls), function($, bus, module) {
+"ui-loading" ], function($, bus, module) {
 	bus.listen("ui-show", function(e, id) {
 		$("#" + id).show();
 	});
