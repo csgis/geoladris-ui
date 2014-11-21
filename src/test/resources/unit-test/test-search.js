@@ -8,6 +8,11 @@ describe("ui-search", function() {
 		spyOn(_bus, "send").and.callThrough();
 
 		_initModule("ui-search", [ $, _bus ]);
+
+		_bus.listen("ui-dialog:create", function(e, msg) {
+			var div = $("<div/>").attr("id", msg.div);
+			$("#" + parentId).append(div);
+		});
 	});
 
 	it("adds a div with an input ui-search-box:create", function() {
@@ -45,27 +50,19 @@ describe("ui-search", function() {
 		expect(icon.length).toBe(1);
 	});
 
-	it("creates a div with a list on ui-search-results:create", function() {
+	it("creates a dialog on ui-search-results:create", function() {
 		_bus.send("ui-search-results:create", {
 			div : "mysearchresults",
 			parentDiv : parentId,
 			title : "Results"
 		});
 
-		expect($("#" + parentId).children().length).toBe(1);
-		expect($("#" + parentId).children("#mysearchresults").length).toBe(1);
-		expect($("#mysearchresults").children("ul").length).toBe(1);
-	});
-
-	it("shows result list on init if specified on create results", function() {
-		_bus.send("ui-search-results:create", {
+		expect(_bus.send).toHaveBeenCalledWith("ui-dialog:create", jasmine.objectContaining({
 			div : "mysearchresults",
 			parentDiv : parentId,
 			title : "Results",
-			visible : true
-		});
-
-		expect($("#mysearchresults").css("display").length).not.toEqual("none");
+			closeButton : true,
+		}));
 	});
 
 	it("empties list on ui-search-results:clear", function() {
@@ -74,14 +71,14 @@ describe("ui-search", function() {
 			parentDiv : parentId,
 		});
 
-		var list = $("#mysearchresults").children("ul");
+		var list = $("#mysearchresults-list");
 		list.append("<li>A</li>");
 		list.append("<li>B</li>");
 		list.append("<li>C</li>");
 
-		expect($("#mysearchresults").children("ul").children().length).toBe(3);
+		expect($("#mysearchresults-list").children().length).toBe(3);
 		_bus.send("ui-search-results:mysearchresults:clear");
-		expect($("#mysearchresults").children("ul").children().length).toBe(0);
+		expect($("#mysearchresults-list").children().length).toBe(0);
 	});
 
 	it("adds item on ui-search-results:add", function() {
@@ -92,7 +89,7 @@ describe("ui-search", function() {
 
 		_bus.send("ui-search-results:mysearchresults:add", "Result 1");
 
-		var element = $("#mysearchresults").find("li");
+		var element = $("#mysearchresults-list").find("li");
 		expect(element.length).toBe(1);
 		expect(element.text()).toEqual("Result 1");
 	});
@@ -136,19 +133,8 @@ describe("ui-search", function() {
 		});
 		_bus.send("ui-search-results:mysearchresults:add", "Result 1");
 
-		var element = $("#mysearchresults").find("li");
+		var element = $("#mysearchresults-list").find("li");
 		element.trigger("click");
 		expect(_bus.send).toHaveBeenCalledWith("ui-search-results:mysearchresults:selected", "Result 1");
-	});
-
-	it("sends event close clicked", function() {
-		_bus.send("ui-search-results:create", {
-			div : "mysearchresults",
-			parentDiv : parentId
-		});
-
-		var close = $("#mysearchresults").find("div.ui-search-results-close");
-		close.trigger("click");
-		expect(_bus.send).toHaveBeenCalledWith("ui-hide", "mysearchresults");
 	});
 });

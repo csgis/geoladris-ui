@@ -43,34 +43,19 @@ define([ "jquery", "message-bus" ], function($, bus) {
 	});
 
 	bus.listen("ui-search-results:create", function(e, msg) {
-		var id = msg.div;
-
-		var div = $("<div/>").attr("id", id);
-		var title = $("<div>" + msg.title + "</div>");
-		var close = $("<div/>");
-		var list = $("<ul/>").attr("id", msg.div + "-list");
-
-		div.append(title);
-		div.append(close);
-		div.append(list);
-
-		div.addClass(msg.css);
-		div.addClass("ui-search-results-div");
-		title.addClass("ui-search-results-title");
-		close.addClass("ui-search-results-close");
-		list.addClass("ui-search-results-list");
-
-		$("#" + msg.parentDiv).append(div);
-
-		if (msg.visible) {
-			div.show();
-		} else {
-			div.hide();
-		}
-
-		close.click(function() {
-			bus.send("ui-hide", id);
+		bus.send("ui-dialog:create", {
+			div : msg.div,
+			parentDiv : msg.parentDiv,
+			css : "ui-search-results-div",
+			title : msg.title,
+			visible : msg.visible,
+			closeButton : true
 		});
+
+		var id = msg.div;
+		var list = $("<ul/>").attr("id", msg.div + "-list");
+		list.addClass("ui-search-results-list");
+		$("#" + id).append(list);
 
 		bus.listen("ui-search-results:" + id + ":clear", function() {
 			$("#" + id + "-list").empty();
@@ -85,5 +70,4 @@ define([ "jquery", "message-bus" ], function($, bus) {
 			$("#" + id + "-list").append(li);
 		});
 	});
-
 });
