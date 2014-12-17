@@ -1,6 +1,6 @@
 define([ "jquery", "message-bus", "module", //
 "ui-selectable-list", "ui-exclusive-list", "ui-accordion", //
-"ui-html", "ui-dialog", "ui-search", "ui-buttons", //
+"ui-html", "ui-dialog", "ui-search", "ui-buttons", "ui-sliding-div", //
 "ui-choice-field", "ui-input-field", "ui-text-area-field", //
 "ui-form-collector", "ui-divstack", "ui-slider", "ui-autocomplete", "ui-alerts", //
 "ui-loading" ], function($, bus, module) {
