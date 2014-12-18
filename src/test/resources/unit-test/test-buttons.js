@@ -1,7 +1,5 @@
 describe("ui-buttons", function() {
 	var parentId = "myparent";
-	var accordionId = "myaccordion";
-	var groupId = "mygroup";
 
 	beforeEach(function() {
 		replaceParent(parentId);
@@ -24,7 +22,7 @@ describe("ui-buttons", function() {
 		_bus.send("ui-button:create", {
 			div : "mybutton",
 			parentDiv : parentId,
-			img : "url_to_image"
+			image : "url_to_image"
 		});
 		expect($("#mybutton").prop("tagName")).toBe("DIV");
 	});
