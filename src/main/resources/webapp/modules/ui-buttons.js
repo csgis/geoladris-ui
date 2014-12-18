@@ -1,4 +1,6 @@
 define([ "jquery", "message-bus" ], function($, bus) {
+	var BUTTON_IMAGE_CLASS = "button-image";
+
 	bus.listen("ui-button:create", function(e, msg) {
 		var button;
 		if (msg.text) {
@@ -7,7 +9,7 @@ define([ "jquery", "message-bus" ], function($, bus) {
 			button = $("<div/>");
 			var imageDiv = $("<div/>");
 			imageDiv.css("background-image", "url(" + msg.image + ")");
-			imageDiv.addClass("button-image");
+			imageDiv.addClass(BUTTON_IMAGE_CLASS);
 			button.append(imageDiv);
 		}
 
@@ -77,5 +79,10 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		} else {
 			div.addClass("button-active");
 		}
+	});
+
+	bus.listen("ui-button:set-image", function(e, msg) {
+		var imageDiv = $("#" + msg.id).children("." + BUTTON_IMAGE_CLASS);
+		imageDiv.css("background-image", "url(" + msg.image + ")");
 	});
 });

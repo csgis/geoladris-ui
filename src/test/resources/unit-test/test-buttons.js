@@ -138,4 +138,21 @@ describe("ui-buttons", function() {
 		_bus.send("ui-button:toggle", "mybutton");
 		expect($("#mybutton").hasClass("button-active")).toBe(false);
 	});
+
+	it("changes background image on set-image", function() {
+		_bus.send("ui-button:create", {
+			div : "mybutton",
+			parentDiv : parentId,
+			image : "images/one.png"
+		});
+
+		var imageDiv = $("#mybutton").children(".button-image");
+
+		expect(imageDiv.css("background-image").indexOf("images/one.png")).not.toBe(-1);
+		_bus.send("ui-button:set-image", {
+			id : "mybutton",
+			image : "images/two.png"
+		});
+		expect(imageDiv.css("background-image").indexOf("images/two.png")).not.toBe(-1);
+	});
 });
