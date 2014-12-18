@@ -1,19 +1,18 @@
-.ui-sliding-div-container {
-	position: fixed;
-	left: 10px;
-	top: 150px;
-	z-index: 9999;
-}
-
 .ui-sliding-div-handle {
 	background-position: center;
 	background-color: lightgray;
 	background-repeat: no-repeat;
 	border: 1px solid gray;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 	height: 10px;
 	width: 40px;
-	border: 1px solid gray;
 	cursor: pointer;
+}
+
+.ui-sliding-div-container {
+	background: wheat;
 }
 
 .handle-opened {
@@ -22,10 +21,4 @@
 
 .handle-closed {
 	background-image: url('../images/arrow_down.png');
-}
-
-.ui-sliding-div-content {
-	background: red;
-	width: 42px;
-	height: 40px;
 }
