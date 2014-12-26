@@ -30,6 +30,10 @@ define([ "jquery", "message-bus" ], function($, bus) {
 			$("#" + slidingId).append(item);
 			item.css("background-image", "url('" + msg.image + "')")
 
+			if (msg.tooltip) {
+				item.attr("title", msg.tooltip);
+			}
+
 			item.click(function() {
 				bus.send("ui-sliding-div:collapse", slidingId);
 				bus.send("ui-button:set-image", {

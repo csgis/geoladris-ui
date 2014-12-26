@@ -102,6 +102,23 @@ describe("ui-dropdown-buttons", function() {
 		});
 	});
 
+	it("sets title attribute if tooltip provided on add-item", function() {
+		var tooltip = "My item tooltip";
+		_bus.send("ui-dropdown-button:create", {
+			div : "mybutton",
+			parentDiv : parentId,
+			dropdownOnClick : true
+		});
+		_bus.send("ui-dropdown-button:mybutton:add-item", {
+			id : "myitem",
+			image : "images/icon.png",
+			tooltip : tooltip
+		});
+
+		var item = $("#mybutton-sliding").children();
+		expect(item.attr("title")).toBe(tooltip);
+	});
+
 	function mockWithItem() {
 		_bus.send("ui-dropdown-button:create", {
 			div : "mybutton",
