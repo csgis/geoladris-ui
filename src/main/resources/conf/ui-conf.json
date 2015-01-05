@@ -5,7 +5,8 @@
 	},
 	"requirejs" : {
 		"paths" : {
-			"typeahead" : "../jslib/typeahead/0.10.2/typeahead.jquery.min"
+			"typeahead" : "../jslib/typeahead/0.10.2/typeahead.jquery.min",
+			"datatables" : "../jslib/datatables/1.10.4/jquery.dataTables.min"
 		}
 	}
 }

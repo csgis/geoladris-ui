@@ -10,7 +10,7 @@ describe("ui-table", function() {
 		_initModule("ui-table", [ $, _bus ]);
 	});
 
-	it("creates <table> on create", function() {
+	it("creates an empty container on create", function() {
 		var msg = {
 			div : "mytable",
 			parentDiv : parentId
@@ -18,7 +18,7 @@ describe("ui-table", function() {
 
 		_bus.send("ui-table:create", msg);
 		expect($("#mytable").length).toBe(1);
-		expect($("#mytable").children("table").length).toBe(1);
+		expect($("#mytable").children().length).toBe(0);
 	});
 
 	it("sets data on set-data", function() {
@@ -62,6 +62,7 @@ describe("ui-table", function() {
 		// 1 data row + 1 header
 		expect($("#mytable").find("tr").length).toBe(2);
 	});
+
 	it("clears table on clear", function() {
 		var msg = {
 			div : "mytable",
@@ -77,5 +78,66 @@ describe("ui-table", function() {
 		expect($("#mytable").find("tr").length).toBe(2);
 		_bus.send("ui-table:mytable:clear");
 		expect($("#mytable").find("tr").length).toBe(0);
+	});
+
+	it("selects and sends data-selected on row click", function() {
+		var msg = {
+			div : "mytable",
+			parentDiv : parentId
+		};
+
+		_bus.send("ui-table:create", msg);
+		_bus.send("ui-table:mytable:set-data", [ [ {
+			letter : "a",
+			number : "1"
+		}, {
+			letter : "b",
+			number : "2"
+		} ] ]);
+
+		// index is 2 because row 0 is the header
+		var row = $("#mytable").find("tr:nth-child(2)");
+		row.click();
+		expect(row.hasClass("selected")).toBe(true);
+		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:data-selected", [ [ {
+			letter : "b",
+			number : "2"
+		} ] ]);
+
+		row.click();
+		expect(row.hasClass("selected")).toBe(false);
+		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:data-selected", [ [] ]);
+	});
+
+	it("selects rows on select-data", function() {
+		var msg = {
+			div : "mytable",
+			parentDiv : parentId
+		};
+
+		_bus.send("ui-table:create", msg);
+		_bus.send("ui-table:mytable:set-data", [ [ {
+			letter : "a",
+			number : "1"
+		}, {
+			letter : "b",
+			number : "2"
+		} ] ]);
+
+		// indexes are 1 and 2 because row 0 is the header
+		var row1 = $("#mytable").find("tr:nth-child(1)");
+		var row2 = $("#mytable").find("tr:nth-child(2)");
+		expect(row1.hasClass("selected")).toBe(false);
+		expect(row2.hasClass("selected")).toBe(false);
+
+		_bus.send("ui-table:mytable:select-data", [ [ {
+			letter : "b",
+			number : "2"
+		} ] ]);
+
+		row1 = $("#mytable").find("tr:nth-child(1)");
+		row2 = $("#mytable").find("tr:nth-child(2)");
+		expect(row1.hasClass("selected")).toBe(false);
+		expect(row2.hasClass("selected")).toBe(true);
 	});
 });
