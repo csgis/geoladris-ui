@@ -96,7 +96,7 @@ describe("ui-table", function() {
 		} ] ]);
 
 		// index is 2 because row 0 is the header
-		var row = $("#mytable").find("tr:nth-child(2)");
+		var row = $("#mytable").find("tr:eq(2)");
 		row.click();
 		expect(row.hasClass("selected")).toBe(true);
 		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:data-selected", [ [ {
@@ -125,8 +125,8 @@ describe("ui-table", function() {
 		} ] ]);
 
 		// indexes are 1 and 2 because row 0 is the header
-		var row1 = $("#mytable").find("tr:nth-child(1)");
-		var row2 = $("#mytable").find("tr:nth-child(2)");
+		var row1 = $("#mytable").find("tr:eq(1)");
+		var row2 = $("#mytable").find("tr:eq(2)");
 		expect(row1.hasClass("selected")).toBe(false);
 		expect(row2.hasClass("selected")).toBe(false);
 
@@ -135,9 +135,56 @@ describe("ui-table", function() {
 			number : "2"
 		} ] ]);
 
-		row1 = $("#mytable").find("tr:nth-child(1)");
-		row2 = $("#mytable").find("tr:nth-child(2)");
+		row1 = $("#mytable").find("tr:eq(1)");
+		row2 = $("#mytable").find("tr:eq(2)");
 		expect(row1.hasClass("selected")).toBe(false);
 		expect(row2.hasClass("selected")).toBe(true);
+	});
+
+	it("adds/removes selected class from rows on invert-selection", function() {
+		var msg = {
+			div : "mytable",
+			parentDiv : parentId
+		};
+
+		_bus.send("ui-table:create", msg);
+		_bus.send("ui-table:mytable:set-data", [ [ {
+			letter : "a",
+			number : "1"
+		}, {
+			letter : "b",
+			number : "2"
+		} ] ]);
+
+		// indexes are 1 and 2 because row 0 is the header
+		var row1 = $("#mytable").find("tr:eq(1)");
+		var row2 = $("#mytable").find("tr:eq(2)");
+		row1.addClass("selected");
+
+		expect(row1.hasClass("selected")).toBe(true);
+		expect(row2.hasClass("selected")).toBe(false);
+		_bus.send("ui-table:mytable:invert-selection");
+		expect(row1.hasClass("selected")).toBe(false);
+		expect(row2.hasClass("selected")).toBe(true);
+	});
+
+	it("sends data-selected on invert-selection", function() {
+		var msg = {
+			div : "mytable",
+			parentDiv : parentId
+		};
+
+		var data = [ {
+			letter : "a",
+			number : "1"
+		}, {
+			letter : "b",
+			number : "2"
+		} ];
+		_bus.send("ui-table:create", msg);
+		_bus.send("ui-table:mytable:set-data", [ data ]);
+
+		_bus.send("ui-table:mytable:invert-selection");
+		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:data-selected", [ data ]);
 	});
 });

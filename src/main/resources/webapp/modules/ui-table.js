@@ -80,5 +80,24 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 				}
 			});
 		});
+
+		bus.listen("ui-table:" + id + ":invert-selection", function(e, msg) {
+			var selection = [];
+			table.rows(function(index, row, node) {
+				var jqueryNode = $(node);
+				if (jqueryNode.hasClass("selected")) {
+					jqueryNode.removeClass("selected");
+				} else {
+					jqueryNode.addClass("selected");
+					var obj = {};
+					for (var j = 0; j < headers.length; j++) {
+						obj[headers[j]] = row[j];
+					}
+					selection.push(obj);
+				}
+			});
+
+			bus.send("ui-table:" + id + ":data-selected", [ selection ]);
+		});
 	});
 });
