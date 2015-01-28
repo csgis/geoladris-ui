@@ -29,13 +29,17 @@ describe("ui-table", function() {
 
 		_bus.send("ui-table:create", msg);
 		expect($("#mytable").children("tr").length).toBe(0);
-		_bus.send("ui-table:mytable:set-data", [ [ {
-			letter : "a",
-			number : 1
-		}, {
-			letter : "b",
-			number : 2
-		} ] ]);
+		_bus.send("ui-table:mytable:set-data", {
+			data : [ {
+				letter : "a",
+				number : 1
+			}, {
+				letter : "b",
+				number : 2
+			} ],
+			fields : [ "letter", "number" ]
+		});
+
 		// 2 data rows + 1 header
 		expect($("#mytable").find("tr").length).toBe(3);
 	});
@@ -48,17 +52,23 @@ describe("ui-table", function() {
 
 		_bus.send("ui-table:create", msg);
 		expect($("#mytable").children("tr").length).toBe(0);
-		_bus.send("ui-table:mytable:set-data", [ [ {
-			letter : "a",
-			number : 1
-		}, {
-			letter : "b",
-			number : 2
-		} ] ]);
-		_bus.send("ui-table:mytable:set-data", [ [ {
-			letter : "c",
-			number : 3
-		} ] ]);
+		_bus.send("ui-table:mytable:set-data", {
+			data : [ {
+				letter : "a",
+				number : 1
+			}, {
+				letter : "b",
+				number : 2
+			} ],
+			fields : [ "letter", "number" ]
+		});
+		_bus.send("ui-table:mytable:set-data", {
+			data : [ {
+				letter : "c",
+				number : 3
+			} ],
+			fields : [ "letter", "number" ]
+		});
 		// 1 data row + 1 header
 		expect($("#mytable").find("tr").length).toBe(2);
 	});
@@ -70,10 +80,13 @@ describe("ui-table", function() {
 		};
 
 		_bus.send("ui-table:create", msg);
-		_bus.send("ui-table:mytable:set-data", [ [ {
-			letter : "c",
-			number : 3
-		} ] ]);
+		_bus.send("ui-table:mytable:set-data", {
+			data : [ {
+				letter : "c",
+				number : 3
+			} ],
+			fields : [ "letter", "number" ]
+		});
 		// 1 data row + 1 header
 		expect($("#mytable").find("tr").length).toBe(2);
 		_bus.send("ui-table:mytable:clear");
@@ -87,13 +100,16 @@ describe("ui-table", function() {
 		};
 
 		_bus.send("ui-table:create", msg);
-		_bus.send("ui-table:mytable:set-data", [ [ {
-			letter : "a",
-			number : "1"
-		}, {
-			letter : "b",
-			number : "2"
-		} ] ]);
+		_bus.send("ui-table:mytable:set-data", {
+			data : [ {
+				letter : "a",
+				number : "1"
+			}, {
+				letter : "b",
+				number : "2"
+			} ],
+			fields : [ "letter", "number" ]
+		});
 
 		// index is 2 because row 0 is the header
 		var row = $("#mytable").find("tr:eq(2)");
@@ -116,13 +132,16 @@ describe("ui-table", function() {
 		};
 
 		_bus.send("ui-table:create", msg);
-		_bus.send("ui-table:mytable:set-data", [ [ {
-			letter : "a",
-			number : "1"
-		}, {
-			letter : "b",
-			number : "2"
-		} ] ]);
+		_bus.send("ui-table:mytable:set-data", {
+			data : [ {
+				letter : "a",
+				number : "1"
+			}, {
+				letter : "b",
+				number : "2"
+			} ],
+			fields : [ "letter", "number" ]
+		});
 
 		// indexes are 1 and 2 because row 0 is the header
 		var row1 = $("#mytable").find("tr:eq(1)");
@@ -148,13 +167,16 @@ describe("ui-table", function() {
 		};
 
 		_bus.send("ui-table:create", msg);
-		_bus.send("ui-table:mytable:set-data", [ [ {
-			letter : "a",
-			number : "1"
-		}, {
-			letter : "b",
-			number : "2"
-		} ] ]);
+		_bus.send("ui-table:mytable:set-data", {
+			data : [ {
+				letter : "a",
+				number : "1"
+			}, {
+				letter : "b",
+				number : "2"
+			} ],
+			fields : [ "letter", "number" ]
+		});
 
 		// indexes are 1 and 2 because row 0 is the header
 		var row1 = $("#mytable").find("tr:eq(1)");
@@ -182,7 +204,10 @@ describe("ui-table", function() {
 			number : "2"
 		} ];
 		_bus.send("ui-table:create", msg);
-		_bus.send("ui-table:mytable:set-data", [ data ]);
+		_bus.send("ui-table:mytable:set-data", {
+			data : data,
+			fields : [ "letter", "number" ]
+		});
 
 		_bus.send("ui-table:mytable:invert-selection");
 		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:data-selected", [ data ]);

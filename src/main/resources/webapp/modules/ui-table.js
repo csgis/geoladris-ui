@@ -15,25 +15,22 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 			table = null;
 		});
 
-		bus.listen("ui-table:" + id + ":set-data", function(e, data) {
+		bus.listen("ui-table:" + id + ":set-data", function(e, msg) {
 			div.empty();
-			headers = [];
+			headers = msg.fields;
 
 			table = $("<table/>").appendTo(div);
 			var head = $("<thead/>").appendTo(table);
 
-			if (data.length > 0) {
-				var tr = $("<tr/>").appendTo(head);
-				for (attribute in data[0]) {
-					headers.push(attribute);
-					$("<th/>").html(attribute).appendTo(tr);
-				}
+			var tr = $("<tr/>").appendTo(head);
+			for (var i = 0; i < headers.length; i++) {
+				$("<th/>").html(headers[i]).appendTo(tr);
 			}
 
-			for (var i = 0; i < data.length; i++) {
+			for (var i = 0; i < msg.data.length; i++) {
 				var tr = $("<tr/>").appendTo(table);
-				for (attribute in data[i]) {
-					$("<td/>").html(data[i][attribute]).appendTo(tr);
+				for (var j = 0; j < headers.length; j++) {
+					$("<td/>").html(msg.data[i][headers[j]]).appendTo(tr);
 				}
 			}
 
@@ -66,7 +63,8 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 				for (var i = 0; i < data.length && !equals; i++) {
 					equals = true;
 					for (var j = 0; j < headers.length; j++) {
-						if (data[i][headers[j]] != row[j]) {
+						var value = data[i][headers[j]];
+						if (value != row[j] && (value || row[j])) {
 							equals = false;
 							break;
 						}
@@ -81,7 +79,7 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 			});
 		});
 
-		bus.listen("ui-table:" + id + ":invert-selection", function(e, msg) {
+		bus.listen("ui-table:" + id + ":invert-selection", function() {
 			var selection = [];
 			table.rows(function(index, row, node) {
 				var jqueryNode = $(node);
