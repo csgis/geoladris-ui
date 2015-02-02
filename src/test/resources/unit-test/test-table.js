@@ -212,4 +212,39 @@ describe("ui-table", function() {
 		_bus.send("ui-table:mytable:invert-selection");
 		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:data-selected", [ data ]);
 	});
+
+	it("moves selected rows to top on sort-selected-first", function() {
+		var msg = {
+			div : "mytable",
+			parentDiv : parentId
+		};
+
+		var data = [ {
+			letter : "a",
+			number : "1"
+		}, {
+			letter : "b",
+			number : "2"
+		}, {
+			letter : "c",
+			number : "3"
+		} ];
+		_bus.send("ui-table:create", msg);
+		_bus.send("ui-table:mytable:set-data", {
+			data : data,
+			fields : [ "letter", "number" ]
+		});
+		_bus.send("ui-table:mytable:select-data", [ [ {
+			letter : "b",
+			number : "2"
+		} ] ]);
+		_bus.send("ui-table:mytable:sort-selected-first");
+
+		var row1 = $("#mytable").find("tr:eq(1)");
+		var row2 = $("#mytable").find("tr:eq(2)");
+		var row3 = $("#mytable").find("tr:eq(3)");
+		expect(row1.find("td:eq(0)").text()).toBe("b");
+		expect(row2.find("td:eq(0)").text()).toBe("a");
+		expect(row3.find("td:eq(0)").text()).toBe("c");
+	});
 });

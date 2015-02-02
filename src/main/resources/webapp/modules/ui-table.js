@@ -1,4 +1,17 @@
 define([ "jquery", "message-bus", "datatables" ], function($, bus) {
+	var ORDER_COLUMN_TYPE = "__gb__sorting__column_type__";
+
+	function sortSelectedFirst(settings, col) {
+		// We always get the first column because we won't use data at all
+		// for ordering. We just the "selected" class of the <tr> element.
+		var column = this.api().column(0, {
+			order : "index"
+		});
+		return column.nodes().map(function(td, i) {
+			return $(td).closest("tr").hasClass("selected") ? 0 : 1;
+		});
+	}
+
 	bus.listen("ui-table:create", function(e, msg) {
 		var table;
 		var headers;
@@ -26,15 +39,26 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 			for (var i = 0; i < headers.length; i++) {
 				$("<th/>").html(headers[i]).appendTo(tr);
 			}
+			// Add empty header column to be used for custom ordering
+			$("<th/>").appendTo(tr);
 
 			for (var i = 0; i < msg.data.length; i++) {
 				var tr = $("<tr/>").appendTo(table);
 				for (var j = 0; j < headers.length; j++) {
 					$("<td/>").html(msg.data[i][headers[j]]).appendTo(tr);
 				}
+				// Add hidden column with empty values to be used for custom
+				// ordering
+				$("<td/>").appendTo(tr);
 			}
 
-			table = table.DataTable();
+			table = table.DataTable({
+				"columnDefs" : [ {
+					"orderDataType" : ORDER_COLUMN_TYPE,
+					"targets" : [ headers.length ],
+					"visible" : false
+				} ]
+			});
 
 			table.on("click", "tr", function() {
 				$(this).toggleClass("selected");
@@ -96,6 +120,11 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 			});
 
 			bus.send("ui-table:" + id + ":data-selected", [ selection ]);
+		});
+
+		bus.listen("ui-table:" + id + ":sort-selected-first", function() {
+			$.fn.dataTable.ext.order[ORDER_COLUMN_TYPE] = sortSelectedFirst;
+			table.order([ headers.length, "asc" ]).draw();
 		});
 	});
 });
