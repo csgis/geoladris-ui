@@ -70,4 +70,32 @@ describe("ui-choice-field", function() {
 		expect(combo.length).toBe(1);
 		expect(combo.children().length).toBe(4);
 	});
+
+	it("sets values on set-values", function() {
+		_bus.send("ui-choice-field:create", {
+			div : "mychoice",
+			parentDiv : parentId,
+			values : [ "One", "Two", "Three" ]
+		});
+
+		_bus.send("ui-choice-field:mychoice:set-values", [ [ "1", "2" ] ]);
+
+		var combo = $("#mychoice").find("select");
+		expect(combo.length).toBe(1);
+		expect(combo.children("option:eq(0)").text()).toBe("1");
+		expect(combo.children("option:eq(1)").text()).toBe("2");
+	});
+
+	it("sends value-changed", function() {
+		_bus.send("ui-choice-field:create", {
+			div : "mychoice",
+			parentDiv : parentId,
+			values : [ "One", "Two", "Three" ]
+		});
+
+		_bus.send("ui-choice-field:mychoice:add-value", "Four");
+
+		$("#mychoice").find("select").val("Two").change();
+		expect(_bus.send).toHaveBeenCalledWith("ui-choice-field:mychoice:value-changed", "Two");
+	});
 });
