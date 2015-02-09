@@ -37,7 +37,10 @@ describe("ui-table", function() {
 				letter : "b",
 				number : 2
 			} ],
-			fields : [ "letter", "number" ]
+			fields : {
+				"Letter" : "letter",
+				"Nr." : "number"
+			}
 		});
 
 		// 2 data rows + 1 header
@@ -60,14 +63,20 @@ describe("ui-table", function() {
 				letter : "b",
 				number : 2
 			} ],
-			fields : [ "letter", "number" ]
+			fields : {
+				"Letter" : "letter",
+				"Nr." : "number"
+			}
 		});
 		_bus.send("ui-table:mytable:set-data", {
 			data : [ {
 				letter : "c",
 				number : 3
 			} ],
-			fields : [ "letter", "number" ]
+			fields : {
+				"Letter" : "letter",
+				"Nr." : "number"
+			}
 		});
 		// 1 data row + 1 header
 		expect($("#mytable").find("tr").length).toBe(2);
@@ -85,7 +94,10 @@ describe("ui-table", function() {
 				letter : "c",
 				number : 3
 			} ],
-			fields : [ "letter", "number" ]
+			fields : {
+				"Letter" : "letter",
+				"Nr." : "number"
+			}
 		});
 		// 1 data row + 1 header
 		expect($("#mytable").find("tr").length).toBe(2);
@@ -108,7 +120,10 @@ describe("ui-table", function() {
 				letter : "b",
 				number : "2"
 			} ],
-			fields : [ "letter", "number" ]
+			fields : {
+				"Letter" : "letter",
+				"Nr." : "number"
+			}
 		});
 
 		// index is 2 because row 0 is the header
@@ -140,7 +155,10 @@ describe("ui-table", function() {
 				letter : "b",
 				number : "2"
 			} ],
-			fields : [ "letter", "number" ]
+			fields : {
+				"Letter" : "letter",
+				"Nr." : "number"
+			}
 		});
 
 		// indexes are 1 and 2 because row 0 is the header
@@ -175,7 +193,10 @@ describe("ui-table", function() {
 				letter : "b",
 				number : "2"
 			} ],
-			fields : [ "letter", "number" ]
+			fields : {
+				"Letter" : "letter",
+				"Nr." : "number"
+			}
 		});
 
 		// indexes are 1 and 2 because row 0 is the header
@@ -206,7 +227,10 @@ describe("ui-table", function() {
 		_bus.send("ui-table:create", msg);
 		_bus.send("ui-table:mytable:set-data", {
 			data : data,
-			fields : [ "letter", "number" ]
+			fields : {
+				"Letter" : "letter",
+				"Nr." : "number"
+			}
 		});
 
 		_bus.send("ui-table:mytable:invert-selection");
@@ -232,7 +256,10 @@ describe("ui-table", function() {
 		_bus.send("ui-table:create", msg);
 		_bus.send("ui-table:mytable:set-data", {
 			data : data,
-			fields : [ "letter", "number" ]
+			fields : {
+				"Letter" : "letter",
+				"Nr." : "number"
+			}
 		});
 		_bus.send("ui-table:mytable:select-data", [ [ {
 			letter : "b",

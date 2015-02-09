@@ -15,6 +15,7 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 	bus.listen("ui-table:create", function(e, msg) {
 		var table;
 		var headers;
+		var fields;
 
 		var id = msg.div;
 
@@ -30,8 +31,9 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 
 		bus.listen("ui-table:" + id + ":set-data", function(e, msg) {
 			div.empty();
-			headers = msg.fields;
-
+			fields = msg.fields;
+			headers = Object.keys(msg.fields);
+			
 			table = $("<table/>").appendTo(div);
 			var head = $("<thead/>").appendTo(table);
 
@@ -45,7 +47,8 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 			for (var i = 0; i < msg.data.length; i++) {
 				var tr = $("<tr/>").appendTo(table);
 				for (var j = 0; j < headers.length; j++) {
-					$("<td/>").html(msg.data[i][headers[j]]).appendTo(tr);
+					var fieldName = msg.fields[headers[j]];
+					$("<td/>").html(msg.data[i][fieldName]).appendTo(tr);
 				}
 				// Add hidden column with empty values to be used for custom
 				// ordering
@@ -68,7 +71,8 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 				for (var i = 0; i < rows.length; i++) {
 					var obj = {};
 					for (var j = 0; j < headers.length; j++) {
-						obj[headers[j]] = rows[i][j];
+						var fieldName = msg.fields[headers[j]];
+						obj[fieldName] = rows[i][j];
 					}
 					selection.push(obj);
 				}
@@ -87,7 +91,8 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 				for (var i = 0; i < data.length && !equals; i++) {
 					equals = true;
 					for (var j = 0; j < headers.length; j++) {
-						var value = data[i][headers[j]];
+						var fieldName = fields[headers[j]];
+						var value = data[i][fieldName];
 						if (value != row[j] && (value || row[j])) {
 							equals = false;
 							break;
@@ -113,7 +118,8 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 					jqueryNode.addClass("selected");
 					var obj = {};
 					for (var j = 0; j < headers.length; j++) {
-						obj[headers[j]] = row[j];
+						var fieldName = fields[headers[j]];
+						obj[fieldName] = row[j];
 					}
 					selection.push(obj);
 				}
