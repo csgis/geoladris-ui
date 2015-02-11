@@ -2,11 +2,17 @@ define([ "jquery", "message-bus", "typeahead" ], function($, bus) {
 	bus.listen("ui-autocomplete:create", function(e, msg) {
 		var div = $("<div/>").attr("id", msg.div);
 
+		if (msg.label) {
+			var label = $("<label/>").text(msg.label).addClass("autocomplete-label");
+			div.append(label);
+		}
+
 		var input = $("<input/>");
 		input.attr("type", "text");
 		input.attr("placeholder", msg.placeholder);
 
-		var icon = $("<div/>").addClass("autocomplete-icon")
+		var icon = $("<div/>").addClass("autocomplete-icon");
+		var options = msg.options;
 
 		div.append(input);
 		div.append(icon);
@@ -17,18 +23,23 @@ define([ "jquery", "message-bus", "typeahead" ], function($, bus) {
 		input.addClass("typeahead");
 		input.addClass("autocomplete-input");
 		icon.addClass("autocomplete-icon");
-		
-		input.typeahead({
-			hint : true,
+
+		var inputTypeahead = input.typeahead({
+			hint : msg.hint,
 			highlight : true,
-			minLength : 1,
+			minLength : msg.minQueryLength,
 			autoselect : true
 		}, {
 			source : function(q, cb) {
-				var matches = [];
-				var regex = new RegExp(q, 'i');
+				if (!options) {
+					cb([]);
+					return;
+				}
 
-				$.each(msg.options, function(i, option) {
+				var matches = [];
+				var pattern = msg.searchMode == "startsWith" ? "^" + q : q;
+				var regex = new RegExp(pattern, 'i');
+				$.each(options, function(i, option) {
 					if (regex.test(option)) {
 						matches.push({
 							value : option
@@ -36,10 +47,12 @@ define([ "jquery", "message-bus", "typeahead" ], function($, bus) {
 					}
 				});
 
-				cb(matches.slice(0,5));
+				if (msg.maxResults > 0) {
+					matches = matches.slice(0, msg.maxResults);
+				}
+				cb(matches);
 			}
 		});
-
 		var eventName = "ui-autocomplete:" + msg.div + ":selected";
 
 		input.keypress(function(event) {
@@ -54,6 +67,25 @@ define([ "jquery", "message-bus", "typeahead" ], function($, bus) {
 
 		input.on('typeahead:selected', function(event, selection) {
 			bus.send(eventName, selection.value);
+		});
+
+		if (msg.showOnFocus || minQueryLength == 0) {
+			// Show dropdown on input focus
+			input.focus(function() {
+				// This is a bit obscure, but the only way I found to do it
+				var query = (input.val() || "").replace(/^\s*/g, "").replace(/\s{2,}/g, " ");
+				var data = input.data("ttTypeahead");
+				data.dropdown.update(query);
+				data.dropdown.open();
+			});
+		}
+
+		bus.listen("ui-autocomplete:" + msg.div + ":set-values", function(e, values) {
+			options = values;
+		});
+
+		bus.listen(msg.div + "-field-value-fill", function(e, message) {
+			message[msg.div] = input.val();
 		});
 	});
 });
