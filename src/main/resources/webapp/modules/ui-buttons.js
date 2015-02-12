@@ -8,7 +8,9 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		} else {
 			button = $("<div/>");
 			var imageDiv = $("<div/>");
-			imageDiv.css("background-image", "url(" + msg.image + ")");
+			if (msg.image) {
+				imageDiv.css("background-image", "url(" + msg.image + ")");
+			}
 			imageDiv.addClass(BUTTON_IMAGE_CLASS);
 			button.append(imageDiv);
 		}
