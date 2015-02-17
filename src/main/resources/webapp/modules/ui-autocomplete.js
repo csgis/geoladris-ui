@@ -84,6 +84,10 @@ define([ "jquery", "message-bus", "typeahead" ], function($, bus) {
 			options = values;
 		});
 
+		bus.listen("ui-autocomplete:" + msg.div + ":set-value", function(e, value) {
+			input.val(value);
+		});
+
 		bus.listen(msg.div + "-field-value-fill", function(e, message) {
 			message[msg.div] = input.val();
 		});

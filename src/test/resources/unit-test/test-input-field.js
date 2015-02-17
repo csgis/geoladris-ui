@@ -57,4 +57,33 @@ describe("ui-input-field", function() {
 		_bus.send("myinput-field-value-fill", message);
 		expect(message["myinput"]).toEqual(inputText);
 	});
+
+	it("sets input value on set-value", function() {
+		var inputText = "Input text";
+		var anotherText = "Another text";
+
+		_bus.send("ui-input-field:create", {
+			div : "myinput",
+			parentDiv : parentId
+		});
+		$("#myinput").find("input").val(inputText);
+
+		_bus.send("ui-input-field:myinput:set-value", anotherText);
+		expect($("#myinput").find("input").val()).toEqual(anotherText);
+	});
+
+	it("appends text on append", function() {
+		var inputText = "Input text";
+		var anotherText = "Another text";
+
+		_bus.send("ui-input-field:create", {
+			div : "myinput",
+			parentDiv : parentId
+		});
+		$("#myinput").find("input").val(inputText);
+
+		_bus.send("ui-input-field:myinput:append", anotherText);
+		expect($("#myinput").find("input").val()).toEqual(inputText + anotherText);
+	});
+
 });
