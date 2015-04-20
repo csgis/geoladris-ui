@@ -19,6 +19,7 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 
 		var id = msg.div;
 
+		var translations = msg.messages || {};
 		var div = $("<div/>").attr("id", id);
 		div.addClass(msg.css);
 
@@ -33,7 +34,7 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 			div.empty();
 			fields = msg.fields;
 			headers = Object.keys(msg.fields);
-			
+
 			table = $("<table/>").appendTo(div);
 			var head = $("<thead/>").appendTo(table);
 
@@ -60,7 +61,8 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 					"orderDataType" : ORDER_COLUMN_TYPE,
 					"targets" : [ headers.length ],
 					"visible" : false
-				} ]
+				} ],
+				"language" : translations
 			});
 
 			table.on("click", "tr", function() {
