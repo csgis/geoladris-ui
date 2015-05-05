@@ -28,5 +28,14 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		bus.listen(msg.div + "-field-value-fill", function(e, message) {
 			message[msg.div] = text.val();
 		});
+
+		bus.listen("ui-text-area-field:" + msg.div + ":append", function(e, value) {
+			var current = text.val();
+			if (current) {
+				text.val(current + value);
+			} else {
+				text.val(value);
+			}
+		});
 	});
 });

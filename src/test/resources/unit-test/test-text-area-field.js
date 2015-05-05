@@ -61,13 +61,41 @@ describe("ui-text-area-field", function() {
 			parentDiv : parentId,
 			label : "Text: "
 		});
-		
+
 		var content = "This is the textarea content";
 		var area = $("#" + parentId).children("#myarea");
 		area.children("textarea").val(content);
-		
+
 		var message = {};
 		_bus.send("myarea-field-value-fill", message);
 		expect(message["myarea"]).toEqual(content);
+	});
+
+	it("sets input value on set-value", function() {
+		var inputText = "Input text";
+		var anotherText = "Another text";
+
+		_bus.send("ui-text-area-field:create", {
+			div : "myinput",
+			parentDiv : parentId
+		});
+		$("#myinput").find("textarea").val(inputText);
+
+		_bus.send("ui-text-area-field:myinput:set-value", anotherText);
+		expect($("#myinput").find("textarea").val()).toEqual(anotherText);
+	});
+
+	it("appends text on append", function() {
+		var inputText = "Input text";
+		var anotherText = "Another text";
+
+		_bus.send("ui-text-area-field:create", {
+			div : "myinput",
+			parentDiv : parentId
+		});
+		$("#myinput").find("textarea").val(inputText);
+
+		_bus.send("ui-text-area-field:myinput:append", anotherText);
+		expect($("#myinput").find("textarea").val()).toEqual(inputText + anotherText);
 	});
 });
