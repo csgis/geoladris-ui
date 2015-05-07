@@ -57,6 +57,9 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 			}
 
 			table = table.DataTable({
+				"pageLength" : 7,
+				"scrollx" : true,
+				"lengthChange" : false,
 				"columnDefs" : [ {
 					"orderDataType" : ORDER_COLUMN_TYPE,
 					"targets" : [ headers.length ],
