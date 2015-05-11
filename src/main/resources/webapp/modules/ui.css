@@ -8,6 +8,7 @@
 	background-size: auto;
 	background: url("../images/close_gray.png");
 	cursor: pointer;
+	z-index: 500;
 }
 
 .ui-search-results-close:hover,.dialog-close:hover {
