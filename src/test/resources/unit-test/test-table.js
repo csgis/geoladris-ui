@@ -274,4 +274,23 @@ describe("ui-table", function() {
 		expect(row2.find("td:eq(0)").text()).toBe("a");
 		expect(row3.find("td:eq(0)").text()).toBe("c");
 	});
+
+	it("applies CSS classes to <div> container and <table>", function() {
+		var css = "my-table-class";
+
+		_bus.send("ui-table:create", {
+			div : "mytable",
+			parentDiv : parentId,
+			css : css
+		});
+
+		_bus.send("ui-table:mytable:set-data", {
+			data : [],
+			fields : {}
+		});
+
+		var table = $("#mytable").find("table");
+		expect(table.length).toBe(1);
+		expect(table.hasClass(css)).toBe(true);
+	});
 });

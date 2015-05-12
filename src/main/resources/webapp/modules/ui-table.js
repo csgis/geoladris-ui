@@ -18,10 +18,11 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 		var fields;
 
 		var id = msg.div;
+		var css = msg.css;
 
 		var translations = msg.messages || {};
 		var div = $("<div/>").attr("id", id);
-		div.addClass(msg.css);
+		div.addClass(css);
 
 		$("#" + msg.parentDiv).append(div);
 
@@ -36,6 +37,7 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 			headers = Object.keys(msg.fields);
 
 			table = $("<table/>").appendTo(div);
+			table.addClass(css);
 			var head = $("<thead/>").appendTo(table);
 
 			var tr = $("<tr/>").appendTo(head);
