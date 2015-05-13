@@ -28,7 +28,8 @@ describe("ui-table", function() {
 		};
 
 		_bus.send("ui-table:create", msg);
-		expect($("#mytable").children("tr").length).toBe(0);
+		// There are two tables: header + data. We get the second table
+		expect($("#mytable").find("table").length).toBe(0);
 		_bus.send("ui-table:mytable:set-data", {
 			data : [ {
 				letter : "a",
@@ -44,7 +45,8 @@ describe("ui-table", function() {
 		});
 
 		// 2 data rows + 1 header
-		expect($("#mytable").find("tr").length).toBe(3);
+		var table = $("#mytable").find("table:eq(1)");
+		expect(table.find("tr").length).toBe(3);
 	});
 
 	it("replaces previous data on set-data", function() {
@@ -54,7 +56,7 @@ describe("ui-table", function() {
 		};
 
 		_bus.send("ui-table:create", msg);
-		expect($("#mytable").children("tr").length).toBe(0);
+		expect($("#mytable").find("table").length).toBe(0);
 		_bus.send("ui-table:mytable:set-data", {
 			data : [ {
 				letter : "a",
@@ -79,7 +81,8 @@ describe("ui-table", function() {
 			}
 		});
 		// 1 data row + 1 header
-		expect($("#mytable").find("tr").length).toBe(2);
+		var table = $("#mytable").find("table:eq(1)");
+		expect(table.find("tr").length).toBe(2);
 	});
 
 	it("clears table on clear", function() {
@@ -100,9 +103,10 @@ describe("ui-table", function() {
 			}
 		});
 		// 1 data row + 1 header
-		expect($("#mytable").find("tr").length).toBe(2);
+		var table = $("#mytable").find("table:eq(1)");
+		expect(table.find("tr").length).toBe(2);
 		_bus.send("ui-table:mytable:clear");
-		expect($("#mytable").find("tr").length).toBe(0);
+		expect($("#mytable").find("table").length).toBe(0);
 	});
 
 	it("selects and sends data-selected on row click", function() {
@@ -127,7 +131,7 @@ describe("ui-table", function() {
 		});
 
 		// index is 2 because row 0 is the header
-		var row = $("#mytable").find("tr:eq(2)");
+		var row = $("#mytable").find("table:eq(1)").find("tr:eq(2)");
 		row.click();
 		expect(row.hasClass("selected")).toBe(true);
 		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:data-selected", [ [ {
@@ -162,8 +166,9 @@ describe("ui-table", function() {
 		});
 
 		// indexes are 1 and 2 because row 0 is the header
-		var row1 = $("#mytable").find("tr:eq(1)");
-		var row2 = $("#mytable").find("tr:eq(2)");
+		var table = $("#mytable").find("table:eq(1)")
+		var row1 = table.find("tr:eq(1)");
+		var row2 = table.find("tr:eq(2)");
 		expect(row1.hasClass("selected")).toBe(false);
 		expect(row2.hasClass("selected")).toBe(false);
 
@@ -172,8 +177,8 @@ describe("ui-table", function() {
 			number : "2"
 		} ] ]);
 
-		row1 = $("#mytable").find("tr:eq(1)");
-		row2 = $("#mytable").find("tr:eq(2)");
+		row1 = table.find("tr:eq(1)");
+		row2 = table.find("tr:eq(2)");
 		expect(row1.hasClass("selected")).toBe(false);
 		expect(row2.hasClass("selected")).toBe(true);
 	});
@@ -199,9 +204,11 @@ describe("ui-table", function() {
 			}
 		});
 
+		// There are two tables: header + data. We get the second table
+		var table = $("#mytable").find("table:eq(1)");
 		// indexes are 1 and 2 because row 0 is the header
-		var row1 = $("#mytable").find("tr:eq(1)");
-		var row2 = $("#mytable").find("tr:eq(2)");
+		var row1 = table.find("tr:eq(1)");
+		var row2 = table.find("tr:eq(2)");
 		row1.addClass("selected");
 
 		expect(row1.hasClass("selected")).toBe(true);
@@ -267,9 +274,11 @@ describe("ui-table", function() {
 		} ] ]);
 		_bus.send("ui-table:mytable:sort-selected-first");
 
-		var row1 = $("#mytable").find("tr:eq(1)");
-		var row2 = $("#mytable").find("tr:eq(2)");
-		var row3 = $("#mytable").find("tr:eq(3)");
+		// There are two tables: header + data. We get the second table
+		var table = $("#mytable").find("table:eq(1)");
+		var row1 = table.find("tr:eq(1)");
+		var row2 = table.find("tr:eq(2)");
+		var row3 = table.find("tr:eq(3)");
 		expect(row1.find("td:eq(0)").text()).toBe("b");
 		expect(row2.find("td:eq(0)").text()).toBe("a");
 		expect(row3.find("td:eq(0)").text()).toBe("c");
@@ -290,7 +299,8 @@ describe("ui-table", function() {
 		});
 
 		var table = $("#mytable").find("table");
-		expect(table.length).toBe(1);
-		expect(table.hasClass(css)).toBe(true);
+		table.each(function() {
+			expect($(this).hasClass(css)).toBe(true);
+		});
 	});
 });
