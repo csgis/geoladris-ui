@@ -59,7 +59,7 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 			}
 
 			table = table.DataTable({
-				"pageLength" : 7,
+				"pageLength" : 15,
 				"scrollX" : true,
 				"lengthChange" : false,
 				"columnDefs" : [ {
