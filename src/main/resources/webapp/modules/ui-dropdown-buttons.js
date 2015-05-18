@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus" ], function($, bus) {
+define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	bus.listen("ui-dropdown-button:create", function(e, msg) {
 		// Map id -> image
 		var buttons = {};
@@ -10,7 +10,8 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		var container = $("<div/>").attr("id", containerId);
 		container.addClass(msg.css);
 		container.addClass("ui-dropdown-button-container");
-		$("#" + msg.parentDiv).append(container);
+
+		commons.append(container, $("#" + msg.parentDiv), msg.priority);
 
 		var buttonMsg = $.extend({}, msg);
 		buttonMsg.css = "ui-dropdown-button-button";

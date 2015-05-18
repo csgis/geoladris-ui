@@ -15,7 +15,8 @@ describe("ui-dropdown-buttons", function() {
 			$("#" + parentId).append($("<div/>").attr("id", msg.div));
 		});
 
-		_initModule("ui-dropdown-buttons", [ $, _bus ]);
+		var commons = _initModule("ui-commons", [ $ ]);
+		_initModule("ui-dropdown-buttons", [ $, _bus, commons ]);
 	});
 
 	it("calls ui-button:create on create", function() {

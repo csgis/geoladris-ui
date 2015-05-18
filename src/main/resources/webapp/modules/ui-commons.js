@@ -12,7 +12,32 @@ define([ "jquery" ], function($) {
 		return div;
 	}
 
+	function append(button, parent, priority) {
+		var nextDiv;
+
+		if (priority) {
+			button.attr("priority", priority);
+
+			var children = parent.children();
+			for (var i = 0; i < children.length; i++) {
+				var child = $(children[i]);
+				var p = child.attr("priority");
+				if (!p || p > priority) {
+					nextDiv = child;
+					break;
+				}
+			}
+		}
+
+		if (nextDiv) {
+			nextDiv.before(button);
+		} else {
+			parent.append(button);
+		}
+	}
+
 	return {
-		getOrCreateDiv : getOrCreateDiv
+		getOrCreateDiv : getOrCreateDiv,
+		append : append
 	};
 });

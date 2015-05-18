@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus" ], function($, bus) {
+define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	var BUTTON_IMAGE_CLASS = "button-image";
 
 	bus.listen("ui-button:create", function(e, msg) {
@@ -23,27 +23,7 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		button.addClass(msg.css);
 		button.addClass("button-enabled");
 
-		var parent = $("#" + msg.parentDiv);
-		var nextDiv;
-		if (msg.priority) {
-			button.attr("priority", msg.priority);
-
-			var children = parent.children();
-			for (var i = 0; i < children.length; i++) {
-				var child = $(children[i]);
-				var priority = child.attr("priority");
-				if (!priority || priority > msg.priority) {
-					nextDiv = child;
-					break;
-				}
-			}
-		}
-
-		if (nextDiv) {
-			nextDiv.before(button);
-		} else {
-			parent.append(button);
-		}
+		commons.append(button, $("#" + msg.parentDiv), msg.priority);
 
 		if (msg.sendEventName) {
 			button.click(function() {

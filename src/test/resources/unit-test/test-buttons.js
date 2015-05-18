@@ -7,7 +7,8 @@ describe("ui-buttons", function() {
 		_bus.unbind();
 		spyOn(_bus, "send").and.callThrough();
 
-		_initModule("ui-buttons", [ $, _bus ]);
+		var commons = _initModule("ui-commons", [ $ ]);
+		_initModule("ui-buttons", [ $, _bus, commons ]);
 	});
 
 	it("creates a <button> if text specified", function() {
