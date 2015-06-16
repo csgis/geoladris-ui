@@ -6,6 +6,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		var divId = msg.div;
 		var containerId = divId + "-container";
 		var slidingId = divId + "-sliding";
+		var useLigatures = msg.useLigatures;
 
 		var container = $("<div/>").attr("id", containerId);
 		container.addClass(msg.css);
@@ -25,11 +26,16 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		});
 
 		bus.listen("ui-dropdown-button:" + divId + ":add-item", function(e, msg) {
-			buttons[msg.id] = msg.image;
+			buttons[msg.id] = msg.text;
 
 			var item = $("<div/>").addClass("ui-dropdown-button-item");
+			if (useLigatures) {
+				item.addClass("geobricks-icons");
+			}
+
 			$("#" + slidingId).append(item);
-			item.css("background-image", "url('" + msg.image + "')")
+
+			item.text(msg.text);
 
 			if (msg.tooltip) {
 				item.attr("title", msg.tooltip);
@@ -37,9 +43,9 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 			item.click(function() {
 				bus.send("ui-sliding-div:collapse", slidingId);
-				bus.send("ui-button:set-image", {
-					id : divId,
-					image : msg.image
+				bus.send("ui-set-content", {
+					div : divId,
+					content : msg.text
 				});
 				bus.send("ui-dropdown-button:" + divId + ":item-selected", msg.id);
 			});
@@ -52,9 +58,9 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		}
 
 		bus.listen("ui-dropdown-button:" + divId + ":set-item", function(e, itemId) {
-			bus.send("ui-button:set-image", {
-				id : divId,
-				image : buttons[itemId]
+			bus.send("ui-set-content", {
+				div : divId,
+				content : buttons[itemId]
 			});
 		});
 	});

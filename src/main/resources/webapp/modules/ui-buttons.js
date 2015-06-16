@@ -2,11 +2,10 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	var BUTTON_IMAGE_CLASS = "button-image";
 
 	bus.listen("ui-button:create", function(e, msg) {
-		var button;
+		var button = $("<div/>");
 		if (msg.text) {
-			button = $("<button>").text(msg.text);
+			button.text(msg.text);
 		} else {
-			button = $("<div/>");
 			var imageDiv = $("<div/>");
 			if (msg.image) {
 				imageDiv.css("background-image", "url(" + msg.image + ")");
@@ -22,6 +21,10 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		button.attr("id", msg.div);
 		button.addClass(msg.css);
 		button.addClass("button-enabled");
+
+		if (msg.useLigatures) {
+			button.addClass("geobricks-icons");
+		}
 
 		commons.append(button, $("#" + msg.parentDiv), msg.priority);
 

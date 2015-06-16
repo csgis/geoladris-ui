@@ -11,14 +11,15 @@ describe("ui-buttons", function() {
 		_initModule("ui-buttons", [ $, _bus, commons ]);
 	});
 
-	it("creates a <button> if text specified", function() {
+	it("creates a <div> if text specified", function() {
 		_bus.send("ui-button:create", {
 			div : "mybutton",
 			parentDiv : parentId,
 			text : "Click!"
 		});
-		expect($("#mybutton").prop("tagName")).toBe("BUTTON");
+		expect($("#mybutton").prop("tagName")).toBe("DIV");
 	});
+
 	it("creates a <div> if image specified", function() {
 		_bus.send("ui-button:create", {
 			div : "mybutton",
@@ -153,5 +154,23 @@ describe("ui-buttons", function() {
 			image : "images/two.png"
 		});
 		expect(imageDiv.css("background-image").indexOf("images/two.png")).not.toBe(-1);
+	});
+
+	it("adds 'geobricks-icons' css class if useLigatures specified", function() {
+		_bus.send("ui-button:create", {
+			div : "mybutton",
+			parentDiv : parentId,
+			img : "url_to_image",
+			useLigatures : true
+		});
+		expect($("#mybutton").hasClass("geobricks-icons")).toBe(true);
+
+		_bus.send("ui-button:create", {
+			div : "mybutton2",
+			parentDiv : parentId,
+			img : "url_to_image",
+			useLigatures : false
+		});
+		expect($("#mybutton2").hasClass("geobricks-icons")).toBe(false);
 	});
 });
