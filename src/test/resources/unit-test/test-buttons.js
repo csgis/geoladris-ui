@@ -11,14 +11,16 @@ describe("ui-buttons", function() {
 		_initModule("ui-buttons", [ $, _bus, commons ]);
 	});
 
-	it("creates a <button> if text specified", function() {
+	it("creates a <div> if text specified", function() {
 		_bus.send("ui-button:create", {
 			div : "mybutton",
 			parentDiv : parentId,
 			text : "Click!"
 		});
-		expect($("#mybutton").prop("tagName")).toBe("BUTTON");
+		expect($("#mybutton").prop("tagName")).toBe("DIV");
+		expect($("#mybutton").children("div").text()).toBe("Click!");
 	});
+
 	it("creates a <div> if image specified", function() {
 		_bus.send("ui-button:create", {
 			div : "mybutton",
@@ -26,6 +28,21 @@ describe("ui-buttons", function() {
 			image : "url_to_image"
 		});
 		expect($("#mybutton").prop("tagName")).toBe("DIV");
+		var css = $("#mybutton").children("div").css("background-image");
+		expect(css.indexOf("url_to_image")).not.toBe(-1);
+	});
+
+	it("creates a <div> with text and image if both specified", function() {
+		_bus.send("ui-button:create", {
+			div : "mybutton",
+			parentDiv : parentId,
+			image : "url_to_image",
+			text : "Click!"
+		});
+
+		var iconDiv = $("#mybutton").children("div");
+		expect(iconDiv.text()).toBe("Click!");
+		expect(iconDiv.css("background-image").indexOf("url_to_image")).not.toBe(-1);
 	});
 
 	it("adds a tooltip if specified on create", function() {

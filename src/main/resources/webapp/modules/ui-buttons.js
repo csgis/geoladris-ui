@@ -2,18 +2,17 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	var BUTTON_IMAGE_CLASS = "button-image";
 
 	bus.listen("ui-button:create", function(e, msg) {
-		var button;
-		if (msg.text) {
-			button = $("<button>").text(msg.text);
-		} else {
-			button = $("<div/>");
-			var imageDiv = $("<div/>");
-			if (msg.image) {
-				imageDiv.css("background-image", "url(" + msg.image + ")");
-			}
-			imageDiv.addClass(BUTTON_IMAGE_CLASS);
-			button.append(imageDiv);
+		var button = $("<div/>");
+
+		var iconDiv = $("<div/>");
+		if (msg.image) {
+			iconDiv.css("background-image", "url(" + msg.image + ")");
 		}
+		if (msg.text) {
+			iconDiv.text(msg.text);
+		}
+		iconDiv.addClass(BUTTON_IMAGE_CLASS);
+		button.append(iconDiv);
 
 		if (msg.tooltip) {
 			button.attr("title", msg.tooltip);
@@ -64,7 +63,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	});
 
 	bus.listen("ui-button:set-image", function(e, msg) {
-		var imageDiv = $("#" + msg.id).children("." + BUTTON_IMAGE_CLASS);
-		imageDiv.css("background-image", "url(" + msg.image + ")");
+		var iconDiv = $("#" + msg.id).children("." + BUTTON_IMAGE_CLASS);
+		iconDiv.css("background-image", "url(" + msg.image + ")");
 	});
 });
