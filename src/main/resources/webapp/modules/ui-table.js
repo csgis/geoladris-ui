@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "datatables" ], function($, bus) {
+define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus, commons) {
 	var ORDER_COLUMN_TYPE = "__gb__sorting__column_type__";
 
 	function sortSelectedFirst(settings, col) {
@@ -21,10 +21,7 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 		var css = msg.css;
 
 		var translations = msg.messages || {};
-		var div = $("<div/>").attr("id", id);
-		div.addClass(css);
-
-		$("#" + msg.parentDiv).append(div);
+		var div = commons.getOrCreateDiv(msg);
 
 		bus.listen("ui-table:" + id + ":clear", function() {
 			div.empty();

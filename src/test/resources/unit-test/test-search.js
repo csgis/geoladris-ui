@@ -7,7 +7,8 @@ describe("ui-search", function() {
 		_bus.unbind();
 		spyOn(_bus, "send").and.callThrough();
 
-		_initModule("ui-search", [ $, _bus ]);
+		var commons = _initModule("ui-commons", [ $ ]);
+		_initModule("ui-search", [ $, _bus, commons ]);
 
 		_bus.listen("ui-dialog:create", function(e, msg) {
 			var div = $("<div/>").attr("id", msg.div);

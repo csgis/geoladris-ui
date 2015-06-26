@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "module" ], function($, bus, module) {
+define([ "jquery", "message-bus", "ui-commons", "module" ], function($, bus, commons, module) {
 	var CLOSED_CLASS = "handle-closed";
 	var OPENED_CLASS = "handle-opened";
 
@@ -41,17 +41,18 @@ define([ "jquery", "message-bus", "module" ], function($, bus, module) {
 
 	bus.listen("ui-sliding-div:create", function(e, msg) {
 		// Container
-		var container = $("<div/>");
-		container.addClass(msg.css);
+		var containerId = msg.div + "-container";
+		var container = commons.getOrCreateDiv($.extend({}, msg, {
+			div : containerId
+		}));
 		container.addClass("ui-sliding-div-container");
-		$("#" + msg.parentDiv).append(container);
 
 		// Content div
-		var div = $("<div/>").attr("id", msg.div);
-		div.addClass(msg.css);
+		var div = commons.getOrCreateDiv($.extend({}, msg, {
+			parentDiv : containerId
+		}));
 		div.addClass("ui-sliding-div-content");
 		div.hide();
-		container.append(div);
 
 		// Handle div
 		var handle = $("<div/>");

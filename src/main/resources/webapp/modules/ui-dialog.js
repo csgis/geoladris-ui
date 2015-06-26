@@ -30,10 +30,8 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 				}
 			});
 		} else {
-			div = $("<div/>").attr("id", msg.div);
-			div.addClass(msg.css);
+			div = commons.getOrCreateDiv(msg);
 			div.addClass("dialog");
-			$("#" + msg.parentDiv).append(div);
 		}
 
 		var title = $("<div/>").addClass("dialog-title");

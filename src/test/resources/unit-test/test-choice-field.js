@@ -7,7 +7,8 @@ describe("ui-choice-field", function() {
 		_bus.unbind();
 		spyOn(_bus, "send").and.callThrough();
 
-		_initModule("ui-choice-field", [ $, _bus ]);
+		var commons = _initModule("ui-commons", [ $ ]);
+		_initModule("ui-choice-field", [ $, _bus, commons ]);
 	});
 
 	it("creates div on ui-choice-field:create", function() {

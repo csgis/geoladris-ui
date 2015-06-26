@@ -8,7 +8,8 @@ describe("ui-form-collector", function() {
 		_bus.unbind();
 		spyOn(_bus, "send").and.callThrough();
 
-		_initModule("ui-choice-field", [ $, _bus ]);
+		var commons = _initModule("ui-commons", [ $ ]);
+		_initModule("ui-choice-field", [ $, _bus, commons ]);
 		_initModule("ui-form-collector", [ $, _bus ]);
 
 		_bus.send("ui-choice-field:create", {

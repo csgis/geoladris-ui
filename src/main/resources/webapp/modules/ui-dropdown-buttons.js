@@ -7,17 +7,15 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		var containerId = divId + "-container";
 		var slidingId = divId + "-sliding";
 
-		var container = $("<div/>").attr("id", containerId);
-		container.addClass(msg.css);
+		var container = commons.getOrCreateDiv($.extend({}, msg, {
+			divId : containerId
+		}));
 		container.addClass("ui-dropdown-button-container");
 
-		commons.append(container, $("#" + msg.parentDiv), msg.priority);
-
-		var buttonMsg = $.extend({}, msg);
-		buttonMsg.css = "ui-dropdown-button-button";
-		buttonMsg.parentDiv = containerId;
-
-		bus.send("ui-button:create", buttonMsg);
+		bus.send("ui-button:create", $.extend({}, msg, {
+			css : "ui-dropdown-button-button",
+			parentDiv : containerId
+		}));
 
 		bus.send("ui-sliding-div:create", {
 			div : slidingId,

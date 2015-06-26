@@ -10,7 +10,8 @@ describe("ui-sliding-div", function() {
 		var module = jasmine.createSpyObj("config", [ "config" ]);
 		module.config.and.returnValue({});
 
-		_initModule("ui-sliding-div", [ $, _bus, module ]);
+		var commons = _initModule("ui-commons", [ $ ]);
+		_initModule("ui-sliding-div", [ $, _bus, commons, module ]);
 	});
 
 	it("creates a handle and a content div within a container on create", function() {
@@ -23,7 +24,7 @@ describe("ui-sliding-div", function() {
 		expect(container.length).toBe(1);
 		var handle = container.children(".ui-sliding-div-handle");
 		expect(handle.length).toBe(1);
-		var content = container.children("#mysliding");
+		var content = container.children(".ui-sliding-div-content");
 		expect(content.length).toBe(1);
 	});
 

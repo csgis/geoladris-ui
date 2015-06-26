@@ -7,7 +7,8 @@ describe("ui-table", function() {
 		_bus.unbind();
 		spyOn(_bus, "send").and.callThrough();
 
-		_initModule("ui-table", [ $, _bus ]);
+		var commons = _initModule("ui-commons", [ $ ]);
+		_initModule("ui-table", [ $, _bus, commons ]);
 	});
 
 	it("creates an empty container on create", function() {

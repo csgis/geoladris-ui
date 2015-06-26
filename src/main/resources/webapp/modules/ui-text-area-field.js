@@ -1,7 +1,6 @@
-define([ "jquery", "message-bus" ], function($, bus) {
+define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	bus.listen("ui-text-area-field:create", function(e, msg) {
-		var div = $("<div/>").attr("id", msg.div);
-		div.addClass(msg.css);
+		var div = commons.getOrCreateDiv(msg);
 		div.addClass("ui-text-area-field-container");
 
 		if (msg.label) {
@@ -18,8 +17,6 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		}
 
 		div.append(text);
-
-		$("#" + msg.parentDiv).append(div);
 
 		bus.listen("ui-text-area-field:" + msg.div + ":set-value", function(e, value) {
 			text.val(value);

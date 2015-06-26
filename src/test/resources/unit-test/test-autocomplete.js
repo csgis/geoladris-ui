@@ -8,7 +8,8 @@ describe("ui-autocomplete", function() {
 		_bus.unbind();
 		spyOn(_bus, "send").and.callThrough();
 
-		_initModule("ui-autocomplete", [ $, _bus ]);
+		var commons = _initModule("ui-commons", [ $ ]);
+		_initModule("ui-autocomplete", [ $, _bus, commons ]);
 	});
 
 	function initAutocomplete() {

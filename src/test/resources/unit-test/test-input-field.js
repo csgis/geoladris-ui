@@ -7,7 +7,8 @@ describe("ui-input-field", function() {
 		_bus.unbind();
 		spyOn(_bus, "send").and.callThrough();
 
-		_initModule("ui-input-field", [ $, _bus ]);
+		var commons = _initModule("ui-commons", [ $ ]);
+		_initModule("ui-input-field", [ $, _bus, commons ]);
 	});
 
 	it("creates div on ui-input-field:create", function() {

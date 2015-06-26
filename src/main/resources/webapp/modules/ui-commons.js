@@ -1,22 +1,22 @@
 define([ "jquery" ], function($) {
-	function getOrCreateDiv(id, parentId, innerComponent) {
-		var div = $("#" + id);
+	function getOrCreateDiv(msg) {
+		var div = $("#" + msg.div);
 		if (div.length == 0) {
-			var parent = $("#" + parentId);
-			div = $("<div/>").appendTo(parent).attr("id", id);
-			if (!(typeof innerComponent === 'undefined')) {
-				div.append(innerComponent());
-			}
+			div = $("<div/>").attr("id", msg.div);
+			div.addClass(msg.css);
+
+			var parent = $("#" + msg.parentDiv);
+			append(div, parent, msg.priority);
 		}
 
 		return div;
 	}
 
-	function append(button, parent, priority) {
+	function append(div, parent, priority) {
 		var nextDiv;
 
 		if (priority) {
-			button.attr("priority", priority);
+			div.attr("priority", priority);
 
 			var children = parent.children();
 			for (var i = 0; i < children.length; i++) {
@@ -30,9 +30,9 @@ define([ "jquery" ], function($) {
 		}
 
 		if (nextDiv) {
-			nextDiv.before(button);
+			nextDiv.before(div);
 		} else {
-			parent.append(button);
+			parent.append(div);
 		}
 	}
 

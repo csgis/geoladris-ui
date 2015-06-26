@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus" ], function($, bus) {
+define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	bus.listen("ui-search-box:create", function(e, msg) {
 		var placeholderClass = "search-placeholder";
 
@@ -25,10 +25,9 @@ define([ "jquery", "message-bus" ], function($, bus) {
 			}
 		});
 
-		var div = $("<div/>").attr("id", msg.div);
+		var div = commons.getOrCreateDiv(msg);
 		div.append(input);
 		div.addClass("ui-search-div");
-		div.addClass(msg.css);
 
 		if (msg.icon) {
 			var icon = $("<div/>");
@@ -38,8 +37,6 @@ define([ "jquery", "message-bus" ], function($, bus) {
 			});
 			div.append(icon);
 		}
-
-		$("#" + msg.parentDiv).append(div);
 	});
 
 	bus.listen("ui-search-results:create", function(e, msg) {

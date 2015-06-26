@@ -1,10 +1,9 @@
-define([ "jquery", "message-bus" ], function($, bus) {
+define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 	bus.listen("ui-choice-field:create", function(e, msg) {
 		var id = msg.div;
-		var div = $("<div/>").attr("id", id);
+		var div = commons.getOrCreateDiv(msg);
 		div.addClass("ui-choice-field-container");
-		div.addClass(msg.css);
 
 		if (msg.label) {
 			var label = $("<label/>").text(msg.label).addClass("ui-choice-field-label");
@@ -31,8 +30,6 @@ define([ "jquery", "message-bus" ], function($, bus) {
 
 		addValues(msg.values);
 		div.append(combo);
-
-		$("#" + msg.parentDiv).append(div);
 
 		bus.listen("ui-choice-field:" + id + ":add-value", function(e, value) {
 			var select = $($("#" + id).find("select")[0]);

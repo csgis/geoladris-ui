@@ -1,6 +1,6 @@
-define([ "jquery", "message-bus", "typeahead" ], function($, bus) {
+define([ "jquery", "message-bus", "ui-commons", "typeahead" ], function($, bus, commons) {
 	bus.listen("ui-autocomplete:create", function(e, msg) {
-		var div = $("<div/>").attr("id", msg.div);
+		var div = commons.getOrCreateDiv(msg);
 
 		if (msg.label) {
 			var label = $("<label/>").text(msg.label).addClass("autocomplete-label");
@@ -16,9 +16,7 @@ define([ "jquery", "message-bus", "typeahead" ], function($, bus) {
 
 		div.append(input);
 		div.append(icon);
-		$("#" + msg.parentDiv).append(div);
 
-		div.addClass(msg.css);
 		div.addClass("autocomplete");
 		input.addClass("typeahead");
 		input.addClass("autocomplete-input");

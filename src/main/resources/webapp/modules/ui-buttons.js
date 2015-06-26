@@ -2,7 +2,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	var BUTTON_IMAGE_CLASS = "button-image";
 
 	bus.listen("ui-button:create", function(e, msg) {
-		var button = $("<div/>");
+		var button = commons.getOrCreateDiv(msg);
 
 		var iconDiv = $("<div/>");
 		if (msg.image) {
@@ -18,11 +18,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			button.attr("title", msg.tooltip);
 		}
 
-		button.attr("id", msg.div);
-		button.addClass(msg.css);
 		button.addClass("button-enabled");
-
-		commons.append(button, $("#" + msg.parentDiv), msg.priority);
 
 		if (msg.sendEventName) {
 			button.click(function() {

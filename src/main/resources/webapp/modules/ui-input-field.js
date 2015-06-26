@@ -1,8 +1,7 @@
-define([ "jquery", "message-bus" ], function($, bus) {
+define([ "jquery", "message-bus","ui-commons" ], function($, bus, commons) {
 	bus.listen("ui-input-field:create", function(e, msg) {
-		var div = $("<div/>").attr("id", msg.div);
+		var div = commons.getOrCreateDiv(msg);
 		div.addClass("ui-input-field-container");
-		div.addClass(msg.css);
 
 		if (msg.label) {
 			var label = $("<label/>").text(msg.label).addClass("ui-input-field-label");
@@ -15,7 +14,6 @@ define([ "jquery", "message-bus" ], function($, bus) {
 
 		var input = $("<input/>").attr("type", msg.type);
 		div.append(input);
-		$("#" + msg.parentDiv).append(div);
 
 		bus.listen(msg.div + "-field-value-fill", function(e, message) {
 			message[msg.div] = input.val();

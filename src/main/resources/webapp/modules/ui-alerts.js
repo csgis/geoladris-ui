@@ -5,14 +5,20 @@ define([ "jquery", "message-bus", "ui-commons", "layout", "module" ], function($
 	if (config.timeout) {
 		timeout = config.timeout;
 	}
-	
+
 	var parentDiv = layout.center;
 	if (config.parentDiv) {
 		parentDiv = config.parentDiv;
 	}
-	
-	var wrapper = commons.getOrCreateDiv("ui-alerts-wrapper", parentDiv);
-	var container = commons.getOrCreateDiv("ui-alerts-container", wrapper.attr("id"));
+
+	var wrapper = commons.getOrCreateDiv({
+		div : "ui-alerts-wrapper",
+		parentDiv : parentDiv
+	});
+	var container = commons.getOrCreateDiv({
+		div : "ui-alerts-container",
+		parentDiv : wrapper.attr("id")
+	});
 
 	bus.listen("ui-alert", function(e, msg) {
 		var div = $("<div/>");
@@ -30,7 +36,7 @@ define([ "jquery", "message-bus", "ui-commons", "layout", "module" ], function($
 		container.append(div);
 
 		setTimeout(function() {
-			 div.remove();
+			div.remove();
 		}, timeout * 1000);
 	})
 });

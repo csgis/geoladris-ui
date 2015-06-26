@@ -13,8 +13,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	}
 
 	bus.listen(baseEventName + ":create", function(e, msg) {
-		var accordion = commons.getOrCreateDiv(msg.div, msg.parentDiv);
-		accordion.addClass(msg.css);
+		commons.getOrCreateDiv(msg);
 	});
 
 	bus.listen(baseEventName + ":add-group", function(e, msg) {

@@ -29,8 +29,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 	bus.listen(baseEventName + ":create", function(e, msg) {
 		var id = msg.div;
-		var div = commons.getOrCreateDiv(id, msg.parentDiv);
-		div.addClass(msg.css);
+		var div = commons.getOrCreateDiv(msg);
 
 		bus.listen(baseEventName + ":" + id + ":add-item", function(e, msg) {
 			addItemToList(id, msg.id, msg.text);
