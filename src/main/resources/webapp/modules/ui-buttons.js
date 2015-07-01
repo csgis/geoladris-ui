@@ -4,7 +4,9 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	bus.listen("ui-button:create", function(e, msg) {
 		var button = $("<div/>");
 		if (msg.text) {
-			button.text(msg.text);
+			// We don't know the exact reason, but when using ligatures some
+			// icons won't work without a new line at the end
+			button.text(msg.useLigatures ? msg.text + "\n" : msg.text);
 		} else {
 			var imageDiv = $("<div/>");
 			if (msg.image) {

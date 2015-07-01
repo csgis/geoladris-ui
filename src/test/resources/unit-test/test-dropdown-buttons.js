@@ -90,7 +90,8 @@ describe("ui-dropdown-buttons", function() {
 		$("#mybutton-sliding").children().click();
 		expect(_bus.send).toHaveBeenCalledWith("ui-set-content", {
 			div : "mybutton",
-			content : "text"
+			// \n because it uses ligatures
+			content : "text\n"
 		});
 	});
 
@@ -99,7 +100,8 @@ describe("ui-dropdown-buttons", function() {
 		_bus.send("ui-dropdown-button:mybutton:set-item", "myitem");
 		expect(_bus.send).toHaveBeenCalledWith("ui-set-content", {
 			div : "mybutton",
-			content : "text"
+			// \n because it uses ligatures
+			content : "text\n"
 		});
 	});
 

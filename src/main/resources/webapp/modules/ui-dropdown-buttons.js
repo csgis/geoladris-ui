@@ -26,16 +26,19 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		});
 
 		bus.listen("ui-dropdown-button:" + divId + ":add-item", function(e, msg) {
-			buttons[msg.id] = msg.text;
+			// We don't know the exact reason, but when using ligatures some
+			// icons won't work without a new line at the end
+			var text = useLigatures ? msg.text + "\n" : msg.text;
+			buttons[msg.id] = text;
 
 			var item = $("<div/>").addClass("ui-dropdown-button-item");
+
 			if (useLigatures) {
 				item.addClass("geobricks-icons");
 			}
 
 			$("#" + slidingId).append(item);
-
-			item.text(msg.text);
+			item.text(text);
 
 			if (msg.tooltip) {
 				item.attr("title", msg.tooltip);
@@ -45,7 +48,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 				bus.send("ui-sliding-div:collapse", slidingId);
 				bus.send("ui-set-content", {
 					div : divId,
-					content : msg.text
+					content : text
 				});
 				bus.send("ui-dropdown-button:" + divId + ":item-selected", msg.id);
 			});
