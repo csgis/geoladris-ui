@@ -10,10 +10,8 @@ define([ "jquery", "message-bus", "module" ], function($, bus, module) {
 
 	// Create divs
 	var loadingShade = $("<div/>").attr("id", "loading-shade");
-	var loadingDiv = $("<div/>").attr("id", "loading-container");
 	var loadingMsg = $("<div/>").attr("id", "loading-msg");
-	loadingShade.append(loadingDiv);
-	loadingDiv.append(loadingMsg);
+	loadingShade.append(loadingMsg);
 	$("body").append(loadingShade);
 
 	// Hide divs by default
@@ -39,7 +37,7 @@ define([ "jquery", "message-bus", "module" ], function($, bus, module) {
 		updateMessage();
 		loadingShade.show();
 		loadingMsg.css("width", loadingMsg.width() + "px");
-		
+
 		if (!intervalId) {
 			// Add a dot to the message each 0.5s, up to 3 dots
 			intervalId = setInterval(function() {
