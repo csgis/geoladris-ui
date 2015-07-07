@@ -65,6 +65,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 				bus.send("ui-search-results:" + id + ":selected", value);
 			});
 			$("#" + id + "-list").append(li);
+			$("#" + id + "-list").scrollTop(0);
 		});
 	});
 });
