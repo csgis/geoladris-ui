@@ -1,38 +1,33 @@
 define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	function createDialog(msg) {
-		var div;
+		var container = $("<div/>");
+		container.addClass("dialog-container");
 		if (msg.modal) {
-			// If the dialog is modal, we create the dialog inside a shade div
-			// that blocks any user interaction with the rest of the page
-			var shade = $("<div/>");
-			shade.addClass("dialog-shade");
-
-			div = $("<div/>").attr("id", msg.div);
-			div.addClass(msg.css);
-			div.addClass("dialog");
-
-			shade.append(div);
-			$("#" + msg.parentDiv).append(shade);
-
-			bus.listen("ui-show", function(e, id) {
-				if (id == msg.div) {
-					shade.show();
-				}
-			});
-			bus.listen("ui-hide", function(e, id) {
-				if (id == msg.div) {
-					shade.hide();
-				}
-			});
-			bus.listen("ui-toggle", function(e, id) {
-				if (id == msg.div) {
-					shade.toggle();
-				}
-			});
-		} else {
-			div = commons.getOrCreateDiv(msg);
-			div.addClass("dialog");
+			container.addClass("dialog-modal");
 		}
+
+		var div = $("<div/>").attr("id", msg.div);
+		div.addClass(msg.css);
+		div.addClass("dialog");
+
+		container.append(div);
+		$("#" + msg.parentDiv).append(container);
+
+		bus.listen("ui-show", function(e, id) {
+			if (id == msg.div) {
+				container.show();
+			}
+		});
+		bus.listen("ui-hide", function(e, id) {
+			if (id == msg.div) {
+				container.hide();
+			}
+		});
+		bus.listen("ui-toggle", function(e, id) {
+			if (id == msg.div) {
+				container.toggle();
+			}
+		});
 
 		var title = $("<div/>").addClass("dialog-title");
 		if (msg.title) {

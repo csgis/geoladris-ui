@@ -17,8 +17,9 @@ describe("ui-dialog", function() {
 			parentDiv : parentId
 		});
 
-		expect($("#" + parentId).children().length).toBe(1);
-		expect($("#" + parentId).children("#mydialog").length).toBe(1);
+		var container = $("#" + parentId).children();
+		expect(container.length).toBe(1);
+		expect(container.children("#mydialog").length).toBe(1);
 	});
 
 	it("does not create the same dialog twice", function() {
@@ -29,8 +30,9 @@ describe("ui-dialog", function() {
 			});
 		}
 
-		expect($("#" + parentId).children().length).toBe(1);
-		expect($("#" + parentId).children("#mydialog").length).toBe(1);
+		var container = $("#" + parentId).children();
+		expect(container.length).toBe(1);
+		expect(container.children("#mydialog").length).toBe(1);
 	});
 
 	it("hides the dialog on init if !visible specified", function() {
@@ -57,10 +59,9 @@ describe("ui-dialog", function() {
 			modal : true
 		});
 
-		var child = $($("#" + parentId).children()[0]);
-		expect($("#" + parentId).children().length).toBe(1);
-		expect(child).not.toEqual($("#" + parentId).children("#mydialog"));
-		expect(child.hasClass("dialog-shade")).toBe(true);
+		var container = $("#" + parentId).children();
+		expect(container).not.toEqual($("#" + parentId).find("#mydialog"));
+		expect(container.hasClass("dialog-modal")).toBe(true);
 	});
 
 	it("adds a title if specified", function() {
@@ -107,9 +108,9 @@ describe("ui-dialog", function() {
 			visible : true
 		});
 
-		expect($("#" + parentId).children(".dialog-shade").css("display")).not.toBe("none");
+		expect($("#" + parentId).children(".dialog-modal").css("display")).not.toBe("none");
 		_bus.send("ui-hide", "mydialog");
-		expect($("#" + parentId).children(".dialog-shade").css("display")).toBe("none");
+		expect($("#" + parentId).children(".dialog-modal").css("display")).toBe("none");
 	});
 	it("shows the shade when dialog is shown if modal", function() {
 		_bus.send("ui-dialog:create", {
@@ -119,9 +120,9 @@ describe("ui-dialog", function() {
 			visible : false
 		});
 
-		expect($("#" + parentId).children(".dialog-shade").css("display")).toBe("none");
+		expect($("#" + parentId).children(".dialog-modal").css("display")).toBe("none");
 		_bus.send("ui-show", "mydialog");
-		expect($("#" + parentId).children(".dialog-shade").css("display")).not.toBe("none");
+		expect($("#" + parentId).children(".dialog-modal").css("display")).not.toBe("none");
 	});
 
 	it("toggles the shade when dialog is toggled if modal", function() {
@@ -132,8 +133,8 @@ describe("ui-dialog", function() {
 			visible : true
 		});
 
-		expect($("#" + parentId).children(".dialog-shade").css("display")).not.toBe("none");
+		expect($("#" + parentId).children(".dialog-modal").css("display")).not.toBe("none");
 		_bus.send("ui-toggle", "mydialog");
-		expect($("#" + parentId).children(".dialog-shade").css("display")).toBe("none");
+		expect($("#" + parentId).children(".dialog-modal").css("display")).toBe("none");
 	});
 });
