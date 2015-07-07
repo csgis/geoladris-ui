@@ -54,11 +54,11 @@ describe("ui-dropdown-buttons", function() {
 		expect($("#mybutton-sliding").children().length).toBe(0);
 		_bus.send("ui-dropdown-button:mybutton:add-item", {
 			id : "myitem",
-			text : "text"
+			image : "images/image.svg"
 		});
 		expect($("#mybutton-sliding").children().length).toBe(1);
-		var text = $("#mybutton-sliding").children().text();
-		expect(text).toBe("text");
+		var bg = $("#mybutton-sliding").children().css("background-image");
+		expect(bg.indexOf("images/image.svg")).not.toBe(-1);
 	});
 
 	it("toggles the sliding on click if dropdownOnClick", function() {
@@ -85,23 +85,21 @@ describe("ui-dropdown-buttons", function() {
 		expect(_bus.send).toHaveBeenCalledWith("ui-sliding-div:collapse", "mybutton-sliding");
 	});
 
-	it("changes the button text on item click", function() {
+	it("changes the button background on item click", function() {
 		mockWithItem();
 		$("#mybutton-sliding").children().click();
-		expect(_bus.send).toHaveBeenCalledWith("ui-set-content", {
-			div : "mybutton",
-			// \n because it uses ligatures
-			content : "text\n"
+		expect(_bus.send).toHaveBeenCalledWith("ui-button:set-image", {
+			id : "mybutton",
+			image : "images/img.svg"
 		});
 	});
 
-	it("changes the button text on set-item", function() {
+	it("changes the button background on set-item", function() {
 		mockWithItem();
 		_bus.send("ui-dropdown-button:mybutton:set-item", "myitem");
-		expect(_bus.send).toHaveBeenCalledWith("ui-set-content", {
-			div : "mybutton",
-			// \n because it uses ligatures
-			content : "text\n"
+		expect(_bus.send).toHaveBeenCalledWith("ui-button:set-image", {
+			id : "mybutton",
+			image : "images/img.svg"
 		});
 	});
 
@@ -126,12 +124,11 @@ describe("ui-dropdown-buttons", function() {
 		_bus.send("ui-dropdown-button:create", {
 			div : "mybutton",
 			parentDiv : parentId,
-			dropdownOnClick : true,
-			useLigatures : true
+			dropdownOnClick : true
 		});
 		_bus.send("ui-dropdown-button:mybutton:add-item", {
 			id : "myitem",
-			text : "text"
+			image : "images/img.svg"
 		});
 	}
 });

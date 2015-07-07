@@ -155,22 +155,4 @@ describe("ui-buttons", function() {
 		});
 		expect(imageDiv.css("background-image").indexOf("images/two.png")).not.toBe(-1);
 	});
-
-	it("adds 'geobricks-icons' css class if useLigatures specified", function() {
-		_bus.send("ui-button:create", {
-			div : "mybutton",
-			parentDiv : parentId,
-			img : "url_to_image",
-			useLigatures : true
-		});
-		expect($("#mybutton").hasClass("geobricks-icons")).toBe(true);
-
-		_bus.send("ui-button:create", {
-			div : "mybutton2",
-			parentDiv : parentId,
-			img : "url_to_image",
-			useLigatures : false
-		});
-		expect($("#mybutton2").hasClass("geobricks-icons")).toBe(false);
-	});
 });

@@ -4,9 +4,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	bus.listen("ui-button:create", function(e, msg) {
 		var button = $("<div/>");
 		if (msg.text) {
-			// We don't know the exact reason, but when using ligatures some
-			// icons won't work without a new line at the end
-			button.text(msg.useLigatures ? msg.text + "\n" : msg.text);
+			button.text(msg.text);
 		} else {
 			var imageDiv = $("<div/>");
 			if (msg.image) {
@@ -23,10 +21,6 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		button.attr("id", msg.div);
 		button.addClass(msg.css);
 		button.addClass("button-enabled");
-
-		if (msg.useLigatures) {
-			button.addClass("geobricks-icons");
-		}
 
 		commons.append(button, $("#" + msg.parentDiv), msg.priority);
 

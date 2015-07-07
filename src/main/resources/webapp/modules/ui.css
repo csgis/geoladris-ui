@@ -42,6 +42,7 @@
 	background-repeat: no-repeat;
 	background-position: center;
 	-webkit-background-origin: border;
+	background-size: 60%;
 }
 
 .button-active {
