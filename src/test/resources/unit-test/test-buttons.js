@@ -162,7 +162,7 @@ describe("ui-buttons", function() {
 			image : "images/one.png"
 		});
 
-		var imageDiv = $("#mybutton").children(".button-image");
+		var imageDiv = $("#mybutton").children(".button-content");
 
 		expect(imageDiv.css("background-image").indexOf("images/one.png")).not.toBe(-1);
 		_bus.send("ui-button:set-image", {

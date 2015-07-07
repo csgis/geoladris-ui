@@ -1,6 +1,4 @@
 define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
-	var BUTTON_IMAGE_CLASS = "button-image";
-
 	bus.listen("ui-button:create", function(e, msg) {
 		var button = commons.getOrCreateDiv(msg);
 
@@ -11,7 +9,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		if (msg.text) {
 			iconDiv.text(msg.text);
 		}
-		iconDiv.addClass(BUTTON_IMAGE_CLASS);
+		iconDiv.addClass("button-content");
 		button.append(iconDiv);
 
 		if (msg.tooltip) {
@@ -59,7 +57,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	});
 
 	bus.listen("ui-button:set-image", function(e, msg) {
-		var iconDiv = $("#" + msg.id).children("." + BUTTON_IMAGE_CLASS);
+		var iconDiv = $("#" + msg.id).children(".button-content");
 		iconDiv.css("background-image", "url(" + msg.image + ")");
 	});
 });
