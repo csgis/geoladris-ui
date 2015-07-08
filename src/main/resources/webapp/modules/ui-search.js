@@ -4,7 +4,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		var input = $("<input type='text' placeholder='" + msg.placeholder + "'>");
 		input.addClass(placeholderClass);
-		input.addClass("ui-search-input");
+		input.addClass("search-input");
 
 		input.focus(function() {
 			if (input.val() == input.attr("placeholder")) {
@@ -27,11 +27,11 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		var div = commons.getOrCreateDiv(msg);
 		div.append(input);
-		div.addClass("ui-search-div");
+		div.addClass("search");
 
 		if (msg.icon) {
 			var icon = $("<div/>");
-			icon.addClass("ui-search-icon");
+			icon.addClass("search-icon");
 			icon.click(function() {
 				bus.send("ui-search-box:" + msg.div + ":search", input.val());
 			});
@@ -43,7 +43,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		bus.send("ui-dialog:create", {
 			div : msg.div,
 			parentDiv : msg.parentDiv,
-			css : "ui-search-results-div",
+			css : "search-results-div",
 			title : msg.title,
 			visible : msg.visible,
 			closeButton : true
@@ -51,7 +51,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		var id = msg.div;
 		var list = $("<ul/>").attr("id", msg.div + "-list");
-		list.addClass("ui-search-results-list");
+		list.addClass("search-results-list");
 		$("#" + id).append(list);
 
 		bus.listen("ui-search-results:" + id + ":clear", function() {
@@ -60,7 +60,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		bus.listen("ui-search-results:" + id + ":add", function(e, value) {
 			var li = $("<li/>").text(value);
-			li.addClass("ui-search-results-result");
+			li.addClass("search-results-result");
 			li.click(function() {
 				bus.send("ui-search-results:" + id + ":selected", value);
 			});

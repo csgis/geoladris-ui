@@ -47,7 +47,7 @@ describe("ui-search", function() {
 			icon : true
 		});
 
-		var icon = $("#mysearchbox").children("div.ui-search-icon");
+		var icon = $("#mysearchbox").children("div.search-icon");
 		expect(icon.length).toBe(1);
 	});
 
@@ -118,7 +118,7 @@ describe("ui-search", function() {
 			icon : true
 		});
 
-		var icon = $("#mysearchbox").children("div.ui-search-icon");
+		var icon = $("#mysearchbox").children("div.search-icon");
 		var input = $("#mysearchbox").children("input");
 		var value = "search string";
 		input.val(value);
