@@ -113,6 +113,8 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 					$(node).removeClass("selected");
 				}
 			});
+
+			bus.send("ui-table:" + id + ":data-selected", [ data ]);
 		});
 
 		bus.listen("ui-table:" + id + ":invert-selection", function() {
