@@ -88,6 +88,10 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 			});
 		});
 
+		bus.listen("ui-table:" + id + ":adjust", function() {
+			table.columns.adjust();
+		});
+
 		bus.listen("ui-table:" + id + ":select-data", function(e, data) {
 			if (!table) {
 				return;
