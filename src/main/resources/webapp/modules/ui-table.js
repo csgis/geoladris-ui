@@ -145,5 +145,9 @@ define([ "jquery", "message-bus", "datatables" ], function($, bus) {
 			$.fn.dataTable.ext.order[ORDER_COLUMN_TYPE] = sortSelectedFirst;
 			table.order([ headers.length, "asc" ]).draw();
 		});
+
+		bus.listen("ui-table:" + id + ":filter", function(e, text) {
+			table.search(text).draw();
+		});
 	});
 });
