@@ -33,5 +33,11 @@ define([ "jquery", "message-bus" ], function($, bus) {
 				input.val(value);
 			}
 		});
+
+		bus.listen("ui-input-field:" + msg.div + ":keyup", function(e, f) {
+			input.keyup(function() {
+				f(input.val());
+			});
+		});
 	});
 });

@@ -86,4 +86,25 @@ describe("ui-input-field", function() {
 		expect($("#myinput").find("input").val()).toEqual(inputText + anotherText);
 	});
 
+	it("calls function on keyup", function() {
+		var inputText = "Input text";
+		var anotherText = "Another text";
+
+		_bus.send("ui-input-field:create", {
+			div : "myinput",
+			parentDiv : parentId
+		});
+
+		var text;
+		_bus.send("ui-input-field:myinput:keyup", function(t) {
+			text = t;
+		});
+
+		var input = $("#myinput").find("input");
+		input.val("mytext");
+		input.keyup();
+
+		expect(text).toEqual("mytext");
+	});
+
 });
