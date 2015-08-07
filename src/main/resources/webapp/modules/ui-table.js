@@ -75,14 +75,10 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 
 			table.on("click", "tr", function() {
 				$(this).toggleClass("selected");
-
-				var rows = table.rows(".selected").data().toArray();
-				var selection = [];
-				for (var i = 0; i < rows.length; i++) {
-					selection.push(rows[i][idColumn]);
-				}
-
-				bus.send("ui-table:" + id + ":data-selected", [ selection ]);
+				bus.send("ui-table:" + id + ":row-selection-changed", {
+					id : table.row(this).data()[idColumn],
+					selected : $(this).hasClass("selected")
+				});
 			});
 		});
 
