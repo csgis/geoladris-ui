@@ -19,6 +19,7 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 
 		var id = msg.div;
 		var css = msg.css;
+		var idColumn;
 
 		var translations = msg.messages || {};
 		var div = commons.getOrCreateDiv(msg);
@@ -32,6 +33,7 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 			div.empty();
 			fields = msg.fields;
 			headers = Object.keys(msg.fields);
+			idColumn = msg.idColumn;
 
 			table = $("<table/>").appendTo(div);
 			table.addClass(css);
@@ -64,6 +66,9 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 					"orderDataType" : ORDER_COLUMN_TYPE,
 					"targets" : [ headers.length ],
 					"visible" : false
+				}, {
+					"targets" : [ idColumn ],
+					"visible" : false
 				} ],
 				"language" : translations
 			});
@@ -74,42 +79,27 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 				var rows = table.rows(".selected").data().toArray();
 				var selection = [];
 				for (var i = 0; i < rows.length; i++) {
-					var obj = {};
-					for (var j = 0; j < headers.length; j++) {
-						var fieldName = msg.fields[headers[j]];
-						obj[fieldName] = rows[i][j];
-					}
-					selection.push(obj);
+					selection.push(rows[i][idColumn]);
 				}
 
 				bus.send("ui-table:" + id + ":data-selected", [ selection ]);
 			});
 		});
 
-		bus.listen("ui-table:" + id + ":select-data", function(e, data) {
+		bus.listen("ui-table:" + id + ":select-data", function(e, ids) {
 			if (!table) {
 				return;
 			}
 
 			table.rows(function(index, row, node) {
-				var equals;
-				for (var i = 0; i < data.length && !equals; i++) {
-					equals = true;
-					for (var j = 0; j < headers.length; j++) {
-						var fieldName = fields[headers[j]];
-						var value = data[i][fieldName];
-						if (value != row[j] && (value || row[j])) {
-							equals = false;
-							break;
-						}
+				for (var i = 0; i < ids.length; i++) {
+					if (row[idColumn] == ids[i]) {
+						$(node).addClass("selected");
+						return;
 					}
 				}
 
-				if (equals) {
-					$(node).addClass("selected");
-				} else {
-					$(node).removeClass("selected");
-				}
+				$(node).removeClass("selected");
 			});
 		});
 
@@ -121,12 +111,7 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 					jqueryNode.removeClass("selected");
 				} else {
 					jqueryNode.addClass("selected");
-					var obj = {};
-					for (var j = 0; j < headers.length; j++) {
-						var fieldName = fields[headers[j]];
-						obj[fieldName] = row[j];
-					}
-					selection.push(obj);
+					selection.push(row[idColumn]);
 				}
 			});
 
