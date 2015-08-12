@@ -87,19 +87,19 @@ describe("ui-dropdown-buttons", function() {
 
 	it("changes the button background on item click", function() {
 		mockWithItem();
-		$("#mybutton-sliding").children().click();
+		$("#mybutton-sliding").children(":eq(1)").click();
 		expect(_bus.send).toHaveBeenCalledWith("ui-button:set-image", {
 			id : "mybutton",
-			image : "images/icon.png"
+			image : "images/icon2.png"
 		});
 	});
 
 	it("changes the button background on set-item", function() {
 		mockWithItem();
-		_bus.send("ui-dropdown-button:mybutton:set-item", "myitem");
+		_bus.send("ui-dropdown-button:mybutton:set-item", "myitem2");
 		expect(_bus.send).toHaveBeenCalledWith("ui-button:set-image", {
 			id : "mybutton",
-			image : "images/icon.png"
+			image : "images/icon2.png"
 		});
 	});
 
@@ -120,6 +120,20 @@ describe("ui-dropdown-buttons", function() {
 		expect(item.attr("title")).toBe(tooltip);
 	});
 
+	it("does not change the button background on item click if already selected", function() {
+		mockWithItem();
+		_bus.send("ui-dropdown-button:mybutton:set-item", "myitem");
+
+		$("#mybutton-sliding").children(":eq(0)").click();
+		expect(getNumEventCalls(_bus.send, "ui-button:set-image")).toBe(1);
+	});
+
+	it("does not change the button background on set-item if already selected", function() {
+		mockWithItem();
+		_bus.send("ui-dropdown-button:mybutton:set-item", "myitem");
+		expect(getNumEventCalls(_bus.send, "ui-button:set-image")).toBe(1);
+	});
+
 	function mockWithItem() {
 		_bus.send("ui-dropdown-button:create", {
 			div : "mybutton",
@@ -130,5 +144,20 @@ describe("ui-dropdown-buttons", function() {
 			id : "myitem",
 			image : "images/icon.png"
 		});
+		_bus.send("ui-dropdown-button:mybutton:add-item", {
+			id : "myitem2",
+			image : "images/icon2.png"
+		});
+	}
+
+	function getNumEventCalls(mock, eventName) {
+		var calls = mock.calls.all();
+		var n = 0;
+		for (var i = 0; i < calls.length; i++) {
+			if (calls[i].args[0] == eventName) {
+				n++;
+			}
+		}
+		return n;
 	}
 });

@@ -23,6 +23,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			parentDiv : containerId
 		});
 
+		var selected;
 		bus.listen("ui-dropdown-button:" + divId + ":add-item", function(e, msg) {
 			buttons[msg.id] = msg.image;
 
@@ -35,12 +36,15 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			}
 
 			item.click(function() {
-				bus.send("ui-sliding-div:collapse", slidingId);
-				bus.send("ui-button:set-image", {
-					id : divId,
-					image : msg.image
-				});
-				bus.send("ui-dropdown-button:" + divId + ":item-selected", msg.id);
+				if (msg.id != selected) {
+					selected = msg.id;
+					bus.send("ui-sliding-div:collapse", slidingId);
+					bus.send("ui-button:set-image", {
+						id : divId,
+						image : msg.image
+					});
+					bus.send("ui-dropdown-button:" + divId + ":item-selected", msg.id);
+				}
 			});
 		});
 
@@ -51,6 +55,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		}
 
 		bus.listen("ui-dropdown-button:" + divId + ":set-item", function(e, itemId) {
+			selected = itemId;
 			bus.send("ui-button:set-image", {
 				id : divId,
 				image : buttons[itemId]
