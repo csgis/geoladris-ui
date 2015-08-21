@@ -110,7 +110,7 @@ describe("ui-table", function() {
 		expect($("#mytable").find("table").length).toBe(0);
 	});
 
-	it("selects and sends data-selected on row click", function() {
+	it("selects and sends row-selection-changed on row click", function() {
 		var msg = {
 			div : "mytable",
 			parentDiv : parentId
@@ -128,21 +128,25 @@ describe("ui-table", function() {
 			fields : {
 				"Letter" : "letter",
 				"Nr." : "number"
-			}
+			},
+			idColumn : 0
 		});
 
 		// index is 2 because row 0 is the header
 		var row = $("#mytable").find("table:eq(1)").find("tr:eq(2)");
 		row.click();
 		expect(row.hasClass("selected")).toBe(true);
-		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:data-selected", [ [ {
-			letter : "b",
-			number : "2"
-		} ] ]);
+		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:row-selection-changed", {
+			id : "b",
+			selected : true
+		});
 
 		row.click();
 		expect(row.hasClass("selected")).toBe(false);
-		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:data-selected", [ [] ]);
+		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:row-selection-changed", {
+			id : "b",
+			selected : false
+		});
 	});
 
 	it("selects rows on select-data", function() {
@@ -163,7 +167,8 @@ describe("ui-table", function() {
 			fields : {
 				"Letter" : "letter",
 				"Nr." : "number"
-			}
+			},
+			idColumn : 0
 		});
 
 		// indexes are 1 and 2 because row 0 is the header
@@ -173,10 +178,7 @@ describe("ui-table", function() {
 		expect(row1.hasClass("selected")).toBe(false);
 		expect(row2.hasClass("selected")).toBe(false);
 
-		_bus.send("ui-table:mytable:select-data", [ [ {
-			letter : "b",
-			number : "2"
-		} ] ]);
+		_bus.send("ui-table:mytable:select-data", [ [ "b" ] ]);
 
 		row1 = table.find("tr:eq(1)");
 		row2 = table.find("tr:eq(2)");
@@ -238,11 +240,12 @@ describe("ui-table", function() {
 			fields : {
 				"Letter" : "letter",
 				"Nr." : "number"
-			}
+			},
+			idColumn : 0
 		});
 
 		_bus.send("ui-table:mytable:invert-selection");
-		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:data-selected", [ data ]);
+		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:data-selected", [ [ "a", "b" ] ]);
 	});
 
 	it("moves selected rows to top on sort-selected-first", function() {
@@ -267,12 +270,10 @@ describe("ui-table", function() {
 			fields : {
 				"Letter" : "letter",
 				"Nr." : "number"
-			}
+			},
+			idColumn : 0
 		});
-		_bus.send("ui-table:mytable:select-data", [ [ {
-			letter : "b",
-			number : "2"
-		} ] ]);
+		_bus.send("ui-table:mytable:select-data", [ [ "b" ] ]);
 		_bus.send("ui-table:mytable:sort-selected-first");
 
 		// There are two tables: header + data. We get the second table

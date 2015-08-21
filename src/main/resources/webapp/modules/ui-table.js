@@ -68,7 +68,7 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 					"visible" : false
 				}, {
 					"targets" : [ idColumn ],
-					"visible" : false
+					"visible" : true
 				} ],
 				"language" : translations
 			});
