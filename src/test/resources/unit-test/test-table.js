@@ -271,9 +271,9 @@ describe("ui-table", function() {
 				"Letter" : "letter",
 				"Nr." : "number"
 			},
-			idColumn : 0
+			idColumn : 1
 		});
-		_bus.send("ui-table:mytable:select-data", [ [ "b" ] ]);
+		_bus.send("ui-table:mytable:select-data", [ [ "2" ] ]);
 		_bus.send("ui-table:mytable:sort-selected-first");
 
 		// There are two tables: header + data. We get the second table
