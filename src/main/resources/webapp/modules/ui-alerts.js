@@ -1,19 +1,17 @@
 define([ "jquery", "message-bus", "ui-commons", "layout", "module" ], function($, bus, commons, layout, module) {
 	var config = module.config();
 
-	var timeout = 5;
-	if (config.timeout) {
-		timeout = config.timeout;
+	if (!config.timeout) {
+		config.timeout = 5;
 	}
 
-	var parentDiv = layout.center;
-	if (config.parentDiv) {
-		parentDiv = config.parentDiv;
+	if (!config.parentDiv) {
+		config.parentDiv = layout.center;
 	}
 
 	var wrapper = commons.getOrCreateDiv({
 		div : "ui-alerts-wrapper",
-		parentDiv : parentDiv
+		parentDiv : config.parentDiv
 	});
 	var container = commons.getOrCreateDiv({
 		div : "ui-alerts-container",
@@ -37,6 +35,6 @@ define([ "jquery", "message-bus", "ui-commons", "layout", "module" ], function($
 
 		setTimeout(function() {
 			div.remove();
-		}, timeout * 1000);
+		}, config.timeout * 1000);
 	})
 });
