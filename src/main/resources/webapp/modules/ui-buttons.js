@@ -25,39 +25,64 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 				}
 			});
 		}
-	});
 
-	bus.listen("ui-button:enable", function(e, id) {
-		var div = $("#" + id);
-		div.addClass("button-enabled");
-		div.removeClass("button-disabled");
-	});
-
-	bus.listen("ui-button:disable", function(e, id) {
-		var div = $("#" + id);
-		div.addClass("button-disabled");
-		div.removeClass("button-enabled");
-	});
-
-	bus.listen("ui-button:activate", function(e, id) {
-		$("#" + id).addClass("button-active");
-	});
-
-	bus.listen("ui-button:deactivate", function(e, id) {
-		$("#" + id).removeClass("button-active");
-	});
-
-	bus.listen("ui-button:toggle", function(e, id) {
-		var div = $("#" + id);
-		if (div.hasClass("button-active")) {
-			div.removeClass("button-active");
-		} else {
-			div.addClass("button-active");
+		function enable(enabled) {
+			if (enabled !== undefined && !enabled) {
+				button.addClass("button-disabled");
+				button.removeClass("button-enabled");
+			} else {
+				button.addClass("button-enabled");
+				button.removeClass("button-disabled");
+			}
 		}
-	});
 
-	bus.listen("ui-button:set-image", function(e, msg) {
-		var iconDiv = $("#" + msg.id).children(".button-content");
-		iconDiv.css("background-image", "url(" + msg.image + ")");
+		function activate(active) {
+			if (active !== undefined && !active) {
+				button.removeClass("button-active");
+			} else {
+				button.addClass("button-active");
+			}
+		}
+
+		function toggle() {
+			if (button.hasClass("button-active")) {
+				button.removeClass("button-active");
+			} else {
+				button.addClass("button-active");
+			}
+		}
+
+		bus.listen("ui-button:" + msg.div + ":enable", function(e, enabled) {
+			enable(enabled);
+		});
+		bus.listen("ui-button:" + msg.div + ":activate", function(e, active) {
+			activate(active);
+		});
+
+		bus.listen("ui-button:" + msg.div + ":toggle", function() {
+			toggle();
+		});
+		bus.listen("ui-button:" + msg.div + ":set-image", function(e, image) {
+			var iconDiv = button.children(".button-content");
+			iconDiv.css("background-image", "url(" + image + ")");
+		});
+
+		bus.listen("ui-button:" + msg.div + ":link-active", function(e, linkedDiv) {
+			bus.listen("ui-show", function(e, id) {
+				if (linkedDiv == id) {
+					activate(true);
+				}
+			});
+			bus.listen("ui-hide", function(e, id) {
+				if (linkedDiv == id) {
+					activate(false);
+				}
+			});
+			bus.listen("ui-toggle", function(e, id) {
+				if (linkedDiv == id) {
+					toggle();
+				}
+			});
+		});
 	});
 });

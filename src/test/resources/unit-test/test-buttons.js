@@ -111,7 +111,7 @@ describe("ui-buttons", function() {
 		var button = $("#mybutton");
 		button.attr("class", "button-disabled");
 
-		_bus.send("ui-button:enable", "mybutton");
+		_bus.send("ui-button:mybutton:enable", true);
 		expect($("#mybutton").hasClass("button-disabled")).toBe(false);
 		expect($("#mybutton").hasClass("button-enabled")).toBe(true);
 	});
@@ -122,7 +122,7 @@ describe("ui-buttons", function() {
 			parentDiv : parentId
 		});
 
-		_bus.send("ui-button:disable", "mybutton");
+		_bus.send("ui-button:mybutton:enable", false);
 		expect($("#mybutton").hasClass("button-disabled")).toBe(true);
 		expect($("#mybutton").hasClass("button-enabled")).toBe(false);
 	});
@@ -135,9 +135,9 @@ describe("ui-buttons", function() {
 		});
 
 		expect($("#mybutton").hasClass("button-active")).toBe(false);
-		_bus.send("ui-button:activate", "mybutton");
+		_bus.send("ui-button:mybutton:activate", true);
 		expect($("#mybutton").hasClass("button-active")).toBe(true);
-		_bus.send("ui-button:deactivate", "mybutton");
+		_bus.send("ui-button:mybutton:activate", false);
 		expect($("#mybutton").hasClass("button-active")).toBe(false);
 	});
 
@@ -149,9 +149,9 @@ describe("ui-buttons", function() {
 		});
 
 		expect($("#mybutton").hasClass("button-active")).toBe(false);
-		_bus.send("ui-button:toggle", "mybutton");
+		_bus.send("ui-button:mybutton:toggle");
 		expect($("#mybutton").hasClass("button-active")).toBe(true);
-		_bus.send("ui-button:toggle", "mybutton");
+		_bus.send("ui-button:mybutton:toggle");
 		expect($("#mybutton").hasClass("button-active")).toBe(false);
 	});
 
@@ -165,10 +165,7 @@ describe("ui-buttons", function() {
 		var imageDiv = $("#mybutton").children(".button-content");
 
 		expect(imageDiv.css("background-image").indexOf("images/one.png")).not.toBe(-1);
-		_bus.send("ui-button:set-image", {
-			id : "mybutton",
-			image : "images/two.png"
-		});
+		_bus.send("ui-button:mybutton:set-image", "images/two.png");
 		expect(imageDiv.css("background-image").indexOf("images/two.png")).not.toBe(-1);
 	});
 });
