@@ -12,7 +12,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 				input.removeClass(placeholderClass);
 			}
 		}).blur(function() {
-			if (input.val() == "" || input.val() == input.attr("placeholder")) {
+			if (input.val() === "" || input.val() == input.attr("placeholder")) {
 				input.addClass(placeholderClass);
 				input.val(input.attr("placeholder"));
 			}

@@ -2,7 +2,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	var baseEventName = "ui-selectable-list";
 
 	function addItemToList(parentDiv, div, text) {
-		var input = $("<input id='" + div + "' name='" + parentDiv + "' type='checkbox'\>");
+		var input = $("<input id='" + div + "' name='" + parentDiv + "' type='checkbox'\\>");
 		var inputCell = $("<div/>").append(input);
 		var textCell = $("<div/>").text(text);
 

@@ -7,11 +7,8 @@ describe("ui-exclusive-list", function() {
 		_bus.unbind();
 		spyOn(_bus, "send").and.callThrough();
 
-		commons = _initModule("ui-commons", [ $ ]);
+		var commons = _initModule("ui-commons", [ $ ]);
 		_initModule("ui-exclusive-list", [ $, _bus, commons ]);
-	});
-
-	afterEach(function() {
 	});
 
 	it("creates a table on ui-exclusive-list:create", function() {

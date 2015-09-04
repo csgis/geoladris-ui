@@ -172,7 +172,7 @@ describe("ui-table", function() {
 		});
 
 		// indexes are 1 and 2 because row 0 is the header
-		var table = $("#mytable").find("table:eq(1)")
+		var table = $("#mytable").find("table:eq(1)");
 		var row1 = table.find("tr:eq(1)");
 		var row2 = table.find("tr:eq(2)");
 		expect(row1.hasClass("selected")).toBe(false);

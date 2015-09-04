@@ -36,5 +36,5 @@ define([ "jquery", "message-bus", "ui-commons", "layout", "module" ], function($
 		setTimeout(function() {
 			div.remove();
 		}, config.timeout * 1000);
-	})
+	});
 });

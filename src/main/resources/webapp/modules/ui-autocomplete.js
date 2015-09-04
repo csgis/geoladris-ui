@@ -67,7 +67,7 @@ define([ "jquery", "message-bus", "ui-commons", "typeahead" ], function($, bus, 
 			bus.send(eventName, selection.value);
 		});
 
-		if (msg.showOnFocus || msg.minQueryLength == 0) {
+		if (msg.showOnFocus || msg.minQueryLength === 0) {
 			// Show dropdown on input focus
 			input.focus(function() {
 				// This is a bit obscure, but the only way I found to do it

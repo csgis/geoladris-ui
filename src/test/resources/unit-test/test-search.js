@@ -105,7 +105,7 @@ describe("ui-search", function() {
 		var value = "search string";
 		input.val(value);
 
-		var e = jQuery.Event("keypress");
+		var e = $.Event("keypress");
 		e.which = 13;
 		input.trigger(e);
 

@@ -38,14 +38,15 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 			var head = $("<thead/>").appendTo(table);
 
 			var tr = $("<tr/>").appendTo(head);
-			for (var i = 0; i < headers.length; i++) {
+			var i;
+			for (i = 0; i < headers.length; i++) {
 				$("<th/>").html(headers[i]).appendTo(tr);
 			}
 			// Add empty header column to be used for custom ordering
 			$("<th/>").appendTo(tr);
 
-			for (var i = 0; i < msg.data.length; i++) {
-				var tr = $("<tr/>").appendTo(table);
+			for (i = 0; i < msg.data.length; i++) {
+				tr = $("<tr/>").appendTo(table);
 				for (var j = 0; j < headers.length; j++) {
 					var fieldName = msg.fields[headers[j]];
 					$("<td/>").html(msg.data[i][fieldName]).appendTo(tr);

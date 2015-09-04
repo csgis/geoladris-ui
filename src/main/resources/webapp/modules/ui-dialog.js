@@ -76,7 +76,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 	bus.listen("ui-dialog:create", function(e, msg) {
 		var div = $("#" + msg.div);
-		if (div.length == 0) {
+		if (div.length === 0) {
 			div = createDialog(msg);
 		}
 

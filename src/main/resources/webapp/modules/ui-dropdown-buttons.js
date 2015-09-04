@@ -29,7 +29,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 			var item = $("<div/>").addClass("ui-dropdown-button-item");
 			$("#" + slidingId).append(item);
-			item.css("background-image", "url('" + msg.image + "')")
+			item.css("background-image", "url('" + msg.image + "')");
 
 			if (msg.tooltip) {
 				item.attr("title", msg.tooltip);

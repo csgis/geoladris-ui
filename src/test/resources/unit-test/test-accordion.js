@@ -39,7 +39,7 @@ describe("ui-accordion", function() {
 
 	it("creates div on ui-accordion:create", function() {
 		var id = "myaccordion";
-		var css = "myaccordion-class"
+		var css = "myaccordion-class";
 		_bus.send("ui-accordion:create", {
 			div : id,
 			parentDiv : "myparent",

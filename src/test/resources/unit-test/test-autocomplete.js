@@ -76,7 +76,7 @@ describe("ui-autocomplete", function() {
 		var div = initAutocomplete();
 		var input = div.find("input");
 
-		var e = jQuery.Event("keypress");
+		var e = $.Event("keypress");
 		e.which = 13;
 		input.trigger(e);
 

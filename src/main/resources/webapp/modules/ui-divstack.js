@@ -10,9 +10,10 @@ define([ "jquery", "message-bus" ], function($, bus) {
 
 	bus.listen("ui-show", function(e, id) {
 		for (var i = 0; i < divLists.length; i++) {
+			var j;
 			var divList = divLists[i];
 			var showIndex = -1;
-			for (var j = 0; j < divList.length; j++) {
+			for (j = 0; j < divList.length; j++) {
 				if (divList[j] == id) {
 					showIndex = j;
 					break;
@@ -20,7 +21,7 @@ define([ "jquery", "message-bus" ], function($, bus) {
 			}
 
 			if (showIndex != -1) {
-				for (var j = 0; j < divList.length; j++) {
+				for (j = 0; j < divList.length; j++) {
 					if (divList[j] != showIndex) {
 						bus.send("ui-hide", divList[j]);
 					}

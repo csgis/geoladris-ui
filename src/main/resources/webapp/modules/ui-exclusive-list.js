@@ -10,7 +10,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			var id = msg.id;
 			var text = msg.text;
 
-			var input = $("<input id='" + id + "' name='" + divId + "' type='radio'\>");
+			var input = $("<input id='" + id + "' name='" + divId + "' type='radio'\\>");
 			var inputCell = $("<td/>").append(input);
 			var textCell = $("<td/>").text(text);
 

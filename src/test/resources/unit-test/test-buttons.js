@@ -88,7 +88,7 @@ describe("ui-buttons", function() {
 		var event = "event-name";
 		var eventMessage = {
 			data : "This is the message"
-		}
+		};
 		_bus.send("ui-button:create", {
 			div : "mybutton",
 			parentDiv : parentId,

@@ -1,10 +1,10 @@
 define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 	var baseEventName = "ui-accordion";
 
-	function visibility(id, visibility) {
-		if (visibility !== undefined) {
+	function visibility(id, visible) {
+		if (visible !== undefined) {
 			var div = $("#" + id);
-			if (visibility) {
+			if (visible) {
 				bus.send("ui-show", id);
 			} else {
 				bus.send("ui-hide", id);

@@ -1,7 +1,7 @@
 define([ "jquery" ], function($) {
 	function getOrCreateDiv(msg) {
 		var div = $("#" + msg.div);
-		if (div.length == 0) {
+		if (div.length === 0) {
 			div = $("<div/>").attr("id", msg.div);
 			div.addClass(msg.css);
 
