@@ -23,13 +23,13 @@ describe("ui-dropdown-buttons", function() {
 		_bus.send("ui-dropdown-button:create", {
 			div : "mybutton",
 			parentDiv : parentId,
-			image : "images/icon.png"
+			text : "text"
 		});
 		expect(_bus.send).toHaveBeenCalledWith("ui-button:create", jasmine.objectContaining({
 			div : "mybutton",
 			parentDiv : "mybutton-container",
 			css : "ui-dropdown-button-button",
-			image : "images/icon.png"
+			text : "text"
 		}));
 	});
 
@@ -37,7 +37,7 @@ describe("ui-dropdown-buttons", function() {
 		_bus.send("ui-dropdown-button:create", {
 			div : "mybutton",
 			parentDiv : parentId,
-			image : "images/icon.png"
+			text : "text"
 		});
 		expect(_bus.send).toHaveBeenCalledWith("ui-sliding-div:create", jasmine.objectContaining({
 			div : "mybutton-sliding",
@@ -54,11 +54,11 @@ describe("ui-dropdown-buttons", function() {
 		expect($("#mybutton-sliding").children().length).toBe(0);
 		_bus.send("ui-dropdown-button:mybutton:add-item", {
 			id : "myitem",
-			image : "images/icon.png"
+			image : "images/image.svg"
 		});
 		expect($("#mybutton-sliding").children().length).toBe(1);
 		var bg = $("#mybutton-sliding").children().css("background-image");
-		expect(bg.indexOf("images/icon.png")).not.toBe(-1);
+		expect(bg.indexOf("images/image.svg")).not.toBe(-1);
 	});
 
 	it("toggles the sliding on click if dropdownOnClick", function() {
@@ -142,7 +142,7 @@ describe("ui-dropdown-buttons", function() {
 		});
 		_bus.send("ui-dropdown-button:mybutton:add-item", {
 			id : "myitem",
-			image : "images/icon.png"
+			image : "images/img.svg"
 		});
 		_bus.send("ui-dropdown-button:mybutton:add-item", {
 			id : "myitem2",

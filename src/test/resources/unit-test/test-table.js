@@ -305,4 +305,58 @@ describe("ui-table", function() {
 			expect($(this).hasClass(css)).toBe(true);
 		});
 	});
+
+	it("sends 'data-selected' after selecting data with 'select-data'", function() {
+		var data = [ {
+			letter : "a",
+			number : "1"
+		}, {
+			letter : "b",
+			number : "2"
+		}, {
+			letter : "c",
+			number : "3"
+		} ];
+		_bus.send("ui-table:create", {
+			div : "mytable",
+			parentDiv : parentId
+		});
+		_bus.send("ui-table:mytable:set-data", {
+			data : data,
+			fields : {
+				"Letter" : "letter",
+				"Nr." : "number"
+			}
+		});
+		_bus.send("ui-table:mytable:select-data", [ data ]);
+		expect(_bus.send).toHaveBeenCalledWith("ui-table:mytable:data-selected", [ data ]);
+	});
+
+	it("filters data on 'filter'", function() {
+		var data = [ {
+			letter : "a",
+			number : "1"
+		}, {
+			letter : "b",
+			number : "2"
+		}, {
+			letter : "c",
+			number : "3"
+		} ];
+		_bus.send("ui-table:create", {
+			div : "mytable",
+			parentDiv : parentId
+		});
+		_bus.send("ui-table:mytable:set-data", {
+			data : data,
+			fields : {
+				"Letter" : "letter",
+				"Nr." : "number"
+			}
+		});
+		_bus.send("ui-table:mytable:filter", "3");
+		var rows = $("#mytable").find("table:eq(1)").find("tr");
+		// Header + single row = 2
+		expect(rows.length).toBe(2);
+	});
 });

@@ -57,7 +57,7 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 			}
 
 			table = table.DataTable({
-				"pageLength" : 15,
+				"pageLength" : 12,
 				"scrollX" : true,
 				"scrollY" : "40vh",
 				"lengthChange" : false,
@@ -81,6 +81,10 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 			});
 		});
 
+		bus.listen("ui-table:" + id + ":adjust", function() {
+			table.columns.adjust();
+		});
+
 		bus.listen("ui-table:" + id + ":select-data", function(e, ids) {
 			if (!table) {
 				return;
@@ -96,6 +100,8 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 
 				$(node).removeClass("selected");
 			});
+
+			bus.send("ui-table:" + id + ":data-selected", [ ids ]);
 		});
 
 		bus.listen("ui-table:" + id + ":invert-selection", function() {
@@ -116,6 +122,10 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 		bus.listen("ui-table:" + id + ":sort-selected-first", function() {
 			$.fn.dataTable.ext.order[ORDER_COLUMN_TYPE] = sortSelectedFirst;
 			table.order([ headers.length, "asc" ]).draw();
+		});
+
+		bus.listen("ui-table:" + id + ":filter", function(e, text) {
+			table.search(text).draw();
 		});
 	});
 });

@@ -28,6 +28,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			buttons[msg.id] = msg.image;
 
 			var item = $("<div/>").addClass("ui-dropdown-button-item");
+
 			$("#" + slidingId).append(item);
 			item.css("background-image", "url('" + msg.image + "')");
 
