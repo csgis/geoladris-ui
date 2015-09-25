@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.csgis.geobricks</groupId>
 		<artifactId>plugins</artifactId>
-		<version>0.5-SNAPSHOT</version>
+		<version>0.5</version>
 	</parent>
 
 	<artifactId>ui</artifactId>
