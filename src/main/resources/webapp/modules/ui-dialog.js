@@ -1,4 +1,15 @@
 define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
+	var zIndex;
+
+	function showOnTop(container) {
+		var i = parseInt(container.css("z-index"));
+		if (!zIndex) {
+			zIndex = i + 1;
+		} else {
+			container.css("z-index", zIndex++);
+		}
+	}
+
 	function createDialog(msg) {
 		var container = $("<div/>");
 		container.addClass("dialog-container");
@@ -16,6 +27,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		bus.listen("ui-show", function(e, id) {
 			if (id == msg.div) {
 				container.show();
+				showOnTop(container);
 			}
 		});
 		bus.listen("ui-hide", function(e, id) {
@@ -26,6 +38,9 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		bus.listen("ui-toggle", function(e, id) {
 			if (id == msg.div) {
 				container.toggle();
+				if (container.css("display") != "none") {
+					showOnTop(container);
+				}
 			}
 		});
 

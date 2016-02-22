@@ -137,4 +137,39 @@ describe("ui-dialog", function() {
 		_bus.send("ui-toggle", "mydialog");
 		expect($("#" + parentId).children(".dialog-modal").css("display")).toBe("none");
 	});
+
+	it("shows the latest dialog on top of the others when ui-show", function() {
+		_bus.send("ui-dialog:create", {
+			div : "mydialog",
+			parentDiv : parentId,
+			visible : false
+		});
+		_bus.send("ui-dialog:create", {
+			div : "mydialog2",
+			parentDiv : parentId,
+			visible : false
+		});
+
+		var container1 = $("#mydialog").parent();
+		var container2 = $("#mydialog2").parent();
+
+		// Mock CSS rules
+		var cssRules = {
+			"position" : "absolute",
+			"z-index" : 2000,
+			"display" : "none"
+		};
+		container1.css(cssRules);
+		container2.css(cssRules);
+
+		_bus.send("ui-show", "mydialog");
+		expect(container1.css("z-index")).toBe("2000");
+		expect(container2.css("z-index")).toBe("2000");
+		_bus.send("ui-show", "mydialog2");
+		expect(container1.css("z-index")).toBe("2000");
+		expect(container2.css("z-index")).toBe("2001");
+		_bus.send("ui-toggle", "mydialog2");
+		_bus.send("ui-toggle", "mydialog2");
+		expect(container2.css("z-index")).toBe("2002");
+	});
 });
