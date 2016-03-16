@@ -40,10 +40,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 				if (msg.id != selected) {
 					selected = msg.id;
 					bus.send("ui-sliding-div:collapse", slidingId);
-					bus.send("ui-button:set-image", {
-						id : divId,
-						image : msg.image
-					});
+					bus.send("ui-button:" + divId + ":set-image", msg.image);
 					bus.send("ui-dropdown-button:" + divId + ":item-selected", msg.id);
 				}
 			});
@@ -57,10 +54,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		bus.listen("ui-dropdown-button:" + divId + ":set-item", function(e, itemId) {
 			selected = itemId;
-			bus.send("ui-button:set-image", {
-				id : divId,
-				image : buttons[itemId]
-			});
+			bus.send("ui-button:" + divId + ":set-image", buttons[itemId]);
 		});
 	});
 });
