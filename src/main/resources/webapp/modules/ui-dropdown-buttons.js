@@ -42,6 +42,8 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 					bus.send("ui-sliding-div:collapse", slidingId);
 					bus.send("ui-button:" + divId + ":set-image", msg.image);
 					bus.send("ui-dropdown-button:" + divId + ":item-selected", msg.id);
+				} else {
+					bus.send("ui-sliding-div:collapse", slidingId);
 				}
 			});
 		});
