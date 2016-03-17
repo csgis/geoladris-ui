@@ -4,7 +4,9 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 	function sortSelectedFirst(settings, col) {
 		// We always get the first column because we won't use data at all
 		// for ordering. We just the "selected" class of the <tr> element.
-		var column = this.api().column(0);
+		var column = this.api().column(0, {
+			order : "index"
+		});
 		return column.nodes().map(function(td, i) {
 			return $(td).closest("tr").hasClass("selected") ? 0 : 1;
 		});
