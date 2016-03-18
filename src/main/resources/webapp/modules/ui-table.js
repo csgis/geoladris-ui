@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "ui-commons", "datatables.net", "datatables.net-buttons", "datatables.net-colVis" ], function($, bus, commons) {
 	var ORDER_COLUMN_TYPE = "__gb__sorting__column_type__";
 
 	function sortSelectedFirst(settings, col) {
@@ -19,6 +19,7 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 
 		var id = msg.div;
 		var css = msg.css;
+		var hasColumnSelection = msg.hasColumnSelection;
 		var idColumn;
 
 		var translations = msg.messages || {};
@@ -58,7 +59,7 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 				$("<td/>").appendTo(tr);
 			}
 
-			table = table.DataTable({
+			var options = {
 				"pageLength" : 12,
 				"scrollX" : true,
 				"scrollY" : "40vh",
@@ -72,8 +73,19 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 					"visible" : false
 				} ],
 				"language" : translations
-			});
+			};
 
+			if (hasColumnSelection) {
+				options.dom = 'Bfrtip';
+				options.buttons = [ {
+					"extend" : "colvis",
+					"columns" : function(idx, data, node) {
+						return idx != idColumn && idx != headers.length;
+					}
+				} ];
+			}
+
+			table = table.DataTable(options);
 			table.on("click", "tr", function() {
 				$(this).toggleClass("selected");
 				bus.send("ui-table:" + id + ":row-selection-changed", {

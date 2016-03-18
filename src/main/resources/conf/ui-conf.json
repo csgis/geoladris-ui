@@ -5,7 +5,9 @@
 	"requirejs" : {
 		"paths" : {
 			"typeahead" : "../jslib/typeahead/0.10.2/typeahead.jquery.min",
-			"datatables" : "../jslib/datatables/1.10.4/jquery.dataTables.min"
+			"datatables.net" : "../jslib/datatables/1.10.11/jquery.dataTables.min",
+			"datatables.net-buttons" : "../jslib/datatables/1.10.11/dataTables.buttons.min",
+			"datatables.net-colVis" : "../jslib/datatables/1.10.11/buttons.colVis.min"
 		}
 	},
 	"deps" : [ "layout" ]
