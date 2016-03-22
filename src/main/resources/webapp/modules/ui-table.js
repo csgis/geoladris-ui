@@ -81,7 +81,8 @@ define([ "jquery", "message-bus", "ui-commons", "datatables.net", "datatables.ne
 					"extend" : "colvis",
 					"columns" : function(idx, data, node) {
 						return idx != idColumn && idx != headers.length;
-					}
+					},
+					"text" : translations["columnVisibility"]
 				} ];
 			}
 
