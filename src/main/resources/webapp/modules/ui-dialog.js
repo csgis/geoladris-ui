@@ -101,4 +101,51 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			bus.send("ui-hide", msg.div);
 		}
 	});
+
+	bus.listen("ui-confirm-dialog:create", function(e, msg) {
+		msg.modal = true;
+		msg.css = (msg.css || "") + " ui-confirm-dialog";
+		if (!msg.messages) {
+			msg.messages = {};
+		}
+
+		bus.send("ui-dialog:create", msg);
+
+		bus.send("ui-html:create", {
+			div : msg.div + "-message",
+			parentDiv : msg.div,
+			css : "ui-confirm-dialog-message",
+			html : msg.messages.question
+		});
+
+		var buttonsContainer = msg.div + "-confirm-buttons-container";
+		bus.send("ui-html:create", {
+			div : buttonsContainer,
+			parentDiv : msg.div,
+			css : "ui-confirm-dialog-buttons-container",
+			text : msg.messages.question
+		});
+		bus.send("ui-button:create", {
+			div : msg.div + "-ok",
+			parentDiv : buttonsContainer,
+			css : "dialog-ok-button ui-confirm-dialog-ok",
+			text : msg.messages.ok,
+			sendEventName : "ui-confirm-dialog:" + msg.div + ":ok"
+		});
+		bus.send("ui-button:create", {
+			div : msg.div + "-cancel",
+			parentDiv : buttonsContainer,
+			css : "dialog-ok-button ui-confirm-dialog-cancel",
+			text : msg.messages.cancel,
+			sendEventName : "ui-confirm-dialog:" + msg.div + ":cancel"
+		});
+
+		bus.listen("ui-confirm-dialog:" + msg.div + ":cancel", function() {
+			bus.send("ui-hide", msg.div);
+		});
+
+		bus.listen("ui-confirm-dialog:" + msg.div + ":ok", function() {
+			bus.send("ui-hide", msg.div);
+		});
+	});
 });
