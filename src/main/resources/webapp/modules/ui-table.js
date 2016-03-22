@@ -94,6 +94,17 @@ define([ "jquery", "message-bus", "ui-commons", "datatables.net", "datatables.ne
 					selected : $(this).hasClass("selected")
 				});
 			});
+
+			table.on("column-visibility.dt", function() {
+				var columns = [];
+				table.columns().every(function(i) {
+					if (table.column(i).visible()) {
+						columns.push(i);
+					}
+				});
+				bus.send("ui-table:" + id + ":column-visibility-changed", [ columns ]);
+			});
+
 		});
 
 		bus.listen("ui-table:" + id + ":adjust", function() {
