@@ -111,19 +111,20 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		bus.send("ui-dialog:create", msg);
 
-		bus.send("ui-html:create", {
-			div : msg.div + "-message",
-			parentDiv : msg.div,
-			css : "ui-confirm-dialog-message",
-			html : msg.messages.question
-		});
+		if (msg.messages.question) {
+			bus.send("ui-html:create", {
+				div : msg.div + "-message",
+				parentDiv : msg.div,
+				css : "ui-confirm-dialog-message",
+				html : msg.messages.question
+			});
+		}
 
 		var buttonsContainer = msg.div + "-confirm-buttons-container";
 		bus.send("ui-html:create", {
 			div : buttonsContainer,
 			parentDiv : msg.div,
-			css : "ui-confirm-dialog-buttons-container",
-			text : msg.messages.question
+			css : "ui-confirm-dialog-buttons-container"
 		});
 		bus.send("ui-button:create", {
 			div : msg.div + "-ok",

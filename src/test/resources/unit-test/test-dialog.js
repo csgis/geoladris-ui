@@ -198,6 +198,12 @@ describe("ui-dialog", function() {
 			modal : true,
 			css : "mydialog-class ui-confirm-dialog"
 		}));
+		expect(_bus.send).toHaveBeenCalledWith("ui-html:create", jasmine.objectContaining({
+			div : "mydialog-message",
+			parentDiv : "mydialog",
+			css : "ui-confirm-dialog-message",
+			html : messages.question
+		}));
 		expect(_bus.send).toHaveBeenCalledWith("ui-button:create", jasmine.objectContaining({
 			div : "mydialog-ok",
 			css : "dialog-ok-button ui-confirm-dialog-ok",
@@ -209,6 +215,23 @@ describe("ui-dialog", function() {
 			css : "dialog-ok-button ui-confirm-dialog-cancel",
 			text : messages.cancel,
 			sendEventName : "ui-confirm-dialog:mydialog:cancel"
+		}));
+	});
+
+	it("does not add an html with the question if not provided", function() {
+		_bus.send("ui-confirm-dialog:create", {
+			div : "mydialog",
+			parentDiv : parentId,
+			css : "mydialog-class",
+			modal : false,
+			messages : {
+				ok : "Yes",
+				cancel : "No"
+			}
+		});
+
+		expect(_bus.send).not.toHaveBeenCalledWith("ui-html:create", jasmine.objectContaining({
+			div : "mydialog-message"
 		}));
 	});
 
