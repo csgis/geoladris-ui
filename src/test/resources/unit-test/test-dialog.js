@@ -172,4 +172,89 @@ describe("ui-dialog", function() {
 		_bus.send("ui-toggle", "mydialog2");
 		expect(container2.css("z-index")).toBe("2002");
 	});
+
+	it("creates a modal dialog ui-confirm-dialog:create", function() {
+		var messages = {
+			question : "??",
+			ok : "Yes",
+			cancel : "No"
+		};
+		_bus.send("ui-confirm-dialog:create", {
+			div : "mydialog",
+			parentDiv : parentId,
+			css : "mydialog-class",
+			modal : false,
+			messages : messages
+		});
+
+		var container = $("#" + parentId).children();
+		expect(container.length).toBe(1);
+		var dialog = container.children("#mydialog");
+		expect(dialog.length).toBe(1);
+
+		expect(_bus.send).toHaveBeenCalledWith("ui-dialog:create", jasmine.objectContaining({
+			div : "mydialog",
+			parentDiv : parentId,
+			modal : true,
+			css : "mydialog-class ui-confirm-dialog"
+		}));
+		expect(_bus.send).toHaveBeenCalledWith("ui-html:create", jasmine.objectContaining({
+			div : "mydialog-message",
+			parentDiv : "mydialog",
+			css : "ui-confirm-dialog-message",
+			html : messages.question
+		}));
+		expect(_bus.send).toHaveBeenCalledWith("ui-button:create", jasmine.objectContaining({
+			div : "mydialog-ok",
+			css : "dialog-ok-button ui-confirm-dialog-ok",
+			text : messages.ok,
+			sendEventName : "ui-confirm-dialog:mydialog:ok"
+		}));
+		expect(_bus.send).toHaveBeenCalledWith("ui-button:create", jasmine.objectContaining({
+			div : "mydialog-cancel",
+			css : "dialog-ok-button ui-confirm-dialog-cancel",
+			text : messages.cancel,
+			sendEventName : "ui-confirm-dialog:mydialog:cancel"
+		}));
+	});
+
+	it("does not add an html with the question if not provided", function() {
+		_bus.send("ui-confirm-dialog:create", {
+			div : "mydialog",
+			parentDiv : parentId,
+			css : "mydialog-class",
+			modal : false,
+			messages : {
+				ok : "Yes",
+				cancel : "No"
+			}
+		});
+
+		expect(_bus.send).not.toHaveBeenCalledWith("ui-html:create", jasmine.objectContaining({
+			div : "mydialog-message"
+		}));
+	});
+
+	it("hides the confirm dialog on ok", function() {
+		_bus.send("ui-confirm-dialog:create", {
+			div : "mydialog",
+			parentDiv : parentId
+		});
+		var container = $("#" + parentId).children();
+		var dialog = container.children("#mydialog");
+		_bus.send("ui-confirm-dialog:mydialog:ok");
+		expect(_bus.send).toHaveBeenCalledWith("ui-hide", "mydialog");
+	});
+
+	it("hides the confirm dialog on cancel", function() {
+		_bus.send("ui-confirm-dialog:create", {
+			div : "mydialog",
+			parentDiv : parentId
+		});
+
+		var container = $("#" + parentId).children();
+		var dialog = container.children("#mydialog");
+		_bus.send("ui-confirm-dialog:mydialog:cancel");
+		expect(_bus.send).toHaveBeenCalledWith("ui-hide", "mydialog");
+	});
 });

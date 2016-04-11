@@ -1,10 +1,12 @@
-define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "ui-commons", "datatables.net", "datatables.net-buttons", "datatables.net-colVis" ], function($, bus, commons) {
 	var ORDER_COLUMN_TYPE = "__gb__sorting__column_type__";
 
 	function sortSelectedFirst(settings, col) {
 		// We always get the first column because we won't use data at all
 		// for ordering. We just the "selected" class of the <tr> element.
-		var column = this.api().column(0);
+		var column = this.api().column(0, {
+			order : "index"
+		});
 		return column.nodes().map(function(td, i) {
 			return $(td).closest("tr").hasClass("selected") ? 0 : 1;
 		});
@@ -17,6 +19,7 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 
 		var id = msg.div;
 		var css = msg.css;
+		var hasColumnSelection = msg.hasColumnSelection;
 		var idColumn;
 
 		var translations = msg.messages || {};
@@ -56,7 +59,7 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 				$("<td/>").appendTo(tr);
 			}
 
-			table = table.DataTable({
+			var options = {
 				"pageLength" : 12,
 				"scrollX" : true,
 				"scrollY" : "40vh",
@@ -70,8 +73,20 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 					"visible" : false
 				} ],
 				"language" : translations
-			});
+			};
 
+			if (hasColumnSelection) {
+				options.dom = 'Bfrtip';
+				options.buttons = [ {
+					"extend" : "colvis",
+					"columns" : function(idx, data, node) {
+						return idx != idColumn && idx != headers.length;
+					},
+					"text" : translations["columnVisibility"]
+				} ];
+			}
+
+			table = table.DataTable(options);
 			table.on("click", "tr", function() {
 				$(this).toggleClass("selected");
 				bus.send("ui-table:" + id + ":row-selection-changed", {
@@ -79,6 +94,17 @@ define([ "jquery", "message-bus", "ui-commons", "datatables" ], function($, bus,
 					selected : $(this).hasClass("selected")
 				});
 			});
+
+			table.on("column-visibility.dt", function() {
+				var columns = [];
+				table.columns().every(function(i) {
+					if (table.column(i).visible()) {
+						columns.push(i);
+					}
+				});
+				bus.send("ui-table:" + id + ":column-visibility-changed", [ columns ]);
+			});
+
 		});
 
 		bus.listen("ui-table:" + id + ":adjust", function() {
