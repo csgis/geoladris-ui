@@ -60,6 +60,23 @@ describe("ui", function() {
 		expect($("#" + div).html()).toEqual(content);
 	});
 
+	it("adds/removes CSS class on ui-add-class", function() {
+		init();
+		var cssClass = "myclass";
+
+		expect($("#" + div).attr("class")).toBe(undefined);
+		_bus.send("ui-add-class", {
+			div : div,
+			cssClass : cssClass
+		});
+		expect($("#" + div).attr("class")).toEqual(cssClass);
+		_bus.send("ui-remove-class", {
+			div : div,
+			cssClass : cssClass
+		});
+		expect($("#" + div).attr("class")).toEqual("");
+	});
+
 	it("sends config events on modules-loaded", function() {
 		init([ {
 			eventName : "ui-html:create",
