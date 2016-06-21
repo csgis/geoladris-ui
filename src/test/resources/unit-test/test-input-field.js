@@ -108,4 +108,29 @@ describe("ui-input-field", function() {
 		expect(text).toEqual("mytext");
 	});
 
+	it("adds placeholder if type is file", function() {
+		_bus.send("ui-input-field:create", {
+			div : "myinput",
+			parentDiv : parentId,
+			type : "file"
+		});
+		var placeholder = $("#myinput").find(".ui-file-input-placeholder");
+		expect(placeholder.length).toBe(1);
+	});
+
+	it("sets placeholder text on 'set-value' and 'append' if type is file", function() {
+		_bus.send("ui-input-field:create", {
+			div : "myinput",
+			parentDiv : parentId,
+			type : "file"
+		});
+
+		_bus.send("ui-input-field:myinput:set-value", "IMG_1047.jpg");
+
+		var placeholder = $("#myinput").find(".ui-file-input-placeholder");
+		expect(placeholder.text()).toBe("IMG_1047.jpg");
+
+		_bus.send("ui-input-field:myinput:append", "/IMG_1047.jpg");
+		expect(placeholder.text()).toBe("IMG_1047.jpg/IMG_1047.jpg");
+	});
 });
