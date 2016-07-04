@@ -1,7 +1,5 @@
 define([ "jquery", "message-bus", "ui-commons", "module" ], function($, bus, commons, module) {
-	var CLOSED_CLASS = "handle-closed";
-	var OPENED_CLASS = "handle-opened";
-
+	var ATTR_DIRECTION = "gb-ui-sliding-direction";
 	var HANDLE_CLASS = "ui-sliding-div-handle";
 
 	var config = module.config();
@@ -12,27 +10,43 @@ define([ "jquery", "message-bus", "ui-commons", "module" ], function($, bus, com
 
 	function expand(id) {
 		var div = $("#" + id);
+		var direction = div.attr(ATTR_DIRECTION);
 		var handle = div.siblings("." + HANDLE_CLASS);
 
-		div.slideDown(config.duration);
-		handle.addClass(OPENED_CLASS);
-		handle.removeClass(CLOSED_CLASS);
+		var opts = {};
+		if (direction == "horizontal" || direction == "both") {
+			opts.width = "show";
+		}
+		if (direction == "vertical" || direction == "both") {
+			opts.height = "show";
+		}
+
+		div.animate(opts, config.duration);
+		handle.text("-");
 	}
 
 	function collapse(id) {
 		var div = $("#" + id);
+		var direction = div.attr(ATTR_DIRECTION);
 		var handle = div.siblings("." + HANDLE_CLASS);
 
-		div.slideUp(config.duration);
-		handle.addClass(CLOSED_CLASS);
-		handle.removeClass(OPENED_CLASS);
+		var opts = {};
+		if (direction == "horizontal" || direction == "both") {
+			opts.width = "hide";
+		}
+		if (direction == "vertical" || direction == "both") {
+			opts.height = "hide";
+		}
+
+		div.animate(opts, config.duration);
+		handle.text("+");
 	}
 
 	function toggle(id) {
 		var div = $("#" + id);
 		var handle = div.siblings("." + HANDLE_CLASS);
 
-		if (handle.hasClass(CLOSED_CLASS)) {
+		if (handle.text() == "+") {
 			expand(id);
 		} else {
 			collapse(id);
@@ -40,6 +54,9 @@ define([ "jquery", "message-bus", "ui-commons", "module" ], function($, bus, com
 	}
 
 	bus.listen("ui-sliding-div:create", function(e, msg) {
+		var direction = msg.direction || "vertical";
+		var handlePosition = msg.handlePosition || "bottom";
+
 		// Container
 		var containerId = msg.div + "-container";
 		var container = commons.getOrCreateDiv($.extend({}, msg, {
@@ -47,22 +64,37 @@ define([ "jquery", "message-bus", "ui-commons", "module" ], function($, bus, com
 		}));
 		container.addClass("ui-sliding-div-container");
 
+		// Handle div
+		var handle = $("<div/>");
+		handle.addClass(HANDLE_CLASS);
+		handle.addClass(handlePosition);
+		handle.text(msg.visible ? "-" : "+");
+		handle.click(function() {
+			toggle(msg.div);
+		});
+
+		if (handlePosition == "bottom-left" || handlePosition == "top" || handlePosition == "top-left" || handlePosition == "left") {
+			container.append(handle);
+		}
+
 		// Content div
 		var div = commons.getOrCreateDiv($.extend({}, msg, {
 			parentDiv : containerId
 		}));
 		div.addClass("ui-sliding-div-content");
-		div.hide();
+		div.attr(ATTR_DIRECTION, direction);
 
-		// Handle div
-		var handle = $("<div/>");
-		handle.addClass(HANDLE_CLASS);
-		handle.addClass(CLOSED_CLASS);
-		container.append(handle);
+		if (!msg.visible) {
+			div.hide();
+		}
 
-		handle.click(function() {
-			toggle(msg.div);
-		});
+		if (handlePosition == "bottom" || handlePosition == "bottom-right" || handlePosition == "right" || handlePosition == "top-right") {
+			container.append(handle);
+		}
+
+		if (handlePosition != "top" && handlePosition != "bottom") {
+			div.css("float", "left");
+		}
 	});
 
 	bus.listen("ui-sliding-div:collapse", function(e, id) {

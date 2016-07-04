@@ -38,22 +38,22 @@ describe("ui-sliding-div", function() {
 		var handle = container.children(".ui-sliding-div-handle");
 		var content = container.children("#mysliding");
 
-		expect(content.is(':visible')).toBe(false);
+		expect(content.css("display")).toBe("none");
 		handle.click();
-		expect(content.is(':visible')).toBe(true);
+		expect(content.css("display")).toBe("block");
 	});
 
 	it("shows on expand event", function() {
 		_bus.send("ui-sliding-div:create", {
 			div : "mysliding",
-			parentDiv : parentId
+			parentDiv : parentId,
 		});
 
 		var div = $("#mysliding");
 
-		expect(div.is(':visible')).toBe(false);
+		expect(div.css("display")).toBe("none");
 		_bus.send("ui-sliding-div:expand", "mysliding");
-		expect(div.is(':visible')).toBe(true);
+		expect(div.css("display")).toBe("block");
 	});
 
 	it("hides on collapse event", function() {
@@ -67,9 +67,9 @@ describe("ui-sliding-div", function() {
 
 		handle.click();
 
-		expect(div.is(':visible')).toBe(true);
+		expect(div.css("display")).toBe("block");
 		_bus.send("ui-sliding-div:collapse", "mysliding");
-		expect(div.is(':visible')).toBe(false);
+		expect(div.css("display")).toBe("none");
 	});
 
 	it("toggles on toggle event", function() {
@@ -80,10 +80,48 @@ describe("ui-sliding-div", function() {
 
 		var div = $("#mysliding");
 
-		expect(div.is(':visible')).toBe(false);
+		expect(div.css("display")).toBe("none");
 		_bus.send("ui-sliding-div:toggle", "mysliding");
-		expect(div.is(':visible')).toBe(true);
+		expect(div.css("display")).toBe("block");
 		_bus.send("ui-sliding-div:toggle", "mysliding");
-		expect(div.is(':visible')).toBe(false);
+		expect(div.css("display")).toBe("none");
+	});
+
+	it("changes handle text when shown/hidden", function() {
+		_bus.send("ui-sliding-div:create", {
+			div : "mysliding",
+			parentDiv : parentId
+		});
+
+		var handle = $("#mysliding").siblings(".ui-sliding-div-handle");
+
+		expect(handle.text()).toBe("+");
+		_bus.send("ui-sliding-div:toggle", "mysliding");
+		expect(handle.text()).toBe("-");
+		_bus.send("ui-sliding-div:toggle", "mysliding");
+		expect(handle.text()).toBe("+");
+	});
+
+	it("adds the handlePosition property as CSS class", function() {
+		_bus.send("ui-sliding-div:create", {
+			div : "mysliding",
+			parentDiv : parentId,
+			handlePosition : "bottom-left"
+		});
+
+		var handle = $("#mysliding").siblings(".ui-sliding-div-handle");
+		expect(handle.hasClass("bottom-left")).toBe(true);
+	});
+
+	it("shows expanded if visible is specified", function() {
+		_bus.send("ui-sliding-div:create", {
+			div : "mysliding",
+			parentDiv : parentId,
+			handlePosition : "bottom-left",
+			visible : true
+		});
+
+		var div = $("#mysliding");
+		expect(div.css("display")).toBe("block");
 	});
 });
