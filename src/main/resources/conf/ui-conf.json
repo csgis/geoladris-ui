@@ -1,6 +1,9 @@
 {
 	"default-conf" : {
-		"ui" : {}
+		"ui" : {},
+		"ui-sliding-div" : {
+			"duration" : 500
+		}
 	},
 	"requirejs" : {
 		"paths" : {
