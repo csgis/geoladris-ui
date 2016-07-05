@@ -99,4 +99,17 @@ describe("ui-choice-field", function() {
 		$("#mychoice").find("select").val("Two").change();
 		expect(_bus.send).toHaveBeenCalledWith("ui-choice-field:mychoice:value-changed", "Two");
 	});
+
+	it("changes option on set-value", function() {
+		_bus.send("ui-choice-field:create", {
+			div : "mychoice",
+			parentDiv : parentId,
+			values : [ "One", "Two", "Three" ]
+		});
+
+		var select = $("#mychoice").find("select");
+		expect(select.val()).toBe("One");
+		_bus.send("ui-choice-field:mychoice:set-value", "Two");
+		expect(select.val()).toBe("Two");
+	});
 });
