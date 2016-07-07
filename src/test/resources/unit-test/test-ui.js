@@ -60,7 +60,7 @@ describe("ui", function() {
 		expect($("#" + div).html()).toEqual(content);
 	});
 
-	it("adds/removes CSS class on ui-add-class", function() {
+	it("adds/removes CSS class on ui-add-class/ui-remove-class", function() {
 		init();
 		var cssClass = "myclass";
 
@@ -75,6 +75,18 @@ describe("ui", function() {
 			cssClass : cssClass
 		});
 		expect($("#" + div).attr("class")).toEqual("");
+	});
+
+	it("sets CSS on ui-css", function() {
+		init();
+
+		expect($("#" + div).css("display")).toBe("block");
+		_bus.send("ui-css", {
+			div : div,
+			key : "display",
+			value : "none"
+		});
+		expect($("#" + div).css("display")).toBe("none");
 	});
 
 	it("sends config events on modules-loaded", function() {
