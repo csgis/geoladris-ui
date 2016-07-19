@@ -43,7 +43,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		});
 
 		bus.listen("ui-choice-field:" + id + ":set-value", function(e, value) {
-			combo.val(value);
+			combo.val(value || combo.find("option")[0].value);
 		});
 
 		combo.change(function() {

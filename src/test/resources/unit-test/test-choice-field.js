@@ -112,4 +112,18 @@ describe("ui-choice-field", function() {
 		_bus.send("ui-choice-field:mychoice:set-value", "Two");
 		expect(select.val()).toBe("Two");
 	});
+	
+	it("sets option if sent null on set-value", function() {
+		_bus.send("ui-choice-field:create", {
+			div : "mychoice",
+			parentDiv : parentId,
+			values : [ "One", "Two", "Three" ]
+		});
+
+		var select = $("#mychoice").find("select");
+		_bus.send("ui-choice-field:mychoice:set-value", "Two");
+		expect(select.val()).toBe("Two");
+		_bus.send("ui-choice-field:mychoice:set-value", null);
+		expect(select.val()).toBe("One");
+	});
 });
