@@ -26,6 +26,10 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			message[msg.div] = text.val();
 		});
 
+		text.on("change paste keyup", function() {
+			bus.send("ui-text-area-field:" + msg.div + ":value-changed", text.val());
+		});
+
 		bus.listen("ui-text-area-field:" + msg.div + ":append", function(e, value) {
 			var current = text.val();
 			if (current) {

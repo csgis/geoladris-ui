@@ -99,4 +99,16 @@ describe("ui-text-area-field", function() {
 		_bus.send("ui-text-area-field:myinput:append", anotherText);
 		expect($("#myinput").find("textarea").val()).toEqual(inputText + anotherText);
 	});
+
+	it("sends ui-text-area-field:<id>:value-changed", function() {
+		_bus.send("ui-text-area-field:create", {
+			div : "myinput",
+			parentDiv : parentId
+		});
+
+		var area = $("#myinput").find("textarea");
+		area.val("foo");
+		area.change();
+		expect(_bus.send).toHaveBeenCalledWith("ui-text-area-field:myinput:value-changed", "foo");
+	});
 });
