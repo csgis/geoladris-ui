@@ -88,9 +88,6 @@ describe("ui-input-field", function() {
 	});
 
 	it("calls function on keyup", function() {
-		var inputText = "Input text";
-		var anotherText = "Another text";
-
 		_bus.send("ui-input-field:create", {
 			div : "myinput",
 			parentDiv : parentId
@@ -132,5 +129,17 @@ describe("ui-input-field", function() {
 
 		_bus.send("ui-input-field:myinput:append", "/IMG_1047.jpg");
 		expect(placeholder.text()).toBe("IMG_1047.jpg/IMG_1047.jpg");
+	});
+
+	it("sends ui-input-field:<id>:value-changed", function() {
+		_bus.send("ui-input-field:create", {
+			div : "myinput",
+			parentDiv : parentId
+		});
+
+		var input = $("#myinput").find("input");
+		input.val("foo");
+		input.change();
+		expect(_bus.send).toHaveBeenCalledWith("ui-input-field:myinput:value-changed", "foo");
 	});
 });

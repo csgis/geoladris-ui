@@ -17,13 +17,17 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		var placeholder;
 		if (msg.type == "file") {
-			input.change(function(a, b, c) {
+			input.change(function() {
 				placeholder.text(input.val());
 			});
 			placeholder = $("<div/>");
 			placeholder.addClass("ui-file-input-placeholder");
 			div.append(placeholder);
 		}
+
+		input.on("change paste keyup", function() {
+			bus.send("ui-input-field:" + msg.div + ":value-changed", input.val());
+		});
 
 		bus.listen(msg.div + "-field-value-fill", function(e, message) {
 			if (input.attr("type") == "file") {
@@ -35,7 +39,12 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		bus.listen("ui-input-field:" + msg.div + ":set-value", function(e, value) {
 			if (input.attr("type") == "file") {
-				placeholder.text(value);
+				if (!value) {
+					placeholder.text("");
+					input.val(null);
+				} else {
+					placeholder.text(value);
+				}
 			} else {
 				input.val(value);
 			}
