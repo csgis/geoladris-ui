@@ -48,6 +48,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			} else {
 				input.val(value);
 			}
+			bus.send("ui-input-field:" + msg.div + ":value-changed", value);
 		});
 
 		bus.listen("ui-input-field:" + msg.div + ":append", function(e, value) {

@@ -59,7 +59,7 @@ describe("ui-input-field", function() {
 		expect(message["myinput"]).toEqual(inputText);
 	});
 
-	it("sets input value on set-value", function() {
+	it("sets input value and sends value-changed on set-value", function() {
 		var inputText = "Input text";
 		var anotherText = "Another text";
 
@@ -69,8 +69,10 @@ describe("ui-input-field", function() {
 		});
 		$("#myinput").find("input").val(inputText);
 
+		expect(_bus.send).not.toHaveBeenCalledWith("ui-input-field:myinput:value-changed", anotherText);
 		_bus.send("ui-input-field:myinput:set-value", anotherText);
 		expect($("#myinput").find("input").val()).toEqual(anotherText);
+		expect(_bus.send).toHaveBeenCalledWith("ui-input-field:myinput:value-changed", anotherText);
 	});
 
 	it("appends text on append", function() {

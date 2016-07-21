@@ -100,7 +100,7 @@ describe("ui-choice-field", function() {
 		expect(_bus.send).toHaveBeenCalledWith("ui-choice-field:mychoice:value-changed", "Two");
 	});
 
-	it("changes option on set-value", function() {
+	it("changes option and sends value-changed on set-value", function() {
 		_bus.send("ui-choice-field:create", {
 			div : "mychoice",
 			parentDiv : parentId,
@@ -109,10 +109,12 @@ describe("ui-choice-field", function() {
 
 		var select = $("#mychoice").find("select");
 		expect(select.val()).toBe("One");
+		expect(_bus.send).not.toHaveBeenCalledWith("ui-choice-field:mychoice:value-changed", "Two");
 		_bus.send("ui-choice-field:mychoice:set-value", "Two");
 		expect(select.val()).toBe("Two");
+		expect(_bus.send).toHaveBeenCalledWith("ui-choice-field:mychoice:value-changed", "Two");
 	});
-	
+
 	it("sets option if sent null on set-value", function() {
 		_bus.send("ui-choice-field:create", {
 			div : "mychoice",
