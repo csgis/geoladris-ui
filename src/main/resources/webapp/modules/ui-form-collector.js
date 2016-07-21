@@ -7,7 +7,12 @@ define([ "jquery", "message-bus" ], function($, bus) {
 				var input = container.find("input");
 				var select = container.find("select");
 				if (input.length == 1) {
-					enabled = enabled && !!input.val();
+					if (input.attr("type") == "file") {
+						var placeholder = container.find(".ui-file-input-placeholder");
+						enabled = enabled && !!placeholder.text();
+					} else {
+						enabled = enabled && !!input.val();
+					}
 				} else if (select.length == 1) {
 					enabled = enabled && !!select.val();
 				}
