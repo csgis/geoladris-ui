@@ -35,7 +35,12 @@ define([ "jquery", "message-bus" ], function($, bus) {
 			updateButton();
 		}
 
-		$("#" + msg.button).click(function() {
+		var button = $("#" + msg.button);
+		button.click(function() {
+			if (!button.hasClass("button-enabled")) {
+				return;
+			}
+
 			var rawMessage = {};
 			var i;
 			for (i = 0; i < msg.divs.length; i++) {

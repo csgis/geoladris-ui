@@ -11,6 +11,7 @@ describe("ui-form-collector", function() {
 		var commons = _initModule("ui-commons", [ $ ]);
 		_initModule("ui-choice-field", [ $, _bus, commons ]);
 		_initModule("ui-input-field", [ $, _bus, commons ]);
+		_initModule("ui-buttons", [ $, _bus, commons ]);
 		_initModule("ui-form-collector", [ $, _bus ]);
 
 		_bus.send("ui-choice-field:create", {
@@ -27,10 +28,10 @@ describe("ui-form-collector", function() {
 			div : "freetext",
 			parentDiv : parentId
 		});
-
-		var button = document.createElement("div");
-		button.setAttribute("id", buttonId);
-		document.getElementById(parentId).appendChild(button);
+		_bus.send("ui-button:create", {
+			div : buttonId,
+			parentDiv : parentId
+		});
 	});
 
 	it("sends event on button click", function() {
@@ -42,6 +43,22 @@ describe("ui-form-collector", function() {
 		$("#" + buttonId).trigger("click");
 
 		expect(_bus.send).toHaveBeenCalledWith("myevent", {
+			letters : "A",
+			numbers : "1"
+		});
+	});
+
+	it("does not send event on button click if button is disabled", function() {
+		_bus.send("ui-form-collector:extend", {
+			button : buttonId,
+			divs : [ "letters", "numbers" ],
+			sendEventName : "myevent"
+		});
+
+		_bus.send("ui-button:" + buttonId + ":enable", false);
+		$("#" + buttonId).trigger("click");
+
+		expect(_bus.send).not.toHaveBeenCalledWith("myevent", {
 			letters : "A",
 			numbers : "1"
 		});
