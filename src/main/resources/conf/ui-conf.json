@@ -13,5 +13,6 @@
 			"datatables.net-colVis" : "../jslib/datatables/1.10.11/buttons.colVis.min"
 		}
 	},
+	"merge-conf" : true,
 	"deps" : [ "layout" ]
 }
