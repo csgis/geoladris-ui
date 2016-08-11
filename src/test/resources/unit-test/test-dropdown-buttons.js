@@ -54,11 +54,11 @@ describe("ui-dropdown-buttons", function() {
 		expect($("#mybutton-sliding").children().length).toBe(0);
 		_bus.send("ui-dropdown-button:mybutton:add-item", {
 			id : "myitem",
-			image : "images/image.svg"
+			image : "theme/images/image.svg"
 		});
 		expect($("#mybutton-sliding").children().length).toBe(1);
 		var bg = $("#mybutton-sliding").children().css("background-image");
-		expect(bg.indexOf("images/image.svg")).not.toBe(-1);
+		expect(bg.indexOf("theme/images/image.svg")).not.toBe(-1);
 	});
 
 	it("toggles the sliding on click if dropdownOnClick", function() {
@@ -88,13 +88,13 @@ describe("ui-dropdown-buttons", function() {
 	it("changes the button background on item click", function() {
 		mockWithItem();
 		$("#mybutton-sliding").children(":eq(1)").click();
-		expect(_bus.send).toHaveBeenCalledWith("ui-button:mybutton:set-image", "images/icon2.png");
+		expect(_bus.send).toHaveBeenCalledWith("ui-button:mybutton:set-image", "theme/images/icon2.png");
 	});
 
 	it("changes the button background on set-item", function() {
 		mockWithItem();
 		_bus.send("ui-dropdown-button:mybutton:set-item", "myitem2");
-		expect(_bus.send).toHaveBeenCalledWith("ui-button:mybutton:set-image", "images/icon2.png");
+		expect(_bus.send).toHaveBeenCalledWith("ui-button:mybutton:set-image", "theme/images/icon2.png");
 	});
 
 	it("sets title attribute if tooltip provided on add-item", function() {
@@ -106,7 +106,7 @@ describe("ui-dropdown-buttons", function() {
 		});
 		_bus.send("ui-dropdown-button:mybutton:add-item", {
 			id : "myitem",
-			image : "images/icon.png",
+			image : "theme/images/icon.png",
 			tooltip : tooltip
 		});
 
@@ -136,11 +136,11 @@ describe("ui-dropdown-buttons", function() {
 		});
 		_bus.send("ui-dropdown-button:mybutton:add-item", {
 			id : "myitem",
-			image : "images/img.svg"
+			image : "theme/images/img.svg"
 		});
 		_bus.send("ui-dropdown-button:mybutton:add-item", {
 			id : "myitem2",
-			image : "images/icon2.png"
+			image : "theme/images/icon2.png"
 		});
 	}
 
