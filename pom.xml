@@ -18,6 +18,12 @@
 			<artifactId>layout</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.fao.unredd</groupId>
+			<artifactId>core</artifactId>
+			<version>${geoladris.core.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -35,8 +41,8 @@
 				</executions>
 				<configuration>
 					<preloadSources>
-						<source>/brick-loader/jslib/jquery-1.11.0.min.js</source>
-						<source>/brick-loader/modules/message-bus.js</source>
+						<source>/core/jslib/jquery-2.1.0.js</source>
+						<source>/core/modules/message-bus.js</source>
 						<source>/jslib/typeahead/0.10.2/typeahead.jquery.min.js</source>
 						<source>/jslib/datatables/1.10.11/jquery.dataTables.min.js</source>
 						<source>/jslib/datatables/1.10.11/dataTables.buttons.min.js</source>
