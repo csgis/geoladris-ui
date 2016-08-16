@@ -5,7 +5,7 @@ describe("ui", function() {
 	function init(config) {
 		replaceParent(parentId);
 
-		_bus.unbind();
+		_bus.stopListenAll();
 		spyOn(_bus, "send").and.callThrough();
 
 		var commons = _initModule("ui-commons", [ $ ]);

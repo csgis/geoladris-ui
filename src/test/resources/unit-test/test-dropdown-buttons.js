@@ -4,7 +4,7 @@ describe("ui-dropdown-buttons", function() {
 	beforeEach(function() {
 		replaceParent(parentId);
 
-		_bus.unbind();
+		_bus.stopListenAll();
 		spyOn(_bus, "send").and.callThrough();
 
 		// Mock the button and sliding div events

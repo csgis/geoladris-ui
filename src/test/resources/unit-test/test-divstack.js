@@ -4,7 +4,7 @@ describe("ui-divstack", function() {
 	beforeEach(function() {
 		replaceParent(parentId);
 
-		_bus.unbind();
+		_bus.stopListenAll();
 		spyOn(_bus, "send").and.callThrough();
 
 		_initModule("ui-divstack", [ $, _bus ]);

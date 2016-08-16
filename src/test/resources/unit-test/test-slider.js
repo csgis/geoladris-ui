@@ -1,6 +1,6 @@
 describe("ui-slider", function() {
 	beforeEach(function() {
-		_bus.unbind();
+		_bus.stopListenAll();
 		spyOn(_bus, "send").and.callThrough();
 
 		_initModule("ui-slider", [ $, _bus ]);

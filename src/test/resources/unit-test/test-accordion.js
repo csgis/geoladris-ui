@@ -6,7 +6,7 @@ describe("ui-accordion", function() {
 	beforeEach(function() {
 		replaceParent(parentId);
 
-		_bus.unbind();
+		_bus.stopListenAll();
 		spyOn(_bus, "send").and.callThrough();
 
 		var commons = _initModule("ui-commons", [ $ ]);

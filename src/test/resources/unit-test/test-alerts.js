@@ -9,7 +9,7 @@ describe("ui-alerts", function() {
 	beforeEach(function() {
 		replaceParent(layout.center);
 
-		_bus.unbind();
+		_bus.stopListenAll();
 		spyOn(_bus, "send").and.callThrough();
 
 		var commons = _initModule("ui-commons", [ $ ]);
