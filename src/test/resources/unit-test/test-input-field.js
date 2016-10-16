@@ -144,4 +144,43 @@ describe("ui-input-field", function() {
 		input.change();
 		expect(_bus.send).toHaveBeenCalledWith("ui-input-field:myinput:value-changed", "foo");
 	});
+
+	it("adds step=any for number fields", function() {
+		_bus.send("ui-input-field:create", {
+			div : "myinput",
+			type : "number",
+			parentDiv : parentId
+		});
+
+		var input = $("#myinput").find("input");
+		expect(input.attr("step")).toBe("any");
+	});
+
+	it("fills values with actual types (number, date,...) instead of strings", function() {
+		_bus.send("ui-input-field:create", {
+			div : "mynumber",
+			type : "number",
+			parentDiv : parentId
+		});
+		_bus.send("ui-input-field:create", {
+			div : "mydate",
+			type : "date",
+			parentDiv : parentId
+		});
+
+		var number = $("#mynumber").find("input");
+		number.val(57.6);
+		var date = $("#mydate").find("input");
+		date.val("2016-06-10");
+
+		var message = {};
+		_bus.send("mynumber-field-value-fill", message);
+		expect(message["mynumber"]).toEqual(57.6);
+		expect(typeof message["mynumber"]).toBe("number");
+
+		message = {};
+		_bus.send("mydate-field-value-fill", message);
+		expect(message["mydate"]).toEqual("2016-06-10T00:00:00.000Z");
+		expect(typeof message["mydate"]).toBe("string");
+	});
 });

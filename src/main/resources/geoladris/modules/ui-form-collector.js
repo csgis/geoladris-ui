@@ -17,15 +17,34 @@ define([ "jquery", "message-bus" ], function($, bus) {
 					enabled = enabled && !!select.val();
 				}
 			});
+
+			if (enabled) {
+				msg.divs.forEach(function(div) {
+					var input = $("#" + div).find("input");
+					if (input.length == 1 && input.attr("type") == "date") {
+						enabled = enabled && !!Date.parse(input.val());
+					}
+				});
+			}
+
 			bus.send("ui-button:" + msg.button + ":enable", enabled);
 		}
+
+		msg.divs.forEach(function(div) {
+			var input = $("#" + div).find("input");
+			if (input.length == 1 && input.attr("type") == "date") {
+				bus.listen("ui-input-field:" + div + ":value-changed", updateButton);
+			}
+		});
 
 		if (msg.requiredDivs) {
 			msg.requiredDivs.forEach(function(div) {
 				var container = $("#" + div);
 				var input = container.find("input");
 				var select = container.find("select");
-				if (input.length == 1) {
+				// Check type != date so we don't add listeners twice (see
+				// above)
+				if (input.length == 1 && input.attr("type") != "date") {
 					bus.listen("ui-input-field:" + div + ":value-changed", updateButton);
 				} else if (select.length == 1) {
 					bus.listen("ui-choice-field:" + div + ":value-changed", updateButton);

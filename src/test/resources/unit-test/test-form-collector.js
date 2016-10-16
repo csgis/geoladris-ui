@@ -28,6 +28,11 @@ describe("ui-form-collector", function() {
 			div : "freetext",
 			parentDiv : parentId
 		});
+		_bus.send("ui-input-field:create", {
+			div : "mydate",
+			type : "date",
+			parentDiv : parentId
+		});
 		_bus.send("ui-button:create", {
 			div : buttonId,
 			parentDiv : parentId
@@ -106,6 +111,24 @@ describe("ui-form-collector", function() {
 		expect(_bus.send).not.toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", true);
 		var input = $("#freetext input");
 		input.val("not empty");
+		input.change();
+		expect(_bus.send).toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", true);
+	});
+
+	it("enables button depending on dates being parseable or not", function() {
+		_bus.send("ui-form-collector:extend", {
+			button : buttonId,
+			divs : [ "letters", "numbers", "freetext", "mydate" ],
+			requiredDivs : [],
+			names : [ "l", "n", "f", "d" ],
+			sendEventName : "myevent"
+		});
+
+		var input = $("#mydate input");
+		input.val("invalid_date");
+		input.change();
+		expect(_bus.send).not.toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", true);
+		input.val("2015-10-30");
 		input.change();
 		expect(_bus.send).toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", true);
 	});

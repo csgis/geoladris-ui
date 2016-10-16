@@ -23,6 +23,8 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			placeholder = $("<div/>");
 			placeholder.addClass("ui-file-input-placeholder");
 			div.append(placeholder);
+		} else if (msg.type == "number") {
+			input.attr("step", "any");
 		}
 
 		input.on("change paste keyup", function() {
@@ -32,6 +34,10 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 		bus.listen(msg.div + "-field-value-fill", function(e, message) {
 			if (input.attr("type") == "file") {
 				message[msg.div] = input[0].files[0];
+			} else if (input.attr("type") == "number") {
+				message[msg.div] = parseFloat(input.val());
+			} else if (input.attr("type") == "date") {
+				message[msg.div] = new Date(input.val()).toISOString();
 			} else {
 				message[msg.div] = input.val();
 			}
@@ -68,6 +74,13 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			input.keyup(function() {
 				f(input.val());
 			});
+		});
+
+		bus.listen("ui-input-field:" + msg.div + ":value-changed", function() {
+			var valid = !!Date.parse(input.val());
+			if (input.attr("type") == "date") {
+				input[0].setCustomValidity(valid ? "" : "Invalid date.");
+			}
 		});
 	});
 });
