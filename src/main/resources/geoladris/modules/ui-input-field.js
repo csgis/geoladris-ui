@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "ui-commons", "pikaday.jquery" ], function($, bus, commons) {
 	bus.listen("ui-input-field:create", function(e, msg) {
 		var div = commons.getOrCreateDiv(msg);
 		div.addClass("ui-input-field-container");
@@ -25,6 +25,12 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 			div.append(placeholder);
 		} else if (msg.type == "number") {
 			input.attr("step", "any");
+		} else if (msg.type == "date") {
+			input.pikaday({
+				format : "YYYY-MM-DD"
+			});
+			 input.attr("type", "text");
+			 input.attr("geoladris-type", "date");
 		}
 
 		input.on("change paste keyup", function() {
@@ -36,7 +42,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 				message[msg.div] = input[0].files[0];
 			} else if (input.attr("type") == "number") {
 				message[msg.div] = parseFloat(input.val());
-			} else if (input.attr("type") == "date") {
+			} else if (input.attr("geoladris-type") == "date") {
 				message[msg.div] = new Date(input.val()).toISOString();
 			} else {
 				message[msg.div] = input.val();
@@ -78,7 +84,7 @@ define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
 
 		bus.listen("ui-input-field:" + msg.div + ":value-changed", function() {
 			var valid = !!Date.parse(input.val());
-			if (input.attr("type") == "date") {
+			if (input.attr("geoladris-type") == "date") {
 				input[0].setCustomValidity(valid ? "" : "Invalid date.");
 			}
 		});
