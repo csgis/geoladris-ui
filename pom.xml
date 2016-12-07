@@ -47,6 +47,9 @@
 						<source>/jslib/datatables/1.10.11/jquery.dataTables.min.js</source>
 						<source>/jslib/datatables/1.10.11/dataTables.buttons.min.js</source>
 						<source>/jslib/datatables/1.10.11/buttons.colVis.min.js</source>
+						<source>/jslib/moment/2.5.1/moment.min.js</source>
+						<source>/jslib/pikaday/1.5.1/pikaday.js</source>
+						<source>/jslib/pikaday/1.5.1/pikaday.jquery.js</source>
 					</preloadSources>
 				</configuration>
 			</plugin>
