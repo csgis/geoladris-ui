@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>de.csgis.geoladris</groupId>
+	<artifactId>plugins</artifactId>
+	<name>Geoladris plugins</name>
+	<version>1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
+	<modules>
+		<module>ui</module>
+	</modules>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jasmine.version>2.1</jasmine.version>
+		<saga.version>1.5.5</saga.version>
+		<phantomjs.maven.version>0.7</phantomjs.maven.version>
+		<geoladris.core.version>5.0.1</geoladris.core.version>
+	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>csgis-releases</id>
+			<url>http://service-aws.csgis.de:8081/repository/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>csgis-snapshots</id>
+			<url>http://service-aws.csgis.de:8081/repository/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>csgis-releases</id>
+			<url>http://service-aws.csgis.de:8081/repository/releases/</url>
+		</repository>
+		<repository>
+			<id>csgis-snapshots</id>
+			<url>http://service-aws.csgis.de:8081/repository/snapshots/</url>
+		</repository>
+		<repository>
+			<id>geoladris-releases</id>
+			<url>http://nullisland.geomati.co:8082/repository/releases/</url>
+		</repository>
+		<repository>
+			<id>geoladris-snapshots</id>
+			<url>http://nullisland.geomati.co:8082/repository/snapshots/</url>
+		</repository>
+	</repositories>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<includeGroupIds>org.fao.unredd</includeGroupIds>
+					<includeArtifactIds>core</includeArtifactIds>
+					<outputDirectory>${project.build.directory}/unpacked-core</outputDirectory>
+				</configuration>
+			</plugin>
+					
+			<plugin>
+				<groupId>com.github.klieber</groupId>
+				<artifactId>phantomjs-maven-plugin</artifactId>
+				<version>${phantomjs.maven.version}</version>
+				<configuration>
+					<version>1.9.7</version>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.searls</groupId>
+				<artifactId>jasmine-maven-plugin</artifactId>
+				<version>${jasmine.version}</version>
+				<configuration>
+					<webDriverClassName>org.openqa.selenium.phantomjs.PhantomJSDriver</webDriverClassName>
+					<webDriverCapabilities>
+						<capability>
+							<name>phantomjs.binary.path</name>
+							<value>${phantomjs.binary}</value>
+						</capability>
+					</webDriverCapabilities>
+					<additionalContexts>
+						<context>
+							<contextRoot>/core</contextRoot>
+							<directory>${project.build.directory}/unpacked-core/geoladris</directory>
+						</context>
+						<context>
+							<contextRoot>/jslib</contextRoot>
+							<directory>${project.basedir}/src/main/resources/geoladris/jslib</directory>
+						</context>
+					</additionalContexts>
+					<preloadSources>
+						<source>/core/jslib/jquery-2.1.0.js</source>
+						<source>/core/modules/message-bus.js</source>
+					</preloadSources>
+					<jsSrcDir>${project.basedir}/src/main/resources/geoladris/modules/</jsSrcDir>
+					<jsTestSrcDir>${project.basedir}/src/test/resources/unit-test/</jsTestSrcDir>
+					<specIncludes>
+						<include>*.js</include>
+					</specIncludes>
+					<sourceIncludes>
+						<include>*.js</include>
+					</sourceIncludes>
+					<customRunnerTemplate>${project.basedir}/../test-resources/SpecRunner.html</customRunnerTemplate>
+					<haltOnFailure>true</haltOnFailure>
+					<keepServerAlive>true</keepServerAlive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.timurstrekalov</groupId>
+				<artifactId>saga-maven-plugin</artifactId>
+				<version>${saga.version}</version>
+				<configuration>
+					<includes>src/*.js</includes>
+					<baseDir>http://localhost:${jasmine.serverPort}</baseDir>
+					<outputDir>${project.build.directory}/coverage</outputDir>
+					<noInstrumentPatterns>
+						<pattern>.*/spec/.*</pattern>
+						<pattern>.*/webjars/.*</pattern>
+						<pattern>.*/classpath/.*</pattern>
+
+						<pattern>.*/jslib/.*</pattern>
+						<pattern>.*/spatialreference.org.*</pattern>
+					</noInstrumentPatterns>
+					<sourcesToPreload>**/modules/*.js</sourcesToPreload>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>clean</goal>
+							<goal>cobertura</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>
