@@ -1,9 +1,7 @@
-# Supported events
-
 Here is a reference of which events are supported or listened by each plugin.
 See [events](events.md) for further information about event messages.
 
-## ui
+# ui
 
 * ``modules-loaded``
 * ``ui-show``

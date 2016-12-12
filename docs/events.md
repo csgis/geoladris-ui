@@ -1,9 +1,6 @@
-# Events
+# UI events - General
 
-## UI events - General
-
-
-### <a name="ui-show"></a>ui-show
+## <a name="ui-show"></a>ui-show
 
 
 Message (*String*, mandatory): Identifier of the div to show.
@@ -13,7 +10,7 @@ Example:
 bus.send("ui-show", "mydiv");
 ```
 
-### <a name="ui-hide"></a>ui-hide
+## <a name="ui-hide"></a>ui-hide
 
 Message (*String*, mandatory): Identifier of the div to hide.
 
@@ -22,7 +19,7 @@ Example:
 bus.send("ui-hide", "mydiv");
 ```
 
-### <a name="ui-toggle"></a>ui-toggle
+## <a name="ui-toggle"></a>ui-toggle
 
 Message (*String*, mandatory): Identifier of the div to toggle visibility.
 
@@ -31,7 +28,7 @@ Example:
 bus.send("ui-toggle", "mydiv");
 ```
 
-### ui-set-content
+## ui-set-content
 
 Message (*Object*):
 
@@ -46,7 +43,7 @@ bus.send("ui-set-content", {
 });
 ```
 
-### ui-add-class
+## ui-add-class
 
 Message (*Object*):
 
@@ -61,7 +58,7 @@ bus.send("ui-add-class", {
 });
 ```
 
-### ui-remove-class
+## ui-remove-class
 
 Message (*Object*):
 
@@ -76,7 +73,7 @@ bus.send("ui-remove-class", {
 });
 ```
 
-### ui-css
+## ui-css
 
 Message (*Object*):
 
@@ -93,7 +90,7 @@ bus.send("ui-css", {
 });
 ```
 
-### ui-open-url
+## ui-open-url
 
 Message (*Object*):
 
@@ -108,7 +105,7 @@ bus.send("ui-open-url", {
 });
 ```
 
-### ui-alert
+## ui-alert
 
 Message (*Object*):
 
@@ -123,7 +120,7 @@ bus.send("ui-alert", {
 });
 ```
 
-### ui-loading:start
+## ui-loading:start
 
 Message (*String*, mandatory): The text to be shown on a loading message.
 
@@ -132,7 +129,7 @@ Example:
 bus.send("ui-loading:start", "Bitte warten Sie");
 ```
 
-### ui-loading:end
+## ui-loading:end
 
 Message (*String*, mandatory): The text to be removed from the loading message.
 
@@ -141,9 +138,9 @@ Example:
 bus.send("ui-loading:end", "Bitte warten Sie");
 ```
 
-## UI events - Simple components
+# UI events - Simple components
 
-### ui-accordion:create
+## ui-accordion:create
 
 Message (*Object*):
 
@@ -160,7 +157,7 @@ bus.send("ui-accordion:create", {
 });
 ```
 
-### <a name="ui-accordion-add-group"></a>ui-accordion:add-group
+## <a name="ui-accordion-add-group"></a>ui-accordion:add-group
 
 Message (*Object*):
 
@@ -180,7 +177,7 @@ bus.send("ui-accordion:add-group", {
 ```
 
 
-### ui-accordion:`<group-id>`:visibility
+## ui-accordion:`<group-id>`:visibility
 
 `<group-id>` matches the *id* specified when creating the [accordion group](#ui-accordion-add-group).
 
@@ -197,7 +194,7 @@ bus.send("ui-accordion:layers:visibility", {
 });
 ```
 
-### <a name="ui-autocomplete-create"></a>ui-autocomplete:create
+## <a name="ui-autocomplete-create"></a>ui-autocomplete:create
 
 Message (*Object*):
 
@@ -230,7 +227,7 @@ bus.send("ui-autocomplete:create", {
 });
 ```
 
-### ui-autocomplete:`<id>`:set-values
+## ui-autocomplete:`<id>`:set-values
 
 `<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete-create).
 
@@ -241,7 +238,7 @@ Example:
 bus.send("ui-autocomplete:myautocomplete:set-values", [ [ "1", "2", "3" ] ]);
 ```
 
-### <a name="ui-autocomplete-set-values"></a>ui-autocomplete:`<id>`:set-values
+## <a name="ui-autocomplete-set-values"></a>ui-autocomplete:`<id>`:set-values
 
 `<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete-create).
 
@@ -252,7 +249,7 @@ Example:
 bus.send("ui-autocomplete:myautocomplete:set-value", "1");
 ```
 
-### ui-autocomplete:`<id>`:selected
+## ui-autocomplete:`<id>`:selected
 
 `<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete-create).
 
@@ -263,7 +260,7 @@ Example:
 bus.send("ui-autocomplete:myautocomplete:selected", "One");
 ```
 
-### <a name="ui-button-create"></a>ui-button:create
+## <a name="ui-button-create"></a>ui-button:create
 
 Message (*Object*):
 
@@ -290,7 +287,7 @@ bus.send("ui-button:create", {
 });
 ```
 
-### ui-button:`<id>`:enable
+## ui-button:`<id>`:enable
 
 `<id>` matches the *div* specified when creating the [button](#ui-button-create).
 
@@ -301,7 +298,7 @@ Example:
 bus.send("ui-button:mybutton:enable", true);
 ```
 
-### ui-button:`<id>`:activate
+## ui-button:`<id>`:activate
 
 `<id>` matches the *div* specified when creating the [button](#ui-button-create).
 
@@ -312,7 +309,7 @@ Example:
 bus.send("ui-button:mybutton:activate", true);
 ```
 
-### ui-button:`<id>`:toggle
+## ui-button:`<id>`:toggle
 
 `<id>` matches the *div* specified when creating the [button](#ui-button-create).
 
@@ -323,7 +320,7 @@ Example:
 bus.send("ui-button:mybutton:toggle");
 ```
 
-### ui-button:`<id>`:set-image
+## ui-button:`<id>`:set-image
 
 `<id>` matches the *div* specified when creating the [button](#ui-button-create).
 
@@ -334,7 +331,7 @@ Example:
 bus.send("ui-button:mybutton:set-image", "images/another_icon.png");
 ```
 
-### ui-button:`<id>`:link-active
+## ui-button:`<id>`:link-active
 
 `<id>` matches the *div* specified when creating the [button](#ui-button-create).
 
@@ -345,7 +342,7 @@ Example:
 bus.send("ui-button:mybutton:link-active", "mydialog");
 ```
 
-### <a name="ui-choice-field-create"></a>ui-choice-field:create
+## <a name="ui-choice-field-create"></a>ui-choice-field:create
 
 Message (*Object*):
 
@@ -366,7 +363,7 @@ bus.send("ui-choice-field:create", {
 });
 ```
 
-### ui-choice-field:`<id>`:add-value
+## ui-choice-field:`<id>`:add-value
 
 `<id>` matches the *div* specified when creating the [choice field](#ui-choice-field-create).
 
@@ -377,7 +374,7 @@ Example:
 bus.send("ui-choice-field:mychoice:add-value", "Four");
 ```
 
-### ui-choice-field:`<id>`:set-value
+## ui-choice-field:`<id>`:set-value
 
 `<id>` matches the *div* specified when creating the [choice field](#ui-choice-field-create).
 
@@ -388,7 +385,7 @@ Example:
 bus.send("ui-choice-field:mychoice:set-value", "1");
 ```
 
-### ui-choice-field:`<id>`:set-values
+## ui-choice-field:`<id>`:set-values
 
 `<id>` matches the *div* specified when creating the [choice field](#ui-choice-field-create).
 
@@ -399,7 +396,7 @@ Example:
 bus.send("ui-choice-field:mychoice:set-values", [ [ "1", "2", "3" ] ]);
 ```
 
-### ui-choice-field:`<id>`:value-changed
+## ui-choice-field:`<id>`:value-changed
 
 `<id>` matches the *div* specified when creating the [choice field](#ui-choice-field-create).
 
@@ -410,7 +407,7 @@ Example:
 bus.send("ui-choice-field:mychoice:value-changed", "Four");
 ```
 
-### ui-confirm-dialog:create
+## ui-confirm-dialog:create
 
 Message (*Object*):
 
@@ -434,7 +431,7 @@ bus.send("ui-confirm-dialog:create", {
 });
 ```
 
-### <a name="ui-dialog-create"></a>ui-dialog:create
+## <a name="ui-dialog-create"></a>ui-dialog:create
 
 Message (*Object*):
 
@@ -457,7 +454,7 @@ bus.send("ui-dialog:create", {
 });
 ```
 
-### ui-divstack:create
+## ui-divstack:create
 
 Message (*Array* of *String*, mandatory): Array of div identifiers. These divs will be mutually exclusive; if a div is shown all the others will be hidden. This event does **not** create the divs.
 
@@ -466,7 +463,7 @@ Example:
 bus.send("ui-divstack:create", ["mydiv", "mydiv2", "mydiv3"]);
 ```
 
-### <a name="ui-dropdown-button-create"></a>ui-dropdown-button:create
+## <a name="ui-dropdown-button-create"></a>ui-dropdown-button:create
 
 Message (*Object*):
 
@@ -484,7 +481,7 @@ bus.send("ui-dropdown-button:create", {
 });
 ```
 
-### <a name="ui-dropdown-button-add-item"></a>ui-dropdown-button:`<id>`:add-item
+## <a name="ui-dropdown-button-add-item"></a>ui-dropdown-button:`<id>`:add-item
 
 `<id>` matches the *div* specified when creating the [dropdown button](#ui-dropdown-button-create).
 
@@ -503,7 +500,7 @@ bus.send("ui-dropdown-button:mydropdown:add-item", {
 });
 ```
 
-### ui-dropdown-button:`<id>`:set-item
+## ui-dropdown-button:`<id>`:set-item
 
 `<id>` matches the *div* specified when creating the [dropdown button](#ui-dropdown-button-create).
 
@@ -514,7 +511,7 @@ Example:
 bus.send("ui-dropdown-button:mydropdown:set-item", "item1");
 ```
 
-### ui-dropdown-button:`<id>`:item-selected
+## ui-dropdown-button:`<id>`:item-selected
 
 `<id>` matches the *div* specified when creating the [dropdown button](#ui-dropdown-button-create).
 
@@ -525,7 +522,7 @@ Example:
 bus.send("ui-dropdown-button:mydropdown:item-selected", "item1");
 ```
 
-### <a name="ui-exclusive-list-create"></a>ui-exclusive-list:create
+## <a name="ui-exclusive-list-create"></a>ui-exclusive-list:create
 
 Message (*Object*):
 
@@ -542,7 +539,7 @@ bus.send("ui-exclusive-list:create", {
 });
 ```
 
-### <a name="ui-exclusive-list-add-item"></a>ui-exclusive-list:`<id>`:add-item
+## <a name="ui-exclusive-list-add-item"></a>ui-exclusive-list:`<id>`:add-item
 
 `<id>` matches the *div* specified when creating the [exclusive list](#ui-exclusive-list-create).
 
@@ -559,7 +556,7 @@ bus.send("ui-exclusive-list:base-layer:add-item", {
 });
 ```
 
-### ui-exclusive-list:`<id>`:remove-item
+## ui-exclusive-list:`<id>`:remove-item
 
 `<id>` matches the *div* specified when creating the [exclusive list](#ui-exclusive-list-create).
 
@@ -570,7 +567,7 @@ Example:
 bus.send("ui-exclusive-list:base-layer:remove-item", "osm");
 ```
 
-### ui-exclusive-list:`<id>`:set-item
+## ui-exclusive-list:`<id>`:set-item
 
 `<id>` matches the *div* specified when creating the [exclusive list](#ui-exclusive-list-create).
 
@@ -581,7 +578,7 @@ Example:
 bus.send("ui-exclusive-list:base-layer:set-item", "osm");
 ```
 
-### ui-exclusive-list:`<id>`:item-selected
+## ui-exclusive-list:`<id>`:item-selected
 
 `<id>` matches the *div* specified when creating the [exclusive list](#ui-exclusive-list-create).
 
@@ -592,7 +589,7 @@ Example:
 bus.send("ui-exclusive-list:base-layer:item-selected", "osm");
 ```
 
-### ui-form-collector:extend
+## ui-form-collector:extend
 
 With this event you can gather data from a set of input controls and send an event with that data.
 
@@ -614,7 +611,7 @@ bus.send("ui-form-collector:extend", {
 });
 ```
 
-### `<field>`-field-value-fill
+## `<field>`-field-value-fill
 
 The fields that implement this event are:
 
@@ -624,7 +621,7 @@ The fields that implement this event are:
 * [ui-slider:create](#ui-slider-create).
 * [ui-text-area-field:create](#ui-text-area-field-create).
 
-### ui-html:create
+## ui-html:create
 
 Message (*Object*):
 
@@ -643,7 +640,7 @@ bus.send("ui-html:create", {
 });
 ```
 
-### <a name="ui-input-field-create"></a>ui-input-field:create
+## <a name="ui-input-field-create"></a>ui-input-field:create
 
 Message (*Object*):
 
@@ -664,7 +661,7 @@ bus.send("ui-input-field:create", {
 });
 ```
 
-### ui-input-field:`<id>`:set-value
+## ui-input-field:`<id>`:set-value
 
 `<id>` matches the *div* specified when creating the [input field](#ui-input-field-create).
 
@@ -675,7 +672,7 @@ Example:
 bus.send("ui-input-field:login-user:set-value", "new_user");
 ```
 
-### ui-input-field:`<id>`:append
+## ui-input-field:`<id>`:append
 
 `<id>` matches the *div* specified when creating the [input field](#ui-input-field-create).
 
@@ -686,7 +683,7 @@ Example:
 bus.send("ui-input-field:login-user:append", "-suffix");
 ```
 
-### ui-input-field:`<id>`:keyup
+## ui-input-field:`<id>`:keyup
 
 `<id>` matches the *div* specified when creating the [input field](#ui-input-field-create).
 
@@ -701,7 +698,7 @@ bus.send("ui-input-field:login-user:keyup", function(text) {
 });
 ```
 
-### ui-input-field:`<id>`:value-changed
+## ui-input-field:`<id>`:value-changed
 
 `<id>` matches the *div* specified when creating the [input field](#ui-input-field-create).
 
@@ -712,7 +709,7 @@ Example:
 bus.send("ui-input-field:myinput:value-changed", "Four");
 ```
 
-### <a name="ui-search-box-create"></a>ui-search-box:create
+## <a name="ui-search-box-create"></a>ui-search-box:create
 
 Message (*Object*):
 
@@ -733,7 +730,7 @@ bus.send("ui-search-box:create", {
 });
 ```
 
-### ui-search-box:`<id>`:search
+## ui-search-box:`<id>`:search
 
 `<id>` matches the *div* specified when creating the [search box](#ui-search-box-create).
 
@@ -744,7 +741,7 @@ Example:
 bus.send("ui-search-box:address-search:search", "Max Joseph");
 ```
 
-### <a name="ui-search-results-create"></a>ui-search-results:create
+## <a name="ui-search-results-create"></a>ui-search-results:create
 
 Message (*Object*):
 
@@ -765,7 +762,7 @@ bus.send("ui-search-results:create", {
 });
 ```
 
-### ui-search-results:`<id>`:add
+## ui-search-results:`<id>`:add
 
 `<id>` matches the *div* specified when creating the [search results div](#ui-search-results-create).
 
@@ -776,7 +773,7 @@ Example:
 bus.send("ui-search-results:address-search-results:add", "Max Joseph Strasse");
 ```
 
-### ui-search-results:`<id>`:selected
+## ui-search-results:`<id>`:selected
 
 `<id>` matches the *div* specified when creating the [search results div](#ui-search-results-create).
 
@@ -787,7 +784,7 @@ Example:
 bus.send("ui-search-box:address-search-results:search", "Max Joseph Strasse");
 ```
 
-### ui-search-results:`<id>`:clear
+## ui-search-results:`<id>`:clear
 
 `<id>` matches the *div* specified when creating the [search results div](#ui-search-results-create).
 
@@ -796,7 +793,7 @@ Message (*Empty*).
 bus.send("ui-search-results:address-search-results:clear");
 ```
 
-### <a name="ui-selectable-list-create"></a>ui-selectable-list:create
+## <a name="ui-selectable-list-create"></a>ui-selectable-list:create
 
 Message (*Object*):
 
@@ -813,7 +810,7 @@ bus.send("ui-selectable-list:create", {
 });
 ```
 
-### <a name="ui-selectable-list-add-item"></a>ui-selectable-list:`<id>`:add-item
+## <a name="ui-selectable-list-add-item"></a>ui-selectable-list:`<id>`:add-item
 
 `<id>` matches the *div* specified when creating the [selectable list](#ui-selectable-list-create).
 
@@ -832,7 +829,7 @@ bus.send("ui-selectable-list:add-item", {
 });
 ```
 
-### ui-selectable-list:`<id>`:remove-item
+## ui-selectable-list:`<id>`:remove-item
 
 `<id>` matches the *div* specified when creating the [selectable list](#ui-selectable-list-create).
 
@@ -843,7 +840,7 @@ Example:
 bus.send("ui-selectable-list:layers:remove-item", "osm");
 ```
 
-### ui-selectable-list:`<id>`:set-item
+## ui-selectable-list:`<id>`:set-item
 
 `<id>` matches the *div* specified when creating the [selectable list](#ui-selectable-list-create).
 
@@ -860,7 +857,7 @@ bus.send("ui-selectable-list:layers:set-item", {
 });
 ```
 
-### ui-selectable-list:`<id>`:item-selected
+## ui-selectable-list:`<id>`:item-selected
 
 `<id>` matches the *div* specified when creating the [selectable list](#ui-selectable-list-create).
 
@@ -871,7 +868,7 @@ Example:
 bus.send("ui-selectable-list:layers:item-selected", "osm");
 ```
 
-### ui-selectable-list:`<id>`:item-unselected
+## ui-selectable-list:`<id>`:item-unselected
 
 `<id>` matches the *div* specified when creating the [selectable list](#ui-selectable-list-create).
 
@@ -882,7 +879,7 @@ Example:
 bus.send("ui-selectable-list:layers:item-unselected", "osm");
 ```
 
-### <a name="ui-slider-create"></a>ui-slider:create
+## <a name="ui-slider-create"></a>ui-slider:create
 
 Message (*Object*):
 
@@ -903,7 +900,7 @@ bus.send("ui-slider:create", {
 });
 ```
 
-### ui-slider:`<id>`:add-value
+## ui-slider:`<id>`:add-value
 
 `<id>` matches the *div* specified when creating the [slider](#ui-slider-create).
 
@@ -920,7 +917,7 @@ bus.send("ui-slider:add-value", {
 });
 ```
 
-### ui-sliding-div:create
+## ui-sliding-div:create
 
 Message (*Object*):
 
@@ -943,7 +940,7 @@ bus.send("ui-sliding-div:create", {
 });
 ```
 
-### ui-sliding-div:expand
+## ui-sliding-div:expand
 
 Message (*String*, mandatory): Id of the sliding div to expand.
 
@@ -952,7 +949,7 @@ Example:
 bus.send("ui-sliding-div:expand", "mysliding");
 ```
 
-### ui-sliding-div:collapse
+## ui-sliding-div:collapse
 
 Message (*String*, mandatory): Id of the sliding div to collapse.
 
@@ -961,7 +958,7 @@ Example:
 bus.send("ui-sliding-div:collapse", "mysliding");
 ```
 
-### ui-sliding-div:toggle
+## ui-sliding-div:toggle
 
 Message (*String*, mandatory): Id of the sliding div to toggle.
 
@@ -970,7 +967,7 @@ Example:
 bus.send("ui-sliding-div:toggle", "mysliding");
 ```
 
-### <a name="ui-table-create"></a>ui-table:create
+## <a name="ui-table-create"></a>ui-table:create
 
 Message (*Object*):
 
@@ -997,7 +994,7 @@ bus.send("ui-table:create", {
 });
 ```
 
-### ui-table:`<id>`:clear
+## ui-table:`<id>`:clear
 
 `<id>` matches the *div* specified when creating the [table](#ui-table-create).
 
@@ -1008,7 +1005,7 @@ Example:
 bus.send("ui-table:mytable:clear");
 ```
 
-### ui-table:`<id>`:adjust
+## ui-table:`<id>`:adjust
 
 Used to adjust the column width, usually when the table is shown. `<id>` matches the *div* specified when creating the [table](#ui-table-create).
 
@@ -1019,7 +1016,7 @@ Example:
 bus.send("ui-table:mytable:adjust");
 ```
 
-### <a name="ui-table-set-data"></a>ui-table:`<id>`:set-data
+## <a name="ui-table-set-data"></a>ui-table:`<id>`:set-data
 
 `<id>` matches the *div* specified when creating the [table](#ui-table-create).
 
@@ -1049,7 +1046,7 @@ bus.send("ui-table:mytable:set-data", {
 });
 ```
 
-### ui-table:`<id>`:data-selected
+## ui-table:`<id>`:data-selected
 
 `<id>` matches the *div* specified when creating the [table](#ui-table-create).
 
@@ -1063,7 +1060,7 @@ bus.send("ui-table:mytable:data-selected", [[{
 }]]);
 ```
 
-### ui-table:`<id>`:select-data
+## ui-table:`<id>`:select-data
 
 `<id>` matches the *div* specified when creating the [table](#ui-table-create).
 
@@ -1077,7 +1074,7 @@ bus.send("ui-table:mytable:select-data", [[{
 }]]);
 ```
 
-### ui-table:`<id>`:invert-selection
+## ui-table:`<id>`:invert-selection
 
 `<id>` matches the *div* specified when creating the [table](#ui-table-create).
 
@@ -1088,7 +1085,7 @@ Example:
 bus.send("ui-table:mytable:invert-selection");
 ```
 
-### ui-table:`<id>`:sort-selected-first
+## ui-table:`<id>`:sort-selected-first
 
 `<id>` matches the *div* specified when creating the [table](#ui-table-create).
 
@@ -1099,7 +1096,7 @@ Example:
 bus.send("ui-table:mytable:sort-selected-first");
 ```
 
-### ui-table:`<id>`:filter
+## ui-table:`<id>`:filter
 
 `<id>` matches the *div* specified when creating the [table](#ui-table-create).
 
@@ -1110,7 +1107,7 @@ Example:
 bus.send("ui-table:mytable:filter", "Male");
 ```
 
-### ui-table:`<id>`:row-selection-changed
+## ui-table:`<id>`:row-selection-changed
 
 `<id>` matches the *div* specified when creating the [table](#ui-table-create).
 
@@ -1127,7 +1124,7 @@ bus.send("ui-table:mytable:row-selection-changed", {
 });
 ```
 
-### ui-table:`<id>`:column-visibility-changed
+## ui-table:`<id>`:column-visibility-changed
 
 `<id>` matches the *div* specified when creating the [table](#ui-table-create).
 
@@ -1138,7 +1135,7 @@ Example:
 bus.send("ui-table:mytable:column-visibility-changed", [[ 1, 2, 4, 7 ]]);
 ```
 
-### <a name="ui-text-area-field-create"></a>ui-text-area-field:create
+## <a name="ui-text-area-field-create"></a>ui-text-area-field:create
 
 Message (*Object*):
 
@@ -1160,7 +1157,7 @@ bus.send("ui-text-area-field:create", {
 });
 ```
 
-### ui-text-area-field:`<id>`:set-value
+## ui-text-area-field:`<id>`:set-value
 
 `<id>` matches the *div* specified when creating the [text area](#ui-text-area-field-create).
 
@@ -1171,7 +1168,7 @@ Example:
 bus.send("ui-text-area-field:mytextarea:set-value", "This is a sample text for the area field");
 ```
 
-### ui-text-area-field:`<id>`:append
+## ui-text-area-field:`<id>`:append
 
 `<id>` matches the *div* specified when creating the [text area](#ui-text-area-field-create).
 
@@ -1182,7 +1179,7 @@ Example:
 bus.send("ui-text-area-field:login-user:append", "-suffix");
 ```
 
-### ui-text-area-field:`<id>`:value-changed
+## ui-text-area-field:`<id>`:value-changed
 
 `<id>` matches the *div* specified when creating the [text area](#ui-text-area-field-create).
 
@@ -1193,9 +1190,9 @@ Example:
 bus.send("ui-text-area-field:myinput:value-changed", "Four");
 ```
 
-## UI Events - Complex components
+# UI Events - Complex components
 
-### ui-coordinate-input:create
+## ui-coordinate-input:create
 
 Message (*Object*): This creates a dialog with some controls to specify x/y coordinates and CRS. Thus, this message accepts the same options as the message for [ui-dialog:create](#ui-dialog-create).
 
@@ -1209,7 +1206,7 @@ bus.send("ui-coordinate-input:create", {
 });
 ```
 
-### ui-printing-dialog:create
+## ui-printing-dialog:create
 
 Message (*Object*):
 
@@ -1226,7 +1223,7 @@ bus.send("ui-printing-dialog:create", {
 });
 ```
 
-### ui-time-selector:create
+## ui-time-selector:create
 
 Message (*Object*): This creates a dialog with some controls to specify time and operator. Thus, this message accepts the same options as the message for [ui-dialog:create](#ui-dialog-create).
 
@@ -1241,7 +1238,7 @@ bus.send("ui-time-selector:create", {
 });
 ```
 
-### ui-toolbar:create
+## ui-toolbar:create
 
 Message (*Object*): Creates a new empty toolbar.
 

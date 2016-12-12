@@ -1,5 +1,3 @@
-# Plugins
-
 **Note**: Any module not listed here does not use any configuration.
 
 ## ui
