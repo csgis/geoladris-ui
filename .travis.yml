@@ -1,0 +1,14 @@
+language: java
+
+script:
+  - mvn verify  
+
+after_success:
+  - mvn deploy -s deploy-settings.xml
+
+notifications:
+  email:
+    recipients:
+      - notify@barbatti.de
+  on_success: always
+
