@@ -1,0 +1,71 @@
+# Supported events
+
+Here is a reference of which events are supported or listened by each plugin.
+See [events](events.md) for further information about event messages.
+
+## ui
+
+* ``modules-loaded``
+* ``ui-show``
+* ``ui-hide``
+* ``ui-toogle``
+* ``ui-set-content``
+* ``ui-add-class``
+* ``ui-remove-class``
+* ``ui-open-url``
+* ``ui-alert``
+* ``ui-loading:start``
+* ``ui-loading:end``
+* ``ui-accordion:create``
+* ``ui-accordion:add-group``
+* ``ui-accordion:<id>:visibility``
+* ``ui-autocomplete:create``
+* ``ui-autocomplete:<id>:set-values``
+* ``ui-autocomplete:<id>:set-value``
+* ``ui-button:create``
+* ``ui-button:<id>:enable``
+* ``ui-button:<id>:activate``
+* ``ui-button:<id>:toggle``
+* ``ui-button:<id>:set-image``
+* ``ui-button:<id>:link-active``
+* ``ui-choice-field:create``
+* ``ui-choice-field:<id>:add-value``
+* ``ui-choice-field:<id>:set-values``
+* ``ui-dialog:create``
+* ``ui-divstack:create``
+* ``ui-dropdown-button:create``
+* ``ui-dropdown-button:<id>:add-item``
+* ``ui-dropdown-button:<id>:set-item``
+* ``ui-exclusive-list:create``
+* ``ui-exclusive-list:<id>:add-item``
+* ``ui-exclusive-list:<id>:remove-item``
+* ``ui-exclusive-list:<id>:set-item``
+* ``ui-html:create``
+* ``ui-input-field:create``
+* ``ui-input-field:<id>:set-value``
+* ``ui-input-field:<id>:append``
+* ``ui-search-box:create``
+* ``ui-search-results:create``
+* ``ui-search-results:<id>:clear``
+* ``ui-search-results:<id>:add``
+* ``ui-selectable-list:create``
+* ``ui-selectable-list:<id>:add-item``
+* ``ui-selectable-list:<id>:remove-item``
+* ``ui-selectable-list:<id>:set-item``
+* ``ui-slider:create``
+* ``ui-slider:<id>:add-value``
+* ``ui-sliding-div:create``
+* ``ui-sliding-div:collapse``
+* ``ui-sliding-div:expand``
+* ``ui-sliding-div:toggle``
+* ``ui-table:create``
+* ``ui-table:<id>:clear``
+* ``ui-table:<id>:set-data``
+* ``ui-table:<id>:select-data``
+* ``ui-table:<id>:invert-selection``
+* ``ui-table:<id>:sort-selected-first``
+* ``ui-text-area-field:create``
+* ``ui-text-area-field:<id>:set-value``
+* ``ui-text-area-field:<id>:append``
+* ``<id>-field-value-fill``
+* ``ui-form-collector:extend``
