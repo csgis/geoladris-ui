@@ -238,7 +238,7 @@ Example:
 bus.send("ui-autocomplete:myautocomplete:set-values", [ [ "1", "2", "3" ] ]);
 ```
 
-## <a name="ui-autocomplete-set-values"></a>ui-autocomplete:`<id>`:set-values
+## <a name="ui-autocomplete-set-value"></a>ui-autocomplete:`<id>`:set-value
 
 `<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete-create).
 
@@ -1190,65 +1190,3 @@ Example:
 bus.send("ui-text-area-field:myinput:value-changed", "Four");
 ```
 
-# UI Events - Complex components
-
-## ui-coordinate-input:create
-
-Message (*Object*): This creates a dialog with some controls to specify x/y coordinates and CRS. Thus, this message accepts the same options as the message for [ui-dialog:create](#ui-dialog-create).
-
-Example:
-```js
-bus.send("ui-coordinate-input:create", {
-    div : "coord-search",
-    parentDiv : layout.center,
-    title : "Coordinate Search",
-    closeButton : true
-});
-```
-
-## ui-printing-dialog:create
-
-Message (*Object*):
-
-* **div** (*String*, mandatory): Identifier of the printing dialog. 
-* **parentDiv** (*String*, mandatory): Identifier of the div that will contain the toolbar div.
-* **toolbarButton** (*String*, optional): Identifier of the toolbar button that must be in sync with the dialog's visibility.
-
-Example:
-```js
-bus.send("ui-printing-dialog:create", {
-    div : "printing-dialog",
-    parentDiv : layout.center,
-    toolbarButton : "btnPrint"
-});
-```
-
-## ui-time-selector:create
-
-Message (*Object*): This creates a dialog with some controls to specify time and operator. Thus, this message accepts the same options as the message for [ui-dialog:create](#ui-dialog-create).
-
-Example:
-```js
-bus.send("ui-time-selector:create", {
-    div : "time-selector",
-    parentDiv : layout.center,
-    title : "Time Selector",
-    closeButton : true,
-    visible : false
-});
-```
-
-## ui-toolbar:create
-
-Message (*Object*): Creates a new empty toolbar.
-
-* **div** (*String*, mandatory): Identifier of the toolbar div.
-* **parentDiv** (*String*, mandatory): Identifier of the div that will contain the toolbar div.
-
-Example:
-```js
-bus.send("ui-toolbar:create", {
-    div : "mytoolbar",
-    parentDiv : layout.center
-});
-```
