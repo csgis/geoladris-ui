@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 	bus.listen("ui-text-area-field:create", function(e, msg) {
 		var div = commons.getOrCreateDiv(msg);
 		div.addClass("ui-text-area-field-container");

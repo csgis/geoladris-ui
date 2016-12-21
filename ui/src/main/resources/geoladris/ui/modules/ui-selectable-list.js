@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 	var baseEventName = "ui-selectable-list";
 
 	function addItemToList(parentDiv, div, text) {

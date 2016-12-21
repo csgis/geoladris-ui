@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 	bus.listen("ui-dropdown-button:create", function(e, msg) {
 		// Map id -> image
 		var buttons = {};

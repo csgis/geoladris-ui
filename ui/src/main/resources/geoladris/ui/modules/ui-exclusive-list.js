@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 	var baseEventName = "ui-exclusive-list";
 
 	bus.listen(baseEventName + ":create", function(e, msg) {

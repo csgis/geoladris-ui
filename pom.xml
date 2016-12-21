@@ -17,7 +17,7 @@
 		<jasmine.version>2.1</jasmine.version>
 		<saga.version>1.5.5</saga.version>
 		<phantomjs.maven.version>0.7</phantomjs.maven.version>
-		<geoladris.core.version>5.0.1</geoladris.core.version>
+		<geoladris.core.version>6.0-SNAPSHOT</geoladris.core.version>
 	</properties>
 
 	<distributionManagement>
@@ -87,19 +87,23 @@
 					</webDriverCapabilities>
 					<additionalContexts>
 						<context>
-							<contextRoot>/core</contextRoot>
-							<directory>${project.build.directory}/unpacked-core/geoladris</directory>
+							<contextRoot>/core-modules</contextRoot>
+							<directory>${project.build.directory}/unpacked-core/geoladris/core/modules</directory>
+						</context>
+						<context>
+							<contextRoot>/core-jslib</contextRoot>
+							<directory>${project.build.directory}/unpacked-core/geoladris/core/jslib</directory>
 						</context>
 						<context>
 							<contextRoot>/jslib</contextRoot>
-							<directory>${project.basedir}/src/main/resources/geoladris/jslib</directory>
+							<directory>${project.basedir}/src/main/resources/geoladris/${project.artifactId}/jslib</directory>
 						</context>
 					</additionalContexts>
 					<preloadSources>
-						<source>/core/jslib/jquery-2.1.0.js</source>
-						<source>/core/modules/message-bus.js</source>
+						<source>/core-jslib/jquery-2.1.0.js</source>
+						<source>/core-modules/message-bus.js</source>
 					</preloadSources>
-					<jsSrcDir>${project.basedir}/src/main/resources/geoladris/modules/</jsSrcDir>
+					<jsSrcDir>${project.basedir}/src/main/resources/geoladris/${project.artifactId}/modules/</jsSrcDir>
 					<jsTestSrcDir>${project.basedir}/src/test/resources/unit-test/</jsTestSrcDir>
 					<specIncludes>
 						<include>*.js</include>
