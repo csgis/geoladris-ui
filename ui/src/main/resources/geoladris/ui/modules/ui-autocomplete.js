@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "ui-commons", "typeahead" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "./ui-commons", "typeahead" ], function($, bus, commons) {
 	bus.listen("ui-autocomplete:create", function(e, msg) {
 		var div = commons.getOrCreateDiv(msg);
 

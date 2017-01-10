@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 	bus.listen("ui-search-box:create", function(e, msg) {
 		var placeholderClass = "search-placeholder";
 

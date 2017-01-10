@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "ui-commons" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 	var baseEventName = "ui-accordion";
 
 	function visibility(id, visible) {
