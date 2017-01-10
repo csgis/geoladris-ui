@@ -6,7 +6,7 @@ define("geoladris-tests", [ "Squire", "message-bus" ], function(Squire, bus) {
 	var root = "../../../../../../";
 	var injector;
 
-	function mock(pluginName, config, paths) {
+	function init(pluginName, config, paths) {
 		paths = paths || {};
 		paths["jquery"] = root + "target/unpacked-core/geoladris/core/jslib/jquery-2.1.0";
 		paths["message-bus"] = root + "target/unpacked-core/geoladris/core/modules/message-bus";
@@ -19,29 +19,6 @@ define("geoladris-tests", [ "Squire", "message-bus" ], function(Squire, bus) {
 
 		c.config = config || {};
 		require.config(c);
-
-		if (injector != null) {
-			injector.clean();
-			injector.remove();
-		}
-
-		injector = new Squire(CONTEXT);
-		injector.mock("message-bus", bus);
-
-		bus.stopListenAll();
-		spyOn(bus, "send").and.callThrough();
-		spyOn(bus, "listen").and.callThrough();
-
-		return {
-			bus : bus,
-			injector : injector
-		}
-	}
-
-	function init(name, config, paths) {
-		if (name) {
-			return mock(name, config, paths);
-		}
 
 		if (injector != null) {
 			injector.clean();
@@ -74,7 +51,6 @@ define("geoladris-tests", [ "Squire", "message-bus" ], function(Squire, bus) {
 
 	return {
 		init : init,
-		mock : mock,
 		replaceParent : replaceParent
 	}
 });
