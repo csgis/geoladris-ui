@@ -1,36 +1,38 @@
 define([ "geoladris-tests" ], function(tests) {
 	var bus;
 	var injector;
+	var autocomplete;
 
 	describe("ui-autocomplete", function() {
 		var parentId = "myparent";
 		var id = "myautocomplete";
 
 		beforeEach(function(done) {
+			tests.replaceParent(parentId);
 			var initialization = tests.init("ui", {}, {
 				"typeahead" : "../jslib/typeahead/0.10.2/typeahead.jquery.min"
 			});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-autocomplete" ], function() {
+			injector.require([ "ui-autocomplete" ], function(module) {
+				autocomplete = module;
 				done();
 			});
-			tests.replaceParent(parentId);
 		});
 
 		function initAutocomplete() {
-			bus.send("ui-autocomplete:create", {
-				div : id,
-				parentDiv : parentId
+			autocomplete({
+				id : id,
+				parent : parentId
 			});
 			var parent = $("#" + parentId);
 			return $(parent.children()[0]);
 		}
 
 		it("appends div to parent", function() {
-			bus.send("ui-autocomplete:create", {
-				div : "myautocomplete",
-				parentDiv : parentId
+			autocomplete({
+				id : "myautocomplete",
+				parent : parentId
 			});
 
 			var parent = $("#" + parentId);
@@ -58,9 +60,9 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("sets placeholder if specified", function() {
 			var placeholder = "Search...";
-			bus.send("ui-autocomplete:create", {
-				div : "myautocomplete",
-				parentDiv : parentId,
+			autocomplete({
+				id : "myautocomplete",
+				parent : parentId,
 				placeholder : placeholder
 			});
 

@@ -12,32 +12,46 @@ define([ "jquery" ], function($) {
 		return div;
 	}
 
-	function append(div, parent, priority) {
-		var nextDiv;
+	function getOrCreateElem(type, props) {
+		var elem = $("#" + props.id);
+		if (elem.length === 0) {
+			elem = $("<" + type + "/>").attr("id", props.id);
+			elem.addClass(props.css);
+
+			var parent = $("#" + props.parent);
+			append(elem, parent, props.priority);
+		}
+
+		return elem;
+	}
+
+	function append(elem, parent, priority) {
+		var nextElem;
 
 		if (priority) {
-			div.attr("priority", priority);
+			elem.attr("priority", priority);
 
 			var children = parent.children();
 			for (var i = 0; i < children.length; i++) {
 				var child = $(children[i]);
 				var p = child.attr("priority");
 				if (!p || p > priority) {
-					nextDiv = child;
+					nextElem = child;
 					break;
 				}
 			}
 		}
 
-		if (nextDiv) {
-			nextDiv.before(div);
+		if (nextElem) {
+			nextElem.before(elem);
 		} else {
-			parent.append(div);
+			parent.append(elem);
 		}
 	}
 
 	return {
 		getOrCreateDiv : getOrCreateDiv,
+		getOrCreateElem : getOrCreateElem,
 		append : append
 	};
 });

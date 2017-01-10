@@ -3,7 +3,10 @@ define([ "jquery", "message-bus", "module", //
 "./ui-html", "./ui-dialog", "./ui-search", "./ui-buttons", "./ui-sliding-div", //
 "./ui-choice-field", "./ui-input-field", "./ui-text-area-field", //
 "./ui-form-collector", "./ui-divstack", "./ui-slider", "./ui-autocomplete", "./ui-alerts", //
-"./ui-loading", "./ui-dropdown-buttons", "./ui-table" ], function($, bus, module) {
+"./ui-loading", "./ui-dropdown-buttons", "./ui-table", "./ui-commons" ], function($, bus, module,//
+selectableList, exclusiveList, accordion, html, dialog, search, buttons, //
+slidingDiv, choiceField, inputField, textAreaField, formCollector, divstack, //
+slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 	bus.listen("ui-show", function(e, id) {
 		$("#" + id).show();
 	});
@@ -45,4 +48,69 @@ define([ "jquery", "message-bus", "module", //
 
 		bus.send("ui-loaded");
 	});
+
+	return {
+		create : function(type, props) {
+			// Do not create if already exists
+			var jqueryElem = $("#" + props.id);
+			if (jqueryElem.length > 0) {
+				return jqueryElem.get(0);
+			}
+
+			switch (type) {
+			case "accordion":
+				// TODO implement
+				break;
+			case "autocomplete":
+				jqueryElem = autocomplete(props);
+				break;
+			case "button":
+				// TODO implement
+				break;
+			case "choice":
+				// TODO implement
+				break;
+			case "dialog":
+				// TODO implement
+				break;
+			case "divstack":
+				// TODO implement
+				break;
+			case "dropdown-button":
+				// TODO implement
+				break;
+			case "exclusive-list":
+				// TODO implement
+				break;
+			case "input":
+				// TODO implement
+				break;
+			case "search":
+				// TODO implement
+				break;
+			case "selectable-list":
+				// TODO implement
+				break;
+			case "slider":
+				// TODO implement
+				break;
+			case "sliding-div":
+				// TODO implement
+				break;
+			case "table":
+				// TODO implement
+				break;
+			case "text-area":
+				// TODO implement
+				break;
+			default:
+				jqueryElem = commons.getOrCreateElem(type, props);
+				break;
+			}
+
+			var elem = jqueryElem.get(0);
+			bus.send("ui:created", elem);
+			return elem;
+		}
+	}
 });

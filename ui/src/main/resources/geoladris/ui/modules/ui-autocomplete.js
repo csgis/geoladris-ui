@@ -1,6 +1,6 @@
 define([ "jquery", "message-bus", "./ui-commons", "typeahead" ], function($, bus, commons) {
-	bus.listen("ui-autocomplete:create", function(e, msg) {
-		var div = commons.getOrCreateDiv(msg);
+	return function(msg) {
+		var div = commons.getOrCreateElem("div", msg);
 
 		if (msg.label) {
 			var label = $("<label/>").text(msg.label).addClass("autocomplete-label");
@@ -51,7 +51,7 @@ define([ "jquery", "message-bus", "./ui-commons", "typeahead" ], function($, bus
 				cb(matches);
 			}
 		});
-		var eventName = "ui-autocomplete:" + msg.div + ":selected";
+		var eventName = "ui-autocomplete:" + msg.id + ":selected";
 
 		input.keypress(function(event) {
 			if (event.which == 13) {
@@ -78,16 +78,18 @@ define([ "jquery", "message-bus", "./ui-commons", "typeahead" ], function($, bus
 			});
 		}
 
-		bus.listen("ui-autocomplete:" + msg.div + ":set-values", function(e, values) {
+		bus.listen("ui-autocomplete:" + msg.id + ":set-values", function(e, values) {
 			options = values;
 		});
 
-		bus.listen("ui-autocomplete:" + msg.div + ":set-value", function(e, value) {
+		bus.listen("ui-autocomplete:" + msg.id + ":set-value", function(e, value) {
 			input.val(value);
 		});
 
-		bus.listen(msg.div + "-field-value-fill", function(e, message) {
-			message[msg.div] = input.val();
+		bus.listen(msg.id + "-field-value-fill", function(e, message) {
+			message[msg.id] = input.val();
 		});
-	});
+
+		return input;
+	}
 });
