@@ -1,6 +1,6 @@
 define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($, bus, commons) {
-	bus.listen("ui-input-field:create", function(e, msg) {
-		var div = commons.getOrCreateDiv(msg);
+	return function(msg) {
+		var div = commons.getOrCreateElem("div", msg);
 		div.addClass("ui-input-field-container");
 
 		if (msg.label) {
@@ -29,27 +29,27 @@ define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($
 			input.pikaday({
 				format : "YYYY-MM-DD"
 			});
-			 input.attr("type", "text");
-			 input.attr("geoladris-type", "date");
+			input.attr("type", "text");
+			input.attr("geoladris-type", "date");
 		}
 
 		input.on("change paste keyup", function() {
-			bus.send("ui-input-field:" + msg.div + ":value-changed", input.val());
+			bus.send("ui-input-field:" + msg.id + ":value-changed", input.val());
 		});
 
-		bus.listen(msg.div + "-field-value-fill", function(e, message) {
+		bus.listen(msg.id + "-field-value-fill", function(e, message) {
 			if (input.attr("type") == "file") {
-				message[msg.div] = input[0].files[0];
+				message[msg.id] = input[0].files[0];
 			} else if (input.attr("type") == "number") {
-				message[msg.div] = parseFloat(input.val());
+				message[msg.id] = parseFloat(input.val());
 			} else if (input.attr("geoladris-type") == "date") {
-				message[msg.div] = new Date(input.val()).toISOString();
+				message[msg.id] = new Date(input.val()).toISOString();
 			} else {
-				message[msg.div] = input.val();
+				message[msg.id] = input.val();
 			}
 		});
 
-		bus.listen("ui-input-field:" + msg.div + ":set-value", function(e, value) {
+		bus.listen("ui-input-field:" + msg.id + ":set-value", function(e, value) {
 			if (input.attr("type") == "file") {
 				if (!value) {
 					placeholder.text("");
@@ -60,10 +60,10 @@ define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($
 			} else {
 				input.val(value);
 			}
-			bus.send("ui-input-field:" + msg.div + ":value-changed", value);
+			bus.send("ui-input-field:" + msg.id + ":value-changed", value);
 		});
 
-		bus.listen("ui-input-field:" + msg.div + ":append", function(e, value) {
+		bus.listen("ui-input-field:" + msg.id + ":append", function(e, value) {
 			if (input.attr("type") == "file") {
 				placeholder.text((placeholder.text() || "") + value);
 			} else {
@@ -76,17 +76,19 @@ define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($
 			}
 		});
 
-		bus.listen("ui-input-field:" + msg.div + ":keyup", function(e, f) {
+		bus.listen("ui-input-field:" + msg.id + ":keyup", function(e, f) {
 			input.keyup(function() {
 				f(input.val());
 			});
 		});
 
-		bus.listen("ui-input-field:" + msg.div + ":value-changed", function() {
+		bus.listen("ui-input-field:" + msg.id + ":value-changed", function() {
 			var valid = !!Date.parse(input.val());
 			if (input.attr("geoladris-type") == "date") {
 				input[0].setCustomValidity(valid ? "" : "Invalid date.");
 			}
 		});
-	});
+
+		return input;
+	}
 });

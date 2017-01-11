@@ -1,8 +1,8 @@
 define([ "geoladris-tests" ], function(tests) {
-	var bus;
-	var injector;
-
 	describe("ui-input-field", function() {
+		var bus;
+		var injector;
+		var module;
 		var parentId = "myparent";
 
 		beforeEach(function(done) {
@@ -12,16 +12,17 @@ define([ "geoladris-tests" ], function(tests) {
 			});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-input-field" ], function() {
+			injector.require([ "ui-input-field" ], function(m) {
+				module = m;
 				done();
 			});
 			tests.replaceParent(parentId);
 		});
 
 		it("creates div on ui-input-field:create", function() {
-			bus.send("ui-input-field:create", {
-				div : "myinput",
-				parentDiv : parentId
+			module({
+				id : "myinput",
+				parent : parentId
 			});
 
 			expect($("#" + parentId).children().length).toBe(1);
@@ -30,9 +31,9 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("adds label if specified on create", function() {
 			var text = "Input: ";
-			bus.send("ui-input-field:create", {
-				div : "myinput",
-				parentDiv : parentId,
+			module({
+				id : "myinput",
+				parent : parentId,
 				label : text
 			});
 
@@ -42,9 +43,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sets input type if specified on create", function() {
-			bus.send("ui-input-field:create", {
-				div : "myinput",
-				parentDiv : parentId,
+			module({
+				id : "myinput",
+				parent : parentId,
 				type : "password"
 			});
 
@@ -55,9 +56,9 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("fills message on -field-value-fill", function() {
 			var inputText = "Input Text";
-			bus.send("ui-input-field:create", {
-				div : "myinput",
-				parentDiv : parentId
+			module({
+				id : "myinput",
+				parent : parentId
 			});
 			$("#myinput").find("input").val(inputText);
 
@@ -70,9 +71,9 @@ define([ "geoladris-tests" ], function(tests) {
 			var inputText = "Input text";
 			var anotherText = "Another text";
 
-			bus.send("ui-input-field:create", {
-				div : "myinput",
-				parentDiv : parentId
+			module({
+				id : "myinput",
+				parent : parentId
 			});
 			$("#myinput").find("input").val(inputText);
 
@@ -86,9 +87,9 @@ define([ "geoladris-tests" ], function(tests) {
 			var inputText = "Input text";
 			var anotherText = "Another text";
 
-			bus.send("ui-input-field:create", {
-				div : "myinput",
-				parentDiv : parentId
+			module({
+				id : "myinput",
+				parent : parentId
 			});
 			$("#myinput").find("input").val(inputText);
 
@@ -97,9 +98,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("calls function on keyup", function() {
-			bus.send("ui-input-field:create", {
-				div : "myinput",
-				parentDiv : parentId
+			module({
+				id : "myinput",
+				parent : parentId
 			});
 
 			var text;
@@ -115,9 +116,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("adds placeholder if type is file", function() {
-			bus.send("ui-input-field:create", {
-				div : "myinput",
-				parentDiv : parentId,
+			module({
+				id : "myinput",
+				parent : parentId,
 				type : "file"
 			});
 			var placeholder = $("#myinput").find(".ui-file-input-placeholder");
@@ -125,9 +126,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sets placeholder text on 'set-value' and 'append' if type is file", function() {
-			bus.send("ui-input-field:create", {
-				div : "myinput",
-				parentDiv : parentId,
+			module({
+				id : "myinput",
+				parent : parentId,
 				type : "file"
 			});
 
@@ -141,9 +142,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sends ui-input-field:<id>:value-changed", function() {
-			bus.send("ui-input-field:create", {
-				div : "myinput",
-				parentDiv : parentId
+			module({
+				id : "myinput",
+				parent : parentId
 			});
 
 			var input = $("#myinput").find("input");
@@ -153,10 +154,10 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("adds step=any for number fields", function() {
-			bus.send("ui-input-field:create", {
-				div : "myinput",
+			module({
+				id : "myinput",
 				type : "number",
-				parentDiv : parentId
+				parent : parentId
 			});
 
 			var input = $("#myinput").find("input");
@@ -164,15 +165,15 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("fills values with actual types (number, date,...) instead of strings", function() {
-			bus.send("ui-input-field:create", {
-				div : "mynumber",
+			module({
+				id : "mynumber",
 				type : "number",
-				parentDiv : parentId
+				parent : parentId
 			});
-			bus.send("ui-input-field:create", {
-				div : "mydate",
+			module({
+				id : "mydate",
 				type : "date",
-				parentDiv : parentId
+				parent : parentId
 			});
 
 			var number = $("#mynumber").find("input");

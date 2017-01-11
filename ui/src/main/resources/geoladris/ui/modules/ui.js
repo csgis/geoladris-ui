@@ -83,7 +83,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				// TODO implement
 				break;
 			case "input":
-				// TODO implement
+				jqueryElem = input(props);
 				break;
 			case "search":
 				// TODO implement
