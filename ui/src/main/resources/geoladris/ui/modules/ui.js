@@ -71,7 +71,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				jqueryElem = choice(props);
 				break;
 			case "dialog":
-				// TODO implement
+				jqueryElem = dialog(props);
 				break;
 			case "divstack":
 				jqueryElem = divstack(props);

@@ -1,24 +1,28 @@
 define([ "geoladris-tests" ], function(tests) {
-	var bus;
-	var injector;
-
 	describe("ui-dialog", function() {
+		var bus;
+		var injector;
+		var module;
+		var buttons;
 		var parentId = "myparent";
 
 		beforeEach(function(done) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-dialog" ], function() {
+			buttons = jasmine.createSpy();
+			injector.mock("ui-buttons", buttons);
+			injector.require([ "ui-dialog" ], function(m) {
+				module = m;
 				done();
 			});
 			tests.replaceParent(parentId);
 		});
 
 		it("creates div on ui-dialog:create", function() {
-			bus.send("ui-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId
+			module({
+				id : "mydialog",
+				parent : parentId
 			});
 
 			var container = $("#" + parentId).children();
@@ -28,9 +32,9 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("does not create the same dialog twice", function() {
 			for (var i = 0; i < 10; i++) {
-				bus.send("ui-dialog:create", {
-					div : "mydialog",
-					parentDiv : parentId
+				module({
+					id : "mydialog",
+					parent : parentId
 				});
 			}
 
@@ -40,26 +44,26 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("hides the dialog on init if !visible specified", function() {
-			bus.send("ui-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId
+			module({
+				id : "mydialog",
+				parent : parentId
 			});
 			expect(bus.send).toHaveBeenCalledWith("ui-hide", "mydialog");
 		});
 
 		it("shows the dialog on init if visible specified", function() {
-			bus.send("ui-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId,
+			module({
+				id : "mydialog",
+				parent : parentId,
 				visible : true
 			});
 			expect(bus.send).toHaveBeenCalledWith("ui-show", "mydialog");
 		});
 
 		it("adds a shade behind the dialog if modal", function() {
-			bus.send("ui-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId,
+			module({
+				id : "mydialog",
+				parent : parentId,
 				modal : true
 			});
 
@@ -70,9 +74,9 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("adds a title if specified", function() {
 			var text = "Dialog Title";
-			bus.send("ui-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId,
+			module({
+				id : "mydialog",
+				parent : parentId,
 				title : text
 			});
 
@@ -82,9 +86,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("adds a close button if specified", function() {
-			bus.send("ui-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId,
+			module({
+				id : "mydialog",
+				parent : parentId,
 				closeButton : true
 			});
 
@@ -93,9 +97,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("hides the dialog on close button clicked", function() {
-			bus.send("ui-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId,
+			module({
+				id : "mydialog",
+				parent : parentId,
 				closeButton : true
 			});
 
@@ -105,9 +109,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("hides the shade when dialog is hidden if modal", function() {
-			bus.send("ui-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId,
+			module({
+				id : "mydialog",
+				parent : parentId,
 				modal : true,
 				visible : true
 			});
@@ -117,9 +121,9 @@ define([ "geoladris-tests" ], function(tests) {
 			expect($("#" + parentId).children(".dialog-modal").css("display")).toBe("none");
 		});
 		it("shows the shade when dialog is shown if modal", function() {
-			bus.send("ui-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId,
+			module({
+				id : "mydialog",
+				parent : parentId,
 				modal : true,
 				visible : false
 			});
@@ -130,9 +134,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("toggles the shade when dialog is toggled if modal", function() {
-			bus.send("ui-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId,
+			module({
+				id : "mydialog",
+				parent : parentId,
 				modal : true,
 				visible : true
 			});
@@ -143,14 +147,14 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("shows the latest dialog on top of the others when ui-show", function() {
-			bus.send("ui-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId,
+			module({
+				id : "mydialog",
+				parent : parentId,
 				visible : false
 			});
-			bus.send("ui-dialog:create", {
-				div : "mydialog2",
-				parentDiv : parentId,
+			module({
+				id : "mydialog2",
+				parent : parentId,
 				visible : false
 			});
 
@@ -184,8 +188,8 @@ define([ "geoladris-tests" ], function(tests) {
 				cancel : "No"
 			};
 			bus.send("ui-confirm-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId,
+				id : "mydialog",
+				parent : parentId,
 				css : "mydialog-class",
 				modal : false,
 				messages : messages
@@ -196,29 +200,16 @@ define([ "geoladris-tests" ], function(tests) {
 			var dialog = container.children("#mydialog");
 			expect(dialog.length).toBe(1);
 
-			expect(bus.send).toHaveBeenCalledWith("ui-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId,
-				modal : true,
-				css : "mydialog-class ui-confirm-dialog",
-				messages : messages
-			});
-			expect(bus.send).toHaveBeenCalledWith("ui-html:create", {
-				div : "mydialog-message",
-				parentDiv : "mydialog",
-				css : "ui-confirm-dialog-message",
-				html : messages.question
-			});
-			expect(bus.send).toHaveBeenCalledWith("ui-button:create", {
-				div : "mydialog-ok",
-				parentDiv : "mydialog-confirm-buttons-container",
+			expect(buttons).toHaveBeenCalledWith({
+				id : "mydialog-ok",
+				parent : "mydialog-confirm-buttons-container",
 				css : "dialog-ok-button ui-confirm-dialog-ok",
 				text : messages.ok,
 				sendEventName : "ui-confirm-dialog:mydialog:ok"
 			});
-			expect(bus.send).toHaveBeenCalledWith("ui-button:create", {
-				div : "mydialog-cancel",
-				parentDiv : "mydialog-confirm-buttons-container",
+			expect(buttons).toHaveBeenCalledWith({
+				id : "mydialog-cancel",
+				parent : "mydialog-confirm-buttons-container",
 				css : "dialog-ok-button ui-confirm-dialog-cancel",
 				text : messages.cancel,
 				sendEventName : "ui-confirm-dialog:mydialog:cancel"
@@ -227,8 +218,8 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("does not add an html with the question if not provided", function() {
 			bus.send("ui-confirm-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId,
+				id : "mydialog",
+				parent : parentId,
 				css : "mydialog-class",
 				modal : false,
 				messages : {
@@ -242,8 +233,8 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("hides the confirm dialog on ok", function() {
 			bus.send("ui-confirm-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId
+				id : "mydialog",
+				parent : parentId
 			});
 			var container = $("#" + parentId).children();
 			var dialog = container.children("#mydialog");
@@ -253,8 +244,8 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("hides the confirm dialog on cancel", function() {
 			bus.send("ui-confirm-dialog:create", {
-				div : "mydialog",
-				parentDiv : parentId
+				id : "mydialog",
+				parent : parentId
 			});
 
 			var container = $("#" + parentId).children();
