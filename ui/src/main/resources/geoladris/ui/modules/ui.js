@@ -80,7 +80,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				// TODO implement
 				break;
 			case "exclusive-list":
-				// TODO implement
+				jqueryElem = exlusiveList(props);
 				break;
 			case "input":
 				jqueryElem = input(props);

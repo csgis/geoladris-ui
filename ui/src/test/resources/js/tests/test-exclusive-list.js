@@ -1,24 +1,25 @@
 define([ "geoladris-tests" ], function(tests) {
-	var bus;
-	var injector;
-
 	describe("ui-exclusive-list", function() {
+		var bus;
+		var injector;
+		var module;
 		var parentId = "parent";
 
 		beforeEach(function(done) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-exclusive-list" ], function() {
+			injector.require([ "ui-exclusive-list" ], function(m) {
+				module = m;
 				done();
 			});
 			tests.replaceParent(parentId);
 		});
 
 		it("creates a table on ui-exclusive-list:create", function() {
-			bus.send("ui-exclusive-list:create", {
-				div : "mylist",
-				parentDiv : parentId
+			module({
+				id : "mylist",
+				parent : parentId
 			});
 
 			var children = $("#" + parentId).children();
@@ -27,9 +28,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("adds radio button to table on add-item", function() {
-			bus.send("ui-exclusive-list:create", {
-				div : "mylist",
-				parentDiv : parentId
+			module({
+				id : "mylist",
+				parent : parentId
 			});
 
 			bus.send("ui-exclusive-list:mylist:add-item", {
@@ -45,9 +46,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("removes the radio button from table on add-item", function() {
-			bus.send("ui-exclusive-list:create", {
-				div : "mylist",
-				parentDiv : parentId
+			module({
+				id : "mylist",
+				parent : parentId
 			});
 
 			var n = 5;
@@ -64,9 +65,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sends item-selected on radio button selected", function() {
-			bus.send("ui-exclusive-list:create", {
-				div : "mylist",
-				parentDiv : parentId
+			module({
+				id : "mylist",
+				parent : parentId
 			});
 
 			bus.send("ui-exclusive-list:mylist:add-item", {
@@ -82,9 +83,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sends item-selected on text clicked", function() {
-			bus.send("ui-exclusive-list:create", {
-				div : "mylist",
-				parentDiv : parentId
+			module({
+				id : "mylist",
+				parent : parentId
 			});
 
 			bus.send("ui-exclusive-list:mylist:add-item", {
@@ -104,9 +105,9 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("sets the right item on set-item", function() {
 			var list = "myexclusivelist";
-			bus.send("ui-exclusive-list:create", {
-				div : list,
-				parentDiv : parentId
+			module({
+				id : list,
+				parent : parentId
 			});
 
 			bus.send("ui-exclusive-list:" + list + ":add-item", {
