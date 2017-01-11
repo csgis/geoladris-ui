@@ -92,7 +92,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				jqueryElem = selectableList(props);
 				break;
 			case "slider":
-				// TODO implement
+				jqueryElem = slider(props);
 				break;
 			case "sliding-div":
 				// TODO implement
