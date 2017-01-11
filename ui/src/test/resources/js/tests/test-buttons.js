@@ -1,6 +1,8 @@
 define([ "geoladris-tests" ], function(tests) {
 	var bus;
 	var injector;
+	var buttons;
+
 	describe("ui-buttons", function() {
 		var parentId = "myparent";
 
@@ -8,16 +10,17 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-buttons" ], function() {
+			injector.require([ "ui-buttons" ], function(module) {
+				buttons = module;
 				done();
 			});
 			tests.replaceParent(parentId);
 		});
 
 		it("creates a <div> if text specified", function() {
-			bus.send("ui-button:create", {
-				div : "mybutton",
-				parentDiv : parentId,
+			buttons({
+				id : "mybutton",
+				parent : parentId,
 				text : "Click!"
 			});
 			expect($("#mybutton").prop("tagName")).toBe("DIV");
@@ -25,9 +28,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("creates a <div> if image specified", function() {
-			bus.send("ui-button:create", {
-				div : "mybutton",
-				parentDiv : parentId,
+			buttons({
+				id : "mybutton",
+				parent : parentId,
 				image : "url_to_image"
 			});
 			expect($("#mybutton").prop("tagName")).toBe("DIV");
@@ -36,9 +39,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("creates a <div> with text and image if both specified", function() {
-			bus.send("ui-button:create", {
-				div : "mybutton",
-				parentDiv : parentId,
+			buttons({
+				id : "mybutton",
+				parent : parentId,
 				image : "url_to_image",
 				text : "Click!"
 			});
@@ -50,9 +53,9 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("adds a tooltip if specified on create", function() {
 			var tooltip = "Click me";
-			bus.send("ui-button:create", {
-				div : "mybutton",
-				parentDiv : parentId,
+			buttons({
+				id : "mybutton",
+				parent : parentId,
 				img : "url_to_image",
 				tooltip : tooltip
 			});
@@ -60,9 +63,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("creates the button with the default css classes", function() {
-			bus.send("ui-button:create", {
-				div : "mybutton",
-				parentDiv : parentId,
+			buttons({
+				id : "mybutton",
+				parent : parentId,
 				img : "url_to_image",
 			});
 
@@ -72,14 +75,14 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sets button to correct position if priority specified on create", function() {
-			bus.send("ui-button:create", {
-				div : "mybutton1",
-				parentDiv : parentId,
+			buttons({
+				id : "mybutton1",
+				parent : parentId,
 				priority : 2
 			});
-			bus.send("ui-button:create", {
-				div : "mybutton2",
-				parentDiv : parentId,
+			buttons({
+				id : "mybutton2",
+				parent : parentId,
 				priority : 1
 			});
 
@@ -92,9 +95,9 @@ define([ "geoladris-tests" ], function(tests) {
 			var eventMessage = {
 				data : "This is the message"
 			};
-			bus.send("ui-button:create", {
-				div : "mybutton",
-				parentDiv : parentId,
+			buttons({
+				id : "mybutton",
+				parent : parentId,
 				img : "url_to_image",
 				sendEventName : event,
 				sendEventMessage : eventMessage
@@ -106,9 +109,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("enables button on ui-button:enable", function() {
-			bus.send("ui-button:create", {
-				div : "mybutton",
-				parentDiv : parentId
+			buttons({
+				id : "mybutton",
+				parent : parentId
 			});
 
 			var button = $("#mybutton");
@@ -120,9 +123,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("disables button on ui-button:disable", function() {
-			bus.send("ui-button:create", {
-				div : "mybutton",
-				parentDiv : parentId
+			buttons({
+				id : "mybutton",
+				parent : parentId
 			});
 
 			bus.send("ui-button:mybutton:enable", false);
@@ -132,9 +135,9 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("changes css on deactivate/activate events", function() {
 			var disableEvent = "disable-button";
-			bus.send("ui-button:create", {
-				div : "mybutton",
-				parentDiv : parentId
+			buttons({
+				id : "mybutton",
+				parent : parentId
 			});
 
 			expect($("#mybutton").hasClass("button-active")).toBe(false);
@@ -146,9 +149,9 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("changes css on toggle events", function() {
 			var disableEvent = "disable-button";
-			bus.send("ui-button:create", {
-				div : "mybutton",
-				parentDiv : parentId
+			buttons({
+				id : "mybutton",
+				parent : parentId
 			});
 
 			expect($("#mybutton").hasClass("button-active")).toBe(false);
@@ -159,9 +162,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("changes background image on set-image", function() {
-			bus.send("ui-button:create", {
-				div : "mybutton",
-				parentDiv : parentId,
+			buttons({
+				id : "mybutton",
+				parent : parentId,
 				image : "theme/images/one.png"
 			});
 

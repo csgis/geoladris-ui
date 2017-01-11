@@ -1,6 +1,6 @@
 define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
-	bus.listen("ui-button:create", function(e, msg) {
-		var button = commons.getOrCreateDiv(msg);
+	return function(msg) {
+		var button = commons.getOrCreateElem("div", msg);
 
 		var iconDiv = $("<div/>");
 		if (msg.image) {
@@ -20,7 +20,7 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 
 		if (msg.sendEventName) {
 			button.click(function() {
-				if ($("#" + msg.div).hasClass("button-enabled")) {
+				if ($("#" + msg.id).hasClass("button-enabled")) {
 					bus.send(msg.sendEventName, msg.sendEventMessage);
 				}
 			});
@@ -52,22 +52,22 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 			}
 		}
 
-		bus.listen("ui-button:" + msg.div + ":enable", function(e, enabled) {
+		bus.listen("ui-button:" + msg.id + ":enable", function(e, enabled) {
 			enable(enabled);
 		});
-		bus.listen("ui-button:" + msg.div + ":activate", function(e, active) {
+		bus.listen("ui-button:" + msg.id + ":activate", function(e, active) {
 			activate(active);
 		});
 
-		bus.listen("ui-button:" + msg.div + ":toggle", function() {
+		bus.listen("ui-button:" + msg.id + ":toggle", function() {
 			toggle();
 		});
-		bus.listen("ui-button:" + msg.div + ":set-image", function(e, image) {
+		bus.listen("ui-button:" + msg.id + ":set-image", function(e, image) {
 			var iconDiv = button.children(".button-content");
 			iconDiv.css("background-image", "url(" + image + ")");
 		});
 
-		bus.listen("ui-button:" + msg.div + ":link-active", function(e, linkedDiv) {
+		bus.listen("ui-button:" + msg.id + ":link-active", function(e, linkedDiv) {
 			bus.listen("ui-show", function(e, id) {
 				if (linkedDiv == id) {
 					activate(true);
@@ -84,5 +84,7 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 				}
 			});
 		});
-	});
+
+		return button;
+	}
 });

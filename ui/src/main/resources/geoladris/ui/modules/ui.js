@@ -65,7 +65,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				jqueryElem = autocomplete(props);
 				break;
 			case "button":
-				// TODO implement
+				jqueryElem = buttons(props);
 				break;
 			case "choice":
 				// TODO implement
