@@ -13,33 +13,33 @@ define([ "geoladris-tests" ], function(tests) {
 			});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-choice-field", "ui-input-field", "ui-buttons", "ui-form-collector" ], function() {
-				bus.send("ui-choice-field:create", {
-					div : "letters",
-					parentDiv : parentId,
+			tests.replaceParent(parentId);
+			injector.require([ "ui-choice-field", "ui-input-field", "ui-buttons", "ui-form-collector" ], function(choice, input, buttons) {
+				choice({
+					id : "letters",
+					parent : parentId,
 					values : [ "A", "B", "C" ]
 				});
-				bus.send("ui-choice-field:create", {
-					div : "numbers",
-					parentDiv : parentId,
+				choice({
+					id : "numbers",
+					parent : parentId,
 					values : [ "1", "2", "3" ]
 				});
-				bus.send("ui-input-field:create", {
-					div : "freetext",
-					parentDiv : parentId
+				input({
+					id : "freetext",
+					parent : parentId
 				});
-				bus.send("ui-input-field:create", {
-					div : "mydate",
-					type : "date",
-					parentDiv : parentId
+				input({
+					id : "mydate",
+					parent : parentId,
+					type : "date"
 				});
-				bus.send("ui-button:create", {
-					div : buttonId,
-					parentDiv : parentId
+				buttons({
+					id : buttonId,
+					parent : parentId
 				});
 				done();
 			});
-			tests.replaceParent(parentId);
 		});
 
 		it("sends event on button click", function() {
