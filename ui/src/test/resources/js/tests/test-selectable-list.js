@@ -1,24 +1,26 @@
 define([ "geoladris-tests" ], function(tests) {
-	var bus;
-	var injector;
 
 	describe("ui-selectable-list", function() {
+		var bus;
+		var injector;
+		var module;
 		var parentId = "myparent";
 
 		beforeEach(function(done) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-selectable-list" ], function() {
+			injector.require([ "ui-selectable-list" ], function(m) {
+				module = m;
 				done();
 			});
 			tests.replaceParent(parentId);
 		});
 
 		it("adds a div on create", function() {
-			bus.send("ui-selectable-list:create", {
-				div : "mylist",
-				parentDiv : parentId
+			module({
+				id : "mylist",
+				parent : parentId
 			});
 
 			expect($("#" + parentId).children().length).toBe(1);
@@ -26,9 +28,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("adds a checkbox on add-item", function() {
-			bus.send("ui-selectable-list:create", {
-				div : "mylist",
-				parentDiv : parentId
+			module({
+				id : "mylist",
+				parent : parentId
 			});
 			bus.send("ui-selectable-list:mylist:add-item", {
 				id : "myitem",
@@ -41,9 +43,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("removes the checkbox on remove-item", function() {
-			bus.send("ui-selectable-list:create", {
-				div : "mylist",
-				parentDiv : parentId
+			module({
+				id : "mylist",
+				parent : parentId
 			});
 			bus.send("ui-selectable-list:mylist:add-item", {
 				id : "myitem",
@@ -56,9 +58,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sets the checkbox state on set-item", function() {
-			bus.send("ui-selectable-list:create", {
-				div : "mylist",
-				parentDiv : parentId
+			module({
+				id : "mylist",
+				parent : parentId
 			});
 			bus.send("ui-selectable-list:mylist:add-item", {
 				id : "myitem",
@@ -75,9 +77,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sends event on checkbox checked", function() {
-			bus.send("ui-selectable-list:create", {
-				div : "mylist",
-				parentDiv : parentId
+			module({
+				id : "mylist",
+				parent : parentId
 			});
 			bus.send("ui-selectable-list:mylist:add-item", {
 				id : "myitem",
@@ -91,9 +93,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sends event on checkbox unchecked", function() {
-			bus.send("ui-selectable-list:create", {
-				div : "mylist",
-				parentDiv : parentId
+			module({
+				id : "mylist",
+				parent : parentId
 			});
 			bus.send("ui-selectable-list:mylist:add-item", {
 				id : "myitem",
@@ -107,9 +109,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sends event on checkbox text clicked", function() {
-			bus.send("ui-selectable-list:create", {
-				div : "mylist",
-				parentDiv : parentId
+			module({
+				id : "mylist",
+				parent : parentId
 			});
 			bus.send("ui-selectable-list:mylist:add-item", {
 				id : "myitem",

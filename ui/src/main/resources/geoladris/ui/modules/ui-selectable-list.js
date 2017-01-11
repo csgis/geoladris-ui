@@ -27,9 +27,9 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 		});
 	}
 
-	bus.listen(baseEventName + ":create", function(e, msg) {
-		var id = msg.div;
-		var div = commons.getOrCreateDiv(msg);
+	return function(msg) {
+		var id = msg.id;
+		var div = commons.getOrCreateElem("div", msg);
 
 		bus.listen(baseEventName + ":" + id + ":add-item", function(e, msg) {
 			addItemToList(id, msg.id, msg.text);
@@ -45,5 +45,7 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 				div.get(0).checked = msg.selected;
 			}
 		});
-	});
+
+		return div;
+	}
 });
