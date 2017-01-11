@@ -1,8 +1,7 @@
 define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
-
-	bus.listen("ui-choice-field:create", function(e, msg) {
-		var id = msg.div;
-		var div = commons.getOrCreateDiv(msg);
+	return function(msg) {
+		var id = msg.id;
+		var div = commons.getOrCreateElem("div", msg);
 		div.addClass("ui-choice-field-container");
 
 		if (msg.label) {
@@ -51,8 +50,10 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 			bus.send("ui-choice-field:" + id + ":value-changed", combo.val());
 		});
 
-		bus.listen(msg.div + "-field-value-fill", function(e, message) {
-			message[msg.div] = combo.val();
+		bus.listen(id + "-field-value-fill", function(e, message) {
+			message[id] = combo.val();
 		});
-	});
+
+		return combo;
+	}
 });

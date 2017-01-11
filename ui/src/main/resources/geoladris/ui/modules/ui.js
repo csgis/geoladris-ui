@@ -5,7 +5,7 @@ define([ "jquery", "message-bus", "module", //
 "./ui-form-collector", "./ui-divstack", "./ui-slider", "./ui-autocomplete", "./ui-alerts", //
 "./ui-loading", "./ui-dropdown-buttons", "./ui-table", "./ui-commons" ], function($, bus, module,//
 selectableList, exclusiveList, accordion, html, dialog, search, buttons, //
-slidingDiv, choiceField, inputField, textAreaField, formCollector, divstack, //
+slidingDiv, choice, input, textArea, formCollector, divstack, //
 slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 	bus.listen("ui-show", function(e, id) {
 		$("#" + id).show();
@@ -68,7 +68,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				jqueryElem = buttons(props);
 				break;
 			case "choice":
-				// TODO implement
+				jqueryElem = choice(props);
 				break;
 			case "dialog":
 				// TODO implement

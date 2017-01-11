@@ -1,6 +1,7 @@
 define([ "geoladris-tests" ], function(tests) {
 	var bus;
 	var injector;
+	var choice;
 
 	describe("ui-choice-field", function() {
 		var parentId = "myparent";
@@ -9,16 +10,17 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-choice-field" ], function() {
+			injector.require([ "ui-choice-field" ], function(module) {
+				choice = module;
 				done();
 			});
 			tests.replaceParent(parentId);
 		});
 
 		it("creates div on ui-choice-field:create", function() {
-			bus.send("ui-choice-field:create", {
-				div : "mychoice",
-				parentDiv : parentId
+			choice({
+				id : "mychoice",
+				parent :parentId
 			});
 
 			expect($("#" + parentId).children().length).toBe(1);
@@ -27,9 +29,9 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("adds label if specified on create", function() {
 			var text = "Choice: ";
-			bus.send("ui-choice-field:create", {
-				div : "mychoice",
-				parentDiv : parentId,
+			choice({
+				id : "mychoice",
+				parent :parentId,
 				label : text
 			});
 
@@ -39,9 +41,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("adds values if specified on create", function() {
-			bus.send("ui-choice-field:create", {
-				div : "mychoice",
-				parentDiv : parentId,
+			choice({
+				id : "mychoice",
+				parent :parentId,
 				values : [ "One", "Two", "Three" ]
 			});
 
@@ -51,9 +53,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("fills message on -field-value-fill", function() {
-			bus.send("ui-choice-field:create", {
-				div : "mychoice",
-				parentDiv : parentId,
+			choice({
+				id : "mychoice",
+				parent :parentId,
 				values : [ "One", "Two", "Three" ]
 			});
 
@@ -63,9 +65,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("adds value on add-value", function() {
-			bus.send("ui-choice-field:create", {
-				div : "mychoice",
-				parentDiv : parentId,
+			choice({
+				id : "mychoice",
+				parent :parentId,
 				values : [ "One", "Two", "Three" ]
 			});
 
@@ -77,9 +79,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sets values on set-values", function() {
-			bus.send("ui-choice-field:create", {
-				div : "mychoice",
-				parentDiv : parentId,
+			choice({
+				id : "mychoice",
+				parent :parentId,
 				values : [ "One", "Two", "Three" ]
 			});
 
@@ -92,9 +94,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sends value-changed", function() {
-			bus.send("ui-choice-field:create", {
-				div : "mychoice",
-				parentDiv : parentId,
+			choice({
+				id : "mychoice",
+				parent :parentId,
 				values : [ "One", "Two", "Three" ]
 			});
 
@@ -105,9 +107,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("changes option and sends value-changed on set-value", function() {
-			bus.send("ui-choice-field:create", {
-				div : "mychoice",
-				parentDiv : parentId,
+			choice({
+				id : "mychoice",
+				parent :parentId,
 				values : [ "One", "Two", "Three" ]
 			});
 
@@ -120,9 +122,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sets option if sent null on set-value", function() {
-			bus.send("ui-choice-field:create", {
-				div : "mychoice",
-				parentDiv : parentId,
+			choice({
+				id : "mychoice",
+				parent :parentId,
 				values : [ "One", "Two", "Three" ]
 			});
 
