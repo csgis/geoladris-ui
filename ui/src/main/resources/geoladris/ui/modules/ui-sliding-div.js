@@ -53,14 +53,24 @@ define([ "jquery", "message-bus", "./ui-commons", "module" ], function($, bus, c
 		}
 	}
 
-	bus.listen("ui-sliding-div:create", function(e, msg) {
+	bus.listen("ui-sliding-div:collapse", function(e, id) {
+		collapse(id);
+	});
+	bus.listen("ui-sliding-div:expand", function(e, id) {
+		expand(id);
+	});
+	bus.listen("ui-sliding-div:toggle", function(e, id) {
+		toggle(id);
+	});
+
+	return function(msg) {
 		var direction = msg.direction || "vertical";
 		var handlePosition = msg.handlePosition || "bottom";
 
 		// Container
-		var containerId = msg.div + "-container";
-		var container = commons.getOrCreateDiv($.extend({}, msg, {
-			div : containerId
+		var containerId = msg.id + "-container";
+		var container = commons.getOrCreateElem("div", $.extend({}, msg, {
+			id : containerId
 		}));
 		container.addClass("ui-sliding-div-container");
 
@@ -70,7 +80,7 @@ define([ "jquery", "message-bus", "./ui-commons", "module" ], function($, bus, c
 		handle.addClass(handlePosition);
 		handle.text(msg.visible ? "-" : "+");
 		handle.click(function() {
-			toggle(msg.div);
+			toggle(msg.id);
 		});
 
 		if (handlePosition == "bottom-left" || handlePosition == "top" || handlePosition == "top-left" || handlePosition == "left") {
@@ -78,8 +88,8 @@ define([ "jquery", "message-bus", "./ui-commons", "module" ], function($, bus, c
 		}
 
 		// Content div
-		var div = commons.getOrCreateDiv($.extend({}, msg, {
-			parentDiv : containerId
+		var div = commons.getOrCreateElem("div", $.extend({}, msg, {
+			parent : containerId
 		}));
 		div.addClass("ui-sliding-div-content");
 		div.attr(ATTR_DIRECTION, direction);
@@ -95,15 +105,7 @@ define([ "jquery", "message-bus", "./ui-commons", "module" ], function($, bus, c
 		if (handlePosition != "top" && handlePosition != "bottom") {
 			div.css("float", "left");
 		}
-	});
 
-	bus.listen("ui-sliding-div:collapse", function(e, id) {
-		collapse(id);
-	});
-	bus.listen("ui-sliding-div:expand", function(e, id) {
-		expand(id);
-	});
-	bus.listen("ui-sliding-div:toggle", function(e, id) {
-		toggle(id);
-	});
+		return container;
+	}
 });

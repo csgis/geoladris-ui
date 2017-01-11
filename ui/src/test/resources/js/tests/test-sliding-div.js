@@ -1,24 +1,26 @@
 define([ "geoladris-tests" ], function(tests) {
-	var bus;
-	var injector;
 
 	describe("ui-sliding-div", function() {
+		var bus;
+		var injector;
+		var module;
 		var parentId = "myparent";
 
 		beforeEach(function(done) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-sliding-div" ], function() {
+			injector.require([ "ui-sliding-div" ], function(m) {
+				module = m;
 				done();
 			});
 			tests.replaceParent(parentId);
 		});
 
 		it("creates a handle and a content div within a container on create", function() {
-			bus.send("ui-sliding-div:create", {
-				div : "mysliding",
-				parentDiv : parentId
+			module({
+				id : "mysliding",
+				parent : parentId
 			});
 
 			var container = $("#" + parentId).children(".ui-sliding-div-container");
@@ -30,24 +32,23 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("hides/shows the content when the handle is clicked", function() {
-			bus.send("ui-sliding-div:create", {
-				div : "mysliding",
-				parentDiv : parentId
+			module({
+				id : "mysliding",
+				parent : parentId
 			});
 
 			var container = $("#" + parentId).children(".ui-sliding-div-container");
 			var handle = container.children(".ui-sliding-div-handle");
 			var content = container.children("#mysliding");
-
 			expect(content.css("display")).toBe("none");
 			handle.click();
 			expect(content.css("display")).toBe("block");
 		});
 
 		it("shows on expand event", function() {
-			bus.send("ui-sliding-div:create", {
-				div : "mysliding",
-				parentDiv : parentId,
+			module({
+				id : "mysliding",
+				parent : parentId,
 			});
 
 			var div = $("#mysliding");
@@ -58,9 +59,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("hides on collapse event", function() {
-			bus.send("ui-sliding-div:create", {
-				div : "mysliding",
-				parentDiv : parentId
+			module({
+				id : "mysliding",
+				parent : parentId
 			});
 
 			var div = $("#mysliding");
@@ -74,9 +75,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("toggles on toggle event", function() {
-			bus.send("ui-sliding-div:create", {
-				div : "mysliding",
-				parentDiv : parentId
+			module({
+				id : "mysliding",
+				parent : parentId
 			});
 
 			var div = $("#mysliding");
@@ -89,9 +90,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("changes handle text when shown/hidden", function() {
-			bus.send("ui-sliding-div:create", {
-				div : "mysliding",
-				parentDiv : parentId
+			module({
+				id : "mysliding",
+				parent : parentId
 			});
 
 			var handle = $("#mysliding").siblings(".ui-sliding-div-handle");
@@ -104,9 +105,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("adds the handlePosition property as CSS class", function() {
-			bus.send("ui-sliding-div:create", {
-				div : "mysliding",
-				parentDiv : parentId,
+			module({
+				id : "mysliding",
+				parent : parentId,
 				handlePosition : "bottom-left"
 			});
 
@@ -115,9 +116,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("shows expanded if visible is specified", function() {
-			bus.send("ui-sliding-div:create", {
-				div : "mysliding",
-				parentDiv : parentId,
+			module({
+				id : "mysliding",
+				parent : parentId,
 				handlePosition : "bottom-left",
 				visible : true
 			});
