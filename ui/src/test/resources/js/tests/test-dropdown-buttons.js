@@ -1,9 +1,11 @@
 define([ "geoladris-tests" ], function(tests) {
-	var bus;
-	var injector;
-
 	describe("ui-dropdown-buttons", function() {
+		var bus;
+		var injector;
+		var module;
 		var parentId = "myparent";
+
+		var deps;
 
 		beforeEach(function(done) {
 			var initialization = tests.init("ui", {});
@@ -11,49 +13,56 @@ define([ "geoladris-tests" ], function(tests) {
 			injector = initialization.injector;
 
 			// Mock the button and sliding div events
-			bus.listen("ui-sliding-div:create", function(e, msg) {
-				$("#" + parentId).append($("<div/>").attr("id", msg.div));
-			});
-			bus.listen("ui-button:create", function(e, msg) {
-				$("#" + parentId).append($("<div/>").attr("id", msg.div));
-			});
+			deps = {
+				buttons : function(msg) {
+					$("#" + parentId).append($("<div/>").attr("id", msg.id));
+				},
+				sliding : function(msg) {
+					$("#" + parentId).append($("<div/>").attr("id", msg.id));
+				}
+			};
+			spyOn(deps, "buttons").and.callThrough();
+			spyOn(deps, "sliding").and.callThrough();
 
-			injector.require([ "ui-dropdown-buttons" ], function() {
+			injector.mock("ui-buttons", deps.buttons);
+			injector.mock("ui-sliding-div", deps.sliding);
+			injector.require([ "ui-dropdown-buttons" ], function(m) {
+				module = m;
 				done();
 			});
 			tests.replaceParent(parentId);
 		});
 
 		it("calls ui-button:create on create", function() {
-			bus.send("ui-dropdown-button:create", {
-				div : "mybutton",
-				parentDiv : parentId,
+			module({
+				id : "mybutton",
+				parent : parentId,
 				text : "text"
 			});
-			expect(bus.send).toHaveBeenCalledWith("ui-button:create", jasmine.objectContaining({
-				div : "mybutton",
-				parentDiv : "mybutton-container",
+			expect(deps.buttons).toHaveBeenCalledWith(jasmine.objectContaining({
+				id : "mybutton",
+				parent : "mybutton-container",
 				css : "ui-dropdown-button-button",
 				text : "text"
 			}));
 		});
 
 		it("calls ui-sliding-div:create on create", function() {
-			bus.send("ui-dropdown-button:create", {
-				div : "mybutton",
-				parentDiv : parentId,
+			module({
+				id : "mybutton",
+				parent : parentId,
 				text : "text"
 			});
-			expect(bus.send).toHaveBeenCalledWith("ui-sliding-div:create", jasmine.objectContaining({
-				div : "mybutton-sliding",
-				parentDiv : "mybutton-container"
+			expect(deps.sliding).toHaveBeenCalledWith(jasmine.objectContaining({
+				id : "mybutton-sliding",
+				parent : "mybutton-container"
 			}));
 		});
 
 		it("adds a div on add-item", function() {
-			bus.send("ui-dropdown-button:create", {
-				div : "mybutton",
-				parentDiv : parentId
+			module({
+				id : "mybutton",
+				parent : parentId
 			});
 
 			expect($("#mybutton-sliding").children().length).toBe(0);
@@ -67,9 +76,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("toggles the sliding on click if dropdownOnClick", function() {
-			bus.send("ui-dropdown-button:create", {
-				div : "mybutton",
-				parentDiv : parentId,
+			module({
+				id : "mybutton",
+				parent : parentId,
 				dropdownOnClick : true
 			});
 
@@ -104,9 +113,9 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("sets title attribute if tooltip provided on add-item", function() {
 			var tooltip = "My item tooltip";
-			bus.send("ui-dropdown-button:create", {
-				div : "mybutton",
-				parentDiv : parentId,
+			module({
+				id : "mybutton",
+				parent : parentId,
 				dropdownOnClick : true
 			});
 			bus.send("ui-dropdown-button:mybutton:add-item", {
@@ -134,9 +143,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		function mockWithItem() {
-			bus.send("ui-dropdown-button:create", {
-				div : "mybutton",
-				parentDiv : parentId,
+			module({
+				id : "mybutton",
+				parent : parentId,
 				dropdownOnClick : true
 			});
 			bus.send("ui-dropdown-button:mybutton:add-item", {

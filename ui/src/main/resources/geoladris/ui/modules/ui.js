@@ -77,7 +77,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				jqueryElem = divstack(props);
 				break;
 			case "dropdown-button":
-				// TODO implement
+				jqueryElem = dropdownButtons(props);
 				break;
 			case "exclusive-list":
 				jqueryElem = exclusiveList(props);

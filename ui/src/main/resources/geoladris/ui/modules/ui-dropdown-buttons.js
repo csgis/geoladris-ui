@@ -1,30 +1,30 @@
-define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
-	bus.listen("ui-dropdown-button:create", function(e, msg) {
+define([ "jquery", "message-bus", "./ui-commons", "./ui-buttons", "./ui-sliding-div" ], function($, bus, commons, uiButtons, uiSliding) {
+	return function(msg) {
 		// Map id -> image
 		var buttons = {};
 
-		var divId = msg.div;
-		var containerId = divId + "-container";
-		var slidingId = divId + "-sliding";
+		var id = msg.id;
+		var containerId = id + "-container";
+		var slidingId = id + "-sliding";
 
 		var newMsg = $.extend({}, msg, {
-			div : containerId
+			id : containerId
 		});
-		var container = commons.getOrCreateDiv(newMsg);
+		var container = commons.getOrCreateElem("div", newMsg);
 		container.addClass("ui-dropdown-button-container");
 
-		bus.send("ui-button:create", $.extend({}, msg, {
+		uiButtons($.extend({}, msg, {
 			css : "ui-dropdown-button-button",
-			parentDiv : containerId
+			parent : containerId
 		}));
 
-		bus.send("ui-sliding-div:create", {
-			div : slidingId,
-			parentDiv : containerId
+		uiSliding({
+			id : slidingId,
+			parent : containerId
 		});
 
 		var selected;
-		bus.listen("ui-dropdown-button:" + divId + ":add-item", function(e, msg) {
+		bus.listen("ui-dropdown-button:" + id + ":add-item", function(e, msg) {
 			buttons[msg.id] = msg.image;
 
 			var item = $("<div/>").addClass("ui-dropdown-button-item");
@@ -40,8 +40,8 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 				if (msg.id != selected) {
 					selected = msg.id;
 					bus.send("ui-sliding-div:collapse", slidingId);
-					bus.send("ui-button:" + divId + ":set-image", msg.image);
-					bus.send("ui-dropdown-button:" + divId + ":item-selected", msg.id);
+					bus.send("ui-button:" + id + ":set-image", msg.image);
+					bus.send("ui-dropdown-button:" + id + ":item-selected", msg.id);
 				} else {
 					bus.send("ui-sliding-div:collapse", slidingId);
 				}
@@ -49,14 +49,16 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 		});
 
 		if (msg.dropdownOnClick) {
-			$("#" + divId).click(function() {
+			$("#" + id).click(function() {
 				bus.send("ui-sliding-div:toggle", slidingId);
 			});
 		}
 
-		bus.listen("ui-dropdown-button:" + divId + ":set-item", function(e, itemId) {
+		bus.listen("ui-dropdown-button:" + id + ":set-item", function(e, itemId) {
 			selected = itemId;
-			bus.send("ui-button:" + divId + ":set-image", buttons[itemId]);
+			bus.send("ui-button:" + id + ":set-image", buttons[itemId]);
 		});
-	});
+
+		return container;
+	}
 });
