@@ -74,7 +74,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				// TODO implement
 				break;
 			case "divstack":
-				// TODO implement
+				jqueryElem = divstack(props);
 				break;
 			case "dropdown-button":
 				// TODO implement
@@ -108,9 +108,11 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				break;
 			}
 
-			var elem = jqueryElem.get(0);
-			bus.send("ui:created", elem);
-			return elem;
+			if (jqueryElem) {
+				var elem = jqueryElem.get(0);
+				bus.send("ui:created", elem);
+				return elem;
+			}
 		}
 	}
 });

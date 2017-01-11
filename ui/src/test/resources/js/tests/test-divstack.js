@@ -1,15 +1,17 @@
 define([ "geoladris-tests" ], function(tests) {
-	var bus;
-	var injector;
 
 	describe("ui-divstack", function() {
+		var bus;
+		var injector;
+		var module;
 		var parentId = "myparent";
 
 		beforeEach(function(done) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-divstack" ], function() {
+			injector.require([ "ui-divstack" ], function(m) {
+				module = m;
 				done();
 			});
 			tests.replaceParent(parentId);
@@ -23,7 +25,7 @@ define([ "geoladris-tests" ], function(tests) {
 				document.getElementById(parentId).appendChild(div);
 			}
 
-			bus.send("ui-divstack:create", {
+			module({
 				divs : ids
 			});
 
@@ -40,7 +42,7 @@ define([ "geoladris-tests" ], function(tests) {
 				document.getElementById(parentId).appendChild(div);
 			}
 
-			bus.send("ui-divstack:create", {
+			module({
 				divs : ids
 			});
 			bus.send("ui-show", "id3");

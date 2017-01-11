@@ -1,13 +1,6 @@
 define([ "jquery", "message-bus" ], function($, bus) {
 	var divLists = [];
 
-	bus.listen("ui-divstack:create", function(e, msg) {
-		divLists.push(msg.divs);
-		for (var i = 1; i < msg.divs.length; i++) {
-			bus.send("ui-hide", msg.divs[i]);
-		}
-	});
-
 	bus.listen("ui-show", function(e, id) {
 		for (var i = 0; i < divLists.length; i++) {
 			var j;
@@ -29,4 +22,11 @@ define([ "jquery", "message-bus" ], function($, bus) {
 			}
 		}
 	});
+
+	return function(msg) {
+		divLists.push(msg.divs);
+		for (var i = 1; i < msg.divs.length; i++) {
+			bus.send("ui-hide", msg.divs[i]);
+		}
+	}
 });
