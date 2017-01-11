@@ -1,6 +1,6 @@
 define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
-	bus.listen("ui-text-area-field:create", function(e, msg) {
-		var div = commons.getOrCreateDiv(msg);
+	return function(msg) {
+		var div = commons.getOrCreateElem("div", msg);
 		div.addClass("ui-text-area-field-container");
 
 		if (msg.label) {
@@ -18,19 +18,19 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 
 		div.append(text);
 
-		bus.listen("ui-text-area-field:" + msg.div + ":set-value", function(e, value) {
+		bus.listen("ui-text-area-field:" + msg.id + ":set-value", function(e, value) {
 			text.val(value);
 		});
 
-		bus.listen(msg.div + "-field-value-fill", function(e, message) {
-			message[msg.div] = text.val();
+		bus.listen(msg.id + "-field-value-fill", function(e, message) {
+			message[msg.id] = text.val();
 		});
 
 		text.on("change paste keyup", function() {
-			bus.send("ui-text-area-field:" + msg.div + ":value-changed", text.val());
+			bus.send("ui-text-area-field:" + msg.id + ":value-changed", text.val());
 		});
 
-		bus.listen("ui-text-area-field:" + msg.div + ":append", function(e, value) {
+		bus.listen("ui-text-area-field:" + msg.id + ":append", function(e, value) {
 			var current = text.val();
 			if (current) {
 				text.val(current + value);
@@ -38,5 +38,7 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 				text.val(value);
 			}
 		});
-	});
+
+		return text;
+	}
 });

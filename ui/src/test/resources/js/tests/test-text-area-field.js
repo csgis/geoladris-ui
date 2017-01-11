@@ -1,6 +1,7 @@
 define([ "geoladris-tests" ], function(tests) {
 	var bus;
 	var injector;
+	var textArea;
 
 	describe("ui-text-area-field", function() {
 		var parentId = "myparent";
@@ -9,16 +10,17 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-text-area-field" ], function() {
+			injector.require([ "ui-text-area-field" ], function(module) {
+				textArea = module;
 				done();
 			});
 			tests.replaceParent(parentId);
 		});
 
 		it("creates a textarea with a label on create", function() {
-			bus.send("ui-text-area-field:create", {
-				div : "myarea",
-				parentDiv : parentId,
+			textArea({
+				id : "myarea",
+				parent : parentId,
 				label : "Text: "
 			});
 
@@ -33,9 +35,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sets rows and cols if specified on create", function() {
-			bus.send("ui-text-area-field:create", {
-				div : "myarea",
-				parentDiv : parentId,
+			textArea({
+				id : "myarea",
+				parent : parentId,
 				label : "Text: ",
 				rows : 4,
 				cols : 20
@@ -47,9 +49,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sets value to the textarea on set-value", function() {
-			bus.send("ui-text-area-field:create", {
-				div : "myarea",
-				parentDiv : parentId,
+			textArea({
+				id : "myarea",
+				parent : parentId,
 				label : "Text: ",
 				rows : 4,
 				cols : 20
@@ -61,9 +63,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("fills message on -field-value-fill", function() {
-			bus.send("ui-text-area-field:create", {
-				div : "myarea",
-				parentDiv : parentId,
+			textArea({
+				id : "myarea",
+				parent : parentId,
 				label : "Text: "
 			});
 
@@ -80,9 +82,9 @@ define([ "geoladris-tests" ], function(tests) {
 			var inputText = "Input text";
 			var anotherText = "Another text";
 
-			bus.send("ui-text-area-field:create", {
-				div : "myinput",
-				parentDiv : parentId
+			textArea({
+				id : "myinput",
+				parent : parentId
 			});
 			$("#myinput").find("textarea").val(inputText);
 
@@ -94,9 +96,9 @@ define([ "geoladris-tests" ], function(tests) {
 			var inputText = "Input text";
 			var anotherText = "Another text";
 
-			bus.send("ui-text-area-field:create", {
-				div : "myinput",
-				parentDiv : parentId
+			textArea({
+				id : "myinput",
+				parent : parentId
 			});
 			$("#myinput").find("textarea").val(inputText);
 
@@ -105,9 +107,9 @@ define([ "geoladris-tests" ], function(tests) {
 		});
 
 		it("sends ui-text-area-field:<id>:value-changed", function() {
-			bus.send("ui-text-area-field:create", {
-				div : "myinput",
-				parentDiv : parentId
+			textArea({
+				id : "myinput",
+				parent : parentId
 			});
 
 			var area = $("#myinput").find("textarea");

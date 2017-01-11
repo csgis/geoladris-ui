@@ -101,7 +101,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				// TODO implement
 				break;
 			case "text-area":
-				// TODO implement
+				jqueryElem = textArea(props);
 				break;
 			default:
 				jqueryElem = commons.getOrCreateElem(type, props);
