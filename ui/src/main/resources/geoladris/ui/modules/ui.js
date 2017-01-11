@@ -98,7 +98,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				// TODO implement
 				break;
 			case "table":
-				// TODO implement
+				jqueryElem = table(props);
 				break;
 			case "text-area":
 				jqueryElem = textArea(props);

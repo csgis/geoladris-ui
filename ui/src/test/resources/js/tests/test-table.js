@@ -1,8 +1,8 @@
 define([ "geoladris-tests" ], function(tests) {
-	var bus;
-	var injector;
-
 	describe("ui-table", function() {
+		var bus;
+		var injector;
+		var module;
 		var parentId = "myparent";
 
 		beforeEach(function(done) {
@@ -13,7 +13,8 @@ define([ "geoladris-tests" ], function(tests) {
 			});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-table" ], function() {
+			injector.require([ "ui-table" ], function(m) {
+				module = m;
 				done();
 			});
 			tests.replaceParent(parentId);
@@ -21,22 +22,22 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("creates an empty container on create", function() {
 			var msg = {
-				div : "mytable",
-				parentDiv : parentId
+				id : "mytable",
+				parent : parentId
 			};
 
-			bus.send("ui-table:create", msg);
+			module(msg);
 			expect($("#mytable").length).toBe(1);
 			expect($("#mytable").children().length).toBe(0);
 		});
 
 		it("sets data on set-data", function() {
 			var msg = {
-				div : "mytable",
-				parentDiv : parentId
+				id : "mytable",
+				parent : parentId
 			};
 
-			bus.send("ui-table:create", msg);
+			module(msg);
 			// There are two tables: header + data. We get the second table
 			expect($("#mytable").find("table").length).toBe(0);
 			bus.send("ui-table:mytable:set-data", {
@@ -60,11 +61,11 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("replaces previous data on set-data", function() {
 			var msg = {
-				div : "mytable",
-				parentDiv : parentId
+				id : "mytable",
+				parent : parentId
 			};
 
-			bus.send("ui-table:create", msg);
+			module(msg);
 			expect($("#mytable").find("table").length).toBe(0);
 			bus.send("ui-table:mytable:set-data", {
 				data : [ {
@@ -96,11 +97,11 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("clears table on clear", function() {
 			var msg = {
-				div : "mytable",
-				parentDiv : parentId
+				id : "mytable",
+				parent : parentId
 			};
 
-			bus.send("ui-table:create", msg);
+			module(msg);
 			bus.send("ui-table:mytable:set-data", {
 				data : [ {
 					letter : "c",
@@ -120,11 +121,11 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("selects and sends row-selection-changed on row click", function() {
 			var msg = {
-				div : "mytable",
-				parentDiv : parentId
+				id : "mytable",
+				parent : parentId
 			};
 
-			bus.send("ui-table:create", msg);
+			module(msg);
 			bus.send("ui-table:mytable:set-data", {
 				data : [ {
 					letter : "a",
@@ -159,11 +160,11 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("selects rows on select-data", function() {
 			var msg = {
-				div : "mytable",
-				parentDiv : parentId
+				id : "mytable",
+				parent : parentId
 			};
 
-			bus.send("ui-table:create", msg);
+			module(msg);
 			bus.send("ui-table:mytable:set-data", {
 				data : [ {
 					letter : "a",
@@ -196,11 +197,11 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("adds/removes selected class from rows on invert-selection", function() {
 			var msg = {
-				div : "mytable",
-				parentDiv : parentId
+				id : "mytable",
+				parent : parentId
 			};
 
-			bus.send("ui-table:create", msg);
+			module(msg);
 			bus.send("ui-table:mytable:set-data", {
 				data : [ {
 					letter : "a",
@@ -231,8 +232,8 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("sends data-selected on invert-selection", function() {
 			var msg = {
-				div : "mytable",
-				parentDiv : parentId
+				id : "mytable",
+				parent : parentId
 			};
 
 			var data = [ {
@@ -242,7 +243,7 @@ define([ "geoladris-tests" ], function(tests) {
 				letter : "b",
 				number : "2"
 			} ];
-			bus.send("ui-table:create", msg);
+			module(msg);
 			bus.send("ui-table:mytable:set-data", {
 				data : data,
 				fields : {
@@ -258,8 +259,8 @@ define([ "geoladris-tests" ], function(tests) {
 
 		it("moves selected rows to top on sort-selected-first", function() {
 			var msg = {
-				div : "mytable",
-				parentDiv : parentId
+				id : "mytable",
+				parent : parentId
 			};
 
 			var data = [ {
@@ -272,7 +273,7 @@ define([ "geoladris-tests" ], function(tests) {
 				letter : "c",
 				number : "3"
 			} ];
-			bus.send("ui-table:create", msg);
+			module(msg);
 			bus.send("ui-table:mytable:set-data", {
 				data : data,
 				fields : {
@@ -297,9 +298,9 @@ define([ "geoladris-tests" ], function(tests) {
 		it("applies CSS classes to <div> container and <table>", function() {
 			var css = "my-table-class";
 
-			bus.send("ui-table:create", {
-				div : "mytable",
-				parentDiv : parentId,
+			module({
+				id : "mytable",
+				parent : parentId,
 				css : css
 			});
 
@@ -325,9 +326,9 @@ define([ "geoladris-tests" ], function(tests) {
 				letter : "c",
 				number : "3"
 			} ];
-			bus.send("ui-table:create", {
-				div : "mytable",
-				parentDiv : parentId
+			module({
+				id : "mytable",
+				parent : parentId
 			});
 			bus.send("ui-table:mytable:set-data", {
 				data : data,
@@ -351,9 +352,9 @@ define([ "geoladris-tests" ], function(tests) {
 				letter : "c",
 				number : "3"
 			} ];
-			bus.send("ui-table:create", {
-				div : "mytable",
-				parentDiv : parentId
+			module({
+				id : "mytable",
+				parent : parentId
 			});
 			bus.send("ui-table:mytable:set-data", {
 				data : data,

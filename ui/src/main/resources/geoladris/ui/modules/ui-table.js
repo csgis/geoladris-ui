@@ -12,18 +12,18 @@ define([ "jquery", "message-bus", "./ui-commons", "datatables.net", "datatables.
 		});
 	}
 
-	bus.listen("ui-table:create", function(e, msg) {
+	return function(msg) {
 		var table;
 		var headers;
 		var fields;
 
-		var id = msg.div;
+		var id = msg.id;
 		var css = msg.css;
 		var hasColumnSelection = msg.hasColumnSelection;
 		var idColumn;
 
 		var translations = msg.messages || {};
-		var div = commons.getOrCreateDiv(msg);
+		var div = commons.getOrCreateElem("div", msg);
 
 		bus.listen("ui-table:" + id + ":clear", function() {
 			div.empty();
@@ -153,5 +153,7 @@ define([ "jquery", "message-bus", "./ui-commons", "datatables.net", "datatables.
 		bus.listen("ui-table:" + id + ":filter", function(e, text) {
 			table.search(text).draw();
 		});
-	});
+
+		return table;
+	}
 });
