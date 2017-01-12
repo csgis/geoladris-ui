@@ -73,23 +73,6 @@ bus.send("ui-remove-class", {
 });
 ```
 
-## ui-css
-
-Message (*Object*):
-
-* **div** (*String*, mandatory): Identifier of the div to modify.
-* **key** (*String*, mandatory): CSS property to set.
-* **value** (*String*, mandatory): CSS value to set for the property.
-
-Example:
-```js
-bus.send("ui-css", {
-    div : "mydiv",
-    key : "background",
-    value : "red"
-});
-```
-
 ## ui-open-url
 
 Message (*Object*):

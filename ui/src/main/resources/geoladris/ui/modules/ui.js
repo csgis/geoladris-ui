@@ -34,10 +34,6 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 		$("#" + msg.div).removeClass(msg.cssClass);
 	});
 
-	bus.listen("ui-css", function(e, msg) {
-		$("#" + msg.div).css(msg.key, msg.value);
-	});
-
 	// Initialization
 	var config = module.config();
 	bus.listen("modules-loaded", function() {

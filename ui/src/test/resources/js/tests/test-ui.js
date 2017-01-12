@@ -96,23 +96,6 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 				done();
 			});
 		});
-		it("sets CSS on ui-css", function(done) {
-			var initialization = tests.init("ui");
-			bus = initialization.bus;
-			injector = initialization.injector;
-			injector.mock("layout", {});
-
-			injector.require([ "ui" ], function() {
-				expect($("#" + div).css("display")).toBe("block");
-				bus.send("ui-css", {
-					div : div,
-					key : "display",
-					value : "none"
-				});
-				expect($("#" + div).css("display")).toBe("none");
-				done();
-			});
-		});
 
 		it("sends config events on modules-loaded", function(done) {
 			var initialization = tests.init("ui", {
