@@ -28,21 +28,6 @@ Example:
 bus.send("ui-toggle", "mydiv");
 ```
 
-## ui-set-content
-
-Message (*Object*):
-
-* **div** (*String*, mandatory): Identifier of the div to modify.
-* **html** (*String*, mandatory): HTML content to set.
-
-Example:
-```javascript
-bus.send("ui-set-content", {
-    div : "mydiv",
-    html : "<p>This is <b>HTML</b> content.</p>"
-});
-```
-
 ## ui-add-class
 
 Message (*Object*):

@@ -55,24 +55,6 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 			});
 		});
 
-		it("sets html content on ui-set-content", function(done) {
-			var initialization = tests.init("ui");
-			bus = initialization.bus;
-			injector = initialization.injector;
-			injector.mock("layout/layout", {});
-
-			injector.require([ "ui" ], function() {
-				var content = "<p>HTML content</p>";
-				expect($("#" + div).html()).toEqual("");
-				bus.send("ui-set-content", {
-					div : div,
-					content : content
-				});
-				expect($("#" + div).html()).toEqual(content);
-				done();
-			});
-		});
-
 		it("adds/removes CSS class on ui-add-class/ui-remove-class", function(done) {
 			var initialization = tests.init("ui");
 			bus = initialization.bus;

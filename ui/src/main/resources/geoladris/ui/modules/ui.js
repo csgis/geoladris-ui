@@ -19,10 +19,6 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 		$("#" + id).toggle();
 	});
 
-	bus.listen("ui-set-content", function(e, msg) {
-		$("#" + msg.div).html(msg.content);
-	});
-
 	bus.listen("ui-open-url", function(e, msg) {
 		window.open(msg.url, msg.target);
 	});

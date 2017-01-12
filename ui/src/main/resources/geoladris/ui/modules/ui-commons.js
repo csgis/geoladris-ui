@@ -9,6 +9,9 @@ define([ "jquery" ], function($) {
 			append(div, parent, msg.priority);
 		}
 
+		if (msg.html) {
+			div.html(msg.html);
+		}
 		return div;
 	}
 
