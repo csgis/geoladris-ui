@@ -14,7 +14,7 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.mock("layout", layout);
+			injector.mock("layout/layout", layout);
 			injector.require([ "ui-alerts" ], function() {
 				done();
 			});

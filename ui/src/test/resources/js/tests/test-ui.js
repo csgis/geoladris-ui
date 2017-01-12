@@ -15,7 +15,7 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 			var initialization = tests.init("ui");
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.mock("layout", {});
+			injector.mock("layout/layout", {});
 
 			injector.require([ "ui" ], function() {
 				$("#" + div).css("display", "none");
@@ -31,7 +31,7 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 			var initialization = tests.init("ui");
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.mock("layout", {});
+			injector.mock("layout/layout", {});
 
 			injector.require([ "ui" ], function() {
 				expect($("#" + div).css("display")).not.toBe("none");
@@ -45,7 +45,7 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 			var initialization = tests.init("ui");
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.mock("layout", {});
+			injector.mock("layout/layout", {});
 
 			injector.require([ "ui" ], function() {
 				expect($("#" + div).css("display")).not.toBe("none");
@@ -59,7 +59,7 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 			var initialization = tests.init("ui");
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.mock("layout", {});
+			injector.mock("layout/layout", {});
 
 			injector.require([ "ui" ], function() {
 				var content = "<p>HTML content</p>";
@@ -77,7 +77,7 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 			var initialization = tests.init("ui");
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.mock("layout", {});
+			injector.mock("layout/layout", {});
 
 			injector.require([ "ui" ], function() {
 				var cssClass = "myclass";
@@ -96,7 +96,6 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 				done();
 			});
 		});
-
 		it("sets CSS on ui-css", function(done) {
 			var initialization = tests.init("ui");
 			bus = initialization.bus;
@@ -129,7 +128,7 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 			});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.mock("layout", {});
+			injector.mock("layout/layout", {});
 
 			injector.require([ "ui" ], function() {
 				bus.send("modules-loaded");
