@@ -429,6 +429,8 @@ bus.send("ui-dropdown-button:mydropdown:item-selected", "item1");
 
 ## <a name="ui-exclusive-list-create"></a>ui-exclusive-list:create
 
+> **TODO** Has been changed to `ui.create("radio", {...});`
+
 Message (*Object*):
 
 * **div** (*String*, mandatory): Identifier of the exclusive list div.
@@ -441,23 +443,6 @@ bus.send("ui-exclusive-list:create", {
     div : "base-layer",
     parentDiv : "myaccordion",
     css : "baselayer"
-});
-```
-
-## <a name="ui-exclusive-list-add-item"></a>ui-exclusive-list:`<id>`:add-item
-
-`<id>` matches the *div* specified when creating the [exclusive list](#ui-exclusive-list-create).
-
-Message (*Object*):
-
-* **id** (*String*, mandatory): Identifier of the item to add.
-* **text** (*String*, mandatory): Text to show for the new item.
-
-Example:
-```js
-bus.send("ui-exclusive-list:base-layer:add-item", {
-    id : "osm",
-    text : "Open Street Map"
 });
 ```
 

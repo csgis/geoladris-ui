@@ -16,72 +16,47 @@ define([ "geoladris-tests" ], function(tests) {
 			tests.replaceParent(parentId);
 		});
 
-		it("creates a table on ui-exclusive-list:create", function() {
-			module({
-				id : "mylist",
-				parent : parentId
-			});
-
-			var children = $("#" + parentId).children();
-			expect(children.length).toBe(1);
-			expect($(children[0]).children("table").length).toBe(1);
-		});
-
-		it("adds radio button to table on add-item", function() {
-			module({
-				id : "mylist",
-				parent : parentId
-			});
-
-			bus.send("ui-exclusive-list:mylist:add-item", {
+		it("creates a radio button", function() {
+			var input = module({
 				id : "myitem",
-				text : "Item 1"
+				text : "Item 1",
+				parent : parentId
 			});
 
-			var input = $("#mylist").find("input");
+			input = $(input);
 			expect(input.length).toBe(1);
 			expect(input.attr("type")).toEqual("radio");
-			expect(input.attr("name")).toEqual("mylist");
+			expect(input.attr("name")).toEqual(parentId);
 			expect(input.attr("id")).toEqual("myitem");
 		});
 
 		it("sends item-selected on radio button selected", function() {
-			module({
-				id : "mylist",
-				parent : parentId
-			});
-
-			bus.send("ui-exclusive-list:mylist:add-item", {
+			var input = module({
 				id : "myitem",
+				parent : parentId,
 				text : "Item 1"
 			});
 
-			var input = $("#mylist").find("input");
-			input[0].checked = true;
-			input.trigger("change");
+			input.checked = true;
+			$(input).trigger("change");
 
-			expect(bus.send).toHaveBeenCalledWith("ui-exclusive-list:mylist:item-selected", "myitem");
+			expect(bus.send).toHaveBeenCalledWith("ui-exclusive-list:" + parentId + ":item-selected", "myitem");
 		});
 
 		it("sends item-selected on text clicked", function() {
-			module({
-				id : "mylist",
-				parent : parentId
-			});
-
-			bus.send("ui-exclusive-list:mylist:add-item", {
+			var input = module({
 				id : "myitem",
+				parent : parentId,
 				text : "Item 1"
 			});
 
-			var input = $("#mylist").find("input");
-			input[0].checked = true;
-			input.trigger("change");
+			input.checked = true;
+			$(input).trigger("change");
 
 			var text = $("#mylist").find("td.exclusive-list-text");
 			text.trigger("click");
 
-			expect(bus.send).toHaveBeenCalledWith("ui-exclusive-list:mylist:item-selected", "myitem");
+			expect(bus.send).toHaveBeenCalledWith("ui-exclusive-list:" + parentId + ":item-selected", "myitem");
 		});
 	});
 });

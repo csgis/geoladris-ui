@@ -1,38 +1,28 @@
 define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
-	var baseEventName = "ui-exclusive-list";
-
 	return function(msg) {
-		var containerId = msg.id;
-		var container = commons.getOrCreateElem("div", msg);
-		container.append($("<table/>"));
+		var input = $("<input id='" + msg.id + "' name='" + msg.parent + "' type='radio'\\>");
+		var inputCell = $("<div/>").append(input);
+		var textCell = $("<div/>").text(msg.text);
 
-		bus.listen(baseEventName + ":" + containerId + ":add-item", function(e, msg) {
-			var id = msg.id;
-			var text = msg.text;
+		textCell.addClass("exclusive-list-text");
+		inputCell.addClass("exclusive-list-input");
 
-			var input = $("<input id='" + id + "' name='" + containerId + "' type='radio'\\>");
-			var inputCell = $("<td/>").append(input);
-			var textCell = $("<td/>").text(text);
+		var container = $("<div/>").attr("id", msg.id + "-container");
+		container.append(inputCell);
+		container.append(textCell);
 
-			textCell.addClass("exclusive-list-text");
-			inputCell.addClass("exclusive-list-input");
+		$("#" + msg.parent).append(container);
 
-			var row = $("<tr/>").attr("id", id + "-container");
-			row.append(inputCell);
-			row.append(textCell);
-
-			$("#" + containerId).find("table").first().append(row);
-
-			input.change(function() {
-				if (input.get(0).checked) {
-					bus.send(baseEventName + ":" + containerId + ":item-selected", id);
-				}
-			});
-			textCell.click(id, function(event) {
-				input.click();
-			});
+		input.change(function() {
+			if (this.checked) {
+				bus.send("ui-exclusive-list:" + msg.parent + ":item-selected", msg.id);
+			}
 		});
 
-		return container;
+		textCell.click(msg.id, function(event) {
+			input.click();
+		});
+
+		return input[0];
 	}
 });

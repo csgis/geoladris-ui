@@ -64,11 +64,11 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 			case "dropdown-button":
 				jqueryElem = dropdownButtons(props);
 				break;
-			case "exclusive-list":
-				jqueryElem = exclusiveList(props);
-				break;
 			case "input":
 				jqueryElem = input(props);
+				break;
+			case "radio":
+				jqueryElem = exclusiveList(props);
 				break;
 			case "search":
 				// TODO implement
