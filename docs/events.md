@@ -102,6 +102,24 @@ Whenever an element is created, a new event is sent with the DOM element:
 bus.send("ui:created", elem);
 ```
 
+
+### <a name="ui-accordion-group"></a>accordion-group
+
+Extra `props`:
+
+* **title** (*String*, mandatory): Text to show in the group header.
+* **visible** (*boolean*): Determines wether the content should be visible or not; this is, wether the accordion group should be collapsed or not. Default is *false*.
+
+Example:
+```js
+ui.create("accordion-group", {
+    id : "layers",
+    parent : "parent",
+    title : "My Layers",
+    visible : true
+});
+```
+
 ### <a name="ui-autocomplete"></a>autocomplete
 
 Extra `props`:
@@ -370,6 +388,23 @@ ui.create("text-area", {
 
 
 ## Extended functionality
+
+### ui-accordion-group:`<id>`:visibility
+
+`<group-id>` matches the *id* specified when creating the [accordion group](#ui-accordion-group).
+
+Message (*Object*):
+
+* **header** (*boolean*, optional): Determines wether the header of the group should be visible or not. If not specified, the visibility is not changed.
+* **content** (*boolean*, optional): Determines wether the content of the group should be visible or not. If not specified, the visibility is not changed.
+
+Example:
+```js
+bus.send("ui-accordion-group:layers:visibility", {
+    header : true,
+    content : false
+});
+```
 
 ### ui-button:`<id>`:enable
 
@@ -664,62 +699,6 @@ bus.send("ui-table:mytable:column-visibility-changed", [[ 1, 2, 4, 7 ]]);
 
 
 ## Legacy
-
-## ui-accordion:create
-
-Message (*Object*):
-
-* **div** (*String*, mandatory): Identifier of the accordion to create.
-* **parentDiv** (*String*, mandatory): Identifier of the div that will contain the accordion.
-* **css** (*String*, optional): CSS class to add to the accordion.
-
-Example:
-```js
-bus.send("ui-accordion:create", {
-    div : "myaccordion",
-    parentDiv : layout.side,
-    css : "accordion"
-});
-```
-
-## <a name="ui-accordion-add-group"></a>ui-accordion:add-group
-
-Message (*Object*):
-
-* **accordion** (*String*, mandatory): Identifier of the accordion where the group should be added.
-* **id** (*String*, mandatory): Identifier of the group to create.
-* **title** (*String*, mandatory): Text to show in the group header.
-* **visible** (*boolean*): Determines wether the content should be visible or not; this is, wether the accordion group should be collapsed or not. Default is *false*.
-
-Example:
-```js
-bus.send("ui-accordion:add-group", {
-    accordion : "myaccordion",
-    id : "layers",
-    title : "My Layers",
-    visible : true
-});
-```
-
-
-
-## ui-accordion:`<group-id>`:visibility
-
-`<group-id>` matches the *id* specified when creating the [accordion group](#ui-accordion-add-group).
-
-Message (*Object*):
-
-* **header** (*boolean*, optional): Determines wether the header of the group should be visible or not. If not specified, the visibility is not changed.
-* **content** (*boolean*, optional): Determines wether the content of the group should be visible or not. If not specified, the visibility is not changed.
-
-Example:
-```js
-bus.send("ui-accordion:layers:visibility", {
-    header : true,
-    content : false
-});
-```
-
 
 
 ## ui-autocomplete:`<id>`:set-values

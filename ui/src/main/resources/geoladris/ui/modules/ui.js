@@ -4,7 +4,7 @@ define([ "jquery", "message-bus", "module", //
 "./ui-choice-field", "./ui-input-field", "./ui-text-area-field", //
 "./ui-form-collector", "./ui-divstack", "./ui-slider", "./ui-autocomplete", "./ui-alerts", //
 "./ui-loading", "./ui-dropdown-buttons", "./ui-table", "./ui-commons" ], function($, bus, module,//
-checkbox, radio, accordion, confirmDialog, dialog, buttons, //
+checkbox, radio, accordionGroup, confirmDialog, dialog, buttons, //
 slidingDiv, choice, input, textArea, formCollector, divstack, //
 slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 	bus.listen("ui-show", function(e, id) {
@@ -36,8 +36,8 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 			}
 
 			switch (type) {
-			case "accordion":
-				// TODO implement
+			case "accordion-group":
+				jqueryElem = accordionGroup(props);
 				break;
 			case "autocomplete":
 				jqueryElem = autocomplete(props);
