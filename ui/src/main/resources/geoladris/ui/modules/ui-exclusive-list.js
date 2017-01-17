@@ -13,13 +13,7 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 
 		$("#" + msg.parent).append(container);
 
-		input.change(function() {
-			if (this.checked) {
-				bus.send("ui-exclusive-list:" + msg.parent + ":item-selected", msg.id);
-			}
-		});
-
-		textCell.click(msg.id, function(event) {
+		textCell.click(function() {
 			input.click();
 		});
 

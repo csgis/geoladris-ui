@@ -446,17 +446,6 @@ bus.send("ui-exclusive-list:create", {
 });
 ```
 
-## ui-exclusive-list:`<id>`:item-selected
-
-`<id>` matches the *div* specified when creating the [exclusive list](#ui-exclusive-list-create).
-
-Message (*String*, mandatory): Identifier of the item that has been selected. It is one of the items added with [ui-exclusive-list:&lt;id&gt;:add-item](#ui-exclusive-list-add-item).
-
-Example:
-```js
-bus.send("ui-exclusive-list:base-layer:item-selected", "osm");
-```
-
 ## ui-form-collector:extend
 
 With this event you can gather data from a set of input controls and send an event with that data.

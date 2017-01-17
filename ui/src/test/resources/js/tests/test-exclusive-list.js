@@ -30,33 +30,21 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(input.attr("id")).toEqual("myitem");
 		});
 
-		it("sends item-selected on radio button selected", function() {
+		it("clicks input on text clicked", function() {
 			var input = module({
 				id : "myitem",
 				parent : parentId,
 				text : "Item 1"
 			});
 
-			input.checked = true;
-			$(input).trigger("change");
-
-			expect(bus.send).toHaveBeenCalledWith("ui-exclusive-list:" + parentId + ":item-selected", "myitem");
-		});
-
-		it("sends item-selected on text clicked", function() {
-			var input = module({
-				id : "myitem",
-				parent : parentId,
-				text : "Item 1"
+			var clicked;
+			$(input).click(function() {
+				clicked = true;
 			});
 
-			input.checked = true;
-			$(input).trigger("change");
-
-			var text = $("#mylist").find("td.exclusive-list-text");
-			text.trigger("click");
-
-			expect(bus.send).toHaveBeenCalledWith("ui-exclusive-list:" + parentId + ":item-selected", "myitem");
+			var text = $("#" + parentId).find(".exclusive-list-text");
+			text.click();
+			expect(clicked).toBe(true);
 		});
 	});
 });
