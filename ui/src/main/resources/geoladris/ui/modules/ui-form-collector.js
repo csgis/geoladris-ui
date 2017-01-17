@@ -33,7 +33,7 @@ define([ "jquery", "message-bus" ], function($, bus) {
 		msg.divs.forEach(function(div) {
 			var input = $("#" + div).find("input");
 			if (input.length == 1 && input.attr("geoladris-type") == "date") {
-				bus.listen("ui-input-field:" + div + ":value-changed", updateButton);
+				input.on("change paste keyup", updateButton);
 			}
 		});
 
@@ -45,7 +45,7 @@ define([ "jquery", "message-bus" ], function($, bus) {
 				// Check type != date so we don't add listeners twice (see
 				// above)
 				if (input.length == 1 && input.attr("geoladris-type") != "date") {
-					bus.listen("ui-input-field:" + div + ":value-changed", updateButton);
+					input.on("change paste keyup", updateButton);
 				} else if (select.length == 1) {
 					bus.listen("ui-choice-field:" + div + ":value-changed", updateButton);
 				}

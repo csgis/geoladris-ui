@@ -67,7 +67,7 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(message["myinput"]).toEqual(inputText);
 		});
 
-		it("sets input value and sends value-changed on set-value", function() {
+		it("sets input value on set-value", function() {
 			var inputText = "Input text";
 			var anotherText = "Another text";
 
@@ -77,10 +77,8 @@ define([ "geoladris-tests" ], function(tests) {
 			});
 			$("#myinput").find("input").val(inputText);
 
-			expect(bus.send).not.toHaveBeenCalledWith("ui-input-field:myinput:value-changed", anotherText);
 			bus.send("ui-input-field:myinput:set-value", anotherText);
 			expect($("#myinput").find("input").val()).toEqual(anotherText);
-			expect(bus.send).toHaveBeenCalledWith("ui-input-field:myinput:value-changed", anotherText);
 		});
 
 		it("appends text on append", function() {
@@ -121,18 +119,6 @@ define([ "geoladris-tests" ], function(tests) {
 
 			bus.send("ui-input-field:myinput:append", "/IMG_1047.jpg");
 			expect(placeholder.text()).toBe("IMG_1047.jpg/IMG_1047.jpg");
-		});
-
-		it("sends ui-input-field:<id>:value-changed", function() {
-			module({
-				id : "myinput",
-				parent : parentId
-			});
-
-			var input = $("#myinput").find("input");
-			input.val("foo");
-			input.change();
-			expect(bus.send).toHaveBeenCalledWith("ui-input-field:myinput:value-changed", "foo");
 		});
 
 		it("adds step=any for number fields", function() {

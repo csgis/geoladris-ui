@@ -33,10 +33,6 @@ define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($
 			input.attr("geoladris-type", "date");
 		}
 
-		input.on("change paste keyup", function() {
-			bus.send("ui-input-field:" + msg.id + ":value-changed", input.val());
-		});
-
 		bus.listen(msg.id + "-field-value-fill", function(e, message) {
 			if (input.attr("type") == "file") {
 				message[msg.id] = input[0].files[0];
@@ -60,7 +56,6 @@ define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($
 			} else {
 				input.val(value);
 			}
-			bus.send("ui-input-field:" + msg.id + ":value-changed", value);
 		});
 
 		bus.listen("ui-input-field:" + msg.id + ":append", function(e, value) {
@@ -76,7 +71,7 @@ define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($
 			}
 		});
 
-		bus.listen("ui-input-field:" + msg.id + ":value-changed", function() {
+		input.on("change paste keyup", function() {
 			var valid = !!Date.parse(input.val());
 			if (input.attr("geoladris-type") == "date") {
 				input[0].setCustomValidity(valid ? "" : "Invalid date.");
