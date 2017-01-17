@@ -599,17 +599,6 @@ bus.send("ui-input-field:create", {
 });
 ```
 
-## ui-input-field:`<id>`:set-value
-
-`<id>` matches the *div* specified when creating the [input field](#ui-input-field-create).
-
-Message (*String*): Value to set on the input field.
-
-Example:
-```js
-bus.send("ui-input-field:login-user:set-value", "new_user");
-```
-
 ## <a name="ui-search-box-create"></a>ui-search-box:create
 
 Message (*Object*):

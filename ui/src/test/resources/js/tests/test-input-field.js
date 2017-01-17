@@ -67,20 +67,6 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(message["myinput"]).toEqual(inputText);
 		});
 
-		it("sets input value on set-value", function() {
-			var inputText = "Input text";
-			var anotherText = "Another text";
-
-			module({
-				id : "myinput",
-				parent : parentId
-			});
-			$("#myinput").find("input").val(inputText);
-
-			bus.send("ui-input-field:myinput:set-value", anotherText);
-			expect($("#myinput").find("input").val()).toEqual(anotherText);
-		});
-
 		it("adds placeholder if type is file", function() {
 			module({
 				id : "myinput",
@@ -89,19 +75,6 @@ define([ "geoladris-tests" ], function(tests) {
 			});
 			var placeholder = $("#myinput").find(".ui-file-input-placeholder");
 			expect(placeholder.length).toBe(1);
-		});
-
-		it("sets placeholder text on 'set-value' if type is file", function() {
-			module({
-				id : "myinput",
-				parent : parentId,
-				type : "file"
-			});
-
-			bus.send("ui-input-field:myinput:set-value", "IMG_1047.jpg");
-
-			var placeholder = $("#myinput").find(".ui-file-input-placeholder");
-			expect(placeholder.text()).toBe("IMG_1047.jpg");
 		});
 
 		it("adds step=any for number fields", function() {

@@ -16,14 +16,7 @@ define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($
 		div.append(input);
 
 		var placeholder;
-		if (msg.type == "file") {
-			input.change(function() {
-				placeholder.text(input.val());
-			});
-			placeholder = $("<div/>");
-			placeholder.addClass("ui-file-input-placeholder");
-			div.append(placeholder);
-		} else if (msg.type == "number") {
+		if (msg.type == "number") {
 			input.attr("step", "any");
 		} else if (msg.type == "date") {
 			input.pikaday({
@@ -42,19 +35,6 @@ define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($
 				message[msg.id] = new Date(input.val()).toISOString();
 			} else {
 				message[msg.id] = input.val();
-			}
-		});
-
-		bus.listen("ui-input-field:" + msg.id + ":set-value", function(e, value) {
-			if (input.attr("type") == "file") {
-				if (!value) {
-					placeholder.text("");
-					input.val(null);
-				} else {
-					placeholder.text(value);
-				}
-			} else {
-				input.val(value);
 			}
 		});
 
