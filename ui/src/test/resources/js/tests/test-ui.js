@@ -54,36 +54,5 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 				done();
 			});
 		});
-
-		it("sends config events on modules-loaded", function(done) {
-			var initialization = tests.init("ui", {
-				"ui" : [ {
-					eventName : "ui-html:create",
-					div : "anotherdiv",
-					parentDiv : parentId
-				}, {
-					eventName : "ui-html:create",
-					div : "yetanotherdiv",
-					parentDiv : parentId
-				} ]
-			});
-			bus = initialization.bus;
-			injector = initialization.injector;
-			injector.mock("layout/layout", {});
-
-			injector.require([ "ui" ], function() {
-				bus.send("modules-loaded");
-				expect(bus.send).toHaveBeenCalledWith("ui-loaded");
-				expect(bus.send).toHaveBeenCalledWith("ui-html:create", jasmine.objectContaining({
-					div : "anotherdiv",
-					parentDiv : parentId
-				}));
-				expect(bus.send).toHaveBeenCalledWith("ui-html:create", jasmine.objectContaining({
-					div : "yetanotherdiv",
-					parentDiv : parentId
-				}));
-				done();
-			});
-		});
 	});
 });

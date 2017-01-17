@@ -16,7 +16,7 @@ define([ "geoladris-tests" ], function(tests) {
 			tests.replaceParent(parentId);
 		});
 
-		it("creates div on ui-dialog:create", function() {
+		it("creates div on create", function() {
 			module({
 				id : "mydialog",
 				parent : parentId

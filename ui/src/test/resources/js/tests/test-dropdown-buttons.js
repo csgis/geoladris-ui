@@ -34,7 +34,7 @@ define([ "geoladris-tests" ], function(tests, buttons) {
 			tests.replaceParent(parentId);
 		});
 
-		it("calls ui-button:create on create", function() {
+		it("creates button on create", function() {
 			module({
 				id : "mybutton",
 				parent : parentId,
@@ -48,7 +48,7 @@ define([ "geoladris-tests" ], function(tests, buttons) {
 			}));
 		});
 
-		it("calls ui-sliding-div:create on create", function() {
+		it("creates sliding div on create", function() {
 			module({
 				id : "mybutton",
 				parent : parentId,

@@ -17,7 +17,7 @@ define([ "geoladris-tests" ], function(tests) {
 			tests.replaceParent(parentId);
 		});
 
-		it("creates div on ui-choice-field:create", function() {
+		it("creates div on create", function() {
 			choice({
 				id : "mychoice",
 				parent :parentId

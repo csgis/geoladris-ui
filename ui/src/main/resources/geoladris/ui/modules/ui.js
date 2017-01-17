@@ -23,14 +23,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 		window.open(msg.url, msg.target);
 	});
 
-	// Initialization
-	var config = module.config();
 	bus.listen("modules-loaded", function() {
-		for (var i = 0; i < config.length; i++) {
-			var controlInfo = config[i];
-			bus.send(controlInfo["eventName"], controlInfo);
-		}
-
 		bus.send("ui-loaded");
 	});
 

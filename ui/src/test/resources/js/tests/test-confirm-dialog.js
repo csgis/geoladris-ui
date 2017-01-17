@@ -19,7 +19,7 @@ define([ "geoladris-tests" ], function(tests) {
 			tests.replaceParent(parentId);
 		});
 
-		it("creates a modal dialog ui-confirm-dialog:create", function() {
+		it("creates a modal dialog", function() {
 			var messages = {
 				question : "??",
 				ok : "Yes",
@@ -66,7 +66,7 @@ define([ "geoladris-tests" ], function(tests) {
 				}
 			});
 
-			expect(bus.send).not.toHaveBeenCalledWith("ui-html:create");
+			expect($("#mydialog-message").html()).toBe(undefined);
 		});
 
 		it("hides the confirm dialog on ok", function() {
