@@ -92,32 +92,5 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(combo.children("option:eq(0)").text()).toBe("1");
 			expect(combo.children("option:eq(1)").text()).toBe("2");
 		});
-
-		it("changes option on set-value", function() {
-			choice({
-				id : "mychoice",
-				parent :parentId,
-				values : [ "One", "Two", "Three" ]
-			});
-
-			var select = $("#mychoice").find("select");
-			expect(select.val()).toBe("One");
-			bus.send("ui-choice-field:mychoice:set-value", "Two");
-			expect(select.val()).toBe("Two");
-		});
-
-		it("sets option if sent null on set-value", function() {
-			choice({
-				id : "mychoice",
-				parent :parentId,
-				values : [ "One", "Two", "Three" ]
-			});
-
-			var select = $("#mychoice").find("select");
-			bus.send("ui-choice-field:mychoice:set-value", "Two");
-			expect(select.val()).toBe("Two");
-			bus.send("ui-choice-field:mychoice:set-value", null);
-			expect(select.val()).toBe("One");
-		});
 	});
 });

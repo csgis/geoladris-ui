@@ -312,17 +312,6 @@ Example:
 bus.send("ui-choice-field:mychoice:add-value", "Four");
 ```
 
-## ui-choice-field:`<id>`:set-value
-
-`<id>` matches the *div* specified when creating the [choice field](#ui-choice-field-create).
-
-Message (*String*): Value to select.
-
-Example:
-```js
-bus.send("ui-choice-field:mychoice:set-value", "1");
-```
-
 ## ui-choice-field:`<id>`:set-values
 
 `<id>` matches the *div* specified when creating the [choice field](#ui-choice-field-create).
