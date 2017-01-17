@@ -35,13 +35,6 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 			addItemToList(id, msg.id, msg.text);
 		});
 
-		bus.listen(baseEventName + ":" + id + ":set-item", function(e, msg) {
-			var div = $("#" + msg.id);
-			if (div.length > 0) {
-				div.get(0).checked = msg.selected;
-			}
-		});
-
 		return div;
 	}
 });

@@ -41,25 +41,6 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(input.attr("type")).toBe("checkbox");
 		});
 
-		it("sets the checkbox state on set-item", function() {
-			module({
-				id : "mylist",
-				parent : parentId
-			});
-			bus.send("ui-selectable-list:mylist:add-item", {
-				id : "myitem",
-				text : "Item 1"
-			});
-			bus.send("ui-selectable-list:mylist:set-item", {
-				id : "myitem",
-				selected : true
-			});
-
-			var input = $("#mylist").find("input");
-			expect(input.length).toBe(1);
-			expect(input[0].checked).toBe(true);
-		});
-
 		it("sends event on checkbox checked", function() {
 			module({
 				id : "mylist",

@@ -638,23 +638,6 @@ bus.send("ui-selectable-list:add-item", {
 });
 ```
 
-## ui-selectable-list:`<id>`:set-item
-
-`<id>` matches the *div* specified when creating the [selectable list](#ui-selectable-list-create).
-
-Message (*Object*):
-
-* **id** (*String*, mandatory): Identifier of the selectable list item to set as specified with `id` on [ui-selectable-list:&lt;id&gt;:add-item](#ui-selectable-list-add-item).
-* **selected** (*boolean*): Determines wether the item should be selected or not. 
-
-Example:
-```js
-bus.send("ui-selectable-list:layers:set-item", {
-    id : "osm",
-    selected : false
-});
-```
-
 ## ui-selectable-list:`<id>`:item-selected
 
 `<id>` matches the *div* specified when creating the [selectable list](#ui-selectable-list-create).
