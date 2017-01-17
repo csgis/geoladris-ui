@@ -1,10 +1,10 @@
 define([ "jquery", "message-bus", "module", //
-"./ui-selectable-list", "./ui-radio", "./ui-accordion", //
+"./ui-checkbox", "./ui-radio", "./ui-accordion", //
 "./ui-dialog", "./ui-search", "./ui-buttons", "./ui-sliding-div", //
 "./ui-choice-field", "./ui-input-field", "./ui-text-area-field", //
 "./ui-form-collector", "./ui-divstack", "./ui-slider", "./ui-autocomplete", "./ui-alerts", //
 "./ui-loading", "./ui-dropdown-buttons", "./ui-table", "./ui-commons" ], function($, bus, module,//
-selectableList, exclusiveList, accordion, dialog, search, buttons, //
+checkbox, radio, accordion, dialog, search, buttons, //
 slidingDiv, choice, input, textArea, formCollector, divstack, //
 slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 	bus.listen("ui-show", function(e, id) {
@@ -53,7 +53,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				jqueryElem = buttons(props);
 				break;
 			case "checkbox":
-				jqueryElem = selectableList(props);
+				jqueryElem = checkbox(props);
 				break;
 			case "choice":
 				jqueryElem = choice(props);
@@ -71,7 +71,7 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				jqueryElem = input(props);
 				break;
 			case "radio":
-				jqueryElem = exclusiveList(props);
+				jqueryElem = radio(props);
 				break;
 			case "search":
 				// TODO implement

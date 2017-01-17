@@ -1,5 +1,5 @@
 define([ "geoladris-tests" ], function(tests) {
-	describe("ui-selectable-list", function() {
+	describe("ui-checkbox", function() {
 		var bus;
 		var injector;
 		var module;
@@ -9,7 +9,7 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-selectable-list" ], function(m) {
+			injector.require([ "ui-checkbox" ], function(m) {
 				module = m;
 				done();
 			});
@@ -41,7 +41,7 @@ define([ "geoladris-tests" ], function(tests) {
 				clicked = true;
 			})
 
-			$("#" + parentId).find(".selectable-list-text").click();
+			$("#" + parentId).find(".checkbox-text").click();
 			expect(clicked).toBe(true);
 		});
 	});

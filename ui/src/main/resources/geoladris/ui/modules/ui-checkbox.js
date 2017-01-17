@@ -4,8 +4,8 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 		var inputCell = $("<div/>").append(input);
 		var textCell = $("<div/>").text(msg.text);
 
-		textCell.addClass("selectable-list-text");
-		inputCell.addClass("selectable-list-input");
+		textCell.addClass("checkbox-text");
+		inputCell.addClass("checkbox-input");
 
 		var row = $("<div/>").attr("id", msg.id + "-container");
 		row.append(inputCell);
