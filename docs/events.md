@@ -440,6 +440,29 @@ Example:
 bus.send("ui-dropdown-button:mydropdown:item-selected", "item1");
 ```
 
+
+### ui-form-collector:extend
+
+With this event you can gather data from a set of input controls and send an event with that data.
+
+Message (*Object*):
+
+* **button** (*String*, mandatory): Identifier of the button that will trigger the form collection and event send.
+* **sendEventName** (*String*, mandatory): Event to send when the button is clicked.
+* **divs** (*Array* of *String*, mandatory): Set of divs to gather data. These fields must implement the `<field>-field-value-fill`_ event.
+* **requiredDivs** (*Array* of *String*, optional): Subset of ``divs``. All these fields must have non empty values for the ``button`` to be enabled, otherwise it's disabled. Works for fields created with the ``ui-input-field:create`` and ``ui-choice-field:create`` events.
+* **names** (*Array* of *String*, optional): Set of attribute names to use for the event message. If not specified, the div identifiers will be used as attribute names for event message.
+
+Example:
+```js
+bus.send("ui-form-collector:extend", {
+    button : "button-ok",
+    sendEventName : "zoomTo",
+    divs : [ "input-crs", "input-x", "input-y" ],
+    names : [ "crs", "lon", "lat" ]
+});
+```
+
 ### ui-sliding-div:expand
 
 Message (*String*, mandatory): Id of the sliding div to expand.
@@ -737,35 +760,3 @@ bus.send("ui-confirm-dialog:create", {
 
 
 
-
-## ui-form-collector:extend
-
-With this event you can gather data from a set of input controls and send an event with that data.
-
-Message (*Object*):
-
-* **button** (*String*, mandatory): Identifier of the button that will trigger the form collection and event send.
-* **sendEventName** (*String*, mandatory): Event to send when the button is clicked.
-* **divs** (*Array* of *String*, mandatory): Set of divs to gather data. These fields must implement the `<field>-field-value-fill`_ event.
-* **requiredDivs** (*Array* of *String*, optional): Subset of ``divs``. All these fields must have non empty values for the ``button`` to be enabled, otherwise it's disabled. Works for fields created with the ``ui-input-field:create`` and ``ui-choice-field:create`` events.
-* **names** (*Array* of *String*, optional): Set of attribute names to use for the event message. If not specified, the div identifiers will be used as attribute names for event message.
-
-Example:
-```js
-bus.send("ui-form-collector:extend", {
-    button : "button-ok",
-    sendEventName : "zoomTo",
-    divs : [ "input-crs", "input-x", "input-y" ],
-    names : [ "crs", "lon", "lat" ]
-});
-```
-
-## `<field>`-field-value-fill
-
-The fields that implement this event are:
-
-* [ui-autocomplete:create](#ui-autocomplete-create).
-* [ui-choice-field:create](#ui-choice-field-create).
-* [ui-input-field:create](#ui-input-field-create).
-* [ui-slider:create](#ui-slider-create).
-* [ui-text-area-field:create](#ui-text-area-field-create).
