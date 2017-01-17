@@ -19,7 +19,7 @@ define([ "geoladris-tests" ], function(tests) {
 			tests.replaceParent(parentId);
 		});
 
-		it("creates div on ui-input-field:create", function() {
+		it("creates div", function() {
 			module({
 				id : "myinput",
 				parent : parentId
@@ -65,16 +65,6 @@ define([ "geoladris-tests" ], function(tests) {
 			var message = {};
 			bus.send("myinput-field-value-fill", message);
 			expect(message["myinput"]).toEqual(inputText);
-		});
-
-		it("adds placeholder if type is file", function() {
-			module({
-				id : "myinput",
-				parent : parentId,
-				type : "file"
-			});
-			var placeholder = $("#myinput").find(".ui-file-input-placeholder");
-			expect(placeholder.length).toBe(1);
 		});
 
 		it("adds step=any for number fields", function() {
