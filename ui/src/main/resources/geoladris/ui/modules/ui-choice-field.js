@@ -30,12 +30,6 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 		addValues(msg.values);
 		div.append(combo);
 
-		bus.listen("ui-choice-field:" + id + ":add-value", function(e, value) {
-			var select = $($("#" + id).find("select")[0]);
-			var option = $("<option/>").text(value).attr("value", value);
-			select.append(option);
-		});
-
 		bus.listen("ui-choice-field:" + id + ":set-values", function(e, values) {
 			combo.empty();
 			addValues(values);

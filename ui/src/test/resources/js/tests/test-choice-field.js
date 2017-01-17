@@ -64,20 +64,6 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(message["mychoice"]).toEqual("One");
 		});
 
-		it("adds value on add-value", function() {
-			choice({
-				id : "mychoice",
-				parent :parentId,
-				values : [ "One", "Two", "Three" ]
-			});
-
-			bus.send("ui-choice-field:mychoice:add-value", "Four");
-
-			var combo = $("#mychoice").find("select");
-			expect(combo.length).toBe(1);
-			expect(combo.children().length).toBe(4);
-		});
-
 		it("sets values on set-values", function() {
 			choice({
 				id : "mychoice",

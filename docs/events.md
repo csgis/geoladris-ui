@@ -290,17 +290,6 @@ bus.send("ui-choice-field:create", {
 });
 ```
 
-## ui-choice-field:`<id>`:add-value
-
-`<id>` matches the *div* specified when creating the [choice field](#ui-choice-field-create).
-
-Message (*String*): Value to add.
-
-Example:
-```js
-bus.send("ui-choice-field:mychoice:add-value", "Four");
-```
-
 ## ui-choice-field:`<id>`:set-values
 
 `<id>` matches the *div* specified when creating the [choice field](#ui-choice-field-create).
@@ -639,23 +628,6 @@ bus.send("ui-slider:create", {
     css : "slider",
     label : "Number: ",
     values : [ "One", "Two", "Three" ]
-});
-```
-
-## ui-slider:`<id>`:add-value
-
-`<id>` matches the *div* specified when creating the [slider](#ui-slider-create).
-
-Message (*Object*):
-
-* **div** (*String*, mandatory): Identifier of the slider to add the value.
-* **value** (*String*, mandatory): Value to add.
-
-Example:
-```js
-bus.send("ui-slider:add-value", {
-    div : "myslider",
-    value : "Four"
 });
 ```
 
