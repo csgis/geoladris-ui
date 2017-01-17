@@ -45,25 +45,6 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(input.attr("id")).toEqual("myitem");
 		});
 
-		it("removes the radio button from table on add-item", function() {
-			module({
-				id : "mylist",
-				parent : parentId
-			});
-
-			var n = 5;
-			for (var i = 0; i < n; i++) {
-				bus.send("ui-exclusive-list:mylist:add-item", {
-					id : "myitem" + i,
-					text : "Item " + i
-				});
-			}
-
-			expect($("#mylist").find("input").length).toBe(5);
-			bus.send("ui-exclusive-list:mylist:remove-item", "myitem0");
-			expect($("#mylist").find("input").length).toBe(4);
-		});
-
 		it("sends item-selected on radio button selected", function() {
 			module({
 				id : "mylist",
