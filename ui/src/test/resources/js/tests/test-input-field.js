@@ -97,24 +97,6 @@ define([ "geoladris-tests" ], function(tests) {
 			expect($("#myinput").find("input").val()).toEqual(inputText + anotherText);
 		});
 
-		it("calls function on keyup", function() {
-			module({
-				id : "myinput",
-				parent : parentId
-			});
-
-			var text;
-			bus.send("ui-input-field:myinput:keyup", function(t) {
-				text = t;
-			});
-
-			var input = $("#myinput").find("input");
-			input.val("mytext");
-			input.keyup();
-
-			expect(text).toEqual("mytext");
-		});
-
 		it("adds placeholder if type is file", function() {
 			module({
 				id : "myinput",

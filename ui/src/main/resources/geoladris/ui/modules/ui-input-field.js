@@ -76,12 +76,6 @@ define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($
 			}
 		});
 
-		bus.listen("ui-input-field:" + msg.id + ":keyup", function(e, f) {
-			input.keyup(function() {
-				f(input.val());
-			});
-		});
-
 		bus.listen("ui-input-field:" + msg.id + ":value-changed", function() {
 			var valid = !!Date.parse(input.val());
 			if (input.attr("geoladris-type") == "date") {

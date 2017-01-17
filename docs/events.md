@@ -621,21 +621,6 @@ Example:
 bus.send("ui-input-field:login-user:append", "-suffix");
 ```
 
-## ui-input-field:`<id>`:keyup
-
-`<id>` matches the *div* specified when creating the [input field](#ui-input-field-create).
-
-Message (*Function*): Function to be called when the input changes. Arguments for the function are:
-
-  * **text**: The complete text of the input.
-
-Example:
-```js
-bus.send("ui-input-field:login-user:keyup", function(text) {
-    console.log(text);
-});
-```
-
 ## ui-input-field:`<id>`:value-changed
 
 `<id>` matches the *div* specified when creating the [input field](#ui-input-field-create).
