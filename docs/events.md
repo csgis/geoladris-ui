@@ -610,17 +610,6 @@ Example:
 bus.send("ui-input-field:login-user:set-value", "new_user");
 ```
 
-## ui-input-field:`<id>`:append
-
-`<id>` matches the *div* specified when creating the [input field](#ui-input-field-create).
-
-Message (*String*): String to append on the input field.
-
-Example:
-```js
-bus.send("ui-input-field:login-user:append", "-suffix");
-```
-
 ## <a name="ui-search-box-create"></a>ui-search-box:create
 
 Message (*Object*):

@@ -58,19 +58,6 @@ define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($
 			}
 		});
 
-		bus.listen("ui-input-field:" + msg.id + ":append", function(e, value) {
-			if (input.attr("type") == "file") {
-				placeholder.text((placeholder.text() || "") + value);
-			} else {
-				var current = input.val();
-				if (current) {
-					input.val(current + value);
-				} else {
-					input.val(value);
-				}
-			}
-		});
-
 		input.on("change paste keyup", function() {
 			var valid = !!Date.parse(input.val());
 			if (input.attr("geoladris-type") == "date") {
