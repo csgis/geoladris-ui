@@ -96,6 +96,12 @@ UI creation is managed with a single function instead of a set of events. The fu
   * **html** (*String*, optional): HTML (inner) content to set for the new element.
   * **priority** (*int*, optional): Element's priority. If priority is specified, the button will be added at the corresponding index to the parent div, depending on the priorities of the other elements. If priority is not specified, the button will be added at the end.
 
+Whenever an element is created, a new event is sent with the DOM element:
+
+```js
+bus.send("ui:created", elem);
+```
+
 ### <a name="ui-autocomplete"></a>autocomplete
 
 Extra `props`:
@@ -180,6 +186,28 @@ ui.create("choice", {
     css : "choice-field",
     label : "Number: ",
     values : [ "One", "Two", "Three" ]
+});
+```
+
+
+### confirm-dialog
+
+Extra `props`:
+
+* **messages** (*Object*):
+    * **question**: Question to be confirmed or not. Optional.
+    * **yes**: Text for the *ok* button.
+    * **no**: Text for the *cancel* button.
+* Any other property that can be accepted by [dialog](#ui-dialog).
+
+Example:
+```js
+ui.create("confirm-dialog", {
+    id : "mydialog",
+    parent : layout.center,
+    css : "mydialogclass",
+    title : "My Dialog",
+    closeButton : true
 });
 ```
 
@@ -726,37 +754,4 @@ Example:
 ```js
 bus.send("ui-autocomplete:myautocomplete:selected", "One");
 ```
-
-
-
-
-## ui-confirm-dialog:create
-
-Message (*Object*):
-
-* **div** (*String*, mandatory): Identifier of the confirm dialog.
-* **parentDiv** (*String*, mandatory): Identifier of the div that will contain the confirm dialog.
-* **css** (*String*, optional): CSS class to add to the confirm dialog.
-* **messages** (*Object*):
-    * **question**: Question to be confirmed or not. Optional.
-    * **yes**: Text for the *ok* button.
-    * **no**: Text for the *cancel* button.
-* Any other property that can be accepted by [ui-dialog:create](#ui-dialog-create).
-
-Example:
-```js
-bus.send("ui-confirm-dialog:create", {
-    div : "mydialog",
-    parentDiv : layout.center,
-    css : "mydialogclass",
-    title : "My Dialog",
-    closeButton : true
-});
-```
-
-
-
-
-
-
 

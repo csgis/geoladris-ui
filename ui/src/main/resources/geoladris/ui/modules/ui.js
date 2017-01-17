@@ -1,10 +1,10 @@
 define([ "jquery", "message-bus", "module", //
 "./ui-checkbox", "./ui-radio", "./ui-accordion", //
-"./ui-dialog", "./ui-buttons", "./ui-sliding-div", //
+"./ui-confirm-dialog", "./ui-dialog", "./ui-buttons", "./ui-sliding-div", //
 "./ui-choice-field", "./ui-input-field", "./ui-text-area-field", //
 "./ui-form-collector", "./ui-divstack", "./ui-slider", "./ui-autocomplete", "./ui-alerts", //
 "./ui-loading", "./ui-dropdown-buttons", "./ui-table", "./ui-commons" ], function($, bus, module,//
-checkbox, radio, accordion, dialog, buttons, //
+checkbox, radio, accordion, confirmDialog, dialog, buttons, //
 slidingDiv, choice, input, textArea, formCollector, divstack, //
 slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 	bus.listen("ui-show", function(e, id) {
@@ -57,6 +57,9 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				break;
 			case "choice":
 				jqueryElem = choice(props);
+				break;
+			case "confirm-dialog":
+				jqueryElem = confirmDialog(props);
 				break;
 			case "dialog":
 				jqueryElem = dialog(props);
