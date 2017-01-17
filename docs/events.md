@@ -406,6 +406,29 @@ bus.send("ui-accordion-group:layers:visibility", {
 });
 ```
 
+###<a name="ui-autocomplete-set-values"></a>ui-autocomplete:`<id>`:set-values
+
+`<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete).
+
+Message (*Array* of *String*): Values to set for autocompletion.
+
+Example:
+```js
+bus.send("ui-autocomplete:myautocomplete:set-values", [ [ "1", "2", "3" ] ]);
+```
+
+### ui-autocomplete:`<id>`:selected
+
+`<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete-create).
+
+Message (*String*): Selected value from the *options* array specified when setting the [values](#ui-autocomplete-set-values).
+
+Example:
+```js
+bus.send("ui-autocomplete:myautocomplete:selected", "One");
+```
+
+
 ### ui-button:`<id>`:enable
 
 `<id>` matches the *div* specified when creating the [button](#ui-button).
@@ -694,43 +717,3 @@ Example:
 ```js
 bus.send("ui-table:mytable:column-visibility-changed", [[ 1, 2, 4, 7 ]]);
 ```
-
-
-
-
-## Legacy
-
-
-## ui-autocomplete:`<id>`:set-values
-
-`<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete-create).
-
-Message (*Array* of *String*): Values to set for autocompletion.
-
-Example:
-```js
-bus.send("ui-autocomplete:myautocomplete:set-values", [ [ "1", "2", "3" ] ]);
-```
-
-## <a name="ui-autocomplete-set-value"></a>ui-autocomplete:`<id>`:set-value
-
-`<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete-create).
-
-Message (*String*): Value to set on the autocompletion input field.
-
-Example:
-```js
-bus.send("ui-autocomplete:myautocomplete:set-value", "1");
-```
-
-## ui-autocomplete:`<id>`:selected
-
-`<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete-create).
-
-Message (*String*): Selected value from the *options* array specified when setting the [values](#ui-autocomplete-set-values).
-
-Example:
-```js
-bus.send("ui-autocomplete:myautocomplete:selected", "One");
-```
-

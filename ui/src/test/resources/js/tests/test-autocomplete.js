@@ -98,23 +98,5 @@ define([ "geoladris-tests" ], function(tests) {
 			bus.send(id + "-field-value-fill", message);
 			expect(message[id]).toEqual("");
 		});
-
-		it("sets input value on set-value", function() {
-			var div = initAutocomplete();
-
-			var text = "text";
-			var anotherText = "another text";
-			var message = {};
-
-			expect(div.find("input").val()).toEqual("");
-
-			bus.send("ui-autocomplete:" + id + ":set-value", text);
-			bus.send(id + "-field-value-fill", message);
-			expect(message[id]).toEqual(text);
-
-			bus.send("ui-autocomplete:" + id + ":set-value", anotherText);
-			bus.send(id + "-field-value-fill", message);
-			expect(message[id]).toEqual(anotherText);
-		});
 	});
 });
