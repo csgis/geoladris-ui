@@ -1024,14 +1024,3 @@ Example:
 ```js
 bus.send("ui-text-area-field:mytextarea:set-value", "This is a sample text for the area field");
 ```
-
-## ui-text-area-field:`<id>`:append
-
-`<id>` matches the *div* specified when creating the [text area](#ui-text-area-field-create).
-
-Message (*String*): String to append on the text area.
-
-Example:
-```js
-bus.send("ui-text-area-field:login-user:append", "-suffix");
-```
