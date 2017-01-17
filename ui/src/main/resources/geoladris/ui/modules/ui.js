@@ -23,13 +23,6 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 		window.open(msg.url, msg.target);
 	});
 
-	bus.listen("ui-add-class", function(e, msg) {
-		$("#" + msg.div).addClass(msg.cssClass);
-	});
-	bus.listen("ui-remove-class", function(e, msg) {
-		$("#" + msg.div).removeClass(msg.cssClass);
-	});
-
 	// Initialization
 	var config = module.config();
 	bus.listen("modules-loaded", function() {

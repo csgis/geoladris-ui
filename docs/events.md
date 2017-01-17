@@ -28,36 +28,6 @@ Example:
 bus.send("ui-toggle", "mydiv");
 ```
 
-## ui-add-class
-
-Message (*Object*):
-
-* **div** (*String*, mandatory): Identifier of the div to modify.
-* **cssClass** (*String*, mandatory): CSS class to add.
-
-Example:
-```
-bus.send("ui-add-class", {
-    div : "mydiv",
-    cssClass : "myclass"
-});
-```
-
-## ui-remove-class
-
-Message (*Object*):
-
-* **div** (*String*, mandatory): Identifier of the div to modify.
-* **cssClass** (*String*, mandatory): CSS class to remove.
-
-Example:
-```javascript
-bus.send("ui-remove-class", {
-    div : "mydiv",
-    cssClass : "myclass"
-});
-```
-
 ## ui-open-url
 
 Message (*Object*):
