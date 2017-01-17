@@ -105,17 +105,5 @@ define([ "geoladris-tests" ], function(tests) {
 			bus.send("ui-text-area-field:myinput:append", anotherText);
 			expect($("#myinput").find("textarea").val()).toEqual(inputText + anotherText);
 		});
-
-		it("sends ui-text-area-field:<id>:value-changed", function() {
-			textArea({
-				id : "myinput",
-				parent : parentId
-			});
-
-			var area = $("#myinput").find("textarea");
-			area.val("foo");
-			area.change();
-			expect(bus.send).toHaveBeenCalledWith("ui-text-area-field:myinput:value-changed", "foo");
-		});
 	});
 });

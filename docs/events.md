@@ -1035,15 +1035,3 @@ Example:
 ```js
 bus.send("ui-text-area-field:login-user:append", "-suffix");
 ```
-
-## ui-text-area-field:`<id>`:value-changed
-
-`<id>` matches the *div* specified when creating the [text area](#ui-text-area-field-create).
-
-Message (*String*): New value.
-
-Example:
-```js
-bus.send("ui-text-area-field:myinput:value-changed", "Four");
-```
-
