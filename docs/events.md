@@ -334,17 +334,6 @@ Example:
 bus.send("ui-choice-field:mychoice:set-values", [ [ "1", "2", "3" ] ]);
 ```
 
-## ui-choice-field:`<id>`:value-changed
-
-`<id>` matches the *div* specified when creating the [choice field](#ui-choice-field-create).
-
-Message (*String*): New value.
-
-Example:
-```js
-bus.send("ui-choice-field:mychoice:value-changed", "Four");
-```
-
 ## ui-confirm-dialog:create
 
 Message (*Object*):

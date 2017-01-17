@@ -93,20 +93,7 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(combo.children("option:eq(1)").text()).toBe("2");
 		});
 
-		it("sends value-changed", function() {
-			choice({
-				id : "mychoice",
-				parent :parentId,
-				values : [ "One", "Two", "Three" ]
-			});
-
-			bus.send("ui-choice-field:mychoice:add-value", "Four");
-
-			$("#mychoice").find("select").val("Two").change();
-			expect(bus.send).toHaveBeenCalledWith("ui-choice-field:mychoice:value-changed", "Two");
-		});
-
-		it("changes option and sends value-changed on set-value", function() {
+		it("changes option on set-value", function() {
 			choice({
 				id : "mychoice",
 				parent :parentId,
@@ -115,10 +102,8 @@ define([ "geoladris-tests" ], function(tests) {
 
 			var select = $("#mychoice").find("select");
 			expect(select.val()).toBe("One");
-			expect(bus.send).not.toHaveBeenCalledWith("ui-choice-field:mychoice:value-changed", "Two");
 			bus.send("ui-choice-field:mychoice:set-value", "Two");
 			expect(select.val()).toBe("Two");
-			expect(bus.send).toHaveBeenCalledWith("ui-choice-field:mychoice:value-changed", "Two");
 		});
 
 		it("sets option if sent null on set-value", function() {

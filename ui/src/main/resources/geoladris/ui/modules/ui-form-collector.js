@@ -47,7 +47,7 @@ define([ "jquery", "message-bus" ], function($, bus) {
 				if (input.length == 1 && input.attr("geoladris-type") != "date") {
 					input.on("change paste keyup", updateButton);
 				} else if (select.length == 1) {
-					bus.listen("ui-choice-field:" + div + ":value-changed", updateButton);
+					input.change(updateButton);
 				}
 			});
 
