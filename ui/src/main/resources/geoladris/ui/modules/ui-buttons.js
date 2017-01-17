@@ -62,10 +62,6 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 		bus.listen("ui-button:" + msg.id + ":toggle", function() {
 			toggle();
 		});
-		bus.listen("ui-button:" + msg.id + ":set-image", function(e, image) {
-			var iconDiv = button.children(".button-content");
-			iconDiv.css("background-image", "url(" + image + ")");
-		});
 
 		bus.listen("ui-button:" + msg.id + ":link-active", function(e, linkedDiv) {
 			bus.listen("ui-show", function(e, id) {

@@ -258,17 +258,6 @@ Example:
 bus.send("ui-button:mybutton:toggle");
 ```
 
-## ui-button:`<id>`:set-image
-
-`<id>` matches the *div* specified when creating the [button](#ui-button-create).
-
-Message (*String*, mandatory): URL of the image to set as background image for the button.
-
-Example:
-```js
-bus.send("ui-button:mybutton:set-image", "images/another_icon.png");
-```
-
 ## ui-button:`<id>`:link-active
 
 `<id>` matches the *div* specified when creating the [button](#ui-button-create).

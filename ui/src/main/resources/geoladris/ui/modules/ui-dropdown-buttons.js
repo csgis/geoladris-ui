@@ -40,7 +40,8 @@ define([ "jquery", "message-bus", "./ui-commons", "./ui-buttons", "./ui-sliding-
 				if (msg.id != selected) {
 					selected = msg.id;
 					bus.send("ui-sliding-div:collapse", slidingId);
-					bus.send("ui-button:" + id + ":set-image", msg.image);
+					var iconDiv = $(document.getElementById(id)).children(".button-content");
+					iconDiv.css("background-image", "url(" + msg.image + ")");
 					bus.send("ui-dropdown-button:" + id + ":item-selected", msg.id);
 				} else {
 					bus.send("ui-sliding-div:collapse", slidingId);
@@ -56,7 +57,8 @@ define([ "jquery", "message-bus", "./ui-commons", "./ui-buttons", "./ui-sliding-
 
 		bus.listen("ui-dropdown-button:" + id + ":set-item", function(e, itemId) {
 			selected = itemId;
-			bus.send("ui-button:" + id + ":set-image", buttons[itemId]);
+			var iconDiv = $(document.getElementById(id)).children(".button-content");
+			iconDiv.css("background-image", "url(" + buttons[itemId] + ")");
 		});
 
 		return container;

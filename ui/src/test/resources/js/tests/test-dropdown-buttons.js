@@ -1,4 +1,4 @@
-define([ "geoladris-tests" ], function(tests) {
+define([ "geoladris-tests" ], function(tests, buttons) {
 	describe("ui-dropdown-buttons", function() {
 		var bus;
 		var injector;
@@ -16,6 +16,7 @@ define([ "geoladris-tests" ], function(tests) {
 			deps = {
 				buttons : function(msg) {
 					$("#" + parentId).append($("<div/>").attr("id", msg.id));
+					$("#" + msg.id).append($("<div/>").addClass("button-content"));
 				},
 				sliding : function(msg) {
 					$("#" + parentId).append($("<div/>").attr("id", msg.id));
@@ -102,13 +103,17 @@ define([ "geoladris-tests" ], function(tests) {
 		it("changes the button background on item click", function() {
 			mockWithItem();
 			$("#mybutton-sliding").children(":eq(1)").click();
-			expect(bus.send).toHaveBeenCalledWith("ui-button:mybutton:set-image", "theme/images/icon2.png");
+			var button = document.getElementById("mybutton");
+			var iconDiv = $(button).children(".button-content");
+			expect(iconDiv.css("background-image").indexOf("theme/images/icon2.png")).toBeGreaterThan(-1);
 		});
 
 		it("changes the button background on set-item", function() {
 			mockWithItem();
 			bus.send("ui-dropdown-button:mybutton:set-item", "myitem2");
-			expect(bus.send).toHaveBeenCalledWith("ui-button:mybutton:set-image", "theme/images/icon2.png");
+			var button = document.getElementById("mybutton");
+			var iconDiv = $(button).children(".button-content");
+			expect(iconDiv.css("background-image").indexOf("theme/images/icon2.png")).toBeGreaterThan(-1);
 		});
 
 		it("sets title attribute if tooltip provided on add-item", function() {
@@ -128,20 +133,6 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(item.attr("title")).toBe(tooltip);
 		});
 
-		it("does not change the button background on item click if already selected", function() {
-			mockWithItem();
-			bus.send("ui-dropdown-button:mybutton:set-item", "myitem");
-
-			$("#mybutton-sliding").children(":eq(0)").click();
-			expect(getNumEventCalls(bus.send, "ui-button:mybutton:set-image")).toBe(1);
-		});
-
-		it("does not change the button background on set-item if already selected", function() {
-			mockWithItem();
-			bus.send("ui-dropdown-button:mybutton:set-item", "myitem");
-			expect(getNumEventCalls(bus.send, "ui-button:mybutton:set-image")).toBe(1);
-		});
-
 		function mockWithItem() {
 			module({
 				id : "mybutton",
@@ -156,17 +147,6 @@ define([ "geoladris-tests" ], function(tests) {
 				id : "myitem2",
 				image : "theme/images/icon2.png"
 			});
-		}
-
-		function getNumEventCalls(mock, eventName) {
-			var calls = mock.calls.all();
-			var n = 0;
-			for (var i = 0; i < calls.length; i++) {
-				if (calls[i].args[0] == eventName) {
-					n++;
-				}
-			}
-			return n;
 		}
 	});
 });
