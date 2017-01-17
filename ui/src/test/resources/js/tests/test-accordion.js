@@ -19,8 +19,8 @@ define([ "geoladris-tests" ], function(tests) {
 
 		function initAccordion() {
 			bus.send("ui-accordion:create", {
-				div : accordionId,
-				parentDiv : "myparent"
+				id : accordionId,
+				parent : "myparent"
 			});
 		}
 
@@ -45,8 +45,8 @@ define([ "geoladris-tests" ], function(tests) {
 			var id = "myaccordion";
 			var css = "myaccordion-class";
 			bus.send("ui-accordion:create", {
-				div : id,
-				parentDiv : "myparent",
+				id : id,
+				parent : "myparent",
 				css : css
 			});
 

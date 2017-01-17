@@ -9,13 +9,13 @@ define([ "jquery", "message-bus", "./ui-commons", "layout/layout", "module" ], f
 		config.parentDiv = layout.center;
 	}
 
-	var wrapper = commons.getOrCreateDiv({
-		div : "ui-alerts-wrapper",
-		parentDiv : config.parentDiv
+	var wrapper = commons.getOrCreateElem("div", {
+		id : "ui-alerts-wrapper",
+		parent : config.parentDiv
 	});
-	var container = commons.getOrCreateDiv({
-		div : "ui-alerts-container",
-		parentDiv : wrapper.attr("id")
+	var container = commons.getOrCreateElem("div", {
+		id : "ui-alerts-container",
+		parent : wrapper.attr("id")
 	});
 
 	bus.listen("ui-alert", function(e, msg) {

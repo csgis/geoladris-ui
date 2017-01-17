@@ -13,7 +13,7 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 	}
 
 	bus.listen(baseEventName + ":create", function(e, msg) {
-		commons.getOrCreateDiv(msg);
+		commons.getOrCreateElem("div", msg);
 	});
 
 	bus.listen(baseEventName + ":add-group", function(e, msg) {

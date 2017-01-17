@@ -1,20 +1,4 @@
 define([ "jquery" ], function($) {
-	function getOrCreateDiv(msg) {
-		var div = $("#" + msg.div);
-		if (div.length === 0) {
-			div = $("<div/>").attr("id", msg.div);
-			div.addClass(msg.css);
-
-			var parent = $("#" + msg.parentDiv);
-			append(div, parent, msg.priority);
-		}
-
-		if (msg.html) {
-			div.html(msg.html);
-		}
-		return div;
-	}
-
 	function getOrCreateElem(type, props) {
 		var elem = $("#" + props.id);
 		if (elem.length === 0) {
@@ -25,7 +9,7 @@ define([ "jquery" ], function($) {
 			append(elem, parent, props.priority);
 		}
 
-		if (msg.html) {
+		if (props.html) {
 			elem.html(msg.html);
 		}
 
@@ -57,7 +41,6 @@ define([ "jquery" ], function($) {
 	}
 
 	return {
-		getOrCreateDiv : getOrCreateDiv,
 		getOrCreateElem : getOrCreateElem,
 		append : append
 	};
