@@ -1,10 +1,9 @@
 define([ "geoladris-tests" ], function(tests) {
-
 	describe("ui-selectable-list", function() {
 		var bus;
 		var injector;
 		var module;
-		var parentId = "myparent";
+		var parentId = "parent";
 
 		beforeEach(function(done) {
 			var initialization = tests.init("ui", {});
@@ -40,21 +39,6 @@ define([ "geoladris-tests" ], function(tests) {
 			var input = $("#mylist").find("input");
 			expect(input.length).toBe(1);
 			expect(input.attr("type")).toBe("checkbox");
-		});
-
-		it("removes the checkbox on remove-item", function() {
-			module({
-				id : "mylist",
-				parent : parentId
-			});
-			bus.send("ui-selectable-list:mylist:add-item", {
-				id : "myitem",
-				text : "Item 1"
-			});
-			bus.send("ui-selectable-list:mylist:remove-item", "myitem");
-
-			var input = $("#mylist").find("input");
-			expect(input.length).toBe(0);
 		});
 
 		it("sets the checkbox state on set-item", function() {

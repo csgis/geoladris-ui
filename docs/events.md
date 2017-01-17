@@ -638,17 +638,6 @@ bus.send("ui-selectable-list:add-item", {
 });
 ```
 
-## ui-selectable-list:`<id>`:remove-item
-
-`<id>` matches the *div* specified when creating the [selectable list](#ui-selectable-list-create).
-
-Message (*String*, mandatory): Identifier of the item to remove from the selectable list as specified with `id` on [ui-selectable-list:&lt;id&gt;:add-item](#ui-selectable-list-add-item).
-
-Example:
-```js
-bus.send("ui-selectable-list:layers:remove-item", "osm");
-```
-
 ## ui-selectable-list:`<id>`:set-item
 
 `<id>` matches the *div* specified when creating the [selectable list](#ui-selectable-list-create).
