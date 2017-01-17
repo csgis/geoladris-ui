@@ -604,6 +604,8 @@ bus.send("ui-search-results:address-search-results:clear");
 
 ## <a name="ui-selectable-list-create"></a>ui-selectable-list:create
 
+> **TODO** Has been changed to `ui.create("checkbox", {...});`
+
 Message (*Object*):
 
 * **div** (*String*, mandatory): Identifier of the selectable list div.
@@ -617,47 +619,6 @@ bus.send("ui-selectable-list:create", {
     parentDiv : layout.side,
     css : "layer-list",
 });
-```
-
-## <a name="ui-selectable-list-add-item"></a>ui-selectable-list:`<id>`:add-item
-
-`<id>` matches the *div* specified when creating the [selectable list](#ui-selectable-list-create).
-
-Message (*Object*):
-
-* **listId** (*String*, mandatory): Identifier of the list where the item should be added.
-* **id** (*String*, mandatory): Identifier of the item to add.
-* **text** (*String*, mandatory): Text to show for the new item.
-
-Example:
-```js
-bus.send("ui-selectable-list:add-item", {
-    listId : "layers",
-    id : "osm",
-    text : "Open Street Map"
-});
-```
-
-## ui-selectable-list:`<id>`:item-selected
-
-`<id>` matches the *div* specified when creating the [selectable list](#ui-selectable-list-create).
-
-Message (*String*, mandatory): Identifier of the selected item as specified with `id` on [ui-selectable-list:&lt;id&gt;:add-item](#ui-selectable-list-add-item).
-
-Example:
-```js
-bus.send("ui-selectable-list:layers:item-selected", "osm");
-```
-
-## ui-selectable-list:`<id>`:item-unselected
-
-`<id>` matches the *div* specified when creating the [selectable list](#ui-selectable-list-create).
-
-Message (*String*, mandatory): Identifier of the unselected item as specified with `id` on [ui-selectable-list:&lt;id&gt;:add-item](#ui-selectable-list-add-item).
-
-Example:
-```js
-bus.send("ui-selectable-list:layers:item-unselected", "osm");
 ```
 
 ## <a name="ui-slider-create"></a>ui-slider:create

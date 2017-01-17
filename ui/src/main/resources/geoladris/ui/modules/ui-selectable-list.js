@@ -1,40 +1,22 @@
 define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
-	var baseEventName = "ui-selectable-list";
-
-	function addItemToList(parentDiv, div, text) {
-		var input = $("<input id='" + div + "' name='" + parentDiv + "' type='checkbox'\\>");
+	return function(msg) {
+		var input = $("<input id='" + msg.id + "' name='" + msg.parent + "' type='checkbox'\\>");
 		var inputCell = $("<div/>").append(input);
-		var textCell = $("<div/>").text(text);
+		var textCell = $("<div/>").text(msg.text);
 
 		textCell.addClass("selectable-list-text");
 		inputCell.addClass("selectable-list-input");
 
-		var row = $("<div/>").attr("id", div + "-container");
+		var row = $("<div/>").attr("id", msg.id + "-container");
 		row.append(inputCell);
 		row.append(textCell);
 
-		$("#" + parentDiv).append(row);
+		$("#" + msg.parent).append(row);
 
-		input.change(function() {
-			if (input.get(0).checked) {
-				bus.send("ui-selectable-list:" + parentDiv + ":item-selected", div);
-			} else {
-				bus.send("ui-selectable-list:" + parentDiv + ":item-unselected", div);
-			}
-		});
-		textCell.click(div, function(event) {
+		textCell.click(function(event) {
 			input.click();
 		});
-	}
 
-	return function(msg) {
-		var id = msg.id;
-		var div = commons.getOrCreateElem("div", msg);
-
-		bus.listen(baseEventName + ":" + id + ":add-item", function(e, msg) {
-			addItemToList(id, msg.id, msg.text);
-		});
-
-		return div;
+		return input;
 	}
 });

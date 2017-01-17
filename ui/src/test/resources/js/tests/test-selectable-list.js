@@ -16,76 +16,33 @@ define([ "geoladris-tests" ], function(tests) {
 			tests.replaceParent(parentId);
 		});
 
-		it("adds a div on create", function() {
-			module({
-				id : "mylist",
-				parent : parentId
-			});
-
-			expect($("#" + parentId).children().length).toBe(1);
-			expect($("#" + parentId).children("#mylist").length).toBe(1);
-		});
-
-		it("adds a checkbox on add-item", function() {
-			module({
-				id : "mylist",
-				parent : parentId
-			});
-			bus.send("ui-selectable-list:mylist:add-item", {
+		it("adds a checkbox", function() {
+			var input = module({
 				id : "myitem",
+				parent : parentId,
 				text : "Item 1"
 			});
+			input = $(input);
 
-			var input = $("#mylist").find("input");
 			expect(input.length).toBe(1);
 			expect(input.attr("type")).toBe("checkbox");
 		});
 
-		it("sends event on checkbox checked", function() {
-			module({
-				id : "mylist",
-				parent : parentId
-			});
-			bus.send("ui-selectable-list:mylist:add-item", {
+		it("triggers input click on checkbox text clicked", function() {
+			var input = module({
 				id : "myitem",
+				parent : parentId,
 				text : "Item 1"
 			});
+			input = $(input);
 
-			var input = $("#mylist").find("input");
-			input[0].checked = true;
-			input.trigger("change");
-			expect(bus.send).toHaveBeenCalledWith("ui-selectable-list:mylist:item-selected", "myitem");
-		});
+			var clicked;
+			input.click(function() {
+				clicked = true;
+			})
 
-		it("sends event on checkbox unchecked", function() {
-			module({
-				id : "mylist",
-				parent : parentId
-			});
-			bus.send("ui-selectable-list:mylist:add-item", {
-				id : "myitem",
-				text : "Item 1"
-			});
-
-			var input = $("#mylist").find("input");
-			input[0].checked = false;
-			input.trigger("change");
-			expect(bus.send).toHaveBeenCalledWith("ui-selectable-list:mylist:item-unselected", "myitem");
-		});
-
-		it("sends event on checkbox text clicked", function() {
-			module({
-				id : "mylist",
-				parent : parentId
-			});
-			bus.send("ui-selectable-list:mylist:add-item", {
-				id : "myitem",
-				text : "Item 1"
-			});
-
-			var input = $("#mylist").find("div.selectable-list-text");
-			input.trigger("click");
-			expect(bus.send).toHaveBeenCalledWith("ui-selectable-list:mylist:item-selected", "myitem");
+			$("#" + parentId).find(".selectable-list-text").click();
+			expect(clicked).toBe(true);
 		});
 	});
 });

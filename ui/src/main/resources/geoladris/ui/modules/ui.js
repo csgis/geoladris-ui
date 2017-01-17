@@ -52,6 +52,9 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 			case "button":
 				jqueryElem = buttons(props);
 				break;
+			case "checkbox":
+				jqueryElem = selectableList(props);
+				break;
 			case "choice":
 				jqueryElem = choice(props);
 				break;
@@ -72,9 +75,6 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 				break;
 			case "search":
 				// TODO implement
-				break;
-			case "selectable-list":
-				jqueryElem = selectableList(props);
 				break;
 			case "slider":
 				jqueryElem = slider(props);
