@@ -18,10 +18,6 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 
 		div.append(text);
 
-		bus.listen("ui-text-area-field:" + msg.id + ":set-value", function(e, value) {
-			text.val(value);
-		});
-
 		bus.listen(msg.id + "-field-value-fill", function(e, message) {
 			message[msg.id] = text.val();
 		});

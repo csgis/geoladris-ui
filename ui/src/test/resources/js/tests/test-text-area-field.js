@@ -48,20 +48,6 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(area.children("textarea").attr("cols")).toEqual("20");
 		});
 
-		it("sets value to the textarea on set-value", function() {
-			textArea({
-				id : "myarea",
-				parent : parentId,
-				label : "Text: ",
-				rows : 4,
-				cols : 20
-			});
-
-			bus.send("ui-text-area-field:myarea:set-value", "mytext");
-			var area = $("#" + parentId).children("#myarea");
-			expect(area.children("textarea").val()).toEqual("mytext");
-		});
-
 		it("fills message on -field-value-fill", function() {
 			textArea({
 				id : "myarea",
@@ -76,20 +62,6 @@ define([ "geoladris-tests" ], function(tests) {
 			var message = {};
 			bus.send("myarea-field-value-fill", message);
 			expect(message["myarea"]).toEqual(content);
-		});
-
-		it("sets input value on set-value", function() {
-			var inputText = "Input text";
-			var anotherText = "Another text";
-
-			textArea({
-				id : "myinput",
-				parent : parentId
-			});
-			$("#myinput").find("textarea").val(inputText);
-
-			bus.send("ui-text-area-field:myinput:set-value", anotherText);
-			expect($("#myinput").find("textarea").val()).toEqual(anotherText);
 		});
 	});
 });

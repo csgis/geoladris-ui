@@ -1013,14 +1013,3 @@ bus.send("ui-text-area-field:create", {
     cols : 40
 });
 ```
-
-## ui-text-area-field:`<id>`:set-value
-
-`<id>` matches the *div* specified when creating the [text area](#ui-text-area-field-create).
-
-Message (*String*): Text to set in the text area.
-
-Example:
-```js
-bus.send("ui-text-area-field:mytextarea:set-value", "This is a sample text for the area field");
-```
