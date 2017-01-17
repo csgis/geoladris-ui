@@ -10,7 +10,7 @@ define([ "jquery" ], function($) {
 		}
 
 		if (props.html) {
-			elem.html(msg.html);
+			elem.html(props.html);
 		}
 
 		return elem;

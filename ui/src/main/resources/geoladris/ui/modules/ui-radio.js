@@ -17,6 +17,6 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 			input.click();
 		});
 
-		return input[0];
+		return input;
 	}
 });

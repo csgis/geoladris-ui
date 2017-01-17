@@ -23,7 +23,6 @@ define([ "geoladris-tests" ], function(tests) {
 				parent : parentId
 			});
 
-			input = $(input);
 			expect(input.length).toBe(1);
 			expect(input.attr("type")).toEqual("radio");
 			expect(input.attr("name")).toEqual(parentId);
@@ -38,7 +37,7 @@ define([ "geoladris-tests" ], function(tests) {
 			});
 
 			var clicked;
-			$(input).click(function() {
+			input.click(function() {
 				clicked = true;
 			});
 
