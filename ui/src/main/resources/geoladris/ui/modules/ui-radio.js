@@ -4,8 +4,8 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 		var inputCell = $("<div/>").append(input);
 		var textCell = $("<div/>").text(msg.text);
 
-		textCell.addClass("exclusive-list-text");
-		inputCell.addClass("exclusive-list-input");
+		textCell.addClass("radio-text");
+		inputCell.addClass("radio-input");
 
 		var container = $("<div/>").attr("id", msg.id + "-container");
 		container.append(inputCell);

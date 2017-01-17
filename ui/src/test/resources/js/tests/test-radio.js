@@ -1,5 +1,5 @@
 define([ "geoladris-tests" ], function(tests) {
-	describe("ui-exclusive-list", function() {
+	describe("radio", function() {
 		var bus;
 		var injector;
 		var module;
@@ -9,7 +9,7 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-exclusive-list" ], function(m) {
+			injector.require([ "ui-radio" ], function(m) {
 				module = m;
 				done();
 			});
@@ -42,7 +42,7 @@ define([ "geoladris-tests" ], function(tests) {
 				clicked = true;
 			});
 
-			var text = $("#" + parentId).find(".exclusive-list-text");
+			var text = $("#" + parentId).find(".radio-text");
 			text.click();
 			expect(clicked).toBe(true);
 		});
