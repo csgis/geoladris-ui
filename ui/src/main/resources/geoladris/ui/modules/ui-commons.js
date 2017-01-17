@@ -25,6 +25,10 @@ define([ "jquery" ], function($) {
 			append(elem, parent, props.priority);
 		}
 
+		if (msg.html) {
+			elem.html(msg.html);
+		}
+
 		return elem;
 	}
 
