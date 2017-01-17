@@ -461,17 +461,6 @@ bus.send("ui-exclusive-list:base-layer:add-item", {
 });
 ```
 
-## ui-exclusive-list:`<id>`:set-item
-
-`<id>` matches the *div* specified when creating the [exclusive list](#ui-exclusive-list-create).
-
-Message (*String*, mandatory): Identifier of the item to set. It must be one of the items added with [ui-exclusive-list:&lt;id&gt;:add-item](#ui-exclusive-list-add-item).
-
-Example:
-```js
-bus.send("ui-exclusive-list:base-layer:set-item", "osm");
-```
-
 ## ui-exclusive-list:`<id>`:item-selected
 
 `<id>` matches the *div* specified when creating the [exclusive list](#ui-exclusive-list-create).

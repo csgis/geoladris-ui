@@ -33,13 +33,6 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 			});
 		});
 
-		bus.listen(baseEventName + ":" + containerId + ":set-item", function(e, id) {
-			var container = $("#" + id);
-			if (container.length > 0) {
-				container.get(0).checked = true;
-			}
-		});
-
 		return container;
 	}
 });

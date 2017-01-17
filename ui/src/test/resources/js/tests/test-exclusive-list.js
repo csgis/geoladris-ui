@@ -83,26 +83,5 @@ define([ "geoladris-tests" ], function(tests) {
 
 			expect(bus.send).toHaveBeenCalledWith("ui-exclusive-list:mylist:item-selected", "myitem");
 		});
-
-		it("sets the right item on set-item", function() {
-			var list = "myexclusivelist";
-			module({
-				id : list,
-				parent : parentId
-			});
-
-			bus.send("ui-exclusive-list:" + list + ":add-item", {
-				id : "myitem1",
-				text : "Item 1"
-			});
-			bus.send("ui-exclusive-list:" + list + ":add-item", {
-				id : "myitem2",
-				text : "Item 2"
-			});
-
-			expect($("#myitem2").get(0).checked).toBe(false);
-			bus.send("ui-exclusive-list:" + list + ":set-item", "myitem2");
-			expect($("#myitem2").get(0).checked).toBe(true);
-		});
 	});
 });
