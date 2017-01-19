@@ -17,7 +17,6 @@
 			<groupId>org.fao.unredd</groupId>
 			<artifactId>core</artifactId>
 			<version>${geoladris.core.version}</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
