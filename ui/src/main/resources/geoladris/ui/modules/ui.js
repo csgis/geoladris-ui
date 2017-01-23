@@ -3,10 +3,10 @@ define([ "jquery", "message-bus", "module", //
 "./ui-confirm-dialog", "./ui-dialog", "./ui-buttons", "./ui-sliding-div", //
 "./ui-choice-field", "./ui-input-field", "./ui-text-area-field", //
 "./ui-form-collector", "./ui-divstack", "./ui-slider", "./ui-autocomplete", "./ui-alerts", //
-"./ui-loading", "./ui-dropdown-buttons", "./ui-table", "./ui-commons", "tipsy" ], function($, bus, module,//
+"./ui-loading", "./ui-dropdown-buttons", "./ui-table", "./ui-commons", "sortable", "tipsy" ], function($, bus, module,//
 checkbox, radio, accordionGroup, confirmDialog, dialog, buttons, //
 slidingDiv, choice, input, textArea, formCollector, divstack, //
-slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
+slider, autocomplete, alerts, loading, dropdownButtons, table, commons, Sortable) {
 	var TOOLTIP_ATTR = "geoladris-ui-tooltip";
 	var TOOLTIP_GRAVITIES = {
 		"left" : "e",
@@ -121,6 +121,19 @@ slider, autocomplete, alerts, loading, dropdownButtons, table, commons) {
 			elem.tipsy("show");
 
 			return elem.data("tipsy").$tip[0];
+		},
+		sortable : function(elem) {
+			if (typeof elem == "string") {
+				elem = document.getElementById(elem);
+			}
+
+			Sortable.create(elem, {
+				onSort : function() {
+					var event = document.createEvent('Event');
+					event.initEvent('change', true, true);
+					elem.dispatchEvent(event);
+				}
+			});
 		}
 	}
 });

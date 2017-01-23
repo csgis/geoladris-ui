@@ -9,13 +9,16 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 		beforeEach(function() {
 			tests.replaceParent(parentId);
 			$("<div/>").attr("id", div).appendTo($("#" + parentId));
-
 			var initialization = tests.init("ui", {}, {
-				"tipsy" : "../jslib/tipsy/1.0.0a/jquery.tipsy"
+				"tipsy" : "../jslib/tipsy/1.0.0a/jquery.tipsy",
+				"nouislider" : "../jslib/nouislider/9.2.0/nouislider.min",
+				"sortable" : "../jslib/sortable/1.4.2/Sortable.min",
+				"datatables.net" : "../jslib/datatables/1.10.11/jquery.dataTables.min",
+				"datatables.net-buttons" : "../jslib/datatables/1.10.11/dataTables.buttons.min",
+				"datatables.net-colVis" : "../jslib/datatables/1.10.11/buttons.colVis.min"
 			});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.mock("layout/layout", {});
 		});
 
 		it("changes element display on ui-show", function(done) {
@@ -53,6 +56,15 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 				});
 				expect(tooltip.parent).not.toBe(null);
 				expect(tooltip.innerHTML.indexOf("My tooltip")).toBeGreaterThan(-1);
+				done();
+			});
+		});
+
+		it("creates Sortable on sortable", function(done) {
+			injector.require([ "ui" ], function(ui) {
+				// It doesn't change anything in the DOM. We just ensure that
+				// the function is available
+				ui.sortable(parentId);
 				done();
 			});
 		});

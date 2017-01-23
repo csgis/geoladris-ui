@@ -4,10 +4,20 @@
 
 ### `ui.js`
 
-Array of *Object*. Each object contains:
+It provides the following functions:
 
-* **eventName** (*String*, mandatory): Name of the event to send. Usually *ui-<control>:create*.
-* Attributes to be sent as event data.
+#### `create(type, properties)`
+
+See [ref](events.md#ui-creation).
+
+
+#### `sortable(elem)`
+
+Makes sortable the children of the specified element.
+  * **param `elem`**: `id` (string) or DOM element (Element).
+  * **returns**: `undefined`.
+  * **event `change`**: enabled for the specified element; triggered whenever the order changes. This shouldn't interfere with the `change` event since no `input`, `select`, `textarea` (according to to the [MDN doc](https://developer.mozilla.org/en-US/docs/Web/Events/change), the only Elements triggering `change`) should ever be sortable.
+
 
 ### `ui-alerts.js`
 

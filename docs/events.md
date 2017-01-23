@@ -80,7 +80,7 @@ Example:
 bus.send("ui-loading:end", "Bitte warten Sie");
 ```
 
-## Creation
+## <a name="ui-creation"></a>Creation
 
 UI creation is managed with a single function instead of a set of events. The function accepts the following arguments:
 
