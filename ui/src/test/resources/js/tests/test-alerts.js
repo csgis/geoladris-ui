@@ -1,12 +1,9 @@
 define([ "geoladris-tests" ], function(tests) {
 	var bus;
 	var injector;
+	var parentId = "center";
 
 	describe("ui-alerts", function() {
-		var layout = {
-			center : "layout-center"
-		};
-
 		// This comes from ui-alerts.js
 		var containerId = "ui-alerts-container";
 
@@ -14,11 +11,10 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.mock("layout/layout", layout);
 			injector.require([ "ui-alerts" ], function() {
 				done();
 			});
-			tests.replaceParent(layout.center);
+			tests.replaceParent(parentId);
 		});
 
 		it("creates a container on init", function() {

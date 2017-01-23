@@ -1,17 +1,13 @@
-define([ "jquery", "message-bus", "./ui-commons", "layout/layout", "module" ], function($, bus, commons, layout, module) {
+define([ "jquery", "message-bus", "./ui-commons", "module" ], function($, bus, commons, module) {
 	var config = module.config();
 
 	if (!config.timeout) {
 		config.timeout = 5;
 	}
 
-	if (!config.parentDiv) {
-		config.parentDiv = layout.center;
-	}
-
 	var wrapper = commons.getOrCreateElem("div", {
 		id : "ui-alerts-wrapper",
-		parent : config.parentDiv
+		parent : config.parentDiv || "center"
 	});
 	var container = commons.getOrCreateElem("div", {
 		id : "ui-alerts-container",
