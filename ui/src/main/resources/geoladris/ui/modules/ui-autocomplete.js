@@ -2,9 +2,12 @@ define([ "jquery", "message-bus", "./ui-commons", "typeahead" ], function($, bus
 	return function(msg) {
 		var div = commons.getOrCreateElem("div", msg);
 
+		var label = $("<label/>").addClass("autocomplete-label");
+		div.append(label);
 		if (msg.label) {
-			var label = $("<label/>").text(msg.label).addClass("autocomplete-label");
-			div.append(label);
+			label.text(msg.label);
+		} else {
+			label.hide();
 		}
 
 		var input = $("<input/>");
@@ -84,6 +87,15 @@ define([ "jquery", "message-bus", "./ui-commons", "typeahead" ], function($, bus
 
 		bus.listen(msg.id + "-field-value-fill", function(e, message) {
 			message[msg.id] = input.val();
+		});
+
+		bus.listen("ui-autocomplete:" + msg.id + ":set-label", function(e, labelText) {
+			if (labelText) {
+				label.text(labelText);
+				label.show();
+			} else {
+				label.hide();
+			}
 		});
 
 		return input;

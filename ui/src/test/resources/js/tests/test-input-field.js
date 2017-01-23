@@ -105,5 +105,18 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(message["mydate"]).toEqual("2016-06-10T00:00:00.000Z");
 			expect(typeof message["mydate"]).toBe("string");
 		});
+
+		it("changes the label text on set-label", function() {
+			module({
+				id : "mynumber",
+				type : "number",
+				parent : parentId
+			});
+
+			var label = $("#" + parentId).find("label");
+			expect(label.text()).toBe("");
+			bus.send("ui-input-field:mynumber:set-label", "Field: ");
+			expect(label.text()).toBe("Field: ");
+		});
 	});
 });

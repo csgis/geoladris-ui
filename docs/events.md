@@ -439,6 +439,16 @@ Example:
 bus.send("ui-autocomplete:myautocomplete:selected", "One");
 ```
 
+### ui-autocomplete:`<id>`:set-label
+
+`<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete-create).
+
+Message (*String*): Label text.
+
+Example:
+```js
+bus.send("ui-autocomplete:myautocomplete:set-label", "Autocomplete: ");
+```
 
 ### ui-button:`<id>`:enable
 
@@ -494,6 +504,17 @@ Message (*Array* of *String*): Values to set.
 Example:
 ```js
 bus.send("ui-choice-field:mychoice:set-values", [ [ "1", "2", "3" ] ]);
+```
+
+### ui-choice-field:`<id>`:set-label
+
+`<id>` matches the *div* specified when creating the [choice field](#ui-choice-field).
+
+Message (*String*): Label text.
+
+Example:
+```js
+bus.send("ui-choice-field:mychoice:set-label", "Choice: ");
 ```
 
 ### <a name="ui-dropdown-button-add-item"></a>ui-dropdown-button:`<id>`:add-item
@@ -562,9 +583,9 @@ bus.send("ui-form-collector:extend", {
 
 ### ui-slider:`<id>`:set-label
 
-`<id>` matches the *div* specified when creating the [slider](#ui-slider).
+`<id>` matches the *id* specified when creating the [slider](#ui-slider).
 
-Message (*String*): Label to set.
+Message (*String*): Label text.
 
 Example:
 ```js
@@ -573,7 +594,7 @@ bus.send("ui-slider:myslider:set-label", "Slider: "]);
 
 ### ui-slider:`<id>`:set-value
 
-`<id>` matches the *div* specified when creating the [slider](#ui-slider).
+`<id>` matches the *id* specified when creating the [slider](#ui-slider).
 
 Message (*int*): Value to select.
 
@@ -584,13 +605,24 @@ bus.send("ui-slider:myslider:set-value", 4);
 
 ### ui-slider:`<id>`:set-values
 
-`<id>` matches the *div* specified when creating the [slider](#ui-slider).
+`<id>` matches the *id* specified when creating the [slider](#ui-slider).
 
 Message (*Array* of *int*): Values to set.
 
 Example:
 ```js
 bus.send("ui-slider:myslider:set-values", [ [ 1, 4, 6 ] ]);
+```
+
+### ui-input-field:`<id>`:set-label
+
+`<id>` matches the *id* specified when creating the [input field](#ui-input-field).
+
+Message (*String*): Label text.
+
+Example:
+```js
+bus.send("ui-input-field:myinput:set-label", "Input: ");
 ```
 
 ### ui-sliding-div:expand
@@ -760,4 +792,16 @@ Message (*Array* of *int*, mandatory): Array containing the indexes of the curre
 Example:
 ```js
 bus.send("ui-table:mytable:column-visibility-changed", [[ 1, 2, 4, 7 ]]);
+```
+
+
+### ui-text-area-field:`<id>`:set-label
+
+`<id>` matches the *div* specified when creating the [text area field](#ui-text-area-field).
+
+Message (*String*): Label text.
+
+Example:
+```js
+bus.send("ui-text-area-field:mytext:set-label", "Text: ");
 ```

@@ -47,7 +47,8 @@ define([ "geoladris-tests" ], function(tests) {
 			var input = div.find("input");
 			var icon = div.children("div");
 
-			expect(div.children().length).toBe(2);
+			// 3: input + icon + label
+			expect(div.children().length).toBe(3);
 			expect(input.attr("class")).toMatch("autocomplete-input");
 			expect(input.attr("class")).toMatch("typeahead");
 			expect(icon.attr("class")).toMatch("autocomplete-icon");
@@ -97,6 +98,14 @@ define([ "geoladris-tests" ], function(tests) {
 			var message = {};
 			bus.send(id + "-field-value-fill", message);
 			expect(message[id]).toEqual("");
+		});
+
+		it("changes the label text on set-label", function() {
+			var div = initAutocomplete();
+			var label = div.find("label");
+			expect(label.text()).toBe("");
+			bus.send("ui-autocomplete:" + id + ":set-label", "Field: ");
+			expect(label.text()).toBe("Field: ");
 		});
 	});
 });

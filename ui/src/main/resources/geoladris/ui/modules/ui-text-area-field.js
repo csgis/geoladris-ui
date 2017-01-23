@@ -3,9 +3,12 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 		var div = commons.getOrCreateElem("div", msg);
 		div.addClass("ui-text-area-field-container");
 
+		var label = $("<label/>").addClass("ui-text-area-field-label");
+		div.append(label);
 		if (msg.label) {
-			var label = $("<label/>").text(msg.label).addClass("ui-text-area-field-label");
-			div.append(label);
+			label.text(msg.label);
+		} else {
+			label.hide();
 		}
 
 		var text = $("<textarea/>");
@@ -20,6 +23,15 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 
 		bus.listen(msg.id + "-field-value-fill", function(e, message) {
 			message[msg.id] = text.val();
+		});
+
+		bus.listen("ui-text-area-field:" + msg.id + ":set-label", function(e, labelText) {
+			if (labelText) {
+				label.text(labelText);
+				label.show();
+			} else {
+				label.hide();
+			}
 		});
 
 		return text;

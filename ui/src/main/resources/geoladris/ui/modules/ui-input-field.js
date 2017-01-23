@@ -3,9 +3,12 @@ define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($
 		var div = commons.getOrCreateElem("div", msg);
 		div.addClass("ui-input-field-container");
 
+		var label = $("<label/>").addClass("ui-input-field-label");
+		div.append(label);
 		if (msg.label) {
-			var label = $("<label/>").text(msg.label).addClass("ui-input-field-label");
-			div.append(label);
+			label.text(msg.label);
+		} else {
+			label.hide();
 		}
 
 		if (!msg.type) {
@@ -42,6 +45,15 @@ define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($
 			var valid = !!Date.parse(input.val());
 			if (input.attr("geoladris-type") == "date") {
 				input[0].setCustomValidity(valid ? "" : "Invalid date.");
+			}
+		});
+
+		bus.listen("ui-input-field:" + msg.id + ":set-label", function(e, labelText) {
+			if (labelText) {
+				label.text(labelText);
+				label.show();
+			} else {
+				label.hide();
 			}
 		});
 

@@ -63,5 +63,18 @@ define([ "geoladris-tests" ], function(tests) {
 			bus.send("myarea-field-value-fill", message);
 			expect(message["myarea"]).toEqual(content);
 		});
+
+		it("changes the label text on set-label", function() {
+			textArea({
+				id : "myarea",
+				parent : parentId,
+				label : "Text: "
+			});
+
+			var label = $("#" + parentId).find("label");
+			expect(label.text()).toBe("Text: ");
+			bus.send("ui-text-area-field:myarea:set-label", "Field: ");
+			expect(label.text()).toBe("Field: ");
+		});
 	});
 });

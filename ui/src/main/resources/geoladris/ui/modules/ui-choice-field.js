@@ -4,9 +4,12 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 		var div = commons.getOrCreateElem("div", msg);
 		div.addClass("ui-choice-field-container");
 
+		var label = $("<label/>").addClass("ui-choice-field-label");
+		div.append(label);
 		if (msg.label) {
-			var label = $("<label/>").text(msg.label).addClass("ui-choice-field-label");
-			div.append(label);
+			label.text(msg.label);
+		} else {
+			label.hide();
 		}
 
 		var combo = $("<select/>");
@@ -37,6 +40,15 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 
 		bus.listen(id + "-field-value-fill", function(e, message) {
 			message[id] = combo.val();
+		});
+
+		bus.listen("ui-choice-field:" + msg.id + ":set-label", function(e, labelText) {
+			if (labelText) {
+				label.text(labelText);
+				label.show();
+			} else {
+				label.hide();
+			}
 		});
 
 		return combo;

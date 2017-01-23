@@ -20,7 +20,7 @@ define([ "geoladris-tests" ], function(tests) {
 		it("creates div on create", function() {
 			choice({
 				id : "mychoice",
-				parent :parentId
+				parent : parentId
 			});
 
 			expect($("#" + parentId).children().length).toBe(1);
@@ -31,7 +31,7 @@ define([ "geoladris-tests" ], function(tests) {
 			var text = "Choice: ";
 			choice({
 				id : "mychoice",
-				parent :parentId,
+				parent : parentId,
 				label : text
 			});
 
@@ -43,7 +43,7 @@ define([ "geoladris-tests" ], function(tests) {
 		it("adds values if specified on create", function() {
 			choice({
 				id : "mychoice",
-				parent :parentId,
+				parent : parentId,
 				values : [ "One", "Two", "Three" ]
 			});
 
@@ -55,7 +55,7 @@ define([ "geoladris-tests" ], function(tests) {
 		it("fills message on -field-value-fill", function() {
 			choice({
 				id : "mychoice",
-				parent :parentId,
+				parent : parentId,
 				values : [ "One", "Two", "Three" ]
 			});
 
@@ -67,7 +67,7 @@ define([ "geoladris-tests" ], function(tests) {
 		it("sets values on set-values", function() {
 			choice({
 				id : "mychoice",
-				parent :parentId,
+				parent : parentId,
 				values : [ "One", "Two", "Three" ]
 			});
 
@@ -77,6 +77,20 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(combo.length).toBe(1);
 			expect(combo.children("option:eq(0)").text()).toBe("1");
 			expect(combo.children("option:eq(1)").text()).toBe("2");
+		});
+
+		it("changes the label text on set-label", function() {
+			choice({
+				id : "mychoice",
+				parent : parentId,
+				label : "Field: ",
+				values : [ "One", "Two", "Three" ]
+			});
+
+			var label = $("#" + parentId).find("label");
+			expect(label.text()).toBe("Field: ");
+			bus.send("ui-choice-field:mychoice:set-label", "Choice: ");
+			expect(label.text()).toBe("Choice: ");
 		});
 	});
 });
