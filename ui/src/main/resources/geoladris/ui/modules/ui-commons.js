@@ -5,8 +5,16 @@ define([ "jquery" ], function($) {
 			elem = $("<" + type + "/>").attr("id", props.id);
 			elem.addClass(props.css);
 
-			var parent = $("#" + props.parent);
-			append(elem, parent, props.priority);
+			if (props.parent) {
+				var parent;
+				if (typeof props.parent == "string") {
+					parent = $("#" + props.parent);
+				} else {
+					// If not an id, assume a DOM node
+					parent = $(props.parent);
+				}
+				append(elem, parent, props.priority);
+			}
 		}
 
 		if (props.html) {

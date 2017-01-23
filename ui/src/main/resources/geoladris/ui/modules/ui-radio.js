@@ -1,17 +1,28 @@
 define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 	return function(msg) {
-		var input = $("<input id='" + msg.id + "' name='" + msg.parent + "' type='radio'\\>");
+		var input = $("<input/>");
+		input.attr("id", msg.id);
+		input.attr("type", "radio");
+		if (msg.parent) {
+			if (typeof msg.parent == "string") {
+				input.attr("name", msg.parent);
+			} else {
+				input.attr("name", msg.parent.id);
+			}
+		}
+
 		var inputCell = $("<div/>").append(input);
 		var textCell = $("<div/>").text(msg.text);
 
 		textCell.addClass("radio-text");
 		inputCell.addClass("radio-input");
 
-		var container = $("<div/>").attr("id", msg.id + "-container");
+		var container = commons.getOrCreateElem("div", {
+			id : msg.id + "-container",
+			parent : msg.parent
+		})
 		container.append(inputCell);
 		container.append(textCell);
-
-		$("#" + msg.parent).append(container);
 
 		textCell.click(function() {
 			input.click();

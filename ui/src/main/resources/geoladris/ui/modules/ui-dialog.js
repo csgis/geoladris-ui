@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus" ], function($, bus) {
+define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 	var zIndex;
 
 	function showOnTop(container) {
@@ -11,18 +11,21 @@ define([ "jquery", "message-bus" ], function($, bus) {
 	}
 
 	function createDialog(msg) {
-		var container = $("<div/>");
-		container.addClass("dialog-container");
+		var container = commons.getOrCreateElem("div", {
+			id : msg.id + "-dialog-container",
+			parent : msg.parent,
+			css : "dialog-container"
+		});
+
 		if (msg.modal) {
 			container.addClass("dialog-modal");
 		}
 
-		var div = $("<div/>").attr("id", msg.id);
-		div.addClass(msg.css);
-		div.addClass("dialog");
-
-		container.append(div);
-		$("#" + msg.parent).append(container);
+		var div = commons.getOrCreateElem("div", {
+			id : msg.id,
+			parent : container[0],
+			css : "dialog " + (msg.css || "")
+		});
 
 		bus.listen("ui-show", function(e, id) {
 			if (id == msg.id) {

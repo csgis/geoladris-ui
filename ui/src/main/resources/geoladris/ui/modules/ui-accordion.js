@@ -11,7 +11,10 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 	}
 
 	return function(props) {
-		var parent = $("#" + props.parent);
+		var container = commons.getOrCreateElem("div", {
+			id : props.id + "-container",
+			parent : props.parent
+		});
 		var header = $("<div/>").attr("id", props.id + "-header");
 		var content = $("<div/>").attr("id", props.id);
 		var headerText = $("<p/>").text(props.title);
@@ -32,14 +35,14 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 		}
 
 		header.append(headerText);
-		parent.append(header);
-		parent.append(content);
+		container.append(header);
+		container.append(content);
 
 		bus.listen("ui-accordion-group:" + props.id + ":visibility", function(e, msg) {
 			visibility(props.id + "-header", msg.header);
 			visibility(props.id, msg.content);
 		});
 
-		return content;
+		return container;
 	};
 });

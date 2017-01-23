@@ -43,7 +43,7 @@ define([ "geoladris-tests" ], function(tests) {
 				title : title
 			});
 
-			var parent = $("#" + parentId);
+			var parent = $($("#" + parentId).children()[0]);
 			var header = parent.children("#mygroup-header");
 			expect(parent.children().length).toBe(2);
 			expect(header.length).toBe(1);
@@ -53,7 +53,7 @@ define([ "geoladris-tests" ], function(tests) {
 		it("adds container on create", function() {
 			initGroup();
 
-			var parent = $("#" + parentId);
+			var parent = $($("#" + parentId).children()[0]);
 			expect(parent.children().length).toBe(2);
 			expect(parent.children("#mygroup").length).toBe(1);
 		});
