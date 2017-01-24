@@ -13,7 +13,8 @@
 			"datatables.net-colVis" : "../jslib/datatables/1.10.11/buttons.colVis.min",
 			"moment" : "../jslib/moment/2.5.1/moment.min",
 			"pikaday" : "../jslib/pikaday/1.5.1/pikaday",
-			"pikaday.jquery" : "../jslib/pikaday/1.5.1/pikaday.jquery"
+			"pikaday.jquery" : "../jslib/pikaday/1.5.1/pikaday.jquery",
+			"tipsy" : "../jslib/tipsy/1.0.0a/jquery.tipsy"
 		},
 		"shim" : {
 			"pikaday.jquery" : {
@@ -21,8 +22,10 @@
 			},
 			"pikaday" : {
 				"deps" : [ "moment" ]
+			},
+			"tipsy" : {
+				"deps" : [ "jquery" ]
 			}
 		}
-	},
-	"deps" : [ "layout" ]
+	}
 }
