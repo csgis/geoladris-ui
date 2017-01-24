@@ -312,16 +312,27 @@ Extra `props`:
 * **label** (*String*, optional): Label to show before the choice field.
 * **values** (*Array* of *Object*, optional): Available values for the choice field. Each object must have ``value`` (the field value itself) and ``text`` (the display text for the value).
 
+The returned element listens to the `change` and `slide` events. Both return the selected value in `event.detail.value`.
+
 Example:
 ```js
-ui.create("slider", {
+var slider = ui.create("slider", {
     id : "myslider",
     parent : "mydialog",
     css : "slider",
     label : "Number: ",
     values : [ 1, 2, 3 ]
 });
+
+slider.addEventListener("change", function(event) {
+    console.log("Changed: " + event.detail.value);
+});
+
+slider.addEventListener("slide", function(event) {
+    console.log("Slided: " + event.detail.value);
+});
 ```
+
 
 ### sliding-div
 
@@ -547,6 +558,39 @@ bus.send("ui-form-collector:extend", {
     divs : [ "input-crs", "input-x", "input-y" ],
     names : [ "crs", "lon", "lat" ]
 });
+```
+
+### ui-slider:`<id>`:set-label
+
+`<id>` matches the *div* specified when creating the [slider](#ui-slider).
+
+Message (*String*): Label to set.
+
+Example:
+```js
+bus.send("ui-slider:myslider:set-label", "Slider: "]);
+```
+
+### ui-slider:`<id>`:set-value
+
+`<id>` matches the *div* specified when creating the [slider](#ui-slider).
+
+Message (*int*): Value to select.
+
+Example:
+```js
+bus.send("ui-slider:myslider:set-value", 4);
+```
+
+### ui-slider:`<id>`:set-values
+
+`<id>` matches the *div* specified when creating the [slider](#ui-slider).
+
+Message (*Array* of *int*): Values to set.
+
+Example:
+```js
+bus.send("ui-slider:myslider:set-values", [ [ 1, 4, 6 ] ]);
 ```
 
 ### ui-sliding-div:expand
