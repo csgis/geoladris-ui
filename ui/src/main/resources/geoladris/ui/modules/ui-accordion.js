@@ -11,16 +11,37 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 	}
 
 	return function(props) {
+		var containerCss = "";
+		var headerCss = "";
+		if (props.css) {
+			containerCss = props.css.split("\s+").map(function(a) {
+				return a + "-container";
+			}).join(" ");
+			headerCss = props.css.split("\s+").map(function(a) {
+				return a + "-header";
+			}).join(" ");
+		}
 		var container = commons.getOrCreateElem("div", {
 			id : props.id + "-container",
-			parent : props.parent
+			parent : props.parent,
+			css : containerCss
 		});
-		var header = $("<div/>").attr("id", props.id + "-header");
-		var content = $("<div/>").attr("id", props.id);
-		var headerText = $("<p/>").text(props.title);
 
-		header.addClass("accordion-header");
-		headerText.addClass("accordion-header-text");
+		var header = commons.getOrCreateElem("div", {
+			id : props.id + "-header",
+			parent : container,
+			css : headerCss + " accordion-header"
+		});
+		var headerText = commons.getOrCreateElem("p", {
+			parent : header,
+			html : props.title,
+			css : "accordion-header-text"
+		});
+		var content = commons.getOrCreateElem("div", {
+			id : props.id,
+			parent : container,
+			css : props.css
+		});
 
 		header.click(function() {
 			content.slideToggle({
@@ -33,10 +54,6 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 		} else {
 			content.hide();
 		}
-
-		header.append(headerText);
-		container.append(header);
-		container.append(content);
 
 		bus.listen("ui-accordion-group:" + props.id + ":visibility", function(e, msg) {
 			visibility(props.id + "-header", msg.header);

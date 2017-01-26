@@ -47,6 +47,8 @@ define([ "geoladris-tests" ], function(tests) {
 			var header = parent.children("#mygroup-header");
 			expect(parent.children().length).toBe(2);
 			expect(header.length).toBe(1);
+			expect(header.hasClass("accordion-header")).toBe(true);
+			expect(header.children("p").hasClass("accordion-header-text")).toBe(true);
 			expect(header.text()).toBe(title);
 		});
 
