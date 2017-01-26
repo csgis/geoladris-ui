@@ -157,8 +157,8 @@ Extra `props`:
 * **tooltip** (*String*, optional): Tooltip to show on mouse over.
 * **text** (*String*, **text** or **image** mandatory): The text to show in the button.
 * **image** (*String*, **text** or **image** mandatory): The image to show in the button background.
-* **sendEventName** (*String*, optional): Name of the event to send when the button is clicked.
-* **sendEventMessage** (*?*, optional): The message to send when the button is clicked.
+* **clickEventName** (*String*, optional): Name of the event to send when the button is clicked.
+* **clickEventMessage** (*?*, optional): The message to send when the button is clicked.
 
 Example:
 ```js
@@ -168,8 +168,8 @@ ui.create("button", {
     css : "mybutton-class",
     priority : 200,
     image : "images/button.png",
-    sendEventName : "button-clicked",
-    sendEventMessage : "mybutton"
+    clickEventName : "button-clicked",
+    clickEventMessage : "mybutton"
 });
 ```
 
@@ -566,7 +566,7 @@ With this event you can gather data from a set of input controls and send an eve
 Message (*Object*):
 
 * **button** (*String*, mandatory): Identifier of the button that will trigger the form collection and event send.
-* **sendEventName** (*String*, mandatory): Event to send when the button is clicked.
+* **clickEventName** (*String*, mandatory): Event to send when the button is clicked.
 * **divs** (*Array* of *String*, mandatory): Set of divs to gather data. These fields must implement the `<field>-field-value-fill`_ event.
 * **requiredDivs** (*Array* of *String*, optional): Subset of ``divs``. All these fields must have non empty values for the ``button`` to be enabled, otherwise it's disabled. Works for fields created with the ``ui-input-field:create`` and ``ui-choice-field:create`` events.
 * **names** (*Array* of *String*, optional): Set of attribute names to use for the event message. If not specified, the div identifiers will be used as attribute names for event message.
@@ -575,7 +575,7 @@ Example:
 ```js
 bus.send("ui-form-collector:extend", {
     button : "button-ok",
-    sendEventName : "zoomTo",
+    clickEventName : "zoomTo",
     divs : [ "input-crs", "input-x", "input-y" ],
     names : [ "crs", "lon", "lat" ]
 });

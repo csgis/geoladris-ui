@@ -18,10 +18,10 @@ define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
 
     button.addClass("button-enabled");
 
-    if (msg.sendEventName) {
+    if (msg.clickEventName) {
       button.click(function() {
         if ($("#" + msg.id).hasClass("button-enabled")) {
-          bus.send(msg.sendEventName, msg.sendEventMessage);
+          bus.send(msg.clickEventName, msg.clickEventMessage);
         }
       });
     }

@@ -43,14 +43,14 @@ define([ "geoladris-tests" ], function(tests) {
 				parent : "mydialog-confirm-buttons-container",
 				css : "dialog-ok-button ui-confirm-dialog-ok",
 				text : messages.ok,
-				sendEventName : "ui-confirm-dialog:mydialog:ok"
+				clickEventName : "ui-confirm-dialog:mydialog:ok"
 			});
 			expect(buttons).toHaveBeenCalledWith({
 				id : "mydialog-cancel",
 				parent : "mydialog-confirm-buttons-container",
 				css : "dialog-ok-button ui-confirm-dialog-cancel",
 				text : messages.cancel,
-				sendEventName : "ui-confirm-dialog:mydialog:cancel"
+				clickEventName : "ui-confirm-dialog:mydialog:cancel"
 			});
 		});
 

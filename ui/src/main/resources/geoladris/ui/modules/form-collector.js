@@ -76,7 +76,7 @@ define([ "jquery", "message-bus" ], function($, bus) {
       } else {
         translatedMessage = rawMessage;
       }
-      bus.send(msg.sendEventName, translatedMessage);
+      bus.send(msg.clickEventName, translatedMessage);
     });
   });
 });

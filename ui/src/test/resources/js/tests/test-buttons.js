@@ -90,7 +90,7 @@ define([ "geoladris-tests" ], function(tests) {
 			expect($("#mybutton1").index()).toBe(1);
 		});
 
-		it("sends event on click if sendEventName specified on create", function() {
+		it("sends event on click if clickEventName specified on create", function() {
 			var event = "event-name";
 			var eventMessage = {
 				data : "This is the message"
@@ -99,8 +99,8 @@ define([ "geoladris-tests" ], function(tests) {
 				id : "mybutton",
 				parent : parentId,
 				img : "url_to_image",
-				sendEventName : event,
-				sendEventMessage : eventMessage
+				clickEventName : event,
+				clickEventMessage : eventMessage
 			});
 
 			var button = $("#mybutton");

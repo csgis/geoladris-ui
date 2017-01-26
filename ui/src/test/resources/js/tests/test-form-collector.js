@@ -46,7 +46,7 @@ define([ "geoladris-tests" ], function(tests) {
 			bus.send("ui-form-collector:extend", {
 				button : buttonId,
 				divs : [ "letters", "numbers" ],
-				sendEventName : "myevent"
+				clickEventName : "myevent"
 			});
 			$("#" + buttonId).trigger("click");
 
@@ -60,7 +60,7 @@ define([ "geoladris-tests" ], function(tests) {
 			bus.send("ui-form-collector:extend", {
 				button : buttonId,
 				divs : [ "letters", "numbers" ],
-				sendEventName : "myevent"
+				clickEventName : "myevent"
 			});
 
 			bus.send("ui-button:" + buttonId + ":enable", false);
@@ -77,7 +77,7 @@ define([ "geoladris-tests" ], function(tests) {
 				button : buttonId,
 				divs : [ "letters", "numbers" ],
 				names : [ "l", "n" ],
-				sendEventName : "myevent"
+				clickEventName : "myevent"
 			});
 			$("#" + buttonId).trigger("click");
 
@@ -93,7 +93,7 @@ define([ "geoladris-tests" ], function(tests) {
 				divs : [ "letters", "numbers", "freetext" ],
 				requiredDivs : [ "freetext" ],
 				names : [ "l", "n", "f" ],
-				sendEventName : "myevent"
+				clickEventName : "myevent"
 			});
 
 			var input = $("#freetext input");
@@ -108,7 +108,7 @@ define([ "geoladris-tests" ], function(tests) {
 				divs : [ "letters", "numbers", "freetext" ],
 				requiredDivs : [ "freetext" ],
 				names : [ "l", "n", "f" ],
-				sendEventName : "myevent"
+				clickEventName : "myevent"
 			});
 
 			expect(bus.send).not.toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", true);
@@ -124,7 +124,7 @@ define([ "geoladris-tests" ], function(tests) {
 				divs : [ "letters", "numbers", "freetext", "mydate" ],
 				requiredDivs : [],
 				names : [ "l", "n", "f", "d" ],
-				sendEventName : "myevent"
+				clickEventName : "myevent"
 			});
 
 			var input = $("#mydate input");

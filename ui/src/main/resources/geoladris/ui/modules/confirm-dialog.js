@@ -28,14 +28,14 @@ define([ "jquery", "message-bus", "./commons", "./buttons", "./dialog" ], functi
       parent : buttonsContainer,
       css : "dialog-ok-button ui-confirm-dialog-ok",
       text : msg.messages.ok,
-      sendEventName : "ui-confirm-dialog:" + msg.id + ":ok"
+      clickEventName : "ui-confirm-dialog:" + msg.id + ":ok"
     });
     buttons({
       id : msg.id + "-cancel",
       parent : buttonsContainer,
       css : "dialog-ok-button ui-confirm-dialog-cancel",
       text : msg.messages.cancel,
-      sendEventName : "ui-confirm-dialog:" + msg.id + ":cancel"
+      clickEventName : "ui-confirm-dialog:" + msg.id + ":cancel"
     });
 
     bus.listen("ui-confirm-dialog:" + msg.id + ":cancel", function() {
