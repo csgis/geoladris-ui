@@ -108,6 +108,22 @@ define([ "geoladris-tests" ], function(tests) {
 			expect(bus.send).toHaveBeenCalledWith(event, eventMessage);
 		});
 
+    it("calls callback on click if clickEventCallback specified on create", function() {
+      var clicked;
+      buttons({
+        id : "mybutton",
+        parent : parentId,
+        img : "url_to_image",
+        clickEventCallback : function() {
+          clicked = true;
+        }
+      });
+
+      var button = $("#mybutton");
+      button.trigger("click");
+      expect(clicked).toBe(true);
+    });
+
 		it("enables button on ui-button:enable", function() {
 			buttons({
 				id : "mybutton",

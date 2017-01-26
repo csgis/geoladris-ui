@@ -24,6 +24,12 @@ define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
           bus.send(msg.clickEventName, msg.clickEventMessage);
         }
       });
+    } else if (msg.clickEventCallback) {
+      button.click(function() {
+        if ($("#" + msg.id).hasClass("button-enabled")) {
+          msg.clickEventCallback(button);
+        }
+      });
     }
 
     function enable(enabled) {
