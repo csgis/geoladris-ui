@@ -1,5 +1,5 @@
 define([ "geoladris-tests" ], function(tests) {
-	describe("ui-input-field", function() {
+	describe("input-field", function() {
 		var bus;
 		var injector;
 		var module;
@@ -12,7 +12,7 @@ define([ "geoladris-tests" ], function(tests) {
 			});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-input-field" ], function(m) {
+			injector.require([ "input-field" ], function(m) {
 				module = m;
 				done();
 			});

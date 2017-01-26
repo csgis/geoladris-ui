@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./ui-commons", "nouislider" ], function($, bus, commons, noUiSlider) {
+define([ "jquery", "message-bus", "./commons", "nouislider" ], function($, bus, commons, noUiSlider) {
   return function(props) {
     var div = commons.getOrCreateElem("div", {
       parent : props.parent,

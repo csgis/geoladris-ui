@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./ui-commons", "module" ], function($, bus, commons, module) {
+define([ "jquery", "message-bus", "./commons", "module" ], function($, bus, commons, module) {
   var config = module.config();
 
   if (!config.timeout) {

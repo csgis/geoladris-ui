@@ -3,14 +3,14 @@ define([ "geoladris-tests" ], function(tests) {
 	var injector;
 	var commons;
 
-	describe("ui-commons", function() {
+	describe("commons", function() {
 		var parentId = "myparent";
 
 		beforeEach(function(done) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-commons" ], function(module) {
+			injector.require([ "commons" ], function(module) {
 				commons = module;
 				done();
 			});

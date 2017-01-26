@@ -3,14 +3,14 @@ define([ "geoladris-tests" ], function(tests) {
 	var injector;
 	var textArea;
 
-	describe("ui-text-area-field", function() {
+	describe("text-area-field", function() {
 		var parentId = "myparent";
 
 		beforeEach(function(done) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-text-area-field" ], function(module) {
+			injector.require([ "text-area-field" ], function(module) {
 				textArea = module;
 				done();
 			});

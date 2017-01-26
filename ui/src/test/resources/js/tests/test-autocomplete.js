@@ -3,7 +3,7 @@ define([ "geoladris-tests" ], function(tests) {
 	var injector;
 	var autocomplete;
 
-	describe("ui-autocomplete", function() {
+	describe("autocomplete", function() {
 		var parentId = "myparent";
 		var id = "myautocomplete";
 
@@ -14,7 +14,7 @@ define([ "geoladris-tests" ], function(tests) {
 			});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-autocomplete" ], function(module) {
+			injector.require([ "autocomplete" ], function(module) {
 				autocomplete = module;
 				done();
 			});

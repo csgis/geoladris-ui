@@ -3,14 +3,14 @@ define([ "geoladris-tests" ], function(tests) {
 	var injector;
 	var buttons;
 
-	describe("ui-buttons", function() {
+	describe("buttons", function() {
 		var parentId = "myparent";
 
 		beforeEach(function(done) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-buttons" ], function(module) {
+			injector.require([ "buttons" ], function(module) {
 				buttons = module;
 				done();
 			});

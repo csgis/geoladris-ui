@@ -1,5 +1,5 @@
 define([ "geoladris-tests" ], function(tests, buttons) {
-	describe("ui-dropdown-buttons", function() {
+	describe("dropdown-buttons", function() {
 		var bus;
 		var injector;
 		var module;
@@ -25,9 +25,9 @@ define([ "geoladris-tests" ], function(tests, buttons) {
 			spyOn(deps, "buttons").and.callThrough();
 			spyOn(deps, "sliding").and.callThrough();
 
-			injector.mock("ui-buttons", deps.buttons);
-			injector.mock("ui-sliding-div", deps.sliding);
-			injector.require([ "ui-dropdown-buttons" ], function(m) {
+			injector.mock("buttons", deps.buttons);
+			injector.mock("sliding-div", deps.sliding);
+			injector.require([ "dropdown-buttons" ], function(m) {
 				module = m;
 				done();
 			});

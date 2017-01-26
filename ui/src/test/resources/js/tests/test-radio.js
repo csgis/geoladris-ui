@@ -9,7 +9,7 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-radio" ], function(m) {
+			injector.require([ "radio" ], function(m) {
 				module = m;
 				done();
 			});

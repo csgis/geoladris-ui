@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./ui-commons", "datatables.net", "datatables.net-buttons", "datatables.net-colVis" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "./commons", "datatables.net", "datatables.net-buttons", "datatables.net-colVis" ], function($, bus, commons) {
   var ORDER_COLUMN_TYPE = "__gb__sorting__column_type__";
 
   function sortSelectedFirst(settings, col) {

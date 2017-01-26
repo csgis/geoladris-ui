@@ -3,7 +3,7 @@ define([ "geoladris-tests" ], function(tests) {
 	var injector;
 	var module;
 
-	describe("ui-accordion", function() {
+	describe("accordion-group", function() {
 		var parentId = "myparent";
 		var groupId = "mygroup";
 
@@ -11,7 +11,7 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-accordion" ], function(m) {
+			injector.require([ "accordion-group" ], function(m) {
 				module = m;
 				done();
 			});

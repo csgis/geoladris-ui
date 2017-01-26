@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./ui-commons", "pikaday.jquery" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "./commons", "pikaday.jquery" ], function($, bus, commons) {
   return function(msg) {
     var div = commons.getOrCreateElem("div", msg);
     div.addClass("ui-input-field-container");

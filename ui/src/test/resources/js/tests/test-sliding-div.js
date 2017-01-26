@@ -1,6 +1,6 @@
 define([ "geoladris-tests" ], function(tests) {
 
-	describe("ui-sliding-div", function() {
+	describe("sliding-div", function() {
 		var bus;
 		var injector;
 		var module;
@@ -10,7 +10,7 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-sliding-div" ], function(m) {
+			injector.require([ "sliding-div" ], function(m) {
 				module = m;
 				done();
 			});

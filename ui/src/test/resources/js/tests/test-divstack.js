@@ -1,6 +1,6 @@
 define([ "geoladris-tests" ], function(tests) {
 
-	describe("ui-divstack", function() {
+	describe("divstack", function() {
 		var bus;
 		var injector;
 		var module;
@@ -10,7 +10,7 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-divstack" ], function(m) {
+			injector.require([ "divstack" ], function(m) {
 				module = m;
 				done();
 			});

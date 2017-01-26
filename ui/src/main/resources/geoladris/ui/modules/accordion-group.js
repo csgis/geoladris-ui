@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
   function visibility(id, visible) {
     if (visible !== undefined) {
       var div = $("#" + id);

@@ -2,12 +2,12 @@ define([ "geoladris-tests" ], function(tests) {
 	var bus;
 	var injector;
 
-	describe("ui-loading", function() {
+	describe("loading", function() {
 		beforeEach(function(done) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-loading" ], function() {
+			injector.require([ "loading" ], function() {
 				done();
 			});
 			var div = document.getElementById("loading-shade");

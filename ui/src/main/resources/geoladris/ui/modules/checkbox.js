@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
   return function(msg) {
     var input = $("<input/>");
     input.attr("id", msg.id);

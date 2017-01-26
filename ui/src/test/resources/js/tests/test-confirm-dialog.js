@@ -1,5 +1,5 @@
 define([ "geoladris-tests" ], function(tests) {
-	describe("ui-dialog", function() {
+	describe("dialog", function() {
 		var bus;
 		var injector;
 		var module;
@@ -11,8 +11,8 @@ define([ "geoladris-tests" ], function(tests) {
 			bus = initialization.bus;
 			injector = initialization.injector;
 			buttons = jasmine.createSpy();
-			injector.mock("ui-buttons", buttons);
-			injector.require([ "ui-confirm-dialog" ], function(m) {
+			injector.mock("buttons", buttons);
+			injector.require([ "confirm-dialog" ], function(m) {
 				module = m;
 				done();
 			});

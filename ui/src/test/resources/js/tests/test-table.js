@@ -1,5 +1,5 @@
 define([ "geoladris-tests" ], function(tests) {
-	describe("ui-table", function() {
+	describe("table", function() {
 		var bus;
 		var injector;
 		var module;
@@ -13,7 +13,7 @@ define([ "geoladris-tests" ], function(tests) {
 			});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-table" ], function(m) {
+			injector.require([ "table" ], function(m) {
 				module = m;
 				done();
 			});

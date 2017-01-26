@@ -3,14 +3,14 @@ define([ "geoladris-tests" ], function(tests) {
 	var injector;
 	var choice;
 
-	describe("ui-choice-field", function() {
+	describe("choice-field", function() {
 		var parentId = "myparent";
 
 		beforeEach(function(done) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-choice-field" ], function(module) {
+			injector.require([ "choice-field" ], function(module) {
 				choice = module;
 				done();
 			});

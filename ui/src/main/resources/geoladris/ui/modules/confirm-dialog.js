@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./ui-commons", "./ui-buttons", "./ui-dialog" ], function($, bus, commons, buttons, uiDialog) {
+define([ "jquery", "message-bus", "./commons", "./buttons", "./dialog" ], function($, bus, commons, buttons, uiDialog) {
   return function(msg) {
     msg.modal = true;
     msg.css = (msg.css || "") + " ui-confirm-dialog";

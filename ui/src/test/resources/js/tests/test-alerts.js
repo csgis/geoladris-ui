@@ -3,7 +3,7 @@ define([ "geoladris-tests" ], function(tests) {
 	var injector;
 	var parentId = "center";
 
-	describe("ui-alerts", function() {
+	describe("alerts", function() {
 		// This comes from ui-alerts.js
 		var containerId = "ui-alerts-container";
 
@@ -11,7 +11,7 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-alerts" ], function() {
+			injector.require([ "alerts" ], function() {
 				done();
 			});
 			tests.replaceParent(parentId);

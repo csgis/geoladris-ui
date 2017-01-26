@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
+define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
   return function(msg) {
     var id = msg.id;
     var div = commons.getOrCreateElem("div", msg);

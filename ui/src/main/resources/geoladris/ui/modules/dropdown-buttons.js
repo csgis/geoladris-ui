@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./ui-commons", "./ui-buttons", "./ui-sliding-div" ], function($, bus, commons, uiButtons, uiSliding) {
+define([ "jquery", "message-bus", "./commons", "./buttons", "./sliding-div" ], function($, bus, commons, uiButtons, uiSliding) {
   return function(msg) {
     // Map id -> image
     var buttons = {};

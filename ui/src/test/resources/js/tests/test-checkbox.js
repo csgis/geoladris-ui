@@ -1,5 +1,5 @@
 define([ "geoladris-tests" ], function(tests) {
-	describe("ui-checkbox", function() {
+	describe("checkbox", function() {
 		var bus;
 		var injector;
 		var module;
@@ -9,7 +9,7 @@ define([ "geoladris-tests" ], function(tests) {
 			var initialization = tests.init("ui", {});
 			bus = initialization.bus;
 			injector = initialization.injector;
-			injector.require([ "ui-checkbox" ], function(m) {
+			injector.require([ "checkbox" ], function(m) {
 				module = m;
 				done();
 			});
