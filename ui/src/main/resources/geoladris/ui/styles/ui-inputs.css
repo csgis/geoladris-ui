@@ -1,5 +1,6 @@
 .ui-input-field-container, .ui-choice-field-container,
-	.ui-text-area-field-container, .ui-checkbox-container {
+	.ui-text-area-field-container, .ui-checkbox-container,
+	.ui-radio-container {
 	display: flex;
 	align-items: center;
 }
