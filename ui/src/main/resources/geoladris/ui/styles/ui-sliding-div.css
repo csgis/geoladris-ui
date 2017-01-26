@@ -1,0 +1,32 @@
+.ui-sliding-div-handle {
+	position: absolute;
+	cursor: pointer;
+}
+
+.ui-sliding-div-handle.left, .ui-sliding-div-handle.top-left, .ui-sliding-div-handle.bottom-left {
+	left: 0;
+}
+
+.ui-sliding-div-handle.right, .ui-sliding-div-handle.top-right, .ui-sliding-div-handle.bottom-right {
+	right: 0;
+}
+
+.ui-sliding-div-handle.top, .ui-sliding-div-handle.top-left, .ui-sliding-div-handle.top-right {
+	top: 0;
+}
+
+.ui-sliding-div-handle.bottom, .ui-sliding-div-handle.bottom-left, .ui-sliding-div-handle.bottom-right {
+	bottom: 0;
+}
+
+.ui-sliding-div-handle.bottom, .ui-sliding-div-handle.top {
+	left: calc(50% - 10px);
+}
+
+.ui-sliding-div-handle.left, .ui-sliding-div-handle.right {
+	top: calc(50% - 10px);
+}
+
+.ui-sliding-div-container {
+	background: transparent;
+}
