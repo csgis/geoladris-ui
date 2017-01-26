@@ -1,0 +1,9 @@
+.ui-input-field-container, .ui-choice-field-container,
+	.ui-text-area-field-container, .ui-checkbox-container {
+	display: flex;
+	align-items: center;
+}
+
+.ui-choice-field-container>select {
+	width: 100%;
+}

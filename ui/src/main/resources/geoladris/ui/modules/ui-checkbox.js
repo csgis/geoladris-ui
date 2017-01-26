@@ -13,15 +13,22 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 		var inputCell = $("<div/>").append(input);
 		var textCell = $("<div/>").text(msg.text);
 
-		textCell.addClass("checkbox-text");
-		inputCell.addClass("checkbox-input");
+		textCell.addClass("ui-checkbox-text");
+		inputCell.addClass("ui-checkbox-input");
 
-		var row = commons.getOrCreateElem("div", {
+		var containerCss = "";
+		if (msg.css) {
+			containerCss = msg.css.split("\s+").map(function(a) {
+				return a + "-container";
+			}).join(" ");
+		}
+		var container = commons.getOrCreateElem("div", {
 			id : msg.id + "-container",
-			parent : msg.parent
+			parent : msg.parent,
+			css : "ui-checkbox-container"
 		});
-		row.append(inputCell);
-		row.append(textCell);
+		container.append(inputCell);
+		container.append(textCell);
 
 		textCell.click(function(event) {
 			input.click();
