@@ -78,6 +78,8 @@ define([ "jquery", "message-bus", "./ui-commons" ], function($, bus, commons) {
 				position : "fixed",
 				top : startOffset.top + (event.clientY - startY),
 				left : startOffset.left + (event.clientX - startX),
+				right : "unset",
+				bottom : "unset"
 			});
 		});
 

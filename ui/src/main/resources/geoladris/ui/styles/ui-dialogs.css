@@ -1,0 +1,31 @@
+.dialog-container {
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: transparent;
+	z-index: 2000;
+	pointer-events: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.dialog {
+	position: relative;
+	width: auto;
+	pointer-events: auto;
+}
+
+.dialog-title {
+	cursor: move;
+}
+
+.dialog-close {
+	cursor: pointer;
+}
+
+.dialog-modal {
+	pointer-events: unset;
+}
