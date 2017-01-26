@@ -15,19 +15,19 @@ define([ "jquery", "message-bus", "./ui-commons", "module" ], function($, bus, c
 	});
 
 	bus.listen("ui-alert", function(e, msg) {
-		var div = $("<div/>");
-		div.addClass("ui-alert");
-		div.addClass("ui-alert-" + msg.severity);
-		div.text(msg.message);
+		var div = commons.getOrCreateElem("div", {
+			parent : container,
+			html : msg.message,
+			css : "ui-alert ui-alert-" + msg.severity
+		});
 
-		var close = $("<div/>");
-		close.addClass("ui-alerts-close");
+		var close = commons.getOrCreateElem("div", {
+			parent : div,
+			css : "ui-alerts-close"
+		});
 		close.click(function() {
 			div.remove();
 		});
-
-		div.append(close);
-		container.append(div);
 
 		setTimeout(function() {
 			div.remove();
