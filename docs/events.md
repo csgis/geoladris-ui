@@ -120,36 +120,6 @@ ui.create("accordion-group", {
 });
 ```
 
-### <a name="ui-autocomplete"></a>autocomplete
-
-Extra `props`:
-
-* **options** (*Array* of *String*, mandatory): Available options for the autocomplete control.
-* **placeholder** (*String*, optional): Placeholder to show in the autocomplete control.
-* **label** (*String*, optional): Label to show before the autocomplete control.
-* **hint** (*boolean*): Determines if the autocomplete control should show a hint (greyed autocompleted value) or not.
-* **minQueryLength** (*int*, optional): Minimum number of characters that have to be written before the autocomplete options appear. If it's 0, options appear whenever the autocomplete control is focused. Default value is 0.
-* **searchMode** (*String*, optional): One of ``startsWith`` or ``contains``. Determines the type of filtering to be used by the control. Default is ``startsWith``.
-* **maxResults** (*int*, optional): Maximum number of results to be shown on the autocomplete control. If 0 or less is specified, all results will be shown. Default is 0.
-* **showOnFocus** (*boolean*): Determines wether the autocomplete options will be shown when the control gains focus or not. Note that if the current text is shorter than *minQueryLength*, options won't be shown even if this option is *true*.
-
-Example:
-```js
-ui.create"autocomplete", {
-    id : "myautocomplete",
-    parent : "mydialog",
-    css : "autocomplete",
-    options : [ "One", "Two", "Three" ],
-    placeholder : "Number",
-    label : "Choose a number: ",
-    hint : true,
-    minQueryLength : 3,
-    searchMode : "startsWith",
-    maxResults : 5,
-    showOnFocus : true
-});
-```
-
 ### <a name="ui-button"></a>button
 
 Extra `props`:
@@ -190,7 +160,7 @@ ui.create("checkbox", {
 });
 ```
 
-### <a name="ui-choice-field"></a>choice
+### <a name="ui-choice"></a>choice
 
 Extra `props`:
 
@@ -202,9 +172,18 @@ Example:
 ui.create("choice", {
     id : "mychoice",
     parent : "mydialog",
-    css : "choice-field",
+    css : "choice",
     label : "Number: ",
-    values : [ "One", "Two", "Three" ]
+    values : [ {
+        value : "value-1",
+        text : "1"
+    }, {
+        value : "value-2",
+        text : "2"
+    }, {
+        value : "value-3",
+        text : "3"
+    } ]
 });
 ```
 
@@ -272,12 +251,22 @@ ui.create("dropdown-button", {
 });
 ```
 
-### <a name="ui-input-field"></a>input
+### <a name="ui-input"></a>input
 
 Extra `props`:
 
 * **label** (*String*, optional): Label to show before the input field.
 * **type** (*String*, optional): Type of input. It must be one of the values supported by the `<input>` tag for the *type* attribute. Default is *text*.
+* **options** (*Array* of *String*, mandatory): Available options for the input. Used only if `type` is `text`.
+
+The following properties are only available if `options` have been specified (or have been set afterwards using the [set-values](#ui-input-set-values) event):
+
+* **placeholder** (*String*, optional): Placeholder to show in the autocomplete control.
+* **hint** (*boolean*): Determines if the autocomplete control should show a hint (greyed autocompleted value) or not.
+* **minQueryLength** (*int*, optional): Minimum number of characters that have to be written before the autocomplete options appear. If it's 0, options appear whenever the autocomplete control is focused. Default value is 0.
+* **searchMode** (*String*, optional): One of ``startsWith`` or ``contains``. Determines the type of filtering to be used by the control. Default is ``startsWith``.
+* **maxResults** (*int*, optional): Maximum number of results to be shown on the autocomplete control. If 0 or less is specified, all results will be shown. Default is 0.
+* **showOnFocus** (*boolean*): Determines wether the autocomplete options will be shown when the control gains focus or not. Note that if the current text is shorter than *minQueryLength*, options won't be shown even if this option is *true*.
 
 Example:
 ```js
@@ -286,7 +275,14 @@ ui.create("input", {
     parent : "mydialog",
     css : "login-field",
     label : "User: ",
-    type : "password"
+    type : "text"
+    options : [ "User 1", "User 2", "User 3" ],
+    placeholder : "Enter your user",
+    hint : true,
+    minQueryLength : 3,
+    searchMode : "startsWith",
+    maxResults : 5,
+    showOnFocus : true
 });
 ```
 
@@ -379,7 +375,7 @@ ui.create("table", {
 });
 ```
 
-### <a name="ui-text-area-field"></a>text-area
+### <a name="ui-text-area"></a>text-area
 
 Extra `props`:
 
@@ -418,42 +414,9 @@ bus.send("ui-accordion-group:layers:visibility", {
 });
 ```
 
-###<a name="ui-autocomplete-set-values"></a>ui-autocomplete:`<id>`:set-values
-
-`<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete).
-
-Message (*Array* of *String*): Values to set for autocompletion.
-
-Example:
-```js
-bus.send("ui-autocomplete:myautocomplete:set-values", [ [ "1", "2", "3" ] ]);
-```
-
-### ui-autocomplete:`<id>`:selected
-
-`<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete-create).
-
-Message (*String*): Selected value from the *options* array specified when setting the [values](#ui-autocomplete-set-values).
-
-Example:
-```js
-bus.send("ui-autocomplete:myautocomplete:selected", "One");
-```
-
-### ui-autocomplete:`<id>`:set-label
-
-`<id>` matches the *div* specified when creating the [autocomplete](#ui-autocomplete-create).
-
-Message (*String*): Label text.
-
-Example:
-```js
-bus.send("ui-autocomplete:myautocomplete:set-label", "Autocomplete: ");
-```
-
 ### ui-button:`<id>`:enable
 
-`<id>` matches the *div* specified when creating the [button](#ui-button).
+`<id>` matches the *id* specified when creating the [button](#ui-button).
 
 Message (*boolean*, mandatory): Determines whether the button should be enabled or not.
 
@@ -464,7 +427,7 @@ bus.send("ui-button:mybutton:enable", true);
 
 ### ui-button:`<id>`:activate
 
-`<id>` matches the *div* specified when creating the [button](#ui-button).
+`<id>` matches the *id* specified when creating the [button](#ui-button).
 
 Message (*boolean*, mandatory): Determines whether the button should be active or not.
 
@@ -475,7 +438,7 @@ bus.send("ui-button:mybutton:activate", true);
 
 ### ui-button:`<id>`:toggle
 
-`<id>` matches the *div* specified when creating the [button](#ui-button).
+`<id>` matches the *id* specified when creating the [button](#ui-button).
 
 Message (*Empty*).
 
@@ -486,7 +449,7 @@ bus.send("ui-button:mybutton:toggle");
 
 ### ui-button:`<id>`:link-active
 
-`<id>` matches the *div* specified when creating the [button](#ui-button).
+`<id>` matches the *id* specified when creating the [button](#ui-button).
 
 Message (*String*, mandatory): Identifier of the div to link active state. Button state will change on [ui-show](#ui-show), [ui-hide](#ui-hide) and [ui-toggle](#ui-toggle) events for this div.
 
@@ -496,31 +459,20 @@ bus.send("ui-button:mybutton:link-active", "mydialog");
 ```
 
 
-### ui-choice-field:`<id>`:set-values
+### ui-choice:`<id>`:set-values
 
-`<id>` matches the *div* specified when creating the [choice field](#ui-choice-field).
+`<id>` matches the *id* specified when creating the [choice](#ui-choice).
 
 Message (*Array* of *String*): Values to set.
 
 Example:
 ```js
-bus.send("ui-choice-field:mychoice:set-values", [ [ "1", "2", "3" ] ]);
-```
-
-### ui-choice-field:`<id>`:set-label
-
-`<id>` matches the *div* specified when creating the [choice field](#ui-choice-field).
-
-Message (*String*): Label text.
-
-Example:
-```js
-bus.send("ui-choice-field:mychoice:set-label", "Choice: ");
+bus.send("ui-choice:mychoice:set-values", [ [ "1", "2", "3" ] ]);
 ```
 
 ### <a name="ui-dropdown-button-add-item"></a>ui-dropdown-button:`<id>`:add-item
 
-`<id>` matches the *div* specified when creating the [dropdown button](#ui-dropdown-button).
+`<id>` matches the *id* specified when creating the [dropdown button](#ui-dropdown-button).
 
 Message (*Object*):
 
@@ -539,7 +491,7 @@ bus.send("ui-dropdown-button:mydropdown:add-item", {
 
 ### ui-dropdown-button:`<id>`:set-item
 
-`<id>` matches the *div* specified when creating the [dropdown button](#ui-dropdown-button).
+`<id>` matches the *id* specified when creating the [dropdown button](#ui-dropdown-button).
 
 Message (*String*, mandatory): Identifier of the item to set, as specified on [ui-dropdown-button:&lt;id&gt;:add-item](#ui-dropdown-button-add-item).
 
@@ -550,7 +502,7 @@ bus.send("ui-dropdown-button:mydropdown:set-item", "item1");
 
 ### ui-dropdown-button:`<id>`:item-selected
 
-`<id>` matches the *div* specified when creating the [dropdown button](#ui-dropdown-button).
+`<id>` matches the *id* specified when creating the [dropdown button](#ui-dropdown-button).
 
 Message (*String*, mandatory): Identifier of the item that has been selected, as specified on [ui-dropdown-button:&lt;id&gt;:add-item](#ui-dropdown-button-add-item).
 
@@ -569,7 +521,7 @@ Message (*Object*):
 * **button** (*String*, mandatory): Identifier of the button that will trigger the form collection and event send.
 * **clickEventName** (*String*, mandatory): Event to send when the button is clicked.
 * **divs** (*Array* of *String*, mandatory): Set of divs to gather data. These fields must implement the `<field>-field-value-fill`_ event.
-* **requiredDivs** (*Array* of *String*, optional): Subset of ``divs``. All these fields must have non empty values for the ``button`` to be enabled, otherwise it's disabled. Works for fields created with the ``ui-input-field:create`` and ``ui-choice-field:create`` events.
+* **requiredDivs** (*Array* of *String*, optional): Subset of ``divs``. All these fields must have non empty values for the ``button`` to be enabled, otherwise it's disabled. Works for fields created with the ``ui-input:create`` and ``ui-choice:create`` events.
 * **names** (*Array* of *String*, optional): Set of attribute names to use for the event message. If not specified, the div identifiers will be used as attribute names for event message.
 
 Example:
@@ -582,15 +534,26 @@ bus.send("ui-form-collector:extend", {
 });
 ```
 
-### ui-slider:`<id>`:set-label
+### ui-input:`<id>`:set-label
 
-`<id>` matches the *id* specified when creating the [slider](#ui-slider).
+`<id>` matches the *id* specified when creating the input (can be [checkbox](#ui-checkbox), [choice](#ui-choice), [input](#ui-input), [radio](#ui-radio),  [slider](#ui-slider) or [text-area](#ui-text-area)).
 
 Message (*String*): Label text.
 
 Example:
 ```js
-bus.send("ui-slider:myslider:set-label", "Slider: "]);
+bus.send("ui-input:mychoice:set-label", "Choice: ");
+```
+
+###<a name="ui-input-set-values"></a>ui-input:`<id>`:set-values
+
+`<id>` matches the *id* specified when creating the [input](#ui-input).
+
+Message (*Array* of *String*): Values to set for autocompletion.
+
+Example:
+```js
+bus.send("ui-input:myautocomplete:set-values", [ [ "1", "2", "3" ] ]);
 ```
 
 ### ui-slider:`<id>`:set-value
@@ -613,17 +576,6 @@ Message (*Array* of *int*): Values to set.
 Example:
 ```js
 bus.send("ui-slider:myslider:set-values", [ [ 1, 4, 6 ] ]);
-```
-
-### ui-input-field:`<id>`:set-label
-
-`<id>` matches the *id* specified when creating the [input field](#ui-input-field).
-
-Message (*String*): Label text.
-
-Example:
-```js
-bus.send("ui-input-field:myinput:set-label", "Input: ");
 ```
 
 ### ui-sliding-div:expand
@@ -656,7 +608,7 @@ bus.send("ui-sliding-div:toggle", "mysliding");
 
 ### ui-table:`<id>`:clear
 
-`<id>` matches the *div* specified when creating the [table](#ui-table).
+`<id>` matches the *id* specified when creating the [table](#ui-table).
 
 Message (*Empty*).
 
@@ -667,7 +619,7 @@ bus.send("ui-table:mytable:clear");
 
 ### ui-table:`<id>`:adjust
 
-Used to adjust the column width, usually when the table is shown. `<id>` matches the *div* specified when creating the [table](#ui-table).
+Used to adjust the column width, usually when the table is shown. `<id>` matches the *id* specified when creating the [table](#ui-table).
 
 Message (*Empty*).
 
@@ -678,7 +630,7 @@ bus.send("ui-table:mytable:adjust");
 
 ### <a name="ui-table-set-data"></a>ui-table:`<id>`:set-data
 
-`<id>` matches the *div* specified when creating the [table](#ui-table).
+`<id>` matches the *id* specified when creating the [table](#ui-table).
 
 Message (*Object*):
 
@@ -708,7 +660,7 @@ bus.send("ui-table:mytable:set-data", {
 
 ### ui-table:`<id>`:data-selected
 
-`<id>` matches the *div* specified when creating the [table](#ui-table).
+`<id>` matches the *id* specified when creating the [table](#ui-table).
 
 Message (*Array* of *Object*): Array with the selected objects (subset of the array provided on [ui-table:&lt;id&gt;:set-data](#ui-table-set-data)). All objects should in the array should have the same properties.
 
@@ -722,7 +674,7 @@ bus.send("ui-table:mytable:data-selected", [[{
 
 ### ui-table:`<id>`:select-data
 
-`<id>` matches the *div* specified when creating the [table](#ui-table).
+`<id>` matches the *id* specified when creating the [table](#ui-table).
 
 Message (*Array* of *Object*): Array with the selected objects (subset of the array provided on [ui-table:&lt;id&gt;:set-data](#ui-table-set-data)). All objects should in the array should have the same properties.
 
@@ -736,7 +688,7 @@ bus.send("ui-table:mytable:select-data", [[{
 
 ### ui-table:`<id>`:invert-selection
 
-`<id>` matches the *div* specified when creating the [table](#ui-table).
+`<id>` matches the *id* specified when creating the [table](#ui-table).
 
 Message: Empty.
 
@@ -747,7 +699,7 @@ bus.send("ui-table:mytable:invert-selection");
 
 ### ui-table:`<id>`:sort-selected-first
 
-`<id>` matches the *div* specified when creating the [table](#ui-table).
+`<id>` matches the *id* specified when creating the [table](#ui-table).
 
 Message: Empty.
 
@@ -758,7 +710,7 @@ bus.send("ui-table:mytable:sort-selected-first");
 
 ### ui-table:`<id>`:filter
 
-`<id>` matches the *div* specified when creating the [table](#ui-table).
+`<id>` matches the *id* specified when creating the [table](#ui-table).
 
 Message (*String*): Text to filter the rows on the table.
 
@@ -769,7 +721,7 @@ bus.send("ui-table:mytable:filter", "Male");
 
 ### ui-table:`<id>`:row-selection-changed
 
-`<id>` matches the *div* specified when creating the [table](#ui-table).
+`<id>` matches the *id* specified when creating the [table](#ui-table).
 
 Message (*Object*):
 
@@ -786,23 +738,11 @@ bus.send("ui-table:mytable:row-selection-changed", {
 
 ### ui-table:`<id>`:column-visibility-changed
 
-`<id>` matches the *div* specified when creating the [table](#ui-table).
+`<id>` matches the *id* specified when creating the [table](#ui-table).
 
 Message (*Array* of *int*, mandatory): Array containing the indexes of the currently visible columns.
 
 Example:
 ```js
 bus.send("ui-table:mytable:column-visibility-changed", [[ 1, 2, 4, 7 ]]);
-```
-
-
-### ui-text-area-field:`<id>`:set-label
-
-`<id>` matches the *div* specified when creating the [text area field](#ui-text-area-field).
-
-Message (*String*): Label text.
-
-Example:
-```js
-bus.send("ui-text-area-field:mytext:set-label", "Text: ");
 ```
