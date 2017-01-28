@@ -1,7 +1,7 @@
 define([ "jquery", "message-bus", "module", //
 "./checkbox", "./radio", "./accordion-group", //
 "./confirm-dialog", "./dialog", "./buttons", "./sliding-div", //
-"./choice-field", "./input-field", "./text-area-field", //
+"./choice", "./input", "./text-area", //
 "./form-collector", "./divstack", "./slider", "./autocomplete", "./alerts", //
 "./loading", "./dropdown-buttons", "./table", "./commons", "sortable", "tipsy" ], function($, bus, module,//
 checkbox, radio, accordionGroup, confirmDialog, dialog, buttons, //

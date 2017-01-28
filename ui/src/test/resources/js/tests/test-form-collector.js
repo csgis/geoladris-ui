@@ -14,7 +14,7 @@ define([ "geoladris-tests" ], function(tests) {
       bus = initialization.bus;
       injector = initialization.injector;
       tests.replaceParent(parentId);
-      injector.require([ "choice-field", "input-field", "buttons", "form-collector" ], function(choice, input, buttons) {
+      injector.require([ "choice", "input", "buttons", "form-collector" ], function(choice, input, buttons) {
         choice({
           id : "letters",
           parent : parentId,
