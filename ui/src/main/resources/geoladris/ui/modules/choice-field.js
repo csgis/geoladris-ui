@@ -1,18 +1,12 @@
 define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
-  return function(msg) {
-    var id = msg.id;
-    var div = commons.getOrCreateElem("div", msg);
-    div.addClass("ui-choice-field-container");
-
-    var label = $("<label/>").addClass("ui-choice-field-label");
-    div.append(label);
-    if (msg.label) {
-      label.text(msg.label);
-    } else {
-      label.hide();
-    }
-
-    var combo = $("<select/>");
+  return function(props) {
+    var container = commons.createContainer(props.id, props.parent, props.css);
+    var label = commons.createLabel(props.id, container, props.label);
+    var input = commons.getOrCreateElem("select", {
+      id : props.id,
+      parent : container,
+      css : (props.css || "") + " ui-choice"
+    });
 
     function addValues(values) {
       if (!values) {
@@ -26,31 +20,21 @@ define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
         } else {
           option = $("<option/>").text(value).attr("value", value);
         }
-        combo.append(option);
+        input.append(option);
       });
     }
 
-    addValues(msg.values);
-    div.append(combo);
+    addValues(props.values);
 
-    bus.listen("ui-choice-field:" + id + ":set-values", function(e, values) {
-      combo.empty();
+    bus.listen("ui-choice-field:" + props.id + ":set-values", function(e, values) {
+      input.empty();
       addValues(values);
     });
 
-    bus.listen(id + "-field-value-fill", function(e, message) {
-      message[id] = combo.val();
+    bus.listen(props.id + "-field-value-fill", function(e, message) {
+      message[props.id] = input.val();
     });
 
-    bus.listen("ui-choice-field:" + msg.id + ":set-label", function(e, labelText) {
-      if (labelText) {
-        label.text(labelText);
-        label.show();
-      } else {
-        label.hide();
-      }
-    });
-
-    return combo;
+    return input;
   }
 });

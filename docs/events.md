@@ -178,7 +178,7 @@ ui.create("button", {
 
 Extra `props`:
 
-* **text** (*String*, mandatory): Text to show for the new item.
+* **label** (*String*, mandatory): Text to show for the new item.
 
 Example:
 ```js
@@ -186,7 +186,7 @@ ui.create("checkbox", {
     id : "osm",
     parent : "layer-list",
     css : "layerlist",
-    text : "OSM"
+    label : "OSM"
 });
 ```
 
@@ -294,7 +294,7 @@ ui.create("input", {
 
 Extra `props`:
 
-* **text** (*String*, mandatory): Text to show for the new item.
+* **label** (*String*, mandatory): Text to show for the new item.
 
 Example:
 ```js
@@ -302,7 +302,7 @@ ui.create("radio", {
     id : "osm",
     parent : "base-layer",
     css : "baselayer",
-    text : "OpenStreetMap"
+    label : "OpenStreetMap"
 });
 ```
 

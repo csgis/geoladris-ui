@@ -23,11 +23,12 @@ define([ "geoladris-tests" ], function(tests) {
         parent : parentId
       });
 
-      expect($("#" + parentId).children().length).toBe(1);
-      expect($("#" + parentId).children("#mychoice").length).toBe(1);
+      var container = $("#" + parentId).children();
+      expect(container.length).toBe(1);
+      expect(container.children("#mychoice").length).toBe(1);
     });
 
-    it("adds label if specified on create", function() {
+    it("creates label on create", function() {
       var text = "Choice: ";
       choice({
         id : "mychoice",
@@ -35,19 +36,18 @@ define([ "geoladris-tests" ], function(tests) {
         label : text
       });
 
-      var label = $("#mychoice").find("label");
+      var label = $("#" + parentId).find("label");
       expect(label.length).toBe(1);
       expect(label.text()).toEqual(text);
     });
 
     it("adds values if specified on create", function() {
-      choice({
+      var combo = choice({
         id : "mychoice",
         parent : parentId,
         values : [ "One", "Two", "Three" ]
       });
 
-      var combo = $("#mychoice").find("select");
       expect(combo.length).toBe(1);
       expect(combo.children().length).toBe(3);
     });
@@ -65,7 +65,7 @@ define([ "geoladris-tests" ], function(tests) {
     });
 
     it("sets values on set-values", function() {
-      choice({
+      var combo = choice({
         id : "mychoice",
         parent : parentId,
         values : [ "One", "Two", "Three" ]
@@ -73,24 +73,8 @@ define([ "geoladris-tests" ], function(tests) {
 
       bus.send("ui-choice-field:mychoice:set-values", [ [ "1", "2" ] ]);
 
-      var combo = $("#mychoice").find("select");
-      expect(combo.length).toBe(1);
       expect(combo.children("option:eq(0)").text()).toBe("1");
       expect(combo.children("option:eq(1)").text()).toBe("2");
-    });
-
-    it("changes the label text on set-label", function() {
-      choice({
-        id : "mychoice",
-        parent : parentId,
-        label : "Field: ",
-        values : [ "One", "Two", "Three" ]
-      });
-
-      var label = $("#" + parentId).find("label");
-      expect(label.text()).toBe("Field: ");
-      bus.send("ui-choice-field:mychoice:set-label", "Choice: ");
-      expect(label.text()).toBe("Choice: ");
     });
   });
 });

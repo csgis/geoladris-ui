@@ -19,48 +19,47 @@ define([ "geoladris-tests" ], function(tests) {
       tests.replaceParent(parentId);
     });
 
-    it("creates div", function() {
+    it("creates container with elements", function() {
       module({
         id : "myinput",
         parent : parentId
       });
 
-      expect($("#" + parentId).children().length).toBe(1);
-      expect($("#" + parentId).children("#myinput").length).toBe(1);
+      var container = $("#" + parentId).children(); 
+      expect(container.length).toBe(1);
+      expect(container.children("#myinput").length).toBe(1);
+      expect(container.children("label").length).toBe(1);
     });
 
     it("adds label if specified on create", function() {
       var text = "Input: ";
-      module({
+      var input = module({
         id : "myinput",
         parent : parentId,
         label : text
       });
 
-      var label = $("#myinput").find("label");
+      var label = input.parent().find("label");
       expect(label.length).toBe(1);
       expect(label.text()).toEqual(text);
     });
 
     it("sets input type if specified on create", function() {
-      module({
+      var input = module({
         id : "myinput",
         parent : parentId,
         type : "password"
       });
-
-      var input = $("#myinput").find("input");
-      expect(input.length).toBe(1);
       expect(input.attr("type")).toBe("password");
     });
 
     it("fills message on -field-value-fill", function() {
       var inputText = "Input Text";
-      module({
+      var input = module({
         id : "myinput",
         parent : parentId
       });
-      $("#myinput").find("input").val(inputText);
+      input.val(inputText);
 
       var message = {};
       bus.send("myinput-field-value-fill", message);
@@ -68,31 +67,27 @@ define([ "geoladris-tests" ], function(tests) {
     });
 
     it("adds step=any for number fields", function() {
-      module({
+      var input = module({
         id : "myinput",
         type : "number",
         parent : parentId
       });
-
-      var input = $("#myinput").find("input");
       expect(input.attr("step")).toBe("any");
     });
 
     it("fills values with actual types (number, date,...) instead of strings", function() {
-      module({
+      var number = module({
         id : "mynumber",
         type : "number",
         parent : parentId
       });
-      module({
+      var date = module({
         id : "mydate",
         type : "date",
         parent : parentId
       });
 
-      var number = $("#mynumber").find("input");
       number.val(57.6);
-      var date = $("#mydate").find("input");
       date.val("2016-06-10");
 
       var message = {};
@@ -104,19 +99,6 @@ define([ "geoladris-tests" ], function(tests) {
       bus.send("mydate-field-value-fill", message);
       expect(message["mydate"]).toEqual("2016-06-10T00:00:00.000Z");
       expect(typeof message["mydate"]).toBe("string");
-    });
-
-    it("changes the label text on set-label", function() {
-      module({
-        id : "mynumber",
-        type : "number",
-        parent : parentId
-      });
-
-      var label = $("#" + parentId).find("label");
-      expect(label.text()).toBe("");
-      bus.send("ui-input-field:mynumber:set-label", "Field: ");
-      expect(label.text()).toBe("Field: ");
     });
   });
 });

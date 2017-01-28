@@ -1,36 +1,27 @@
 define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
-  return function(msg) {
-    var input = $("<input/>");
-    input.attr("id", msg.id);
-    input.attr("type", "radio");
-    if (msg.parent) {
-      if (typeof msg.parent == "string") {
-        input.attr("name", msg.parent);
+  return function(props) {
+    var container = commons.createContainer(props.id, props.parent, props.css);
+
+    var input = commons.getOrCreateElem("input", {
+      id : props.id,
+      parent : container,
+      css : (props.css || "") + " ui-radio"
+    });
+
+    if (props.parent) {
+      var name;
+      if (typeof props.parent != "string") {
+        name = props.parent.id;
       } else {
-        input.attr("name", msg.parent.id);
+        name = props.parent;
       }
+      input.attr("name", name);
     }
-    var inputCell = $("<div/>").append(input);
-    var textCell = $("<div/>").text(msg.text);
 
-    textCell.addClass("ui-radio-text");
-    inputCell.addClass("ui-radio-input");
+    input.attr("type", "radio");
 
-    var containerCss = "";
-    if (msg.css) {
-      containerCss = msg.css.split("\s+").map(function(a) {
-        return a + "-container";
-      }).join(" ");
-    }
-    var container = commons.getOrCreateElem("div", {
-      id : msg.id + "-container",
-      parent : msg.parent,
-      css : "ui-radio-container"
-    })
-    container.append(inputCell);
-    container.append(textCell);
-
-    textCell.click(function() {
+    var label = commons.createLabel(props.id, container, props.label);
+    label.click(function(event) {
       input.click();
     });
 

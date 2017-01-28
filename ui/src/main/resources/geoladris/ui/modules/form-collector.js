@@ -2,27 +2,23 @@ define([ "jquery", "message-bus" ], function($, bus) {
   bus.listen("ui-form-collector:extend", function(e, msg) {
     function updateButton() {
       var enabled = true;
-      msg.requiredDivs.forEach(function(div) {
-        var container = $("#" + div);
-        var input = container.find("input");
-        var select = container.find("select");
-        if (input.length == 1) {
-          if (input.attr("type") == "file") {
-            var placeholder = container.find(".ui-file-input-placeholder");
-            enabled = enabled && !!placeholder.text();
-          } else {
-            enabled = enabled && !!input.val();
-          }
-        } else if (select.length == 1) {
-          enabled = enabled && !!select.val();
+      msg.requiredDivs.forEach(function(id) {
+        var input = document.getElementById(id);
+        var tag = input.tagName.toLowerCase();
+        if (tag == "input" && input.type == "file") {
+          var parent = input.parentNode;
+          var placeholder = parent.getElementsByClassName("ui-file-input-placeholder")[0];
+          enabled = enabled && !!placeholder.text();
+        } else {
+          enabled = enabled && !!input.value;
         }
       });
 
       if (enabled) {
-        msg.divs.forEach(function(div) {
-          var input = $("#" + div).find("input");
-          if (input.length == 1 && input.attr("geoladris-type") == "date") {
-            enabled = enabled && !!Date.parse(input.val());
+        msg.divs.forEach(function(id) {
+          var input = document.getElementById(id);
+          if (input && input.getAttribute("geoladris-type") == "date") {
+            enabled = enabled && !!Date.parse(input.value);
           }
         });
       }
@@ -30,24 +26,23 @@ define([ "jquery", "message-bus" ], function($, bus) {
       bus.send("ui-button:" + msg.button + ":enable", enabled);
     }
 
-    msg.divs.forEach(function(div) {
-      var input = $("#" + div).find("input");
-      if (input.length == 1 && input.attr("geoladris-type") == "date") {
-        input.on("change paste keyup", updateButton);
+    msg.divs.forEach(function(id) {
+      var input = document.getElementById(id);
+      if (input && input.getAttribute("geoladris-type") == "date") {
+        $(input).on("change paste keyup", updateButton);
       }
     });
 
     if (msg.requiredDivs) {
-      msg.requiredDivs.forEach(function(div) {
-        var container = $("#" + div);
-        var input = container.find("input");
-        var select = container.find("select");
+      msg.requiredDivs.forEach(function(id) {
+        var input = document.getElementById(id);
+        var tag = input.tagName.toLowerCase();
         // Check type != date so we don't add listeners twice (see
         // above)
-        if (input.length == 1 && input.attr("geoladris-type") != "date") {
-          input.on("change paste keyup", updateButton);
-        } else if (select.length == 1) {
-          input.change(updateButton);
+        if (input && input.getAttribute("geoladris-type") != "date") {
+          $(input).on("change paste keyup", updateButton);
+        } else if (tag == "select") {
+          $(input).change(updateButton);
         }
       });
 

@@ -1,4 +1,4 @@
-define([ "jquery" ], function($) {
+define([ "jquery", "message-bus" ], function($, bus) {
   function getOrCreateElem(type, props) {
     var elem = $("#" + props.id);
     if (elem.length === 0) {
@@ -48,8 +48,47 @@ define([ "jquery" ], function($) {
     }
   }
 
+  function createLabel(id, parent, text) {
+    var label = getOrCreateElem("label", {
+      id : id + "-label",
+      parent : parent,
+      html : text,
+      css : "ui-label"
+    });
+    if (!text) {
+      label.hide();
+    }
+
+    bus.listen("ui-input:" + id + ":set-label", function(e, labelText) {
+      if (labelText) {
+        label.text(labelText);
+        label.show();
+      } else {
+        label.hide();
+      }
+    });
+
+    return label;
+  }
+
+  function createContainer(id, parent, css) {
+    var containerCss = "";
+    if (css) {
+      containerCss = css.split("\s+").map(function(a) {
+        return a + "-container";
+      }).join(" ");
+    }
+    return getOrCreateElem("div", {
+      id : id + "-container",
+      parent : parent,
+      css : containerCss + " ui-input-container"
+    })[0];
+  }
+
   return {
     getOrCreateElem : getOrCreateElem,
-    append : append
+    append : append,
+    createLabel : createLabel,
+    createContainer : createContainer
   };
 });

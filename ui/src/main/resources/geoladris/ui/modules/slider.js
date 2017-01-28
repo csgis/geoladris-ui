@@ -1,23 +1,10 @@
 define([ "jquery", "message-bus", "./commons", "nouislider" ], function($, bus, commons, noUiSlider) {
   return function(props) {
-    var div = commons.getOrCreateElem("div", {
-      parent : props.parent,
-      css : "ui-slider-container"
-    });
-
-    var label = commons.getOrCreateElem("label", {
-      parent : div[0],
-      html : props.label,
-      css : "ui-slider-label"
-    });
-
-    if (!props.label) {
-      label[0].style.display = "none";
-    }
-
+    var container = commons.createContainer(props.id, props.parent, props.css);
+    var label = commons.createLabel(props.id, container, props.label);
     var slider = commons.getOrCreateElem("div", {
       id : props.id,
-      parent : div[0],
+      parent : container,
       css : "ui-slider-input " + (props.css || "")
     })[0];
 
@@ -85,15 +72,6 @@ define([ "jquery", "message-bus", "./commons", "nouislider" ], function($, bus, 
 
       bus.listen(props.id + "-field-value-fill", function(e, message) {
         message[props.id] = parseFloat(slider.noUiSlider.get());
-      });
-
-      bus.listen("ui-slider:" + props.id + ":set-label", function(e, labelText) {
-        label.text(labelText);
-        if (labelText) {
-          label.show();
-        } else {
-          label.hide();
-        }
       });
     }
 

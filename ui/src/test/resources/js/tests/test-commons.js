@@ -34,5 +34,19 @@ define([ "geoladris-tests" ], function(tests) {
       expect(parent.children[0]).toBe(div);
       expect(div.parentNode).toBe(parent);
     });
+
+    it("creates labels", function() {
+      var label = commons.createLabel("mynumber", parentId, "Field: ");
+
+      expect(label.attr("id")).toBe("mynumber-label")
+      expect(label.hasClass("ui-label")).toBe(true);
+    });
+
+    it("changes the label text on set-label", function() {
+      var label = commons.createLabel("mynumber", parentId, "Field: ");
+      expect(label.text()).toBe("Field: ");
+      bus.send("ui-input:mynumber:set-label", "Field 2: ");
+      expect(label.text()).toBe("Field 2: ");
+    });
   });
 });

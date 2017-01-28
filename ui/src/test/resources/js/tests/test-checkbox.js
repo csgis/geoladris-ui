@@ -27,9 +27,9 @@ define([ "geoladris-tests" ], function(tests) {
       expect(input.length).toBe(1);
       expect(input.attr("type")).toBe("checkbox");
 
-      var container = $("#" + parentId).children(".ui-checkbox-container");
-      expect(container.children(".ui-checkbox-input").length).toBe(1);
-      expect(container.children(".ui-checkbox-text").length).toBe(1);
+      var container = $("#" + parentId).children(".ui-input-container");
+      expect(container.children(".ui-checkbox").length).toBe(1);
+      expect(container.children(".ui-label").length).toBe(1);
     });
 
     it("triggers input click on checkbox text clicked", function() {
@@ -45,7 +45,7 @@ define([ "geoladris-tests" ], function(tests) {
         clicked = true;
       })
 
-      $("#" + parentId).find(".ui-checkbox-text").click();
+      $("#" + parentId).find(".ui-label").click();
       expect(clicked).toBe(true);
     });
   });

@@ -112,7 +112,7 @@ define([ "geoladris-tests" ], function(tests) {
       });
 
       expect(bus.send).not.toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", true);
-      var input = $("#freetext input");
+      var input = $("#freetext");
       input.val("not empty");
       input.change();
       expect(bus.send).toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", true);
@@ -127,7 +127,7 @@ define([ "geoladris-tests" ], function(tests) {
         clickEventName : "myevent"
       });
 
-      var input = $("#mydate input");
+      var input = $("#mydate");
       input.val("invalid_date");
       input.change();
       expect(bus.send).not.toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", true);

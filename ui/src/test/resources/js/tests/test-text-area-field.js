@@ -24,18 +24,17 @@ define([ "geoladris-tests" ], function(tests) {
         label : "Text: "
       });
 
-      expect($("#" + parentId).children().length).toBe(1);
-
-      var area = $("#" + parentId).children("#myarea");
-      expect(area.length).toBe(1);
-      expect(area.children().length).toBe(2);
-      expect(area.children("textarea").length).toBe(1);
-      expect(area.children("label").length).toBe(1);
-      expect(area.children("label").text()).toBe("Text: ");
+      var container = $("#" + parentId).children();
+      expect(container.length).toBe(1);
+      expect(container.length).toBe(1);
+      expect(container.children().length).toBe(2);
+      expect(container.children("textarea").length).toBe(1);
+      expect(container.children("label").length).toBe(1);
+      expect(container.children("label").text()).toBe("Text: ");
     });
 
     it("sets rows and cols if specified on create", function() {
-      textArea({
+      var area = textArea({
         id : "myarea",
         parent : parentId,
         label : "Text: ",
@@ -43,38 +42,23 @@ define([ "geoladris-tests" ], function(tests) {
         cols : 20
       });
 
-      var area = $("#" + parentId).children("#myarea");
-      expect(area.children("textarea").attr("rows")).toEqual("4");
-      expect(area.children("textarea").attr("cols")).toEqual("20");
+      expect(area.attr("rows")).toEqual("4");
+      expect(area.attr("cols")).toEqual("20");
     });
 
     it("fills message on -field-value-fill", function() {
-      textArea({
+      var area = textArea({
         id : "myarea",
         parent : parentId,
         label : "Text: "
       });
 
       var content = "This is the textarea content";
-      var area = $("#" + parentId).children("#myarea");
-      area.children("textarea").val(content);
+      area.val(content);
 
       var message = {};
       bus.send("myarea-field-value-fill", message);
       expect(message["myarea"]).toEqual(content);
-    });
-
-    it("changes the label text on set-label", function() {
-      textArea({
-        id : "myarea",
-        parent : parentId,
-        label : "Text: "
-      });
-
-      var label = $("#" + parentId).find("label");
-      expect(label.text()).toBe("Text: ");
-      bus.send("ui-text-area-field:myarea:set-label", "Field: ");
-      expect(label.text()).toBe("Field: ");
     });
   });
 });

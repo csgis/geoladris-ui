@@ -1,10 +1,8 @@
-.ui-input-field-container, .ui-choice-field-container,
-	.ui-text-area-field-container, .ui-checkbox-container,
-	.ui-radio-container {
+.ui-input-container, .ui-text-area-field-container {
 	display: flex;
 	align-items: center;
 }
 
-.ui-choice-field-container>select {
+.ui-input-container>select {
 	width: 100%;
 }

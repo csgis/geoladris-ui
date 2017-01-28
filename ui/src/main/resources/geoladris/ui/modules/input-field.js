@@ -1,27 +1,18 @@
 define([ "jquery", "message-bus", "./commons", "pikaday.jquery" ], function($, bus, commons) {
-  return function(msg) {
-    var div = commons.getOrCreateElem("div", msg);
-    div.addClass("ui-input-field-container");
-
-    var label = $("<label/>").addClass("ui-input-field-label");
-    div.append(label);
-    if (msg.label) {
-      label.text(msg.label);
-    } else {
-      label.hide();
-    }
-
-    if (!msg.type) {
-      msg.type = "text";
-    }
-
-    var input = $("<input/>").attr("type", msg.type);
-    div.append(input);
+  return function(props) {
+    var container = commons.createContainer(props.id, props.parent, props.css);
+    var label = commons.createLabel(props.id, container, props.label);
+    var input = commons.getOrCreateElem("input", {
+      id : props.id,
+      parent : container,
+      css : (props.css || "") + " ui-choice"
+    });
+    input.attr("type", props.type || "text");
 
     var placeholder;
-    if (msg.type == "number") {
+    if (props.type == "number") {
       input.attr("step", "any");
-    } else if (msg.type == "date") {
+    } else if (props.type == "date") {
       input.pikaday({
         format : "YYYY-MM-DD"
       });
@@ -29,15 +20,15 @@ define([ "jquery", "message-bus", "./commons", "pikaday.jquery" ], function($, b
       input.attr("geoladris-type", "date");
     }
 
-    bus.listen(msg.id + "-field-value-fill", function(e, message) {
+    bus.listen(props.id + "-field-value-fill", function(e, message) {
       if (input.attr("type") == "file") {
-        message[msg.id] = input[0].files[0];
+        message[props.id] = input[0].files[0];
       } else if (input.attr("type") == "number") {
-        message[msg.id] = parseFloat(input.val());
+        message[props.id] = parseFloat(input.val());
       } else if (input.attr("geoladris-type") == "date") {
-        message[msg.id] = new Date(input.val()).toISOString();
+        message[props.id] = new Date(input.val()).toISOString();
       } else {
-        message[msg.id] = input.val();
+        message[props.id] = input.val();
       }
     });
 
@@ -45,15 +36,6 @@ define([ "jquery", "message-bus", "./commons", "pikaday.jquery" ], function($, b
       var valid = !!Date.parse(input.val());
       if (input.attr("geoladris-type") == "date") {
         input[0].setCustomValidity(valid ? "" : "Invalid date.");
-      }
-    });
-
-    bus.listen("ui-input-field:" + msg.id + ":set-label", function(e, labelText) {
-      if (labelText) {
-        label.text(labelText);
-        label.show();
-      } else {
-        label.hide();
       }
     });
 
