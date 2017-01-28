@@ -1,12 +1,13 @@
 define([ "jquery", "message-bus", "module", //
-"./checkbox", "./radio", "./accordion-group", //
-"./confirm-dialog", "./dialog", "./buttons", "./sliding-div", //
-"./choice", "./input", "./text-area", //
-"./form-collector", "./divstack", "./slider", "./autocomplete", "./alerts", //
-"./loading", "./dropdown-buttons", "./table", "./commons", "sortable", "tipsy" ], function($, bus, module,//
-checkbox, radio, accordionGroup, confirmDialog, dialog, buttons, //
-slidingDiv, choice, input, textArea, formCollector, divstack, //
-slider, autocomplete, alerts, loading, dropdownButtons, table, commons, Sortable) {
+"./accordion-group", "./alerts", "./buttons", "./checkbox", "./choice", //
+"./commons", "./confirm-dialog", "./dialog", "./divstack", // 
+"./dropdown-buttons", "./form-collector", "./input", "./loading", "./radio", // 
+"./slider", "./sliding-div", "./table", "./text-area", "sortable", "tipsy" ],// 
+function($, bus, module, //
+accordionGroup, alerts, buttons, checkbox, choice, //
+commons, confirmDialog, dialog, divstack,//
+dropdownButtons, formCollector, input, loading, radio, //
+slider, slidingDiv, table, textArea, Sortable) {
   var TOOLTIP_ATTR = "geoladris-ui-tooltip";
   var TOOLTIP_GRAVITIES = {
     "left" : "e",

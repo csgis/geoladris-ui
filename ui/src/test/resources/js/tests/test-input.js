@@ -8,7 +8,8 @@ define([ "geoladris-tests" ], function(tests) {
     beforeEach(function(done) {
       var initialization = tests.init("ui", {}, {
         "pikaday" : "../jslib/pikaday/1.5.1/pikaday",
-        "pikaday.jquery" : "../jslib/pikaday/1.5.1/pikaday.jquery"
+        "pikaday.jquery" : "../jslib/pikaday/1.5.1/pikaday.jquery",
+        "typeahead" : "../jslib/typeahead/0.10.2/typeahead.jquery.min"
       });
       bus = initialization.bus;
       injector = initialization.injector;
@@ -25,7 +26,7 @@ define([ "geoladris-tests" ], function(tests) {
         parent : parentId
       });
 
-      var container = $("#" + parentId).children(); 
+      var container = $("#" + parentId).children();
       expect(container.length).toBe(1);
       expect(container.children("#myinput").length).toBe(1);
       expect(container.children("label").length).toBe(1);
@@ -99,6 +100,35 @@ define([ "geoladris-tests" ], function(tests) {
       bus.send("mydate-field-value-fill", message);
       expect(message["mydate"]).toEqual("2016-06-10T00:00:00.000Z");
       expect(typeof message["mydate"]).toBe("string");
+    });
+
+    it("sets placeholder if specified", function() {
+      var placeholder = "Search...";
+      var input = module({
+        id : "myinput",
+        parent : parentId,
+        placeholder : placeholder
+      });
+
+      expect(input.attr("placeholder")).toEqual(placeholder);
+    });
+
+    it("sends event on enter for autocomplete", function() {
+      var input = module({
+        id : "myinput",
+        parent : parentId,
+        options : [ "a", "b", "c" ]
+      });
+
+      var changed;
+      input[0].addEventListener("change", function() {
+        changed = true;
+      });
+      var e = $.Event("keypress");
+      e.which = 13;
+      input.trigger(e);
+
+      expect(changed).toBe(true);
     });
   });
 });

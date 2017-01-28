@@ -9,7 +9,8 @@ define([ "geoladris-tests" ], function(tests) {
     beforeEach(function(done) {
       var initialization = tests.init("ui", {}, {
         "pikaday" : "../jslib/pikaday/1.5.1/pikaday",
-        "pikaday.jquery" : "../jslib/pikaday/1.5.1/pikaday.jquery"
+        "pikaday.jquery" : "../jslib/pikaday/1.5.1/pikaday.jquery",
+        "typeahead" : "../jslib/typeahead/0.10.2/typeahead.jquery.min"
       });
       bus = initialization.bus;
       injector = initialization.injector;
