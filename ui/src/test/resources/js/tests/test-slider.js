@@ -25,13 +25,16 @@ define([ "geoladris-tests" ], function(tests) {
         label : "Slider: "
       });
 
-      expect($("#" + parentId).children().length).toBe(1);
-      var container = $("#" + parentId).children();
-      expect(container.children().length).toBe(2);
-      var label = container.children("label");
+      var parent = document.getElementById(parentId);
+      expect(parent.children.length).toBe(1);
+      var container = parent.children[0];
+      expect(container.children.length).toBe(2);
+      var label = container.querySelectorAll("label");
       expect(label.length).toBe(1);
-      expect(label.text()).toBe("Slider: ");
-      expect(container.children("#myslider").length).toBe(1);
+      expect(label[0].textContent).toBe("Slider: ");
+      var slider = document.getElementById("myslider")
+      expect(slider).not.toBe(undefined);
+      expect(slider.parentNode).toBe(container);
     });
 
     it("hides label if no text on create", function() {
@@ -40,7 +43,7 @@ define([ "geoladris-tests" ], function(tests) {
         parent : parentId
       });
 
-      var label = $("#" + parentId).find("label");
+      var label = document.getElementById(parentId).querySelectorAll("label");
       expect(label.length).toBe(1);
       expect(label[0].style.display).toEqual("none");
     });
@@ -52,7 +55,7 @@ define([ "geoladris-tests" ], function(tests) {
         values : [ 1, 4, 5 ]
       });
 
-      expect(slider[0].noUiSlider.options.range).toEqual({
+      expect(slider.noUiSlider.options.range).toEqual({
         "min" : 1,
         "75%" : 4,
         "max" : 5
@@ -79,7 +82,7 @@ define([ "geoladris-tests" ], function(tests) {
       });
 
       bus.send("ui-slider:myslider:set-values", [ [ 1, 2 ] ]);
-      expect(slider[0].noUiSlider.options.range).toEqual({
+      expect(slider.noUiSlider.options.range).toEqual({
         "min" : 1,
         "max" : 2
       });
@@ -92,9 +95,9 @@ define([ "geoladris-tests" ], function(tests) {
         values : [ 1, 2, 5 ]
       });
 
-      expect(parseInt(slider[0].noUiSlider.get())).toBe(1);
+      expect(parseInt(slider.noUiSlider.get())).toBe(1);
       bus.send("ui-slider:myslider:set-value", 2);
-      expect(parseInt(slider[0].noUiSlider.get())).toBe(2);
+      expect(parseInt(slider.noUiSlider.get())).toBe(2);
     });
   });
 });

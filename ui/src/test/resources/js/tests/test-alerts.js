@@ -18,8 +18,9 @@ define([ "geoladris-tests" ], function(tests) {
     });
 
     it("creates a container on init", function() {
-      expect($("#" + containerId).length).toBe(1);
-      expect($("#" + containerId).children().length).toBe(0);
+      var container = document.getElementById(containerId);
+      expect(container).not.toBe(undefined);
+      expect(container.children.length).toBe(0);
     });
 
     it("adds a div to the container on ui-alert", function() {
@@ -27,7 +28,8 @@ define([ "geoladris-tests" ], function(tests) {
         message : "Message",
         severity : "danger"
       });
-      expect($("#" + containerId).children().length).toBe(1);
+      var container = document.getElementById(containerId);
+      expect(container.children.length).toBe(1);
     });
 
     it("adds a close button to the alert div on ui-alert", function() {
@@ -36,10 +38,10 @@ define([ "geoladris-tests" ], function(tests) {
         severity : "danger"
       });
 
-      var container = $("#" + containerId);
-      var alertDiv = $(container.children()[0]);
-      expect(alertDiv.children().length).toBe(1);
-      expect($(alertDiv.children()[0]).attr("class")).toBe("ui-alerts-close");
+      var container = document.getElementById(containerId);
+      var alertDiv = container.children[0];
+      expect(alertDiv.children.length).toBe(1);
+      expect(alertDiv.children[0].className).toBe("ui-alerts-close");
     });
 
     it("set the specified message on ui-alert", function() {
@@ -48,9 +50,9 @@ define([ "geoladris-tests" ], function(tests) {
         severity : "danger"
       });
 
-      var container = $("#" + containerId);
-      var alertDiv = $(container.children()[0]);
-      expect(alertDiv.text()).toBe("Message");
+      var container = document.getElementById(containerId);
+      var alertDiv = container.children[0];
+      expect(alertDiv.textContent).toBe("Message");
     });
 
     it("set css class on the alert div depending on the severity", function() {
@@ -59,9 +61,9 @@ define([ "geoladris-tests" ], function(tests) {
         severity : "danger"
       });
 
-      var container = $("#" + containerId);
-      var alertDiv = $(container.children()[0]);
-      expect(alertDiv.attr("class")).toMatch("ui-alert-danger");
+      var container = document.getElementById(containerId);
+      var alertDiv = container.children[0];
+      expect(alertDiv.className).toMatch("ui-alert-danger");
     });
   });
 });

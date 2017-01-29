@@ -1,7 +1,6 @@
 define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
   function visibility(id, visible) {
     if (visible !== undefined) {
-      var div = $("#" + id);
       if (visible) {
         bus.send("ui-show", id);
       } else {
@@ -14,10 +13,11 @@ define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
     var containerCss = "";
     var headerCss = "";
     if (props.css) {
-      containerCss = props.css.split("\s+").map(function(a) {
+      var classes = props.css.split("\s+");
+      containerCss = classes.map(function(a) {
         return a + "-container";
       }).join(" ");
-      headerCss = props.css.split("\s+").map(function(a) {
+      headerCss = classes.map(function(a) {
         return a + "-header";
       }).join(" ");
     }
@@ -40,20 +40,16 @@ define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
     var content = commons.getOrCreateElem("div", {
       id : props.id,
       parent : container,
-      css : props.css
+      css : (props.css || "") + " accordion-content"
     });
 
-    header.click(function() {
-      content.slideToggle({
+    header.addEventListener("click", function() {
+      $(content).slideToggle({
         duration : 300
       });
     });
 
-    if (props.visible) {
-      content.show();
-    } else {
-      content.hide();
-    }
+    content.style.display = props.visible ? "block" : "none";
 
     bus.listen("ui-accordion-group:" + props.id + ":visibility", function(e, msg) {
       visibility(props.id + "-header", msg.header);

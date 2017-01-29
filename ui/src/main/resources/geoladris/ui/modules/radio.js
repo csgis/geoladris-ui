@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
+define([ "message-bus", "./commons" ], function(bus, commons) {
   return function(props) {
     var container = commons.createContainer(props.id, props.parent, props.css);
 
@@ -15,13 +15,13 @@ define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
       } else {
         name = props.parent;
       }
-      input.attr("name", name);
+      input.name = name;
     }
 
-    input.attr("type", "radio");
+    input.type = "radio";
 
     var label = commons.createLabel(props.id, container, props.label);
-    label.click(function(event) {
+    label.addEventListener("click", function(event) {
       input.click();
     });
 

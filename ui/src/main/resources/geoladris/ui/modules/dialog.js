@@ -1,109 +1,104 @@
-define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
+define([ "message-bus", "./commons" ], function(bus, commons) {
   var zIndex;
 
   function showOnTop(container) {
-    var i = parseInt(container.css("z-index"));
+    container.style.display = "";
+    var i = parseInt(container.style.zIndex);
     if (!zIndex) {
       zIndex = i + 1;
     } else {
-      container.css("z-index", zIndex++);
+      container.style.zIndex = zIndex++;
     }
   }
 
-  function createDialog(msg) {
+  return function(props) {
     var container = commons.getOrCreateElem("div", {
-      id : msg.id + "-dialog-container",
-      parent : msg.parent,
+      id : props.id + "-dialog-container",
+      parent : props.parent,
       css : "dialog-container"
     });
 
-    if (msg.modal) {
-      container.addClass("dialog-modal");
+    if (props.modal) {
+      container.className += " dialog-modal";
     }
 
     var div = commons.getOrCreateElem("div", {
-      id : msg.id,
-      parent : container[0],
-      css : "dialog " + (msg.css || "")
+      id : props.id,
+      parent : container,
+      css : "dialog " + (props.css || "")
     });
 
     bus.listen("ui-show", function(e, id) {
-      if (id == msg.id) {
-        container.show();
+      if (id == props.id) {
         showOnTop(container);
       }
     });
     bus.listen("ui-hide", function(e, id) {
-      if (id == msg.id) {
-        container.hide();
+      if (id == props.id) {
+        container.style.display = "none";
       }
     });
     bus.listen("ui-toggle", function(e, id) {
-      if (id == msg.id) {
-        container.toggle();
-        if (container.css("display") != "none") {
+      if (id == props.id) {
+        if (container.style.display == "none") {
           showOnTop(container);
+        } else {
+          container.style.display = "none";
         }
       }
     });
 
-    var title = $("<div/>").addClass("dialog-title");
-    if (msg.title) {
-      title.html(msg.title);
-    }
-    div.append(title);
+    var title = commons.getOrCreateElem("div", {
+      parent : div,
+      css : "dialog-title",
+      html : props.title
+    });
 
     var dragging = false;
     var startX, startY;
-    var startOffset;
+    var startOffsetTop;
+    var startOffsetLeft;
 
-    var originalCursor = title.css("cursor");
-    title.mousedown(function(event) {
-      title.css('cursor', 'move');
+    var originalCursor = title.style["cursor"];
+    title.addEventListener("mousedown", function(event) {
+      title.style["cursor"] = "move";
       dragging = true;
       startX = event.clientX;
       startY = event.clientY;
-      startOffset = div.offset();
-    }).mouseup(function() {
+      startOffsetTop = div.offsetTop;
+      startOffsetLeft = div.offsetLeft;
+    });
+    title.addEventListener("mouseup", function(event) {
       dragging = false;
-      title.css('cursor', originalCursor);
+      title.style["cursor"] = "originalCursor";
     });
 
-    $(window).mousemove(function(event) {
+    window.addEventListener("mousemove", function(event) {
       if (!dragging) {
         return;
       }
 
-      div.css({
-        position : "fixed",
-        top : startOffset.top + (event.clientY - startY),
-        left : startOffset.left + (event.clientX - startX),
-        right : "unset",
-        bottom : "unset"
-      });
+      div.style["position"] = "fixed";
+      div.style["top"] = startOffsetTop + (event.clientY - startY) + "px";
+      div.style["left"] = startOffsetLeft + (event.clientX - startX) + "px";
+      div.style["right"] = "unset";
+      div.style["bottom"] = "unset";
     });
 
-    if (msg.closeButton) {
-      var close = $("<div/>").addClass("dialog-close");
-      div.append(close);
-      close.click(function() {
-        bus.send("ui-hide", msg.id);
+    if (props.closeButton) {
+      var close = commons.getOrCreateElem("div", {
+        parent : div,
+        css : "dialog-close"
+      });
+      close.addEventListener("click", function() {
+        bus.send("ui-hide", props.id);
       });
     }
 
-    return div;
-  }
-
-  return function(msg) {
-    var div = $("#" + msg.id);
-    if (div.length === 0) {
-      div = createDialog(msg);
-    }
-
-    if (msg.visible) {
-      bus.send("ui-show", msg.id);
+    if (props.visible) {
+      bus.send("ui-show", props.id);
     } else {
-      bus.send("ui-hide", msg.id);
+      bus.send("ui-hide", props.id);
     }
 
     return div;

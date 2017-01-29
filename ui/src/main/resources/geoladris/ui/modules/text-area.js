@@ -8,11 +8,11 @@ define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
       css : props.css + " ui-textarea"
     });
 
-    input.attr("cols", props.cols);
-    input.attr("rows", props.rows);
+    input.cols = props.cols;
+    input.rows = props.rows;
 
     bus.listen(props.id + "-field-value-fill", function(e, message) {
-      message[props.id] = input.val();
+      message[props.id] = input.value;
     });
 
     return input;

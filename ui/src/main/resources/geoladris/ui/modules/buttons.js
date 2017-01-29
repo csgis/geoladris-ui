@@ -1,75 +1,71 @@
-define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
-  return function(msg) {
-    var button = commons.getOrCreateElem("div", msg);
-
-    var iconDiv = $("<div/>");
-    if (msg.image) {
-      iconDiv.css("background-image", "url(" + msg.image + ")");
+define([ "message-bus", "./commons" ], function(bus, commons) {
+  return function(props) {
+    var button = commons.getOrCreateElem("div", props);
+    if (props.tooltip) {
+      button.title = props.tooltip;
     }
-    if (msg.text) {
-      iconDiv.text(msg.text);
+    button.className += " button-enabled";
+
+    var iconDiv = commons.getOrCreateElem("div", {
+      parent : button,
+      html : props.text,
+      css : "button-content"
+    });
+
+    if (props.image) {
+      iconDiv.style["background-image"] = "url(" + props.image + ")";
     }
-    iconDiv.addClass("button-content");
-    button.append(iconDiv);
 
-    if (msg.tooltip) {
-      button.attr("title", msg.tooltip);
-    }
-
-    button.addClass("button-enabled");
-
-    if (msg.clickEventName) {
-      button.click(function() {
-        if ($("#" + msg.id).hasClass("button-enabled")) {
-          bus.send(msg.clickEventName, msg.clickEventMessage);
+    if (props.clickEventName) {
+      button.addEventListener("click", function() {
+        if (button.className.indexOf("button-enabled") >= 0) {
+          bus.send(props.clickEventName, props.clickEventMessage);
         }
       });
-    } else if (msg.clickEventCallback) {
-      button.click(function() {
-        if ($("#" + msg.id).hasClass("button-enabled")) {
-          msg.clickEventCallback(button);
+    } else if (props.clickEventCallback) {
+      button.addEventListener("click", function() {
+        if (button.className.indexOf("button-enabled") >= 0) {
+          props.clickEventCallback(button);
         }
       });
     }
 
     function enable(enabled) {
       if (enabled !== undefined && !enabled) {
-        button.addClass("button-disabled");
-        button.removeClass("button-enabled");
+        button.className = button.className.replace("button-enabled", "button-disabled");
       } else {
-        button.addClass("button-enabled");
-        button.removeClass("button-disabled");
+        button.className = button.className.replace("button-disabled", "button-enabled");
       }
     }
 
     function activate(active) {
       if (active !== undefined && !active) {
-        button.removeClass("button-active");
+        button.className = button.className.replace("button-active", "");
       } else {
-        button.addClass("button-active");
+        button.className += " button-active";
       }
     }
 
     function toggle() {
-      if (button.hasClass("button-active")) {
-        button.removeClass("button-active");
+      if (button.className.indexOf("button-active") >= 0) {
+        button.className = button.className.replace("button-active", "");
       } else {
-        button.addClass("button-active");
+        button.className += " button-active";
       }
     }
 
-    bus.listen("ui-button:" + msg.id + ":enable", function(e, enabled) {
+    bus.listen("ui-button:" + props.id + ":enable", function(e, enabled) {
       enable(enabled);
     });
-    bus.listen("ui-button:" + msg.id + ":activate", function(e, active) {
+    bus.listen("ui-button:" + props.id + ":activate", function(e, active) {
       activate(active);
     });
 
-    bus.listen("ui-button:" + msg.id + ":toggle", function() {
+    bus.listen("ui-button:" + props.id + ":toggle", function() {
       toggle();
     });
 
-    bus.listen("ui-button:" + msg.id + ":link-active", function(e, linkedDiv) {
+    bus.listen("ui-button:" + props.id + ":link-active", function(e, linkedDiv) {
       bus.listen("ui-show", function(e, id) {
         if (linkedDiv == id) {
           activate(true);

@@ -23,12 +23,11 @@ define([ "geoladris-tests" ], function(tests) {
         parent : parentId
       });
 
-      var container = $("#" + parentId).children(".ui-sliding-div-container");
-      expect(container.length).toBe(1);
-      var handle = container.children(".ui-sliding-div-handle");
-      expect(handle.length).toBe(1);
-      var content = container.children(".ui-sliding-div-content");
-      expect(content.length).toBe(1);
+      var parent = document.getElementById(parentId);
+      expect(parent.children.length).toBe(1);
+      var container = parent.children[0];
+      expect(container.getElementsByClassName("ui-sliding-div-handle").length).toBe(1);
+      expect(container.getElementsByClassName("ui-sliding-div-content").length).toBe(1);
     });
 
     it("hides/shows the content when the handle is clicked", function() {
@@ -37,94 +36,88 @@ define([ "geoladris-tests" ], function(tests) {
         parent : parentId
       });
 
-      var container = $("#" + parentId).children(".ui-sliding-div-container");
-      var handle = container.children(".ui-sliding-div-handle");
-      var content = container.children("#mysliding");
-      expect(content.css("display")).toBe("none");
+      var parent = document.getElementById(parentId);
+      var container = parent.children[0];
+      var handle = container.querySelector(".ui-sliding-div-handle");
+      var content = document.getElementById("mysliding");
+      expect(content.style["display"]).toBe("none");
       handle.click();
-      expect(content.css("display")).toBe("block");
+      expect(content.style["display"]).not.toBe("none");
     });
 
     it("shows on expand event", function() {
-      module({
+      var div = module({
         id : "mysliding",
         parent : parentId,
       });
 
-      var div = $("#mysliding");
-
-      expect(div.css("display")).toBe("none");
+      expect(div.style["display"]).toBe("none");
       bus.send("ui-sliding-div:expand", "mysliding");
-      expect(div.css("display")).toBe("block");
+      expect(div.style["display"]).not.toBe("none");
     });
 
     it("hides on collapse event", function() {
-      module({
+      var div = module({
         id : "mysliding",
         parent : parentId
       });
 
-      var div = $("#mysliding");
-      var handle = div.siblings(".ui-sliding-div-handle");
-
+      var handle = div.parentNode.querySelector(".ui-sliding-div-handle");
       handle.click();
 
-      expect(div.css("display")).toBe("block");
+      expect(div.style["display"]).not.toBe("none");
       bus.send("ui-sliding-div:collapse", "mysliding");
-      expect(div.css("display")).toBe("none");
+      expect(div.style["display"]).toBe("none");
     });
 
     it("toggles on toggle event", function() {
-      module({
+      var div = module({
         id : "mysliding",
         parent : parentId
       });
 
-      var div = $("#mysliding");
-
-      expect(div.css("display")).toBe("none");
+      expect(div.style["display"]).toBe("none");
       bus.send("ui-sliding-div:toggle", "mysliding");
-      expect(div.css("display")).toBe("block");
+      expect(div.style["display"]).not.toBe("none");
       bus.send("ui-sliding-div:toggle", "mysliding");
-      expect(div.css("display")).toBe("none");
+      expect(div.style["display"]).toBe("none");
     });
 
     it("changes handle text when shown/hidden", function() {
-      module({
+      var div = module({
         id : "mysliding",
         parent : parentId
       });
 
-      var handle = $("#mysliding").siblings(".ui-sliding-div-handle");
+      var handle = div.parentNode.querySelector(".ui-sliding-div-handle");
 
-      expect(handle.text()).toBe("+");
+      expect(handle.innerHTML).toBe("+");
       bus.send("ui-sliding-div:toggle", "mysliding");
-      expect(handle.text()).toBe("-");
+      expect(handle.innerHTML).toBe("-");
       bus.send("ui-sliding-div:toggle", "mysliding");
-      expect(handle.text()).toBe("+");
+      expect(handle.innerHTML).toBe("+");
     });
 
     it("adds the handlePosition property as CSS class", function() {
-      module({
+      var div = module({
         id : "mysliding",
         parent : parentId,
         handlePosition : "bottom-left"
       });
 
-      var handle = $("#mysliding").siblings(".ui-sliding-div-handle");
-      expect(handle.hasClass("bottom-left")).toBe(true);
+      var handle = div.parentNode.querySelector(".ui-sliding-div-handle");
+      expect(handle.className).toMatch("bottom-left");
     });
 
     it("shows expanded if visible is specified", function() {
-      module({
+      var div = module({
         id : "mysliding",
         parent : parentId,
         handlePosition : "bottom-left",
         visible : true
       });
 
-      var div = $("#mysliding");
-      expect(div.css("display")).toBe("block");
+      expect(div.style["display"]).not.toBe("none");
     });
   });
 });

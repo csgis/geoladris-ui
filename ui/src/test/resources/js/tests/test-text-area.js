@@ -24,13 +24,13 @@ define([ "geoladris-tests" ], function(tests) {
         label : "Text: "
       });
 
-      var container = $("#" + parentId).children();
-      expect(container.length).toBe(1);
-      expect(container.length).toBe(1);
-      expect(container.children().length).toBe(2);
-      expect(container.children("textarea").length).toBe(1);
-      expect(container.children("label").length).toBe(1);
-      expect(container.children("label").text()).toBe("Text: ");
+      var parent = document.getElementById(parentId);
+      expect(parent.children.length).toBe(1);
+      var container = parent.children[0];
+      expect(container.children.length).toBe(2);
+      expect(container.getElementsByTagName("textarea").length).toBe(1);
+      expect(container.getElementsByTagName("label").length).toBe(1);
+      expect(container.getElementsByTagName("label")[0].textContent).toBe("Text: ");
     });
 
     it("sets rows and cols if specified on create", function() {
@@ -42,8 +42,8 @@ define([ "geoladris-tests" ], function(tests) {
         cols : 20
       });
 
-      expect(area.attr("rows")).toEqual("4");
-      expect(area.attr("cols")).toEqual("20");
+      expect(area.rows).toEqual(4);
+      expect(area.cols).toEqual(20);
     });
 
     it("fills message on -field-value-fill", function() {
@@ -54,7 +54,7 @@ define([ "geoladris-tests" ], function(tests) {
       });
 
       var content = "This is the textarea content";
-      area.val(content);
+      area.value = content;
 
       var message = {};
       bus.send("myarea-field-value-fill", message);

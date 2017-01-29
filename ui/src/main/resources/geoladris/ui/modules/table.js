@@ -24,6 +24,7 @@ define([ "jquery", "message-bus", "./commons", "datatables.net", "datatables.net
 
     var translations = msg.messages || {};
     var div = commons.getOrCreateElem("div", msg);
+    div = $(div);
 
     bus.listen("ui-table:" + id + ":clear", function() {
       div.empty();

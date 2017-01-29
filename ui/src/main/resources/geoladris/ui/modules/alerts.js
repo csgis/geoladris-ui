@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./commons", "module" ], function($, bus, commons, module) {
+define([ "message-bus", "./commons", "module" ], function(bus, commons, module) {
   var config = module.config();
 
   if (!config.timeout) {
@@ -11,7 +11,7 @@ define([ "jquery", "message-bus", "./commons", "module" ], function($, bus, comm
   });
   var container = commons.getOrCreateElem("div", {
     id : "ui-alerts-container",
-    parent : wrapper.attr("id")
+    parent : wrapper
   });
 
   bus.listen("ui-alert", function(e, msg) {
@@ -25,12 +25,12 @@ define([ "jquery", "message-bus", "./commons", "module" ], function($, bus, comm
       parent : div,
       css : "ui-alerts-close"
     });
-    close.click(function() {
-      div.remove();
+    close.addEventListener("click", function() {
+      container.removeChild(div);
     });
 
     setTimeout(function() {
-      div.remove();
+      container.removeChild(div);
     }, config.timeout * 1000);
   });
 });

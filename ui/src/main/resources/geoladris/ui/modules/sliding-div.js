@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./commons", "module" ], function($, bus, commons, module) {
+define([ "message-bus", "./commons", "module" ], function(bus, commons, module) {
   var ATTR_DIRECTION = "gb-ui-sliding-direction";
   var HANDLE_CLASS = "ui-sliding-div-handle";
 
@@ -9,9 +9,9 @@ define([ "jquery", "message-bus", "./commons", "module" ], function($, bus, comm
   }
 
   function expand(id) {
-    var div = $("#" + id);
-    var direction = div.attr(ATTR_DIRECTION);
-    var handle = div.siblings("." + HANDLE_CLASS);
+    var div = document.getElementById(id);
+    var direction = div.getAttribute(ATTR_DIRECTION);
+    var handle = div.parentNode.getElementsByClassName(HANDLE_CLASS)[0];
 
     var opts = {};
     if (direction == "horizontal" || direction == "both") {
@@ -21,14 +21,14 @@ define([ "jquery", "message-bus", "./commons", "module" ], function($, bus, comm
       opts.height = "show";
     }
 
-    div.animate(opts, config.duration);
-    handle.text("-");
+    $(div).animate(opts, config.duration);
+    handle.innerHTML = "-";
   }
 
   function collapse(id) {
-    var div = $("#" + id);
-    var direction = div.attr(ATTR_DIRECTION);
-    var handle = div.siblings("." + HANDLE_CLASS);
+    var div = document.getElementById(id);
+    var direction = div.getAttribute(ATTR_DIRECTION);
+    var handle = div.parentNode.getElementsByClassName(HANDLE_CLASS)[0];
 
     var opts = {};
     if (direction == "horizontal" || direction == "both") {
@@ -38,15 +38,15 @@ define([ "jquery", "message-bus", "./commons", "module" ], function($, bus, comm
       opts.height = "hide";
     }
 
-    div.animate(opts, config.duration);
-    handle.text("+");
+    $(div).animate(opts, config.duration);
+    handle.innerHTML = "+";
   }
 
   function toggle(id) {
-    var div = $("#" + id);
-    var handle = div.siblings("." + HANDLE_CLASS);
+    var div = document.getElementById(id);
+    var handle = div.parentNode.getElementsByClassName(HANDLE_CLASS)[0];
 
-    if (handle.text() == "+") {
+    if (handle.innerHTML == "+") {
       expand(id);
     } else {
       collapse(id);
@@ -63,49 +63,51 @@ define([ "jquery", "message-bus", "./commons", "module" ], function($, bus, comm
     toggle(id);
   });
 
-  return function(msg) {
-    var direction = msg.direction || "vertical";
-    var handlePosition = msg.handlePosition || "bottom";
+  return function(props) {
+    var direction = props.direction || "vertical";
+    var handlePosition = props.handlePosition || "bottom";
 
     // Container
-    var containerId = msg.id + "-container";
-    var container = commons.getOrCreateElem("div", $.extend({}, msg, {
-      id : containerId
-    }));
-    container.addClass("ui-sliding-div-container");
+    var containerId = props.id + "-container";
+    var container = commons.getOrCreateElem("div", {
+      id : containerId,
+      parent : props.parent,
+      css : "ui-sliding-div-container"
+    });
 
     // Handle div
-    var handle = $("<div/>");
-    handle.addClass(HANDLE_CLASS);
-    handle.addClass(handlePosition);
-    handle.text(msg.visible ? "-" : "+");
-    handle.click(function() {
-      toggle(msg.id);
+    var handle = commons.getOrCreateElem("div", {
+      css : HANDLE_CLASS + " " + handlePosition,
+      html : props.visible ? "-" : "+"
+    });
+    handle.addEventListener("click", function() {
+      toggle(props.id);
     });
 
     if (handlePosition == "bottom-left" || handlePosition == "top" || handlePosition == "top-left" || handlePosition == "left") {
-      container.append(handle);
+      container.appendChild(handle);
     }
 
     // Content div
-    var div = commons.getOrCreateElem("div", $.extend({}, msg, {
-      parent : containerId
-    }));
-    div.addClass("ui-sliding-div-content");
-    div.attr(ATTR_DIRECTION, direction);
+    var div = commons.getOrCreateElem("div", {
+      id : props.id,
+      parent : containerId,
+      css : "ui-sliding-div-content"
+    });
+    div.setAttribute(ATTR_DIRECTION, direction);
 
-    if (!msg.visible) {
-      div.hide();
+    if (!props.visible) {
+      div.style["display"] = "none";
     }
 
     if (handlePosition == "bottom" || handlePosition == "bottom-right" || handlePosition == "right" || handlePosition == "top-right") {
-      container.append(handle);
+      container.appendChild(handle);
     }
 
     if (handlePosition != "top" && handlePosition != "bottom") {
-      div.css("float", "left");
+      div.style["float"] = "left";
     }
 
-    return container;
+    return div;
   }
 });

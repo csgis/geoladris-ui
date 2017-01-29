@@ -8,7 +8,9 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 
     beforeEach(function() {
       tests.replaceParent(parentId);
-      $("<div/>").attr("id", div).appendTo($("#" + parentId));
+      var e = document.createElement("div");
+      e.id = div;
+      document.getElementById(parentId).appendChild(e);
       var initialization = tests.init("ui", {}, {
         "tipsy" : "../jslib/tipsy/1.0.0a/jquery.tipsy",
         "nouislider" : "../jslib/nouislider/9.2.0/nouislider.min",
@@ -23,28 +25,30 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
 
     it("changes element display on ui-show", function(done) {
       injector.require([ "ui" ], function() {
-        $("#" + div).css("display", "none");
-        expect($("#" + div).css("display")).toBe("none");
+        document.getElementById(div).style["display"] = "none";
         bus.send("ui-show", "mydiv");
-        expect($("#" + div).css("display")).not.toBe("none");
+        expect(document.getElementById(div).style["display"]).toBe("");
         done();
       });
     });
 
     it("changes element display on ui-hide", function(done) {
       injector.require([ "ui" ], function() {
-        expect($("#" + div).css("display")).not.toBe("none");
+        var e = document.getElementById(div);
+        bus.send("ui-show", "mydiv");
+        expect(e.style["display"]).toBe("");
         bus.send("ui-hide", "mydiv");
-        expect($("#" + div).css("display")).toBe("none");
+        expect(e.style["display"]).toBe("none");
         done();
       });
     });
 
     it("changes element display on ui-toggle", function(done) {
       injector.require([ "ui" ], function() {
-        expect($("#" + div).css("display")).not.toBe("none");
+        var e = document.getElementById(div);
+        expect(e.style["display"]).not.toBe("none");
         bus.send("ui-toggle", "mydiv");
-        expect($("#" + div).css("display")).toBe("none");
+        expect(e.style["display"]).toBe("none");
         done();
       });
     });

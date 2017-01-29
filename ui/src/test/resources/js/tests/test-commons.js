@@ -20,7 +20,7 @@ define([ "geoladris-tests" ], function(tests) {
     it("creates elements with no parent", function() {
       var div = commons.getOrCreateElem("div", {
         id : "mybutton"
-      })[0];
+      });
       expect(div.parentNode).toBe(null);
     });
 
@@ -29,7 +29,7 @@ define([ "geoladris-tests" ], function(tests) {
       var div = commons.getOrCreateElem("div", {
         id : "mybutton",
         parent : parent
-      })[0];
+      });
       expect(parent.children.length).toBe(1);
       expect(parent.children[0]).toBe(div);
       expect(div.parentNode).toBe(parent);
@@ -38,15 +38,15 @@ define([ "geoladris-tests" ], function(tests) {
     it("creates labels", function() {
       var label = commons.createLabel("mynumber", parentId, "Field: ");
 
-      expect(label.attr("id")).toBe("mynumber-label")
-      expect(label.hasClass("ui-label")).toBe(true);
+      expect(label.id).toBe("mynumber-label")
+      expect(label.className.indexOf("ui-label")).toBeGreaterThan(-1);
     });
 
     it("changes the label text on set-label", function() {
       var label = commons.createLabel("mynumber", parentId, "Field: ");
-      expect(label.text()).toBe("Field: ");
+      expect(label.innerHTML).toBe("Field: ");
       bus.send("ui-input:mynumber:set-label", "Field 2: ");
-      expect(label.text()).toBe("Field 2: ");
+      expect(label.innerHTML).toBe("Field 2: ");
     });
   });
 });

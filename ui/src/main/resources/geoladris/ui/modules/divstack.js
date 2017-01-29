@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus" ], function($, bus) {
+define([ "message-bus" ], function(bus) {
   var divLists = [];
 
   bus.listen("ui-show", function(e, id) {

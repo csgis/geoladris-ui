@@ -23,14 +23,14 @@ define([ "geoladris-tests" ], function(tests) {
         parent : parentId
       });
 
-      expect(input.length).toBe(1);
-      expect(input.attr("type")).toEqual("radio");
-      expect(input.attr("name")).toEqual(parentId);
-      expect(input.attr("id")).toEqual("myitem");
+      expect(input).not.toBe(undefined);
+      expect(input.type).toEqual("radio");
+      expect(input.name).toEqual(parentId);
+      expect(input.id).toEqual("myitem");
 
-      var container = $("#" + parentId).children(".ui-input-container");
-      expect(container.children(".ui-radio").length).toBe(1);
-      expect(container.children(".ui-label").length).toBe(1);
+      var container = document.getElementById(parentId).getElementsByClassName("ui-input-container")[0];
+      expect(container.querySelectorAll(".ui-radio").length).toBe(1);
+      expect(container.querySelectorAll(".ui-label").length).toBe(1);
     });
 
     it("clicks input on text clicked", function() {
@@ -41,11 +41,11 @@ define([ "geoladris-tests" ], function(tests) {
       });
 
       var clicked;
-      input.click(function() {
+      input.addEventListener("click", function() {
         clicked = true;
       });
 
-      var text = $("#" + parentId).find(".ui-label");
+      var text = document.getElementById(parentId).querySelector(".ui-label");
       text.click();
       expect(clicked).toBe(true);
     });

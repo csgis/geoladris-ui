@@ -22,9 +22,12 @@ define([ "geoladris-tests" ], function(tests) {
         parent : parentId
       });
 
-      var container = $("#" + parentId).children();
-      expect(container.length).toBe(1);
-      expect(container.children("#mydialog").length).toBe(1);
+      var parent = document.getElementById(parentId);
+      expect(parent.children.length).toBe(1);
+      var container = parent.children[0];
+      var dialog = document.getElementById("mydialog");
+      expect(dialog).not.toBe(undefined);
+      expect(dialog.parentNode).toBe(container);
     });
 
     it("does not create the same dialog twice", function() {
@@ -35,9 +38,8 @@ define([ "geoladris-tests" ], function(tests) {
         });
       }
 
-      var container = $("#" + parentId).children();
-      expect(container.length).toBe(1);
-      expect(container.children("#mydialog").length).toBe(1);
+      var parent = document.getElementById(parentId);
+      expect(parent.children.length).toBe(1);
     });
 
     it("hides the dialog on init if !visible specified", function() {
@@ -64,9 +66,10 @@ define([ "geoladris-tests" ], function(tests) {
         modal : true
       });
 
-      var container = $("#" + parentId).children();
-      expect(container).not.toEqual($("#" + parentId).find("#mydialog"));
-      expect(container.hasClass("dialog-modal")).toBe(true);
+      var parent = document.getElementById(parentId);
+      var container = parent.children[0];
+      expect(container).not.toEqual(document.getElementById("mydialog"));
+      expect(container.className).toMatch("dialog-modal");
     });
 
     it("adds a title if specified", function() {
@@ -77,9 +80,9 @@ define([ "geoladris-tests" ], function(tests) {
         title : text
       });
 
-      var title = $("#mydialog").children(".dialog-title");
+      var title = document.getElementById("mydialog").querySelectorAll(".dialog-title");
       expect(title.length).toBe(1);
-      expect(title.text()).toBe(text);
+      expect(title[0].textContent).toBe(text);
     });
 
     it("adds a close button if specified", function() {
@@ -89,7 +92,7 @@ define([ "geoladris-tests" ], function(tests) {
         closeButton : true
       });
 
-      var close = $("#mydialog").children(".dialog-close");
+      var close = document.getElementById("mydialog").querySelectorAll(".dialog-close");
       expect(close.length).toBe(1);
     });
 
@@ -100,8 +103,8 @@ define([ "geoladris-tests" ], function(tests) {
         closeButton : true
       });
 
-      var close = $("#mydialog").children(".dialog-close");
-      close.trigger("click");
+      var close = document.getElementById("mydialog").querySelector(".dialog-close");
+      close.click();
       expect(bus.send).toHaveBeenCalledWith("ui-hide", "mydialog");
     });
 
@@ -113,10 +116,12 @@ define([ "geoladris-tests" ], function(tests) {
         visible : true
       });
 
-      expect($("#" + parentId).children(".dialog-modal").css("display")).not.toBe("none");
+      var modal = document.getElementById(parentId).querySelector(".dialog-modal");
+      expect(modal.style["display"]).not.toBe("none");
       bus.send("ui-hide", "mydialog");
-      expect($("#" + parentId).children(".dialog-modal").css("display")).toBe("none");
+      expect(modal.style["display"]).toBe("none");
     });
+
     it("shows the shade when dialog is shown if modal", function() {
       module({
         id : "mydialog",
@@ -125,9 +130,10 @@ define([ "geoladris-tests" ], function(tests) {
         visible : false
       });
 
-      expect($("#" + parentId).children(".dialog-modal").css("display")).toBe("none");
+      var modal = document.getElementById(parentId).querySelector(".dialog-modal");
+      expect(modal.style["display"]).toBe("none");
       bus.send("ui-show", "mydialog");
-      expect($("#" + parentId).children(".dialog-modal").css("display")).not.toBe("none");
+      expect(modal.style["display"]).not.toBe("none");
     });
 
     it("toggles the shade when dialog is toggled if modal", function() {
@@ -138,9 +144,10 @@ define([ "geoladris-tests" ], function(tests) {
         visible : true
       });
 
-      expect($("#" + parentId).children(".dialog-modal").css("display")).not.toBe("none");
+      var modal = document.getElementById(parentId).querySelector(".dialog-modal");
+      expect(modal.style["display"]).not.toBe("none");
       bus.send("ui-toggle", "mydialog");
-      expect($("#" + parentId).children(".dialog-modal").css("display")).toBe("none");
+      expect(modal.style["display"]).toBe("none");
     });
 
     it("shows the latest dialog on top of the others when ui-show", function() {
@@ -155,8 +162,8 @@ define([ "geoladris-tests" ], function(tests) {
         visible : false
       });
 
-      var container1 = $("#mydialog").parent();
-      var container2 = $("#mydialog2").parent();
+      var container1 = document.getElementById("mydialog").parentNode;
+      var container2 = document.getElementById("mydialog2").parentNode;
 
       // Mock CSS rules
       var cssRules = {
@@ -164,18 +171,22 @@ define([ "geoladris-tests" ], function(tests) {
         "z-index" : 2000,
         "display" : "none"
       };
-      container1.css(cssRules);
-      container2.css(cssRules);
+      container1.style["position"] = "absolute";
+      container2.style["position"] = "absolute";
+      container1.style["z-index"] = 2000;
+      container2.style["z-index"] = 2000;
+      container1.style["display"] = "none";
+      container2.style["display"] = "none";
 
       bus.send("ui-show", "mydialog");
-      expect(container1.css("z-index")).toBe("2000");
-      expect(container2.css("z-index")).toBe("2000");
+      expect(container1.style["z-index"]).toBe("2000");
+      expect(container2.style["z-index"]).toBe("2000");
       bus.send("ui-show", "mydialog2");
-      expect(container1.css("z-index")).toBe("2000");
-      expect(container2.css("z-index")).toBe("2001");
+      expect(container1.style["z-index"]).toBe("2000");
+      expect(container2.style["z-index"]).toBe("2001");
       bus.send("ui-toggle", "mydialog2");
       bus.send("ui-toggle", "mydialog2");
-      expect(container2.css("z-index")).toBe("2002");
+      expect(container2.style["z-index"]).toBe("2002");
     });
   });
 });

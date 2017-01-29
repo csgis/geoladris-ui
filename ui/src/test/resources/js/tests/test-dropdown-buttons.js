@@ -1,4 +1,4 @@
-define([ "geoladris-tests" ], function(tests, buttons) {
+define([ "geoladris-tests" ], function(tests) {
   describe("dropdown-buttons", function() {
     var bus;
     var injector;
@@ -15,11 +15,18 @@ define([ "geoladris-tests" ], function(tests, buttons) {
       // Mock the button and sliding div events
       deps = {
         buttons : function(msg) {
-          $("#" + parentId).append($("<div/>").attr("id", msg.id));
-          $("#" + msg.id).append($("<div/>").addClass("button-content"));
+          var button = document.createElement("div");
+          button.id = msg.id;
+          document.getElementById(parentId).appendChild(button);
+          var content = document.createElement("div");
+          content.className = "button-content", button.appendChild(content);
+          return button;
         },
         sliding : function(msg) {
-          $("#" + parentId).append($("<div/>").attr("id", msg.id));
+          var sliding = document.createElement("div");
+          sliding.id = msg.id;
+          document.getElementById(parentId).appendChild(sliding);
+          return sliding;
         }
       };
       spyOn(deps, "buttons").and.callThrough();
@@ -43,7 +50,7 @@ define([ "geoladris-tests" ], function(tests, buttons) {
       expect(deps.buttons).toHaveBeenCalledWith(jasmine.objectContaining({
         id : "mybutton",
         parent : "mybutton-container",
-        css : "ui-dropdown-button-button",
+        css : " ui-dropdown-button-button",
         text : "text"
       }));
     });

@@ -23,9 +23,9 @@ define([ "geoladris-tests" ], function(tests) {
         parent : parentId
       });
 
-      var container = $("#" + parentId).children();
-      expect(container.length).toBe(1);
-      expect(container.children("#mychoice").length).toBe(1);
+      var parent = document.getElementById(parentId);
+      expect(parent.children.length).toBe(1);
+      expect(parent.querySelectorAll("#mychoice").length).toBe(1);
     });
 
     it("creates label on create", function() {
@@ -36,20 +36,21 @@ define([ "geoladris-tests" ], function(tests) {
         label : text
       });
 
-      var label = $("#" + parentId).find("label");
+      var parent = document.getElementById(parentId);
+      var label = parent.querySelectorAll("label");
       expect(label.length).toBe(1);
-      expect(label.text()).toEqual(text);
+      expect(label[0].innerHTML).toEqual(text);
     });
 
     it("adds values if specified on create", function() {
-      var combo = choice({
+      var c = choice({
         id : "mychoice",
         parent : parentId,
         values : [ "One", "Two", "Three" ]
       });
 
-      expect(combo.length).toBe(1);
-      expect(combo.children().length).toBe(3);
+      expect(c).not.toBe(undefined);
+      expect(c.children.length).toBe(3);
     });
 
     it("fills message on -field-value-fill", function() {
@@ -65,16 +66,24 @@ define([ "geoladris-tests" ], function(tests) {
     });
 
     it("sets values on set-values", function() {
-      var combo = choice({
+      var c = choice({
         id : "mychoice",
         parent : parentId,
         values : [ "One", "Two", "Three" ]
       });
 
-      bus.send("ui-choice-field:mychoice:set-values", [ [ "1", "2" ] ]);
+      bus.send("ui-choice-field:mychoice:set-values", [ [ {
+        value : "1",
+        text : " One "
+      }, {
+        value : "2",
+        text : " Two "
+      } ] ]);
 
-      expect(combo.children("option:eq(0)").text()).toBe("1");
-      expect(combo.children("option:eq(1)").text()).toBe("2");
+      expect(c.options[0].value).toBe("1");
+      expect(c.options[0].innerHTML).toBe(" One ");
+      expect(c.options[1].value).toBe("2");
+      expect(c.options[1].innerHTML).toBe(" Two ");
     });
   });
 });

@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "module" ], function($, bus, module) {
+define([ "message-bus", "module", "./commons" ], function(bus, module, commons) {
   var ids = {};
 
   var config = module.config();
@@ -9,13 +9,17 @@ define([ "jquery", "message-bus", "module" ], function($, bus, module) {
   var intervalId;
 
   // Create divs
-  var loadingShade = $("<div/>").attr("id", "loading-shade");
-  var loadingMsg = $("<div/>").attr("id", "loading-msg");
-  loadingShade.append(loadingMsg);
-  $("body").append(loadingShade);
+  var loadingShade = commons.getOrCreateElem("div", {
+    id : "loading-shade",
+    parent : document.body
+  });
+  var loadingMsg = commons.getOrCreateElem("div", {
+    id : "loading-msg",
+    parent : loadingShade
+  });
 
   // Hide divs by default
-  loadingShade.hide();
+  loadingShade.style.display = "none";
 
   function updateMessage() {
     var keys = Object.keys(ids);
@@ -24,7 +28,7 @@ define([ "jquery", "message-bus", "module" ], function($, bus, module) {
     } else {
       message = config.originalMessage;
     }
-    loadingMsg.text(message + "...");
+    loadingMsg.innerHTML = message + "...";
   }
 
   bus.listen("ui-loading:start", function(e, msg) {
@@ -35,17 +39,17 @@ define([ "jquery", "message-bus", "module" ], function($, bus, module) {
     }
 
     updateMessage();
-    loadingShade.show();
-    loadingMsg.css("width", loadingMsg.width() + "px");
+    loadingShade.style.display = "block";
+    loadingMsg.style["width"] = loadingMsg.offsetWidth + "px";
 
     if (!intervalId) {
       // Add a dot to the message each 0.5s, up to 3 dots
       intervalId = setInterval(function() {
-        var divText = loadingMsg.text();
+        var divText = loadingMsg.innerHTML;
         if (divText.length < message.length + 3) {
-          loadingMsg.text(divText + ".");
+          loadingMsg.innerHTML = divText + ".";
         } else {
-          loadingMsg.text(message);
+          loadingMsg.innerHTML = message;
         }
       }, 500);
     }
@@ -63,14 +67,14 @@ define([ "jquery", "message-bus", "module" ], function($, bus, module) {
     }
 
     var anyoneLoading = false;
-    $.each(ids, function(key, value) {
-      if (value) {
+    Object.keys(ids).forEach(function(key) {
+      if (ids[key]) {
         anyoneLoading = true;
       }
     });
 
     if (!anyoneLoading) {
-      loadingShade.hide();
+      loadingShade.style.display = "none";
       clearInterval(intervalId);
       intervalId = null;
     } else {

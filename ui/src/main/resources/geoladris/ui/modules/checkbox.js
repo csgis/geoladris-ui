@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
+define([ "message-bus", "./commons" ], function(bus, commons) {
   return function(props) {
     var container = commons.createContainer(props.id, props.parent, props.css);
     var input = commons.getOrCreateElem("input", {
@@ -6,10 +6,10 @@ define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
       parent : container,
       css : (props.css || "") + " ui-checkbox"
     });
-    input.attr("type", "checkbox");
+    input.type = "checkbox";
 
     var label = commons.createLabel(props.id, container, props.label);
-    label.click(function(event) {
+    label.addEventListener("click", function(event) {
       input.click();
     });
 

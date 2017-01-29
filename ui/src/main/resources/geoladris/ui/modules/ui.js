@@ -21,15 +21,16 @@ slider, slidingDiv, table, textArea, Sortable) {
   };
 
   bus.listen("ui-show", function(e, id) {
-    $("#" + id).show();
+    document.getElementById(id).style.display = "";
   });
 
   bus.listen("ui-hide", function(e, id) {
-    $("#" + id).hide();
+    document.getElementById(id).style.display = "none";
   });
 
   bus.listen("ui-toggle", function(e, id) {
-    $("#" + id).toggle();
+    var e = document.getElementById(id);
+    e.style.display = e.style.display == "none" ? "" : "none";
   });
 
   bus.listen("ui-open-url", function(e, msg) {
@@ -43,85 +44,84 @@ slider, slidingDiv, table, textArea, Sortable) {
   return {
     create : function(type, props) {
       // Do not create if already exists
-      var jqueryElem = $("#" + props.id);
-      if (jqueryElem.length > 0) {
-        return jqueryElem.get(0);
+      var e = document.getElementById(props.id);
+      if (e) {
+        return e;
       }
 
       switch (type) {
       case "accordion-group":
-        jqueryElem = accordionGroup(props);
+        e = accordionGroup(props);
         break;
       case "autocomplete":
-        jqueryElem = autocomplete(props);
+        e = autocomplete(props);
         break;
       case "button":
-        jqueryElem = buttons(props);
+        e = buttons(props);
         break;
       case "checkbox":
-        jqueryElem = checkbox(props);
+        e = checkbox(props);
         break;
       case "choice":
-        jqueryElem = choice(props);
+        e = choice(props);
         break;
       case "confirm-dialog":
-        jqueryElem = confirmDialog(props);
+        e = confirmDialog(props);
         break;
       case "dialog":
-        jqueryElem = dialog(props);
+        e = dialog(props);
         break;
       case "divstack":
-        jqueryElem = divstack(props);
+        e = divstack(props);
         break;
       case "dropdown-button":
-        jqueryElem = dropdownButtons(props);
+        e = dropdownButtons(props);
         break;
       case "input":
-        jqueryElem = input(props);
+        e = input(props);
         break;
       case "radio":
-        jqueryElem = radio(props);
+        e = radio(props);
         break;
       case "slider":
-        jqueryElem = slider(props);
+        e = slider(props);
         break;
       case "sliding-div":
-        jqueryElem = slidingDiv(props);
+        e = slidingDiv(props);
         break;
       case "table":
-        jqueryElem = table(props);
+        e = table(props);
         break;
       case "text-area":
-        jqueryElem = textArea(props);
+        e = textArea(props);
         break;
       default:
-        jqueryElem = commons.getOrCreateElem(type, props);
+        e = commons.getOrCreateElem(type, props);
         break;
       }
 
-      if (jqueryElem) {
-        var elem = jqueryElem.get(0);
-        bus.send("ui:created", elem);
-        return elem;
+      if (e) {
+        bus.send("ui:created", e);
       }
+      return e;
     },
     tooltip : function(elem, props) {
       if (typeof elem == "string") {
         elem = document.getElementById(elem);
       }
-      elem = $(elem);
 
-      elem.attr(TOOLTIP_ATTR, props.text);
-      elem.tipsy({
+      elem.setAttribute(TOOLTIP_ATTR, props.text);
+      var jelem = $(elem);
+      jelem.tipsy({
         trigger : "manual",
         title : TOOLTIP_ATTR,
         html : true,
         opacity : 1,
         gravity : TOOLTIP_GRAVITIES[props.location] || $.fn.tipsy.autoNS
       });
-      elem.tipsy("show");
+      jelem.tipsy("show");
 
-      return elem.data("tipsy").$tip[0];
+      return jelem.data("tipsy").$tip[0];
     },
     sortable : function(elem) {
       if (typeof elem == "string") {

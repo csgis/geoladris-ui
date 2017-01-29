@@ -49,7 +49,7 @@ define([ "geoladris-tests" ], function(tests) {
         divs : [ "letters", "numbers" ],
         clickEventName : "myevent"
       });
-      $("#" + buttonId).trigger("click");
+      document.getElementById(buttonId).click();
 
       expect(bus.send).toHaveBeenCalledWith("myevent", {
         letters : "A",
@@ -65,7 +65,7 @@ define([ "geoladris-tests" ], function(tests) {
       });
 
       bus.send("ui-button:" + buttonId + ":enable", false);
-      $("#" + buttonId).trigger("click");
+      document.getElementById(buttonId).click();
 
       expect(bus.send).not.toHaveBeenCalledWith("myevent", {
         letters : "A",
@@ -80,7 +80,7 @@ define([ "geoladris-tests" ], function(tests) {
         names : [ "l", "n" ],
         clickEventName : "myevent"
       });
-      $("#" + buttonId).trigger("click");
+      document.getElementById(buttonId).click();
 
       expect(bus.send).toHaveBeenCalledWith("myevent", {
         l : "A",
@@ -97,9 +97,9 @@ define([ "geoladris-tests" ], function(tests) {
         clickEventName : "myevent"
       });
 
-      var input = $("#freetext input");
-      input.val("");
-      input.change();
+      var input = document.getElementById("freetext");
+      input.value = "";
+      input.dispatchEvent(new Event("input"));
       expect(bus.send).toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", false);
     });
 
@@ -113,9 +113,9 @@ define([ "geoladris-tests" ], function(tests) {
       });
 
       expect(bus.send).not.toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", true);
-      var input = $("#freetext");
-      input.val("not empty");
-      input.change();
+      var input = document.getElementById("freetext");
+      input.value = "not empty";
+      input.dispatchEvent(new Event("input"));
       expect(bus.send).toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", true);
     });
 
@@ -128,12 +128,12 @@ define([ "geoladris-tests" ], function(tests) {
         clickEventName : "myevent"
       });
 
-      var input = $("#mydate");
-      input.val("invalid_date");
-      input.change();
+      var input = document.getElementById("mydate");
+      input.value = "invalid_date";
+      input.dispatchEvent(new Event("input"));
       expect(bus.send).not.toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", true);
-      input.val("2015-10-30");
-      input.change();
+      input.value = "2015-10-30";
+      input.dispatchEvent(new Event("input"));
       expect(bus.send).toHaveBeenCalledWith("ui-button:" + buttonId + ":enable", true);
     });
   });

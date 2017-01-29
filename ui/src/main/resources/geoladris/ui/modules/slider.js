@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus", "./commons", "nouislider" ], function($, bus, commons, noUiSlider) {
+define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUiSlider) {
   return function(props) {
     var container = commons.createContainer(props.id, props.parent, props.css);
     var label = commons.createLabel(props.id, container, props.label);
@@ -6,7 +6,7 @@ define([ "jquery", "message-bus", "./commons", "nouislider" ], function($, bus, 
       id : props.id,
       parent : container,
       css : "ui-slider-input " + (props.css || "")
-    })[0];
+    });
 
     function dispatch(name) {
       slider.dispatchEvent(new CustomEvent(name, {
@@ -75,6 +75,6 @@ define([ "jquery", "message-bus", "./commons", "nouislider" ], function($, bus, 
       });
     }
 
-    return $(slider);
+    return slider;
   }
 });

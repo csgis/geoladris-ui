@@ -18,15 +18,17 @@ define([ "geoladris-tests" ], function(tests) {
 
     it("adds a hidden loading div on init", function() {
       // This comes from the ui-loading.js code
-      var div = $("#loading-shade");
-      expect(div.length).toBe(1);
-      expect(div.css("display")).toEqual("none");
+      var div = document.getElementById("loading-shade");
+      expect(div).not.toBe(undefined);
+      expect(div.style["display"]).toEqual("none");
     });
 
     it("shows the loading div on start", function() {
       bus.send("ui-loading:start", "Message");
-      expect($("#loading-shade").css("display")).not.toEqual("none");
-      expect($("#loading-msg").text()).toMatch("Message");
+      var shade = document.getElementById("loading-shade");
+      expect(shade.style["display"]).not.toEqual("none");
+      var msg = document.getElementById("loading-msg");
+      expect(msg.textContent).toMatch("Message");
 
       // Free timers
       bus.send("ui-loading:end", "Message");
@@ -35,17 +37,18 @@ define([ "geoladris-tests" ], function(tests) {
     it("hides the loading div on end", function() {
       bus.send("ui-loading:start", "Message");
       bus.send("ui-loading:end", "Message");
-      expect($("#loading-shade").css("display")).toEqual("none");
+      expect(document.getElementById("loading-shade").style["display"]).toEqual("none");
     });
 
     it("handles multiple starts/ends with the same message", function() {
       bus.send("ui-loading:start", "Message");
       bus.send("ui-loading:start", "Message");
-      expect($("#loading-shade").css("display")).not.toEqual("none");
+      var shade = document.getElementById("loading-shade");
+      expect(shade.style["display"]).not.toEqual("none");
       bus.send("ui-loading:end", "Message");
-      expect($("#loading-shade").css("display")).not.toEqual("none");
+      expect(shade.style["display"]).not.toEqual("none");
       bus.send("ui-loading:end", "Message");
-      expect($("#loading-shade").css("display")).toEqual("none");
+      expect(shade.style["display"]).toEqual("none");
     });
   });
 });

@@ -1,49 +1,49 @@
-define([ "jquery", "message-bus", "./commons", "./buttons", "./dialog" ], function($, bus, commons, buttons, uiDialog) {
-  return function(msg) {
-    msg.modal = true;
-    msg.css = (msg.css || "") + " ui-confirm-dialog";
-    if (!msg.messages) {
-      msg.messages = {};
+define([ "message-bus", "./commons", "./buttons", "./dialog" ], function(bus, commons, buttons, uiDialog) {
+  return function(props) {
+    props.modal = true;
+    props.css = (props.css || "") + " ui-confirm-dialog";
+    if (!props.messages) {
+      props.messages = {};
     }
 
-    var dialog = uiDialog(msg);
+    var dialog = uiDialog(props);
 
-    if (msg.messages.question) {
-      commons.getOrCreateElem("div", {
-        id : msg.id + "-message",
-        parent : msg.id,
-        css : "ui-confirm-dialog-message"
+    if (props.messages.question) {
+      var message = commons.getOrCreateElem("div", {
+        id : props.id + "-message",
+        parent : props.id,
+        css : "ui-confirm-dialog-message",
+        html : props.messages["question"]
       });
-      $("#" + msg.id + "-message").html(msg.messages["question"]);
     }
 
-    var buttonsContainer = msg.id + "-confirm-buttons-container";
+    var buttonsContainer = props.id + "-confirm-buttons-container";
     commons.getOrCreateElem("div", {
       id : buttonsContainer,
-      parent : msg.id,
+      parent : props.id,
       css : "ui-confirm-dialog-buttons-container"
     });
     buttons({
-      id : msg.id + "-ok",
+      id : props.id + "-ok",
       parent : buttonsContainer,
       css : "dialog-ok-button ui-confirm-dialog-ok",
-      text : msg.messages.ok,
-      clickEventName : "ui-confirm-dialog:" + msg.id + ":ok"
+      text : props.messages.ok,
+      clickEventName : "ui-confirm-dialog:" + props.id + ":ok"
     });
     buttons({
-      id : msg.id + "-cancel",
+      id : props.id + "-cancel",
       parent : buttonsContainer,
       css : "dialog-ok-button ui-confirm-dialog-cancel",
-      text : msg.messages.cancel,
-      clickEventName : "ui-confirm-dialog:" + msg.id + ":cancel"
+      text : props.messages.cancel,
+      clickEventName : "ui-confirm-dialog:" + props.id + ":cancel"
     });
 
-    bus.listen("ui-confirm-dialog:" + msg.id + ":cancel", function() {
-      bus.send("ui-hide", msg.id);
+    bus.listen("ui-confirm-dialog:" + props.id + ":cancel", function() {
+      bus.send("ui-hide", props.id);
     });
 
-    bus.listen("ui-confirm-dialog:" + msg.id + ":ok", function() {
-      bus.send("ui-hide", msg.id);
+    bus.listen("ui-confirm-dialog:" + props.id + ":ok", function() {
+      bus.send("ui-hide", props.id);
     });
 
     return dialog;

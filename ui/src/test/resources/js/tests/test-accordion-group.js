@@ -28,11 +28,11 @@ define([ "geoladris-tests" ], function(tests) {
     }
 
     function header() {
-      return $("#" + parentId).children("#" + groupId + "-header");
+      return document.getElementById(groupId + "-header");
     }
 
     function content() {
-      return $("#" + parentId).children("#" + groupId);
+      return document.getElementById(groupId);
     }
 
     it("adds header on create", function() {
@@ -43,26 +43,29 @@ define([ "geoladris-tests" ], function(tests) {
         title : title
       });
 
-      var parent = $($("#" + parentId).children()[0]);
-      var header = parent.children("#mygroup-header");
-      expect(parent.children().length).toBe(2);
-      expect(header.length).toBe(1);
-      expect(header.hasClass("accordion-header")).toBe(true);
-      expect(header.children("p").hasClass("accordion-header-text")).toBe(true);
-      expect(header.text()).toBe(title);
+      var container = document.getElementById(parentId).children[0];
+      var header = document.getElementById("mygroup-header");
+      expect(container.children.length).toBe(2);
+      expect(header.parentNode).toBe(container);
+      expect(header).not.toBe(undefined);
+      expect(header.className.indexOf("accordion-header")).toBeGreaterThan(-1);
+      expect(header.querySelector("p").className.indexOf("accordion-header-text")).toBeGreaterThan(-1);
+      expect(header.textContent).toBe(title);
     });
 
     it("adds container on create", function() {
       initGroup();
 
-      var parent = $($("#" + parentId).children()[0]);
-      expect(parent.children().length).toBe(2);
-      expect(parent.children("#mygroup").length).toBe(1);
+      var container = document.getElementById(parentId).children[0];
+      expect(container.children.length).toBe(2);
+      var content = document.getElementById("mygroup"); 
+      expect(content).not.toBe(undefined);
+      expect(content.parentNode).toBe(container);
     });
 
     it("shows content if visible property on add-group", function() {
       initGroup();
-      expect(content().css("visibility")).not.toBe("hidden");
+      expect(content().style["visibility"]).not.toBe("hidden");
     });
 
     it("ignores undefined properties on visibility", function() {
@@ -70,8 +73,8 @@ define([ "geoladris-tests" ], function(tests) {
 
       bus.send("ui-accordion:" + groupId + ":visibility", {});
 
-      expect(header().css("visibility")).not.toBe("hidden");
-      expect(content().css("visibility")).not.toBe("hidden");
+      expect(header().style["visibility"]).not.toBe("hidden");
+      expect(content().style["visibility"]).not.toBe("hidden");
     });
 
     it("updates header and content if specified on visibility", function() {

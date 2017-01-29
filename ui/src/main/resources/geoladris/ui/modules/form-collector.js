@@ -1,4 +1,4 @@
-define([ "jquery", "message-bus" ], function($, bus) {
+define([ "message-bus" ], function(bus) {
   bus.listen("ui-form-collector:extend", function(e, msg) {
     function updateButton() {
       var enabled = true;
@@ -29,7 +29,7 @@ define([ "jquery", "message-bus" ], function($, bus) {
     msg.divs.forEach(function(id) {
       var input = document.getElementById(id);
       if (input && input.getAttribute("geoladris-type") == "date") {
-        $(input).on("change paste keyup", updateButton);
+        input.addEventListener("input", updateButton);
       }
     });
 
@@ -40,18 +40,18 @@ define([ "jquery", "message-bus" ], function($, bus) {
         // Check type != date so we don't add listeners twice (see
         // above)
         if (input && input.getAttribute("geoladris-type") != "date") {
-          $(input).on("change paste keyup", updateButton);
+          input.addEventListener("input", updateButton);
         } else if (tag == "select") {
-          $(input).change(updateButton);
+          input.addEventListener("change", updateButton);
         }
       });
 
       updateButton();
     }
 
-    var button = $("#" + msg.button);
-    button.click(function() {
-      if (!button.hasClass("button-enabled")) {
+    var button = document.getElementById(msg.button);
+    button.addEventListener("click", function() {
+      if (button.className.indexOf("button-enabled") < 0) {
         return;
       }
 

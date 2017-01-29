@@ -1,24 +1,32 @@
-define([ "jquery", "message-bus" ], function($, bus) {
+define([ "message-bus" ], function(bus) {
   function getOrCreateElem(type, props) {
-    var elem = $("#" + props.id);
-    if (elem.length === 0) {
-      elem = $("<" + type + "/>").attr("id", props.id);
-      elem.addClass(props.css);
+    var elem;
+    if (props.id) {
+      elem = document.getElementById(props.id);
+    }
+
+    if (!elem) {
+      elem = document.createElement(type);
+
+      if (props.id) {
+        elem.id = props.id;
+      }
+
+      elem.className = props.css || "";
 
       if (props.parent) {
-        var parent;
-        if (typeof props.parent == "string") {
-          parent = $("#" + props.parent);
-        } else {
-          // If not an id, assume a DOM node
-          parent = $(props.parent);
+        var parent = props.parent;
+        if (typeof parent == "string") {
+          parent = document.getElementById(parent);
         }
-        append(elem, parent, props.priority);
+        if (parent) {
+          append(elem, parent, props.priority);
+        }
       }
     }
 
     if (props.html) {
-      elem.html(props.html);
+      elem.innerHTML = props.html;
     }
 
     return elem;
@@ -28,12 +36,11 @@ define([ "jquery", "message-bus" ], function($, bus) {
     var nextElem;
 
     if (priority) {
-      elem.attr("priority", priority);
+      elem.priority = priority;
 
-      var children = parent.children();
-      for (var i = 0; i < children.length; i++) {
-        var child = $(children[i]);
-        var p = child.attr("priority");
+      for (var i = 0; i < parent.children.length; i++) {
+        var child = parent.children[i];
+        var p = child.priority;
         if (!p || p > priority) {
           nextElem = child;
           break;
@@ -42,9 +49,9 @@ define([ "jquery", "message-bus" ], function($, bus) {
     }
 
     if (nextElem) {
-      nextElem.before(elem);
+      parent.insertBefore(elem, nextElem);
     } else {
-      parent.append(elem);
+      parent.appendChild(elem);
     }
   }
 
@@ -56,15 +63,15 @@ define([ "jquery", "message-bus" ], function($, bus) {
       css : "ui-label"
     });
     if (!text) {
-      label.hide();
+      label.style.display = "none";
     }
 
     bus.listen("ui-input:" + id + ":set-label", function(e, labelText) {
       if (labelText) {
-        label.text(labelText);
-        label.show();
+        label.innerHTML = labelText;
+        label.style.display = "block";
       } else {
-        label.hide();
+        label.style.display = "none";
       }
     });
 
@@ -82,7 +89,7 @@ define([ "jquery", "message-bus" ], function($, bus) {
       id : id + "-container",
       parent : parent,
       css : containerCss + " ui-input-container"
-    })[0];
+    });
   }
 
   return {

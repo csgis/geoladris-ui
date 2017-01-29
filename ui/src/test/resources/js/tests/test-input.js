@@ -26,10 +26,13 @@ define([ "geoladris-tests" ], function(tests) {
         parent : parentId
       });
 
-      var container = $("#" + parentId).children();
-      expect(container.length).toBe(1);
-      expect(container.children("#myinput").length).toBe(1);
-      expect(container.children("label").length).toBe(1);
+      var parent = document.getElementById(parentId);
+      expect(parent.children.length).toBe(1);
+      var container = parent.children[0];
+      var input = document.getElementById("myinput"); 
+      expect(input).not.toBe(undefined);
+      expect(input.parentNode).toBe(container);
+      expect(container.getElementsByTagName("label").length).toBe(1);
     });
 
     it("adds label if specified on create", function() {
@@ -40,9 +43,9 @@ define([ "geoladris-tests" ], function(tests) {
         label : text
       });
 
-      var label = input.parent().find("label");
-      expect(label.length).toBe(1);
-      expect(label.text()).toEqual(text);
+      var label = input.parentNode.querySelector("label");
+      expect(label).not.toBe(undefined);
+      expect(label.innerHTML).toEqual(text);
     });
 
     it("sets input type if specified on create", function() {
@@ -51,7 +54,7 @@ define([ "geoladris-tests" ], function(tests) {
         parent : parentId,
         type : "password"
       });
-      expect(input.attr("type")).toBe("password");
+      expect(input.type).toBe("password");
     });
 
     it("fills message on -field-value-fill", function() {
@@ -60,7 +63,7 @@ define([ "geoladris-tests" ], function(tests) {
         id : "myinput",
         parent : parentId
       });
-      input.val(inputText);
+      input.value = inputText;
 
       var message = {};
       bus.send("myinput-field-value-fill", message);
@@ -73,7 +76,7 @@ define([ "geoladris-tests" ], function(tests) {
         type : "number",
         parent : parentId
       });
-      expect(input.attr("step")).toBe("any");
+      expect(input.step).toBe("any");
     });
 
     it("fills values with actual types (number, date,...) instead of strings", function() {
@@ -88,8 +91,8 @@ define([ "geoladris-tests" ], function(tests) {
         parent : parentId
       });
 
-      number.val(57.6);
-      date.val("2016-06-10");
+      number.value = 57.6;
+      date.value = "2016-06-10";
 
       var message = {};
       bus.send("mynumber-field-value-fill", message);
@@ -110,7 +113,7 @@ define([ "geoladris-tests" ], function(tests) {
         placeholder : placeholder
       });
 
-      expect(input.attr("placeholder")).toEqual(placeholder);
+      expect(input.getAttribute("placeholder")).toEqual(placeholder);
     });
 
     it("sends event on enter for autocomplete", function() {
@@ -121,12 +124,12 @@ define([ "geoladris-tests" ], function(tests) {
       });
 
       var changed;
-      input[0].addEventListener("change", function() {
+      input.addEventListener("change", function() {
         changed = true;
       });
-      var e = $.Event("keypress");
+      var e = new Event("keypress");
       e.which = 13;
-      input.trigger(e);
+      input.dispatchEvent(e);
 
       expect(changed).toBe(true);
     });

@@ -1,64 +1,63 @@
-define([ "jquery", "message-bus", "./commons", "./buttons", "./sliding-div" ], function($, bus, commons, uiButtons, uiSliding) {
-  return function(msg) {
+define([ "message-bus", "./commons", "./buttons", "./sliding-div" ], function(bus, commons, uiButtons, uiSliding) {
+  return function(props) {
     // Map id -> image
     var buttons = {};
 
-    var id = msg.id;
-    var containerId = id + "-container";
-    var slidingId = id + "-sliding";
+    var id = props.id;
 
-    var newMsg = $.extend({}, msg, {
-      id : containerId
+    var container = commons.getOrCreateElem("div", {
+      id : id + "-container",
+      parent : props.parent,
+      css : "ui-dropdown-button-container"
     });
-    var container = commons.getOrCreateElem("div", newMsg);
-    container.addClass("ui-dropdown-button-container");
 
-    uiButtons($.extend({}, msg, {
-      css : "ui-dropdown-button-button",
-      parent : containerId
-    }));
+    props.css = (props.css || "") + " ui-dropdown-button-button"
+    props.parent = id + "-container";
+    var button = uiButtons(props);
 
-    uiSliding({
-      id : slidingId,
-      parent : containerId
+    var sliding = uiSliding({
+      id : id + "-sliding",
+      parent : id + "-container"
     });
+
+    function setImage(image) {
+      var iconDiv = button.getElementsByClassName("button-content")[0];
+      iconDiv.style["background-image"] = "url(" + image + ")";
+    }
 
     var selected;
     bus.listen("ui-dropdown-button:" + id + ":add-item", function(e, msg) {
       buttons[msg.id] = msg.image;
 
-      var item = $("<div/>").addClass("ui-dropdown-button-item");
+      var item = commons.getOrCreateElem("div", {
+        id : id + "-" + msg.id,
+        parent : sliding,
+        css : "ui-dropdown-button-item"
+      });
+      item.style["background-image"] = "url('" + msg.image + "')";
+      item.title = msg.tooltip;
 
-      $("#" + slidingId).append(item);
-      item.css("background-image", "url('" + msg.image + "')");
-
-      if (msg.tooltip) {
-        item.attr("title", msg.tooltip);
-      }
-
-      item.click(function() {
+      item.addEventListener("click", function() {
         if (msg.id != selected) {
           selected = msg.id;
-          bus.send("ui-sliding-div:collapse", slidingId);
-          var iconDiv = $(document.getElementById(id)).children(".button-content");
-          iconDiv.css("background-image", "url(" + msg.image + ")");
+          bus.send("ui-sliding-div:collapse", sliding.id);
+          setImage(msg.image);
           bus.send("ui-dropdown-button:" + id + ":item-selected", msg.id);
         } else {
-          bus.send("ui-sliding-div:collapse", slidingId);
+          bus.send("ui-sliding-div:collapse", sliding.id);
         }
       });
     });
 
-    if (msg.dropdownOnClick) {
-      $("#" + id).click(function() {
-        bus.send("ui-sliding-div:toggle", slidingId);
+    if (props.dropdownOnClick) {
+      button.addEventListener("click", function() {
+        bus.send("ui-sliding-div:toggle", sliding.id);
       });
     }
 
     bus.listen("ui-dropdown-button:" + id + ":set-item", function(e, itemId) {
       selected = itemId;
-      var iconDiv = $(document.getElementById(id)).children(".button-content");
-      iconDiv.css("background-image", "url(" + buttons[itemId] + ")");
+      setImage(buttons[itemId]);
     });
 
     return container;
