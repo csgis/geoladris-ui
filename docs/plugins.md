@@ -233,7 +233,8 @@ ui.create("radio", {
 Extra `props`:
 
 * **label** (*String*, optional): Label to show before the choice field.
-* **values** (*Array* of *Object*, optional): Available values for the choice field. Each object must have ``value`` (the field value itself) and ``text`` (the display text for the value).
+* **values** (*Array* of *int*, mandatory): Available values for the slider.
+* **value** (*int*, optional): Initial value for the slider. It must be contained in **values**.
 
 The returned element listens to the `change` and `slide` events. Both return the selected value in `event.detail.value`.
 

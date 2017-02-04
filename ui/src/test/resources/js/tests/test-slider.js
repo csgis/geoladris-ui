@@ -99,5 +99,16 @@ define([ "geoladris-tests" ], function(tests) {
       bus.send("ui-slider:myslider:set-value", 2);
       expect(parseInt(slider.noUiSlider.get())).toBe(2);
     });
+
+    it("sets value on creation if specified", function() {
+      var slider = module({
+        id : "myslider",
+        parent : parentId,
+        values : [ 1, 2, 5 ],
+        value : 2
+      });
+
+      expect(parseInt(slider.noUiSlider.get())).toBe(2);
+    });
   });
 });

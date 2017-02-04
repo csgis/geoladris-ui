@@ -59,6 +59,9 @@ define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUi
     }
 
     addValues(props.values);
+    if (props.value) {
+      slider.noUiSlider.set(props.value);
+    }
 
     if (props.id) {
       bus.listen("ui-slider:" + props.id + ":set-values", function(e, values) {
