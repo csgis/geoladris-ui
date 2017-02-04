@@ -1,5 +1,5 @@
 define([ "geoladris-tests" ], function(tests) {
-  describe("dialog", function() {
+  describe("confirm-dialog", function() {
     var bus;
     var injector;
     var module;

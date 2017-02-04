@@ -26,7 +26,7 @@ define([ "geoladris-tests" ], function(tests) {
       expect(parent.children.length).toBe(1);
       var container = parent.children[0];
       var dialog = document.getElementById("mydialog");
-      expect(dialog).not.toBe(undefined);
+      expect(dialog).not.toBe(null);
       expect(dialog.parentNode).toBe(container);
     });
 

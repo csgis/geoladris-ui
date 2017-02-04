@@ -33,7 +33,7 @@ define([ "geoladris-tests" ], function(tests) {
       expect(label.length).toBe(1);
       expect(label[0].textContent).toBe("Slider: ");
       var slider = document.getElementById("myslider")
-      expect(slider).not.toBe(undefined);
+      expect(slider).not.toBe(null);
       expect(slider.parentNode).toBe(container);
     });
 

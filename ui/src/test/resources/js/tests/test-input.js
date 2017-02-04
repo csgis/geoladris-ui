@@ -30,7 +30,7 @@ define([ "geoladris-tests" ], function(tests) {
       expect(parent.children.length).toBe(1);
       var container = parent.children[0];
       var input = document.getElementById("myinput"); 
-      expect(input).not.toBe(undefined);
+      expect(input).not.toBe(null);
       expect(input.parentNode).toBe(container);
       expect(container.getElementsByTagName("label").length).toBe(1);
     });
@@ -44,7 +44,7 @@ define([ "geoladris-tests" ], function(tests) {
       });
 
       var label = input.parentNode.querySelector("label");
-      expect(label).not.toBe(undefined);
+      expect(label).not.toBe(null);
       expect(label.innerHTML).toEqual(text);
     });
 

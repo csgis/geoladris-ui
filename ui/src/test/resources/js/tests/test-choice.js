@@ -49,7 +49,7 @@ define([ "geoladris-tests" ], function(tests) {
         values : [ "One", "Two", "Three" ]
       });
 
-      expect(c).not.toBe(undefined);
+      expect(c).not.toBe(null);
       expect(c.children.length).toBe(3);
     });
 

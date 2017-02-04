@@ -19,7 +19,7 @@ define([ "geoladris-tests" ], function(tests) {
 
     it("creates a container on init", function() {
       var container = document.getElementById(containerId);
-      expect(container).not.toBe(undefined);
+      expect(container).not.toBe(null);
       expect(container.children.length).toBe(0);
     });
 

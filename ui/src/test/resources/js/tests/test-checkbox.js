@@ -23,7 +23,7 @@ define([ "geoladris-tests" ], function(tests) {
         text : "Item 1"
       });
 
-      expect(input).not.toBe(undefined);
+      expect(input).not.toBe(null);
       expect(input.type).toBe("checkbox");
 
       var container = document.getElementById(parentId).querySelector(".ui-input-container");

@@ -23,7 +23,7 @@ define([ "geoladris-tests" ], function(tests) {
         parent : parentId
       });
 
-      expect(input).not.toBe(undefined);
+      expect(input).not.toBe(null);
       expect(input.type).toEqual("radio");
       expect(input.name).toEqual(parentId);
       expect(input.id).toEqual("myitem");

@@ -47,7 +47,7 @@ define([ "geoladris-tests" ], function(tests) {
       var header = document.getElementById("mygroup-header");
       expect(container.children.length).toBe(2);
       expect(header.parentNode).toBe(container);
-      expect(header).not.toBe(undefined);
+      expect(header).not.toBe(null);
       expect(header.className.indexOf("accordion-header")).toBeGreaterThan(-1);
       expect(header.querySelector("p").className.indexOf("accordion-header-text")).toBeGreaterThan(-1);
       expect(header.textContent).toBe(title);
@@ -59,7 +59,7 @@ define([ "geoladris-tests" ], function(tests) {
       var container = document.getElementById(parentId).children[0];
       expect(container.children.length).toBe(2);
       var content = document.getElementById("mygroup"); 
-      expect(content).not.toBe(undefined);
+      expect(content).not.toBe(null);
       expect(content.parentNode).toBe(container);
     });
 

@@ -19,7 +19,7 @@ define([ "geoladris-tests" ], function(tests) {
     it("adds a hidden loading div on init", function() {
       // This comes from the ui-loading.js code
       var div = document.getElementById("loading-shade");
-      expect(div).not.toBe(undefined);
+      expect(div).not.toBe(null);
       expect(div.style["display"]).toEqual("none");
     });
 
