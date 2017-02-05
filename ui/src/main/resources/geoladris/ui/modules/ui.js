@@ -89,7 +89,7 @@ slider, slidingDiv, table, textArea, Sortable) {
       case "sliding-div":
         e = slidingDiv(props);
         break;
-      case "table":
+      case "table-ext":
         e = table(props);
         break;
       case "text-area":

@@ -277,7 +277,9 @@ ui.create("sliding-div", {
 });
 ```
 
-#### <a name="ui-table"></a>table
+#### <a name="ui-table"></a>table-ext
+
+A table with very specific functionality. It has the `-ext` suffix so it is possible to create a standard `<table>` tag without this functionality.
 
 Extra `props`:
 
