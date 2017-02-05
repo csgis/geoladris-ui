@@ -235,6 +235,7 @@ Extra `props`:
 * **label** (*String*, optional): Label to show before the choice field.
 * **values** (*Array* of *int*, mandatory): Available values for the slider.
 * **value** (*int*, optional): Initial value for the slider. It must be contained in **values**.
+* **snap** (*boolean*, optional): Snap to **values** or not. Default is `false`.
 
 The returned element listens to the `change` and `slide` events. Both return the selected value in `event.detail.value`.
 
@@ -245,7 +246,9 @@ var slider = ui.create("slider", {
     parent : "mydialog",
     css : "slider",
     label : "Number: ",
-    values : [ 1, 2, 3 ]
+    values : [ 1, 2, 3 ],
+    value : 2,
+    snap : true
 });
 
 slider.addEventListener("change", function(event) {

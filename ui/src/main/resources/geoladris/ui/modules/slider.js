@@ -16,7 +16,7 @@ define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUi
       }));
     }
 
-    function addValues(values) {
+    function addValues(values, snap) {
       if (!values || values.constructor !== Array) {
         return;
       }
@@ -46,7 +46,7 @@ define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUi
         noUiSlider.create(slider, {
           start : values[0],
           range : range,
-          snap : true
+          snap : snap
         });
       }
 
@@ -58,7 +58,7 @@ define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUi
       });
     }
 
-    addValues(props.values);
+    addValues(props.values, props.snap);
     if (props.value) {
       slider.noUiSlider.set(props.value);
     }

@@ -110,5 +110,26 @@ define([ "geoladris-tests" ], function(tests) {
 
       expect(parseInt(slider.noUiSlider.get())).toBe(2);
     });
+
+    it("uses snap if specified", function() {
+      var slider = module({
+        id : "myslider",
+        parent : parentId,
+        values : [ 1, 2, 5 ],
+        snap : true
+      });
+
+      expect(slider.noUiSlider.options.snap).toBe(true);
+    });
+
+    it("does not use snap by default", function() {
+      var slider = module({
+        id : "myslider",
+        parent : parentId,
+        values : [ 1, 2, 5 ]
+      });
+
+      expect(slider.noUiSlider.options.snap).toBe(undefined);
+    });
   });
 });
