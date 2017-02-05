@@ -92,10 +92,22 @@ define([ "message-bus" ], function(bus) {
     });
   }
 
+  function linkDisplay(e1, e2) {
+    var observer = new MutationObserver(function(mutations) {
+      e2.style.display = e1.style.display;
+    });
+
+    observer.observe(e1, {
+      attributes : true,
+      attributeFilter : [ 'style' ]
+    });
+  }
+
   return {
     getOrCreateElem : getOrCreateElem,
     append : append,
     createLabel : createLabel,
-    createContainer : createContainer
+    createContainer : createContainer,
+    linkDisplay : linkDisplay
   };
 });
