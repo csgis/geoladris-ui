@@ -4,7 +4,7 @@ define([ "message-bus", "./commons" ], function(bus, commons) {
     if (props.tooltip) {
       button.title = props.tooltip;
     }
-    button.className += " button-enabled";
+    button.classList.add("button-enabled");
 
     var iconDiv = commons.getOrCreateElem("div", {
       parent : button,
@@ -18,13 +18,13 @@ define([ "message-bus", "./commons" ], function(bus, commons) {
 
     if (props.clickEventName) {
       button.addEventListener("click", function() {
-        if (button.className.indexOf("button-enabled") >= 0) {
+        if (button.classList.contains("button-enabled")) {
           bus.send(props.clickEventName, props.clickEventMessage);
         }
       });
     } else if (props.clickEventCallback) {
       button.addEventListener("click", function() {
-        if (button.className.indexOf("button-enabled") >= 0) {
+        if (button.classList.contains("button-enabled")) {
           props.clickEventCallback(button);
         }
       });
@@ -32,25 +32,27 @@ define([ "message-bus", "./commons" ], function(bus, commons) {
 
     function enable(enabled) {
       if (enabled !== undefined && !enabled) {
-        button.className = button.className.replace("button-enabled", "button-disabled");
+        button.classList.remove("button-enabled");
+        button.classList.add("button-disabled");
       } else {
-        button.className = button.className.replace("button-disabled", "button-enabled");
+        button.classList.add("button-enabled");
+        button.classList.remove("button-disabled");
       }
     }
 
     function activate(active) {
       if (active !== undefined && !active) {
-        button.className = button.className.replace("button-active", "");
+        button.classList.remove("button-active");
       } else {
-        button.className += " button-active";
+        button.classList.add("button-active");
       }
     }
 
     function toggle() {
-      if (button.className.indexOf("button-active") >= 0) {
-        button.className = button.className.replace("button-active", "");
+      if (button.classList.contains("button-active")) {
+        button.classList.remove("button-active");
       } else {
-        button.className += " button-active";
+        button.classList.add("button-active");
       }
     }
 

@@ -48,8 +48,8 @@ define([ "geoladris-tests" ], function(tests) {
       expect(container.children.length).toBe(2);
       expect(header.parentNode).toBe(container);
       expect(header).not.toBe(null);
-      expect(header.className.indexOf("accordion-header")).toBeGreaterThan(-1);
-      expect(header.querySelector("p").className.indexOf("accordion-header-text")).toBeGreaterThan(-1);
+      expect(header.classList.contains("accordion-header")).toBe(true);
+      expect(header.querySelector("p").classList.contains("accordion-header-text")).toBe(true);
       expect(header.textContent).toBe(title);
     });
 

@@ -19,7 +19,7 @@ define([ "message-bus", "./commons" ], function(bus, commons) {
     });
 
     if (props.modal) {
-      container.className += " dialog-modal";
+      container.classList.add("dialog-modal");
     }
 
     var div = commons.getOrCreateElem("div", {

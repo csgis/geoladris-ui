@@ -148,7 +148,6 @@ define([ "geoladris-tests" ], function(tests) {
     });
 
     it("changes css on deactivate/activate events", function() {
-      var disableEvent = "disable-button";
       var button = buttons({
         id : "mybutton",
         parent : parentId
@@ -162,7 +161,6 @@ define([ "geoladris-tests" ], function(tests) {
     });
 
     it("changes css on toggle events", function() {
-      var disableEvent = "disable-button";
       var button = buttons({
         id : "mybutton",
         parent : parentId
@@ -173,6 +171,21 @@ define([ "geoladris-tests" ], function(tests) {
       expect(button.className).toMatch("button-active");
       bus.send("ui-button:mybutton:toggle");
       expect(button.className).not.toMatch("button-active");
+    });
+
+    it("does not add css classes more than once", function() {
+      var button = buttons({
+        id : "mybutton",
+        parent : parentId
+      });
+
+      expect(button.className).toBe("button-enabled");
+      bus.send("ui-button:mybutton:activate");
+      bus.send("ui-button:mybutton:activate");
+      expect(button.className).toBe("button-enabled button-active");
+      bus.send("ui-button:mybutton:enable");
+      bus.send("ui-button:mybutton:enable");
+      expect(button.className).toBe("button-enabled button-active");
     });
   });
 });

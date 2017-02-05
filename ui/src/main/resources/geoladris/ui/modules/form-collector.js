@@ -51,7 +51,7 @@ define([ "message-bus" ], function(bus) {
 
     var button = document.getElementById(msg.button);
     button.addEventListener("click", function() {
-      if (button.className.indexOf("button-enabled") < 0) {
+      if (!button.classList.contains("button-enabled")) {
         return;
       }
 

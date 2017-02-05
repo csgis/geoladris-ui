@@ -39,7 +39,7 @@ define([ "geoladris-tests" ], function(tests) {
       var label = commons.createLabel("mynumber", parentId, "Field: ");
 
       expect(label.id).toBe("mynumber-label")
-      expect(label.className.indexOf("ui-label")).toBeGreaterThan(-1);
+      expect(label.classList.contains("ui-label")).toBe(true);
     });
 
     it("changes the label text on set-label", function() {

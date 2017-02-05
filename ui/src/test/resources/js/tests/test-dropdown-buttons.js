@@ -19,7 +19,8 @@ define([ "geoladris-tests" ], function(tests) {
           button.id = msg.id;
           document.getElementById(parentId).appendChild(button);
           var content = document.createElement("div");
-          content.className = "button-content", button.appendChild(content);
+          content.className = "button-content";
+          button.appendChild(content);
           return button;
         },
         sliding : function(msg) {
