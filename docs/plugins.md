@@ -36,14 +36,20 @@ Extra `props`:
 * **title** (*String*, mandatory): Text to show in the group header.
 * **visible** (*boolean*): Determines wether the content should be visible or not; this is, wether the accordion group should be collapsed or not. Default is *false*.
 
+Returns an object with two DOM elements:
+* **header**
+* **content**
+
 Example:
 ```js
-ui.create("accordion-group", {
+var accordionGroup = ui.create("accordion-group", {
     id : "layers",
     parent : "parent",
     title : "My Layers",
     visible : true
 });
+accordionGroup.header.style.color = "white";
+accordionGroup.content.style.color = "black";
 ```
 
 #### <a name="ui-button"></a>button
@@ -56,6 +62,8 @@ Extra `props`:
 * **clickEventName** (*String*, optional): Name of the event to send when the button is clicked.
 * **clickEventMessage** (*any*, optional): The message to send when the button is clicked. It is ignored if *clickEventName* is not specified.
 * **clickEventCallback** (*function*, optional): The callback to call when the button is clicked. It is ignored if *clickEventName* is also specified.
+
+Returns the button (DOM element).
 
 Example:
 ```js
@@ -76,6 +84,8 @@ Extra `props`:
 
 * **label** (*String*, mandatory): Text to show for the new item.
 
+Returns the input (DOM element).
+
 Example:
 ```js
 ui.create("checkbox", {
@@ -92,6 +102,8 @@ Extra `props`:
 
 * **label** (*String*, optional): Label to show before the choice field.
 * **values** (*Array* of *string* or *Object*, optional): Available values for the choice field. If objects are provided, each object must have ``value`` (the field value itself) and ``text`` (the display text for the value); if strings are provided, each string is used for both value and text.
+
+Returns the input (DOM element).
 
 Example:
 ```js
@@ -124,6 +136,8 @@ Extra `props`:
     * **no**: Text for the *cancel* button.
 * Any other property that can be accepted by [dialog](#ui-dialog).
 
+Returns the dialog (DOM element).
+
 Example:
 ```js
 ui.create("confirm-dialog", {
@@ -144,6 +158,8 @@ Extra `props`:
 * **modal** (*boolean*): Determines if the dialog is modal or not.
 * **visible** (*boolean*): Determines wether the dialog should be shown when created or not.
 
+Returns the dialog (DOM element).
+
 Example:
 ```js
 ui.create("dialog", {
@@ -159,6 +175,8 @@ ui.create("dialog", {
 
 In this case `props` must be an array of div identifiers. These divs will be mutually exclusive; if a div is shown all the others will be hidden. This event does **not** create the divs.
 
+Returns `undefined`.
+
 Example:
 ```js
 ui.create("divstack", ["mydiv", "mydiv2", "mydiv3"]);
@@ -167,6 +185,8 @@ ui.create("divstack", ["mydiv", "mydiv2", "mydiv3"]);
 #### <a name="ui-dropdown-button"></a>dropdown-button
 
 Same extra `props` as `button`s. Useful for `ui-dropdown-buttons:<id>:*` events.
+
+Returns the button (DOM element).
 
 Example:
 ```js
@@ -194,6 +214,8 @@ The following properties are only available if `options` have been specified (or
 * **maxResults** (*int*, optional): Maximum number of results to be shown on the autocomplete control. If 0 or less is specified, all results will be shown. Default is 0.
 * **showOnFocus** (*boolean*): Determines wether the autocomplete options will be shown when the control gains focus or not. Note that if the current text is shorter than *minQueryLength*, options won't be shown even if this option is *true*.
 
+Returns the input (DOM element).
+
 Example:
 ```js
 ui.create("input", {
@@ -218,6 +240,8 @@ Extra `props`:
 
 * **label** (*String*, mandatory): Text to show for the new item.
 
+Returns the input (DOM element).
+
 Example:
 ```js
 ui.create("radio", {
@@ -237,7 +261,7 @@ Extra `props`:
 * **value** (*int*, optional): Initial value for the slider. It must be contained in **values**.
 * **snap** (*boolean*, optional): Snap to **values** or not. Default is `false`.
 
-The returned element listens to the `change` and `slide` events. Both return the selected value in `event.detail.value`.
+Returns the slider (DOM element). It listens to the `change` and `slide` events. Both return the selected value in `event.detail.value`.
 
 Example:
 ```js
@@ -268,6 +292,8 @@ Extra `props`:
 * **handlePosition** (*String*, optional): Position for the handle that expands/collapses the div. Available options are ``left``, ``right``, ``top``, ``bottom``, ``top-left``, ``bottom-left``, ``top-right``, ``bottom-right``. Default is ``bottom``.
 * **visible** (*boolean*, optional): Determines whether to show or hide the div when created. Default is ``false``.
 
+Returns the sliding div (DOM element).
+
 Example:
 ```js
 ui.create("sliding-div", {
@@ -294,6 +320,8 @@ Extra `props`:
 
   * **info**: Specifies which page and/or rows are being shown among the total. It's possible to use the following placeholders: ``_PAGE_``, ``_PAGES_``, ``_START_``, ``_END_``, ``_TOTAL_``.
 
+Returns the table (DOM element).
+
 Example:
 ```js
 ui.create("table", {
@@ -313,6 +341,8 @@ Extra `props`:
 * **label** (*String*, optional): Label to show before the text area field.
 * **rows** (*int*, optional): Number of rows for the text area.
 * **cols** (*int*, optional): Number of columns for the text area.
+
+Returns the textarea (DOM element).
 
 Example:
 ```js

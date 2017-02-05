@@ -56,6 +56,9 @@ define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
       visibility(props.id, msg.content);
     });
 
-    return container;
+    return {
+      header : header,
+      content : content
+    };
   };
 });
