@@ -17,14 +17,16 @@ define([ "message-bus", "./commons" ], function(bus, commons) {
     }
 
     if (props.clickEventName) {
-      button.addEventListener("click", function() {
+      button.addEventListener("click", function(e) {
         if (button.classList.contains("button-enabled")) {
+          e.stopPropagation();
           bus.send(props.clickEventName, props.clickEventMessage);
         }
       });
     } else if (props.clickEventCallback) {
-      button.addEventListener("click", function() {
+      button.addEventListener("click", function(e) {
         if (button.classList.contains("button-enabled")) {
+          e.stopPropagation();
           props.clickEventCallback(button);
         }
       });
