@@ -1,0 +1,8 @@
+.ui-input-container, .ui-text-area-field-container {
+	display: flex;
+	align-items: center;
+}
+
+.ui-input-container>select, .ui-slider-input {
+	width: 100%;
+}

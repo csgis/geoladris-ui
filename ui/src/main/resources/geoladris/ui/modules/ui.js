@@ -1,48 +1,144 @@
 define([ "jquery", "message-bus", "module", //
-"./ui-selectable-list", "./ui-exclusive-list", "./ui-accordion", //
-"./ui-html", "./ui-dialog", "./ui-search", "./ui-buttons", "./ui-sliding-div", //
-"./ui-choice-field", "./ui-input-field", "./ui-text-area-field", //
-"./ui-form-collector", "./ui-divstack", "./ui-slider", "./ui-autocomplete", "./ui-alerts", //
-"./ui-loading", "./ui-dropdown-buttons", "./ui-table" ], function($, bus, module) {
-	bus.listen("ui-show", function(e, id) {
-		$("#" + id).show();
-	});
+"./accordion-group", "./alerts", "./buttons", "./checkbox", "./choice", //
+"./commons", "./confirm-dialog", "./dialog", "./divstack", // 
+"./dropdown-buttons", "./form-collector", "./input", "./loading", "./radio", // 
+"./slider", "./sliding-div", "./table", "./text-area", "sortable", "tipsy" ],// 
+function($, bus, module, //
+accordionGroup, alerts, buttons, checkbox, choice, //
+commons, confirmDialog, dialog, divstack,//
+dropdownButtons, formCollector, input, loading, radio, //
+slider, slidingDiv, table, textArea, Sortable) {
+  var TOOLTIP_ATTR = "geoladris-ui-tooltip";
+  var TOOLTIP_GRAVITIES = {
+    "left" : "e",
+    "right" : "w",
+    "top" : "s",
+    "bottom" : "n",
+    "top-left" : "se",
+    "top-right" : "sw",
+    "bottom-left" : "ne",
+    "bottom-right" : "nw"
+  };
 
-	bus.listen("ui-hide", function(e, id) {
-		$("#" + id).hide();
-	});
+  bus.listen("ui-show", function(e, id) {
+    document.getElementById(id).style.display = "";
+  });
 
-	bus.listen("ui-toggle", function(e, id) {
-		$("#" + id).toggle();
-	});
+  bus.listen("ui-hide", function(e, id) {
+    document.getElementById(id).style.display = "none";
+  });
 
-	bus.listen("ui-set-content", function(e, msg) {
-		$("#" + msg.div).html(msg.content);
-	});
+  bus.listen("ui-toggle", function(e, id) {
+    var e = document.getElementById(id);
+    e.style.display = e.style.display == "none" ? "" : "none";
+  });
 
-	bus.listen("ui-open-url", function(e, msg) {
-		window.open(msg.url, msg.target);
-	});
+  bus.listen("ui-open-url", function(e, msg) {
+    window.open(msg.url, msg.target);
+  });
 
-	bus.listen("ui-add-class", function(e, msg) {
-		$("#" + msg.div).addClass(msg.cssClass);
-	});
-	bus.listen("ui-remove-class", function(e, msg) {
-		$("#" + msg.div).removeClass(msg.cssClass);
-	});
+  bus.listen("modules-loaded", function() {
+    bus.send("ui-loaded");
+  });
 
-	bus.listen("ui-css", function(e, msg) {
-		$("#" + msg.div).css(msg.key, msg.value);
-	});
+  return {
+    create : function(type, props) {
+      // Do not create if already exists
+      var e = document.getElementById(props.id);
+      if (e) {
+        return e;
+      }
 
-	// Initialization
-	var config = module.config();
-	bus.listen("modules-loaded", function() {
-		for (var i = 0; i < config.length; i++) {
-			var controlInfo = config[i];
-			bus.send(controlInfo["eventName"], controlInfo);
-		}
+      switch (type) {
+      case "accordion-group":
+        e = accordionGroup(props);
+        break;
+      case "autocomplete":
+        e = autocomplete(props);
+        break;
+      case "button":
+        e = buttons(props);
+        break;
+      case "checkbox":
+        e = checkbox(props);
+        break;
+      case "choice":
+        e = choice(props);
+        break;
+      case "confirm-dialog":
+        e = confirmDialog(props);
+        break;
+      case "dialog":
+        e = dialog(props);
+        break;
+      case "divstack":
+        e = divstack(props);
+        break;
+      case "dropdown-button":
+        e = dropdownButtons(props);
+        break;
+      case "input":
+        e = input(props);
+        break;
+      case "radio":
+        e = radio(props);
+        break;
+      case "slider":
+        e = slider(props);
+        break;
+      case "sliding-div":
+        e = slidingDiv(props);
+        break;
+      case "table-ext":
+        e = table(props);
+        break;
+      case "text-area":
+        e = textArea(props);
+        break;
+      default:
+        e = commons.getOrCreateElem(type, props);
+        break;
+      }
 
-		bus.send("ui-loaded");
-	});
+      if (e) {
+        bus.send("ui:created", e);
+      }
+      return e;
+    },
+    tooltip : function(elem, props) {
+      if (typeof elem == "string") {
+        elem = document.getElementById(elem);
+      }
+
+      elem.setAttribute(TOOLTIP_ATTR, props.text);
+      var jelem = $(elem);
+      jelem.tipsy({
+        trigger : "manual",
+        title : TOOLTIP_ATTR,
+        html : true,
+        opacity : 1,
+        gravity : TOOLTIP_GRAVITIES[props.location] || $.fn.tipsy.autoNS
+      });
+      jelem.tipsy("show");
+
+      return jelem.data("tipsy").$tip[0];
+    },
+    sortable : function(elem) {
+      if (typeof elem == "string") {
+        elem = document.getElementById(elem);
+      }
+
+      Sortable.create(elem, {
+        onSort : function(e) {
+          elem.dispatchEvent(new CustomEvent("change", {
+            detail : {
+              item : e.item,
+              newIndex : e.newIndex,
+              oldIndex : e.oldIndex
+            }
+          }));
+        }
+      });
+    }
+  }
 });
