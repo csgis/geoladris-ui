@@ -129,10 +129,14 @@ slider, slidingDiv, table, textArea, Sortable) {
       }
 
       Sortable.create(elem, {
-        onSort : function() {
-          var event = document.createEvent('Event');
-          event.initEvent('change', true, true);
-          elem.dispatchEvent(event);
+        onSort : function(e) {
+          elem.dispatchEvent(new CustomEvent("change", {
+            detail : {
+              item : e.item,
+              newIndex : e.newIndex,
+              oldIndex : e.oldIndex
+            }
+          }));
         }
       });
     }
