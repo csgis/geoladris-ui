@@ -49,7 +49,7 @@ define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
       });
     });
 
-    content.style.display = props.visible ? "block" : "none";
+    content.style.display = props.visible ? "" : "none";
 
     bus.listen("ui-accordion-group:" + props.id + ":visibility", function(e, msg) {
       visibility(props.id + "-header", msg.header);

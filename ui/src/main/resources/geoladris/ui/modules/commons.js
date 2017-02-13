@@ -69,7 +69,7 @@ define([ "message-bus" ], function(bus) {
     bus.listen("ui-input:" + id + ":set-label", function(e, labelText) {
       if (labelText) {
         label.innerHTML = labelText;
-        label.style.display = "block";
+        label.style.display = "";
       } else {
         label.style.display = "none";
       }

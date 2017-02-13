@@ -64,8 +64,8 @@ define([ "geoladris-tests" ], function(tests) {
     });
 
     it("shows content if visible property on add-group", function() {
-      initGroup();
-      expect(content().style["visibility"]).not.toBe("hidden");
+      initGroup(true);
+      expect(content().style.display).not.toBe("none");
     });
 
     it("ignores undefined properties on visibility", function() {

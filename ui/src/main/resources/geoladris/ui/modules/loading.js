@@ -39,7 +39,7 @@ define([ "message-bus", "module", "./commons" ], function(bus, module, commons) 
     }
 
     updateMessage();
-    loadingShade.style.display = "block";
+    loadingShade.style.display = "";
     loadingMsg.style["width"] = loadingMsg.offsetWidth + "px";
 
     if (!intervalId) {
