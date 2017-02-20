@@ -3,6 +3,7 @@ define([ "geoladris-tests" ], function(tests) {
     var bus;
     var injector;
     var module;
+    var commons;
     var parentId = "myparent";
 
     beforeEach(function(done) {
@@ -13,7 +14,10 @@ define([ "geoladris-tests" ], function(tests) {
       });
       bus = initialization.bus;
       injector = initialization.injector;
-      injector.require([ "input" ], function(m) {
+      injector.require([ "commons", "input" ], function(c, m) {
+        commons = c;
+        spyOn(commons, "linkDisplay").and.callThrough();
+
         module = m;
         done();
       });
@@ -29,7 +33,7 @@ define([ "geoladris-tests" ], function(tests) {
       var parent = document.getElementById(parentId);
       expect(parent.children.length).toBe(1);
       var container = parent.children[0];
-      var input = document.getElementById("myinput"); 
+      var input = document.getElementById("myinput");
       expect(input).not.toBe(null);
       expect(input.parentNode).toBe(container);
       expect(container.getElementsByTagName("label").length).toBe(1);
@@ -132,6 +136,19 @@ define([ "geoladris-tests" ], function(tests) {
       input.dispatchEvent(e);
 
       expect(changed).toBe(true);
+    });
+
+    it("links container visibility", function() {
+      var input = module({
+        id : "myinput",
+        parent : parentId,
+        options : [ "a", "b", "c" ]
+      });
+
+      expect(commons.linkDisplay).toHaveBeenCalled();
+      var args = commons.linkDisplay.calls.mostRecent().args;
+      expect(args[0].id).toBe(input.id);
+      expect(args[1].id).toBe(input.id + "-container");
     });
   });
 });

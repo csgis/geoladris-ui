@@ -3,6 +3,7 @@ define([ "geoladris-tests" ], function(tests) {
     var bus;
     var injector;
     var module;
+    var slider;
     var parentId = "myparent";
 
     beforeEach(function(done) {
@@ -11,7 +12,10 @@ define([ "geoladris-tests" ], function(tests) {
       });
       bus = initialization.bus;
       injector = initialization.injector;
-      injector.require([ "slider" ], function(m) {
+      injector.require([ "commons", "slider" ], function(c, m) {
+        commons = c;
+        spyOn(commons, "linkDisplay").and.callThrough();
+
         module = m;
         done();
       });
@@ -130,6 +134,19 @@ define([ "geoladris-tests" ], function(tests) {
       });
 
       expect(slider.noUiSlider.options.snap).toBe(undefined);
+    });
+
+    it("links container visibility", function() {
+      var slider = module({
+        id : "myslider",
+        parent : parentId,
+        values : [ 1, 2, 5 ]
+      });
+
+      expect(commons.linkDisplay).toHaveBeenCalled();
+      var args = commons.linkDisplay.calls.mostRecent().args;
+      expect(args[0].id).toBe(slider.id);
+      expect(args[1].id).toBe(slider.id + "-container");
     });
   });
 });

@@ -8,6 +8,8 @@ define([ "message-bus", "./commons" ], function(bus, commons) {
       css : (props.css || "") + " ui-choice"
     });
 
+    commons.linkDisplay(input, container);
+
     function addValues(values) {
       if (!values) {
         return;

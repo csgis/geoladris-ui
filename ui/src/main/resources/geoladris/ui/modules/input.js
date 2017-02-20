@@ -7,6 +7,9 @@ define([ "jquery", "message-bus", "./commons", "pikaday", "typeahead" ], functio
       parent : container,
       css : (props.css || "") + " ui-choice"
     });
+
+    commons.linkDisplay(input, container);
+
     input.type = props.type || "text";
     if (props.placeholder) {
       input.placeholder = props.placeholder;

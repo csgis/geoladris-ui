@@ -2,6 +2,7 @@ define([ "geoladris-tests" ], function(tests) {
   var bus;
   var injector;
   var choice;
+  var commons;
 
   describe("choice", function() {
     var parentId = "myparent";
@@ -10,7 +11,10 @@ define([ "geoladris-tests" ], function(tests) {
       var initialization = tests.init("ui", {});
       bus = initialization.bus;
       injector = initialization.injector;
-      injector.require([ "choice" ], function(module) {
+      injector.require([ "commons", "choice" ], function(c, module) {
+        commons = c;
+        spyOn(commons, "linkDisplay").and.callThrough();
+
         choice = module;
         done();
       });
@@ -84,6 +88,19 @@ define([ "geoladris-tests" ], function(tests) {
       expect(c.options[0].innerHTML).toBe(" One ");
       expect(c.options[1].value).toBe("2");
       expect(c.options[1].innerHTML).toBe(" Two ");
+    });
+
+    it("links container visibility", function() {
+      var c = choice({
+        id : "mychoice",
+        parent : parentId,
+        values : [ "One", "Two", "Three" ]
+      });
+
+      expect(commons.linkDisplay).toHaveBeenCalled();
+      var args = commons.linkDisplay.calls.mostRecent().args;
+      expect(args[0].id).toBe(c.id);
+      expect(args[1].id).toBe(c.id + "-container");
     });
   });
 });

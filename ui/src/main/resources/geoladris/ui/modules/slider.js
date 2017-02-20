@@ -8,6 +8,8 @@ define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUi
       css : "ui-slider-input " + (props.css || "")
     });
 
+    commons.linkDisplay(slider, container);
+
     function dispatch(name) {
       slider.dispatchEvent(new CustomEvent(name, {
         detail : {

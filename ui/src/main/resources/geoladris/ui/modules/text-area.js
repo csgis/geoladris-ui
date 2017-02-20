@@ -11,6 +11,8 @@ define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
     input.cols = props.cols;
     input.rows = props.rows;
 
+    commons.linkDisplay(input, container);
+
     bus.listen(props.id + "-field-value-fill", function(e, message) {
       message[props.id] = input.value;
     });

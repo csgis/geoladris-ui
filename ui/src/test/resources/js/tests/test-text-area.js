@@ -2,6 +2,7 @@ define([ "geoladris-tests" ], function(tests) {
   var bus;
   var injector;
   var textArea;
+  var commons;
 
   describe("text-area", function() {
     var parentId = "myparent";
@@ -10,7 +11,10 @@ define([ "geoladris-tests" ], function(tests) {
       var initialization = tests.init("ui", {});
       bus = initialization.bus;
       injector = initialization.injector;
-      injector.require([ "text-area" ], function(module) {
+      injector.require([ "commons", "text-area" ], function(c, module) {
+        commons = c;
+        spyOn(commons, "linkDisplay").and.callThrough();
+
         textArea = module;
         done();
       });
@@ -59,6 +63,19 @@ define([ "geoladris-tests" ], function(tests) {
       var message = {};
       bus.send("myarea-field-value-fill", message);
       expect(message["myarea"]).toEqual(content);
+    });
+
+    it("links container visibility", function() {
+      var area = textArea({
+        id : "myarea",
+        parent : parentId,
+        label : "Text: "
+      });
+
+      expect(commons.linkDisplay).toHaveBeenCalled();
+      var args = commons.linkDisplay.calls.mostRecent().args;
+      expect(args[0].id).toBe(area.id);
+      expect(args[1].id).toBe(area.id + "-container");
     });
   });
 });

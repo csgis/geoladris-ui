@@ -8,6 +8,8 @@ define([ "message-bus", "./commons" ], function(bus, commons) {
     });
     input.type = "checkbox";
 
+    commons.linkDisplay(input, container);
+
     var label = commons.createLabel(props.id, container, props.label);
     label.addEventListener("click", function(event) {
       input.click();

@@ -8,6 +8,8 @@ define([ "message-bus", "./commons" ], function(bus, commons) {
       css : (props.css || "") + " ui-radio"
     });
 
+    commons.linkDisplay(input, container);
+
     if (props.parent) {
       var name;
       if (typeof props.parent != "string") {
