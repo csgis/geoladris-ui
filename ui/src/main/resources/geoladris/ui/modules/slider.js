@@ -46,6 +46,7 @@ define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUi
         });
       } else {
         noUiSlider.create(slider, {
+          animate : false,
           start : values[0],
           range : range,
           snap : snap
