@@ -17,7 +17,7 @@ UI creation is managed with a single function instead of a set of events. The fu
 * **props** (*Object*, mandatory): Properties to create the element. The following properties are available for all element types (except when specified); special element types have special properties (see below):
 
   * **id** (*String*, mandatory): `id` attribute for the created element.
-  * **parent** (*String*, mandatory): `id` attribute of the parent element where the new element should be added.
+  * **parent** (*String* or *DOM Element*, mandatory): parent element (`id` attribute or DOM element) where the new element should be added.
   * **css** (*String*, optional): CSS class(es) to apply to the new element.
   * **html** (*String*, optional): HTML (inner) content to set for the new element.
   * **priority** (*int*, optional): Element's priority. If priority is specified, the button will be added at the corresponding index to the parent div, depending on the priorities of the other elements. If priority is not specified, the button will be added at the end.
