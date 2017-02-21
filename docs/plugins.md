@@ -202,17 +202,21 @@ ui.create("dropdown-button", {
 Extra `props`:
 
 * **label** (*String*, optional): Label to show before the input field.
-* **type** (*String*, optional): Type of input. It must be one of the values supported by the `<input>` tag for the *type* attribute. Default is *text*.
-* **options** (*Array* of *String*, mandatory): Available options for the input. Used only if `type` is `text`.
+* **type** (*String*, optional): Type of input. It must be one of the values supported by the `<input>` tag for the `type` attribute. Default is `text`.
+* **placeholder** (*String*, optional): Placeholder to show in the input.
+* **autocomplete** (*Function*): Enables autocompletion. Used only if `type` is `text`.
 
-The following properties are only available if `options` have been specified (or have been set afterwards using the [set-values](#ui-input-set-values) event):
+  Receives:
+  * **query** (*String*): Current value of the input to autocomplete.
 
-* **placeholder** (*String*, optional): Placeholder to show in the autocomplete control.
-* **hint** (*boolean*): Determines if the autocomplete control should show a hint (greyed autocompleted value) or not.
-* **minQueryLength** (*int*, optional): Minimum number of characters that have to be written before the autocomplete options appear. If it's 0, options appear whenever the autocomplete control is focused. Default value is 0.
-* **searchMode** (*String*, optional): One of ``startsWith`` or ``contains``. Determines the type of filtering to be used by the control. Default is ``startsWith``.
-* **maxResults** (*int*, optional): Maximum number of results to be shown on the autocomplete control. If 0 or less is specified, all results will be shown. Default is 0.
-* **showOnFocus** (*boolean*): Determines wether the autocomplete options will be shown when the control gains focus or not. Note that if the current text is shorter than *minQueryLength*, options won't be shown even if this option is *true*.
+  Returns an *Array* of *Object*. Each object has:
+  * **value** (*String*, mandatory): Text to show in the autocomplete suggestion.
+  * **type** (*String*, optional): CSS class to set in the element containing the suggestion, to style it differently.
+
+The following properties are only available if `options` have been specified:
+
+* **minQueryLength** (*int*, optional): Minimum number of characters that have to be written before the autocomplete options appear. Default value is 0.
+* **showOnFocus** (*boolean*): Determines whether the autocomplete options will be shown when the control gains focus or not. Note that if the current text is shorter than *minQueryLength*, options won't be shown even if this option is `true`.
 
 Returns the input (DOM element).
 
@@ -224,12 +228,13 @@ ui.create("input", {
     css : "login-field",
     label : "User: ",
     type : "text"
-    options : [ "User 1", "User 2", "User 3" ],
     placeholder : "Enter your user",
-    hint : true,
+    autocomplete : function(query) {
+      return [ "User 1", "User 2", "User 3" ].filter(function(u) {
+        return u.startsWith(query);
+      });
+    },
     minQueryLength : 3,
-    searchMode : "startsWith",
-    maxResults : 5,
     showOnFocus : true
 });
 ```

@@ -230,17 +230,6 @@ Example:
 bus.send("ui-input:mychoice:set-label", "Choice: ");
 ```
 
-###<a name="ui-input-set-values"></a>ui-input:`<id>`:set-values
-
-`<id>` matches the *id* specified when creating the [input](plugins.md#ui-input).
-
-Message (*Array* of *String*): Values to set for autocompletion.
-
-Example:
-```js
-bus.send("ui-input:myautocomplete:set-values", [ [ "1", "2", "3" ] ]);
-```
-
 ### ui-slider:`<id>`:set-value
 
 `<id>` matches the *id* specified when creating the [slider](plugins.md#ui-slider).

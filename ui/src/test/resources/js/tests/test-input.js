@@ -124,7 +124,16 @@ define([ "geoladris-tests" ], function(tests) {
       var input = module({
         id : "myinput",
         parent : parentId,
-        options : [ "a", "b", "c" ]
+        showOnFocus : true,
+        autocomplete : function() {
+          return [ {
+            value : "a"
+          }, {
+            value : "b"
+          }, {
+            value : "c"
+          } ];
+        }
       });
 
       var changed;
@@ -136,6 +145,50 @@ define([ "geoladris-tests" ], function(tests) {
       input.dispatchEvent(e);
 
       expect(changed).toBe(true);
+    });
+
+    it("calls autocomplete function on focus", function() {
+      var called;
+
+      var input = module({
+        id : "myinput",
+        parent : parentId,
+        showOnFocus : true,
+        autocomplete : function() {
+          called = true;
+          return [ {
+            value : "a"
+          }, {
+            value : "b"
+          }, {
+            value : "c"
+          } ];
+        }
+      });
+
+      input.dispatchEvent(new Event("focus"));
+      expect(called).toBe(true);
+    });
+
+    it("sends change on typeahead:selected", function() {
+      var input = module({
+        id : "myinput",
+        parent : parentId,
+        showOnFocus : true,
+        autocomplete : function() {
+          called = true;
+          return [ {
+            value : "a"
+          } ];
+        }
+      });
+
+      var called;
+      input.addEventListener("change", function() {
+        called = true;
+      });
+      $(input).trigger("typeahead:selected");
+      expect(called).toBe(true);
     });
 
     it("links container visibility", function() {

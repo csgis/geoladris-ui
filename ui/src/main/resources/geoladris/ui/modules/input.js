@@ -46,47 +46,34 @@ define([ "jquery", "message-bus", "./commons", "pikaday", "typeahead" ], functio
       }
     });
 
-    var options = props.options;
-
-    function enableAutocomplete() {
+    if (props.autocomplete && input.type == "text") {
+      props.minQueryLength = props.minQueryLength || 0;
       $(input).typeahead({
-        hint : props.hint,
         highlight : true,
         minLength : props.minQueryLength,
         autoselect : true
       }, {
+        minLength : props.minQueryLength,
         source : function(q, cb) {
-          if (!options) {
-            cb([]);
-            return;
+          cb(props.autocomplete(q));
+        },
+        templates : {
+          suggestion : function(data) {
+            return "<p class='" + (data.type || "") + "'>" + data.value + "</p>";
           }
-
-          var matches = [];
-          var pattern = props.searchMode == "startsWith" ? "^" + q : q;
-          var regex = new RegExp(pattern, 'i');
-          options.forEach(function(option) {
-            if (regex.test(option)) {
-              matches.push({
-                value : option
-              });
-            }
-          });
-
-          if (props.maxResults > 0) {
-            matches = matches.slice(0, props.maxResults);
-          }
-          cb(matches);
         }
       });
 
-      if (props.showOnFocus || props.minQueryLength === 0) {
+      if (props.showOnFocus) {
         // Show dropdown on input focus
         input.addEventListener("focus", function() {
-          // This is a bit obscure, but the only way I found to do it
-          var query = (input.value || "").replace(/^\s*/g, "").replace(/\s{2,}/g, " ");
-          var data = $(input).data("ttTypeahead");
-          data.dropdown.update(query);
-          data.dropdown.open();
+          if (input.value.length >= props.minQueryLength) {
+            // This is a bit obscure, but the only way I found to do it
+            var query = (input.value || "").replace(/^\s*/g, "").replace(/\s{2,}/g, " ");
+            var data = $(input).data("ttTypeahead");
+            data.dropdown.update(query);
+            data.dropdown.open();
+          }
         });
       }
 
@@ -100,19 +87,6 @@ define([ "jquery", "message-bus", "./commons", "pikaday", "typeahead" ], functio
         input.dispatchEvent(new Event("change"));
       });
     }
-
-    var options = props.options;
-    if (options && input.type == "text") {
-      enableAutocomplete();
-    }
-
-    bus.listen("ui-input:" + props.id + ":set-values", function(e, values) {
-      var enable = options === undefined;
-      options = values;
-      if (enable && input.type == "text") {
-        enableAutocomplete();
-      }
-    });
 
     return input;
   }
