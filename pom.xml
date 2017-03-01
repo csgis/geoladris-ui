@@ -24,22 +24,22 @@
 	<distributionManagement>
 		<repository>
 			<id>csgis-releases</id>
-			<url>http://service-aws.csgis.de:8081/repository/releases</url>
+			<url>http://service.csgis.de/mvn/repository/releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>csgis-snapshots</id>
-			<url>http://service-aws.csgis.de:8081/repository/snapshots</url>
+			<url>http://service.csgis.de/mvn/repository/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
 	<repositories>
 		<repository>
 			<id>csgis-releases</id>
-			<url>http://service-aws.csgis.de:8081/repository/releases/</url>
+			<url>http://service.csgis.de/mvn/repository/releases/</url>
 		</repository>
 		<repository>
 			<id>csgis-snapshots</id>
-			<url>http://service-aws.csgis.de:8081/repository/snapshots/</url>
+			<url>http://service.csgis.de/mvn/repository/snapshots/</url>
 		</repository>
 		<repository>
 			<id>geoladris-releases</id>
