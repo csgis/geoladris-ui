@@ -10,17 +10,31 @@ define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUi
 
     commons.linkDisplay(slider, container);
 
+    var useDates;
+
+    function parseValue(v) {
+      var val = parseFloat(v);
+      return useDates ? new Date(val) : val;
+    }
+
     function dispatch(name) {
       slider.dispatchEvent(new CustomEvent(name, {
         detail : {
-          value : parseFloat(slider.noUiSlider.get())
+          value : parseValue(slider.noUiSlider.get())
         }
       }));
     }
 
-    function addValues(values, snap) {
-      if (!values || values.constructor !== Array) {
+    function addValues(values) {
+      if (!values || values.constructor !== Array || !values.length) {
         return;
+      }
+
+      if (values[0] instanceof Date) {
+        useDates = true;
+        values = values.map(function(date) {
+          return date.getTime();
+        });
       }
 
       values.sort(function(a, b) {
@@ -49,7 +63,7 @@ define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUi
           animate : false,
           start : values[0],
           range : range,
-          snap : snap
+          snap : props.snap
         });
       }
 
@@ -61,9 +75,9 @@ define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUi
       });
     }
 
-    addValues(props.values, props.snap);
+    addValues(props.values);
     if (props.value) {
-      slider.noUiSlider.set(props.value);
+      slider.noUiSlider.set(useDates ? props.value.getTime() : props.value);
     }
 
     if (props.id) {

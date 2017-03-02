@@ -148,5 +148,23 @@ define([ "geoladris-tests" ], function(tests) {
       expect(args[0].id).toBe(slider.id);
       expect(args[1].id).toBe(slider.id + "-container");
     });
+
+    it("supports date values", function(done) {
+      var date1 = new Date("2017-01-25T00:00:00Z");
+      var date2 = new Date("2017-03-02T00:00:00Z");
+      var slider = module({
+        id : "myslider",
+        parent : parentId,
+        values : [ date1, date2 ],
+        value : date1
+      });
+
+      slider.addEventListener("slide", function(e) {
+        expect(e.detail.value).toEqual(date2);
+        done();
+      });
+
+      slider.noUiSlider.__moveHandles(true, 100, [0]);
+    });
   });
 });
