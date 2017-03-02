@@ -59,12 +59,20 @@ define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUi
           range : range
         });
       } else {
-        noUiSlider.create(slider, {
+        var options = {
           animate : false,
           start : values[0],
           range : range,
           snap : props.snap
-        });
+        };
+
+        if (props.pips === true || props.pips instanceof Function) {
+          options.pips = {
+            mode : "steps",
+            density : 100
+          };
+        }
+        noUiSlider.create(slider, options);
       }
 
       slider.noUiSlider.on("change", function() {
@@ -73,6 +81,13 @@ define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUi
       slider.noUiSlider.on("slide", function() {
         dispatch("slide");
       });
+
+      if (props.pips instanceof Function) {
+        var nodes = slider.querySelectorAll('.noUi-value.noUi-value-horizontal.noUi-value-large');
+        Array.prototype.forEach.call(nodes, function(el) {
+          el.innerHTML = props.pips(parseValue(el.innerHTML));
+        });
+      }
     }
 
     addValues(props.values);

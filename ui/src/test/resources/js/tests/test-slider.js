@@ -166,5 +166,20 @@ define([ "geoladris-tests" ], function(tests) {
 
       slider.noUiSlider.__moveHandles(true, 100, [0]);
     });
+
+    it("supports custom pips", function() {
+      var slider = module({
+        id : "myslider",
+        parent : parentId,
+        values : [ 0, 1, 2 ],
+        value : 0,
+        pips : function(value) {
+          return "Value is: " + value;
+        }
+      });
+
+      var e = slider.querySelector('.noUi-value.noUi-value-horizontal.noUi-value-large');
+      expect(e.innerHTML).toBe("Value is: 0");
+    });
   });
 });
