@@ -57,8 +57,8 @@ accordionGroup.content.style.color = "black";
 Extra `props`:
 
 * **tooltip** (*String*, optional): Tooltip to show on mouse over.
-* **text** (*String*, **text** or **image** mandatory): The text to show in the button.
-* **image** (*String*, **text** or **image** mandatory): The image to show in the button background.
+* ~~**text** (*String*, **text** or **image** mandatory): The text to show in the button~~. *Deprecated. Use **html** instead*.
+* **image** (*String*, optional): The image to show in the button background.
 * **clickEventName** (*String*, optional): Name of the event to send when the button is clicked.
 * **clickEventMessage** (*any*, optional): The message to send when the button is clicked. It is ignored if *clickEventName* is not specified.
 * **clickEventCallback** (*function*, optional): The callback to call when the button is clicked. It is ignored if *clickEventName* is also specified.

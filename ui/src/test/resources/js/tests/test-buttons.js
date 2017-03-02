@@ -27,6 +27,17 @@ define([ "geoladris-tests" ], function(tests) {
       expect(button.querySelector("div").innerHTML).toBe("Click!");
     });
 
+    it("uses html property for button text", function() {
+      var button = buttons({
+        id : "mybutton",
+        parent : parentId,
+        html : "Click!"
+      });
+      expect(button.tagName).toBe("DIV");
+      expect(button.innerHTML.indexOf("Click!")).not.toBe(0);
+      expect(button.querySelector("div").innerHTML).toBe("Click!");
+    });
+
     it("creates a <div> if image specified", function() {
       var button = buttons({
         id : "mybutton",
