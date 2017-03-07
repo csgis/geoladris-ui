@@ -1,8 +1,11 @@
 define([ "message-bus", "./commons" ], function(bus, commons) {
   return function(props) {
-    var containerProps = JSON.parse(JSON.stringify(props));
-    containerProps.html = undefined;
-    var button = commons.getOrCreateElem("div", containerProps);
+    var button = commons.getOrCreateElem("div", {
+      id : props.id,
+      parent : props.parent,
+      css : props.css,
+      priority : props.priority
+    });
     if (props.tooltip) {
       button.title = props.tooltip;
     }
