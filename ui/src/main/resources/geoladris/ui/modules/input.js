@@ -25,6 +25,12 @@ define([ "jquery", "message-bus", "./commons", "pikaday", "typeahead" ], functio
       });
       input.type = "text";
       input.setAttribute("geoladris-type", "date");
+    } else if (props.type == "file") {
+      placeholder = commons.getOrCreateElem("div", {
+        id : props.id + "-placeholder",
+        parent : container,
+        css : (props.css || "") + " ui-file-input-placeholder"
+      });
     }
 
     bus.listen(props.id + "-field-value-fill", function(e, message) {
@@ -43,6 +49,8 @@ define([ "jquery", "message-bus", "./commons", "pikaday", "typeahead" ], functio
       var valid = !!Date.parse(input.value);
       if (input.getAttribute("geoladris-type") == "date") {
         input.setCustomValidity(valid ? "" : "Invalid date.");
+      } else if (input.type == "file") {
+        placeholder.innerHTML = input.files[0].name;
       }
     });
 
