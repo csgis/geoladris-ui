@@ -8,7 +8,7 @@ define([ "message-bus" ], function(bus) {
         if (tag == "input" && input.type == "file") {
           var parent = input.parentNode;
           var placeholder = parent.getElementsByClassName("ui-file-input-placeholder")[0];
-          enabled = enabled && !!placeholder.text();
+          enabled = enabled && !!placeholder.innerHTML;
         } else {
           enabled = enabled && !!input.value;
         }

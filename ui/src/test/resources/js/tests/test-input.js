@@ -203,5 +203,17 @@ define([ "geoladris-tests" ], function(tests) {
       expect(args[0].id).toBe(input.id);
       expect(args[1].id).toBe(input.id + "-container");
     });
+
+    it("adds placeholder for type=file", function() {
+      var input = module({
+        id : "myinput",
+        type : "file",
+        parent : parentId
+      });
+
+      var placeholder = document.getElementById("myinput-placeholder");
+      expect(placeholder).not.toBe(null);
+      expect(placeholder).not.toBe(undefined);
+    });
   });
 });
