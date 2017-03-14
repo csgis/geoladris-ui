@@ -3,6 +3,6 @@
 	align-items: center;
 }
 
-.ui-input-container>select, .ui-slider-input {
+.ui-input-container>select,.ui-input-container>input[type=text], .ui-slider-input {
 	width: 100%;
 }
