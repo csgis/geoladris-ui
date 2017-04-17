@@ -9,13 +9,6 @@
         return (typeof thing == 'function') ? (thing.call(ctx)) : thing;
     };
     
-    function isElementInDOM(ele) {
-      while (ele = ele.parentNode) {
-        if (ele == document) return true;
-      }
-      return false;
-    };
-    
     function Tipsy(element, options) {
         this.$element = $(element);
         this.options = options;
@@ -111,7 +104,6 @@
         tip: function() {
             if (!this.$tip) {
                 this.$tip = $('<div class="tipsy"></div>').html('<div class="tipsy-arrow"></div><div class="tipsy-inner"></div>');
-                this.$tip.data('tipsy-pointee', this.$element[0]);
             }
             return this.$tip;
         },
@@ -199,15 +191,6 @@
         trigger: 'hover'
     };
     
-    $.fn.tipsy.revalidate = function() {
-      $('.tipsy').each(function() {
-        var pointee = $.data(this, 'tipsy-pointee');
-        if (!pointee || !isElementInDOM(pointee)) {
-          $(this).remove();
-        }
-      });
-    };
-    
     // Overwrite this method to provide options on a per-element basis.
     // For example, you could store the gravity in a 'tipsy-gravity' attribute:
     // return $.extend({}, options, {gravity: $(ele).attr('tipsy-gravity') || 'n' });
@@ -255,4 +238,4 @@
 		}
 	};
     
-})(jQuery);
+})(require('jquery'));

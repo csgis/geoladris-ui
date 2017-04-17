@@ -1,4 +1,6 @@
 {
+"version" : "1.0.0",
+"name" : "geoladris-plugins",
   "scripts": {
     "test" : "for i in `find . -mindepth 2 -maxdepth 2 -name package.json`; do cd `dirname $i`; npm test; cd - >/dev/null; done"
   }

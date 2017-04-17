@@ -1,4 +1,4 @@
-#loading-shade {
+#loading-shade, #wait-mask {
 	position: fixed;
 	top: 0;
 	bottom: 0;

@@ -10,7 +10,7 @@ define([ "message-bus", "module", "./commons" ], function(bus, module, commons) 
 
   // Create divs
   var loadingShade = commons.getOrCreateElem("div", {
-    id : "loading-shade",
+    id : "wait-mask",
     parent : document.body
   });
   var loadingMsg = commons.getOrCreateElem("div", {
