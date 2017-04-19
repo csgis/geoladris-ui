@@ -1,7 +1,7 @@
 {
-  "name" : "geoladris-plugins",
+  "name" : "geoladris-ui",
   "version" : "6.0.0",
-  "dependencies": {
+  "devDependencies": {
     "squirejs" : "^0.2.1",
     "requirejs": "~2.1.8",
     "karma": "~1.3.0",
