@@ -1,0 +1,37 @@
+{
+  "default-conf": {
+    "ui": {},
+    "ui-sliding-div": {
+      "duration": 500
+    }
+  },
+  "requirejs": {
+    "paths": {
+      "datatables.net": "jslib/datatables.net",
+      "datatables.net-buttons": "jslib/datatables.net-buttons",
+      "datatables.net-colVis": "jslib/datatables.net-colVis",
+      "tipsy": "jslib/tipsy",
+      "moment": "node_modules/moment/min/moment.min",
+      "nouislider": "node_modules/nouislider/distribute/nouislider.min",
+      "pikaday": "node_modules/pikaday/pikaday",
+      "pikaday.jquery": "node_modules/pikaday/plugins/pikaday.jquery",
+      "sortable": "node_modules/sortablejs/Sortable.min",
+      "typeahead": "node_modules/typeahead.js/dist/typeahead.jquery.min"
+    },
+    "shim": {
+      "pikaday.jquery": {
+        "deps": ["pikaday"]
+      },
+      "pikaday": {
+        "deps": ["moment"]
+      },
+      "tipsy": {
+        "deps": ["jquery"]
+      }
+    }
+  },
+  "css": [
+    "node_modules/pikaday/css/pikaday.css",
+    "node_modules/nouislider/distribute/nouislider.min.css"
+  ]
+}
