@@ -10,7 +10,8 @@
       "datatables.net": "jslib/datatables.net",
       "datatables.net-buttons": "jslib/datatables.net-buttons",
       "datatables.net-colVis": "jslib/datatables.net-colVis",
-      "tipsy": "jslib/tipsy",
+      "popper.js": "node_modules/popper.js/dist/umd/popper",
+      "tooltip.js": "node_modules/tooltip.js/dist/umd/tooltip",
       "moment": "node_modules/moment/min/moment.min",
       "nouislider": "node_modules/nouislider/distribute/nouislider.min",
       "pikaday": "node_modules/pikaday/pikaday",
@@ -24,9 +25,6 @@
       },
       "pikaday": {
         "deps": ["moment"]
-      },
-      "tipsy": {
-        "deps": ["jquery"]
       }
     }
   },

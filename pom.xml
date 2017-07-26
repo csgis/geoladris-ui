@@ -8,6 +8,45 @@
 	<groupId>de.csgis.geoladris</groupId>
 	<version>1.0.0-SNAPSHOT</version>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<geoladris.core.version>7.0.0-SNAPSHOT</geoladris.core.version>
+		<!-- See https://nodejs.org/en/download/ for latest node version -->
+		<node.version>v6.10.1</node.version>
+		<!-- See https://yarnpkg.com/ for latest yarn version -->
+		<yarn.version>v0.23.2</yarn.version>
+	</properties>
+
+	<distributionManagement>
+		<repository>
+			<id>csgis-releases</id>
+			<url>http://service.csgis.de/mvn/repository/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>csgis-snapshots</id>
+			<url>http://service.csgis.de/mvn/repository/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>csgis-releases</id>
+			<url>http://service.csgis.de/mvn/repository/releases/</url>
+		</repository>
+		<repository>
+			<id>csgis-snapshots</id>
+			<url>http://service.csgis.de/mvn/repository/snapshots/</url>
+		</repository>
+		<repository>
+			<id>geoladris-releases</id>
+			<url>http://nullisland.geomati.co:8082/repository/releases/</url>
+		</repository>
+		<repository>
+			<id>geoladris-snapshots</id>
+			<url>http://nullisland.geomati.co:8082/repository/snapshots/</url>
+		</repository>
+    </repositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.fao.unredd</groupId>
@@ -15,4 +54,102 @@
 			<version>${geoladris.core.version}</version>
 		</dependency>
 	</dependencies>
+
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<targetPath>src</targetPath>
+				<excludes>
+					<exclude>main/**</exclude>
+					<exclude>test/**</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>css</directory>
+				<targetPath>css</targetPath>
+			</resource>
+			<resource>
+				<directory>jslib</directory>
+				<targetPath>jslib</targetPath>
+			</resource>
+			<resource>
+				<directory></directory>
+				<includes>
+					<include>package.json</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory></directory>
+				<includes>
+					<include>geoladris.json</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.4</version>
+				<executions>
+					<execution>
+						<id>install-node-and-yarn</id>
+						<goals>
+							<goal>install-node-and-yarn</goal>
+						</goals>
+						<configuration>
+							<nodeVersion>${node.version}</nodeVersion>
+							<yarnVersion>${yarn.version}</yarnVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>yarn install</id>
+						<goals>
+							<goal>yarn</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>test</id>
+						<goals>
+							<goal>karma</goal>
+						</goals>
+						<configuration>
+							<karmaConfPath>${project.basedir}/karma.conf.js</karmaConfPath>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>npm</id>
+			<activation>
+				<file>
+					<missing>package.json</missing>
+				</file>
+			</activation>
+			<properties>
+				<skip.npm>true</skip.npm>
+			</properties>
+		</profile>
+		<profile>
+			<id>karma</id>
+			<activation>
+				<file>
+					<missing>karma.conf.js</missing>
+				</file>
+			</activation>
+			<properties>
+				<skip.karma>true</skip.karma>
+			</properties>
+		</profile>
+	</profiles>
 </project>

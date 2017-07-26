@@ -58,5 +58,5 @@ module.exports = function(config) {
 			dir: 'test',
 			subdir: 'js-coverage'
 		}
-	})
+	});
 };

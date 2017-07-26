@@ -13,7 +13,6 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
       e.id = div;
       document.getElementById(parentId).appendChild(e);
       var initialization = tests.init({}, {
-        "tipsy" : "../jslib/tipsy",
         "nouislider": "../node_modules/nouislider/distribute/nouislider.min",
         "sortable": "../node_modules/sortablejs/Sortable.min",
         "datatables.net" : "../jslib/datatables.net",
@@ -22,6 +21,7 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
       });
       bus = initialization.bus;
       injector = initialization.injector;
+			injector.mock('tooltip.js', {});
       injector.require([ "ui" ], function(m) {
         ui = m;
         done();
@@ -47,14 +47,6 @@ define([ "jquery", "geoladris-tests" ], function($, tests) {
       expect(e.style["display"]).not.toBe("none");
       bus.send("ui-toggle", "mydiv");
       expect(e.style["display"]).toBe("none");
-    });
-
-    it("adds a tooltip", function() {
-      var tooltip = ui.tooltip(parentId, {
-        text : "My tooltip"
-      });
-      expect(tooltip.parent).not.toBe(null);
-      expect(tooltip.innerHTML.indexOf("My tooltip")).toBeGreaterThan(-1);
     });
 
     it("creates Sortable on sortable", function() {

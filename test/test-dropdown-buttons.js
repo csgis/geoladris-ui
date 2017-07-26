@@ -77,11 +77,11 @@ define([ "geoladris-tests" ], function(tests) {
       expect($("#mybutton-sliding").children().length).toBe(0);
       bus.send("ui-dropdown-button:mybutton:add-item", {
         id : "myitem",
-        image : "theme/images/image.svg"
+        image : "css/images/image.svg"
       });
       expect($("#mybutton-sliding").children().length).toBe(1);
       var bg = $("#mybutton-sliding").children().css("background-image");
-      expect(bg.indexOf("theme/images/image.svg")).not.toBe(-1);
+      expect(bg.indexOf("css/images/image.svg")).not.toBe(-1);
     });
 
     it("toggles the sliding on click if dropdownOnClick", function() {
@@ -113,7 +113,7 @@ define([ "geoladris-tests" ], function(tests) {
       $("#mybutton-sliding").children(":eq(1)").click();
       var button = document.getElementById("mybutton");
       var iconDiv = $(button).children(".button-content");
-      expect(iconDiv.css("background-image").indexOf("theme/images/icon2.png")).toBeGreaterThan(-1);
+      expect(iconDiv.css("background-image").indexOf("css/images/icon2.png")).toBeGreaterThan(-1);
     });
 
     it("changes the button background on set-item", function() {
@@ -121,7 +121,7 @@ define([ "geoladris-tests" ], function(tests) {
       bus.send("ui-dropdown-button:mybutton:set-item", "myitem2");
       var button = document.getElementById("mybutton");
       var iconDiv = $(button).children(".button-content");
-      expect(iconDiv.css("background-image").indexOf("theme/images/icon2.png")).toBeGreaterThan(-1);
+      expect(iconDiv.css("background-image").indexOf("css/images/icon2.png")).toBeGreaterThan(-1);
     });
 
     it("sets title attribute if tooltip provided on add-item", function() {
@@ -133,7 +133,7 @@ define([ "geoladris-tests" ], function(tests) {
       });
       bus.send("ui-dropdown-button:mybutton:add-item", {
         id : "myitem",
-        image : "theme/images/icon.png",
+        image : "css/images/icon.png",
         tooltip : tooltip
       });
 
@@ -149,11 +149,11 @@ define([ "geoladris-tests" ], function(tests) {
       });
       bus.send("ui-dropdown-button:mybutton:add-item", {
         id : "myitem",
-        image : "theme/images/img.svg"
+        image : "css/images/img.svg"
       });
       bus.send("ui-dropdown-button:mybutton:add-item", {
         id : "myitem2",
-        image : "theme/images/icon2.png"
+        image : "css/images/icon2.png"
       });
     }
   });
