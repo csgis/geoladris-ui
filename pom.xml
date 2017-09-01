@@ -14,7 +14,7 @@
 		<!-- See https://nodejs.org/en/download/ for latest node version -->
 		<node.version>v6.10.1</node.version>
 		<!-- See https://yarnpkg.com/ for latest yarn version -->
-		<yarn.version>v0.23.2</yarn.version>
+		<yarn.version>v0.28.4</yarn.version>
 	</properties>
 
 	<distributionManagement>
@@ -49,7 +49,7 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.fao.unredd</groupId>
+			<groupId>org.geoladris</groupId>
 			<artifactId>core</artifactId>
 			<version>${geoladris.core.version}</version>
 		</dependency>
