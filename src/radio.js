@@ -1,32 +1,32 @@
-define([ "message-bus", "./commons" ], function(bus, commons) {
-  return function(props) {
-    var container = commons.createContainer(props.id, props.parent, props.css);
+import commons from './commons';
 
-    var input = commons.getOrCreateElem("input", {
-      id : props.id,
-      parent : container,
-      css : (props.css || "") + " ui-radio"
-    });
+export default function(props) {
+	var container = commons.createContainer(props.id, props.parent, props.css);
 
-    commons.linkDisplay(input, container);
+	var input = commons.getOrCreateElem('input', {
+		id: props.id,
+		parent: container,
+		css: (props.css || '') + ' ui-radio'
+	});
 
-    if (props.parent) {
-      var name;
-      if (typeof props.parent != "string") {
-        name = props.parent.id;
-      } else {
-        name = props.parent;
-      }
-      input.name = name;
-    }
+	commons.linkDisplay(input, container);
 
-    input.type = "radio";
+	if (props.parent) {
+		var name;
+		if (typeof props.parent !== 'string') {
+			name = props.parent.id;
+		} else {
+			name = props.parent;
+		}
+		input.name = name;
+	}
 
-    var label = commons.createLabel(props.id, container, props.label);
-    label.addEventListener("click", function(event) {
-      input.click();
-    });
+	input.type = 'radio';
 
-    return input;
-  }
-});
+	var label = commons.createLabel(props.id, container, props.label);
+	label.addEventListener('click', function() {
+		input.click();
+	});
+
+	return input;
+}

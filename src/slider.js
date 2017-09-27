@@ -1,115 +1,118 @@
-define([ "message-bus", "./commons", "nouislider" ], function(bus, commons, noUiSlider) {
-  return function(props) {
-    var container = commons.createContainer(props.id, props.parent, props.css);
-    var label = commons.createLabel(props.id, container, props.label);
-    var slider = commons.getOrCreateElem("div", {
-      id : props.id,
-      parent : container,
-      css : "ui-slider-input " + (props.css || "")
-    });
+import commons from './commons';
+import noUiSlider from 'nouislider';
 
-    commons.linkDisplay(slider, container);
+export default function(props, injector) {
+	let bus = injector.get('bus');
 
-    var useDates;
+	var container = commons.createContainer(props.id, props.parent, props.css);
+	commons.createLabel(props.id, container, props.label);
+	var slider = commons.getOrCreateElem('div', {
+		id: props.id,
+		parent: container,
+		css: 'ui-slider-input ' + (props.css || '')
+	});
 
-    function parseValue(v) {
-      var val = parseFloat(v);
-      return useDates ? new Date(val) : val;
-    }
+	commons.linkDisplay(slider, container);
 
-    function dispatch(name) {
-      slider.dispatchEvent(new CustomEvent(name, {
-        detail : {
-          value : parseValue(slider.noUiSlider.get())
-        }
-      }));
-    }
+	var useDates;
 
-    function addValues(values) {
-      if (!values || values.constructor !== Array || !values.length) {
-        return;
-      }
+	function parseValue(v) {
+		var val = parseFloat(v);
+		return useDates ? new Date(val) : val;
+	}
 
-      if (values[0] instanceof Date) {
-        useDates = true;
-        values = values.map(function(date) {
-          return date.getTime();
-        });
-      }
+	function dispatch(name) {
+		slider.dispatchEvent(new CustomEvent(name, {
+			detail: {
+				value: parseValue(slider.noUiSlider.get())
+			}
+		}));
+	}
 
-      values.sort(function(a, b) {
-        return a - b;
-      });
+	function addValues(values) {
+		if (!values || values.constructor !== Array || !values.length) {
+			return;
+		}
 
-      var range = {
-        "min" : values[0],
-        "max" : values[values.length - 1]
-      }
+		if (values[0] instanceof Date) {
+			useDates = true;
+			values = values.map(function(date) {
+				return date.getTime();
+			});
+		}
 
-      var unitPerc = 100.0 / (range.max - range.min);
-      for (var i = 1; i < values.length - 1; i++) {
-        var value = values[i];
-        var perc = unitPerc * (value - range.min);
-        range[perc + "%"] = value;
-      }
+		values.sort(function(a, b) {
+			return a - b;
+		});
 
-      if (slider.noUiSlider) {
-        slider.noUiSlider.updateOptions({
-          start : values[0],
-          range : range
-        });
-      } else {
-        var options = {
-          animate : false,
-          start : values[0],
-          range : range,
-          snap : props.snap
-        };
+		var range = {
+			'min': values[0],
+			'max': values[values.length - 1]
+		};
 
-        if (props.pips === true || props.pips instanceof Function) {
-          options.pips = {
-            mode : "steps",
-            density : 100
-          };
-        }
-        noUiSlider.create(slider, options);
-      }
+		var unitPerc = 100.0 / (range.max - range.min);
+		for (var i = 1; i < values.length - 1; i++) {
+			var value = values[i];
+			var perc = unitPerc * (value - range.min);
+			range[perc + '%'] = value;
+		}
 
-      slider.noUiSlider.on("change", function() {
-        dispatch("change");
-      });
-      slider.noUiSlider.on("slide", function() {
-        dispatch("slide");
-      });
+		if (slider.noUiSlider) {
+			slider.noUiSlider.updateOptions({
+				start: values[0],
+				range: range
+			});
+		} else {
+			var options = {
+				animate: false,
+				start: values[0],
+				range: range,
+				snap: props.snap
+			};
 
-      if (props.pips instanceof Function) {
-        var nodes = slider.querySelectorAll('.noUi-value.noUi-value-horizontal.noUi-value-large');
-        Array.prototype.forEach.call(nodes, function(el) {
-          el.innerHTML = props.pips(parseValue(el.innerHTML));
-        });
-      }
-    }
+			if (props.pips === true || props.pips instanceof Function) {
+				options.pips = {
+					mode: 'steps',
+					density: 100
+				};
+			}
+			noUiSlider.create(slider, options);
+		}
 
-    addValues(props.values);
-    if (props.value) {
-      slider.noUiSlider.set(useDates ? props.value.getTime() : props.value);
-    }
+		slider.noUiSlider.on('change', function() {
+			dispatch('change');
+		});
+		slider.noUiSlider.on('slide', function() {
+			dispatch('slide');
+		});
 
-    if (props.id) {
-      bus.listen("ui-slider:" + props.id + ":set-values", function(e, values) {
-        slider.innerHTML = "";
-        addValues(values);
-      });
+		if (props.pips instanceof Function) {
+			var nodes = slider.querySelectorAll('.noUi-value.noUi-value-horizontal.noUi-value-large');
+			Array.prototype.forEach.call(nodes, function(el) {
+				el.innerHTML = props.pips(parseValue(el.innerHTML));
+			});
+		}
+	}
 
-      bus.listen("ui-slider:" + props.id + ":set-value", function(e, value) {
-        slider.noUiSlider.set(value);
-      });
+	addValues(props.values);
+	if (props.value) {
+		slider.noUiSlider.set(useDates ? props.value.getTime() : props.value);
+	}
 
-      bus.listen(props.id + "-field-value-fill", function(e, message) {
-        message[props.id] = parseFloat(slider.noUiSlider.get());
-      });
-    }
+	if (props.id) {
+		bus.listen('ui-slider:' + props.id + ':set-values', function(e, values) {
+			slider.innerHTML = '';
+			addValues(values);
+		});
 
-    return slider;
-  }
-});
+		bus.listen('ui-slider:' + props.id + ':set-value', function(e, value) {
+			slider.noUiSlider.set(value);
+		});
+
+		bus.listen(props.id + '-field-value-fill', function(e, message) {
+			message[props.id] = parseFloat(slider.noUiSlider.get());
+		});
+	}
+
+	return slider;
+}

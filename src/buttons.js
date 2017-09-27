@@ -1,97 +1,99 @@
-define([ "message-bus", "./commons" ], function(bus, commons) {
-  return function(props) {
-    var button = commons.getOrCreateElem("div", {
-      id : props.id,
-      parent : props.parent,
-      css : props.css,
-      priority : props.priority
-    });
-    if (props.tooltip) {
-      button.title = props.tooltip;
-    }
-    button.classList.add("button-enabled");
+import commons from './commons';
 
-    var iconDiv = commons.getOrCreateElem("div", {
-      parent : button,
-      html : props.html || props.text,
-      css : "button-content"
-    });
+export default function(props, injector) {
+	let bus = injector.get('bus');
 
-    if (props.image) {
-      iconDiv.style["background-image"] = "url(" + props.image + ")";
-    }
+	var button = commons.getOrCreateElem('div', {
+		id: props.id,
+		parent: props.parent,
+		css: props.css,
+		priority: props.priority
+	});
+	if (props.tooltip) {
+		button.title = props.tooltip;
+	}
+	button.classList.add('button-enabled');
 
-    if (props.clickEventName) {
-      button.addEventListener("click", function(e) {
-        if (button.classList.contains("button-enabled")) {
-          e.stopPropagation();
-          bus.send(props.clickEventName, props.clickEventMessage);
-        }
-      });
-    } else if (props.clickEventCallback) {
-      button.addEventListener("click", function(e) {
-        if (button.classList.contains("button-enabled")) {
-          e.stopPropagation();
-          props.clickEventCallback(button);
-        }
-      });
-    }
+	var iconDiv = commons.getOrCreateElem('div', {
+		parent: button,
+		html: props.html || props.text,
+		css: 'button-content'
+	});
 
-    function enable(enabled) {
-      if (enabled !== undefined && !enabled) {
-        button.classList.remove("button-enabled");
-        button.classList.add("button-disabled");
-      } else {
-        button.classList.add("button-enabled");
-        button.classList.remove("button-disabled");
-      }
-    }
+	if (props.image) {
+		iconDiv.style['background-image'] = 'url(' + props.image + ')';
+	}
 
-    function activate(active) {
-      if (active !== undefined && !active) {
-        button.classList.remove("button-active");
-      } else {
-        button.classList.add("button-active");
-      }
-    }
+	if (props.clickEventName) {
+		button.addEventListener('click', function(e) {
+			if (button.classList.contains('button-enabled')) {
+				e.stopPropagation();
+				bus.send(props.clickEventName, props.clickEventMessage);
+			}
+		});
+	} else if (props.clickEventCallback) {
+		button.addEventListener('click', function(e) {
+			if (button.classList.contains('button-enabled')) {
+				e.stopPropagation();
+				props.clickEventCallback(button);
+			}
+		});
+	}
 
-    function toggle() {
-      if (button.classList.contains("button-active")) {
-        button.classList.remove("button-active");
-      } else {
-        button.classList.add("button-active");
-      }
-    }
+	function enable(enabled) {
+		if (enabled !== undefined && !enabled) {
+			button.classList.remove('button-enabled');
+			button.classList.add('button-disabled');
+		} else {
+			button.classList.add('button-enabled');
+			button.classList.remove('button-disabled');
+		}
+	}
 
-    bus.listen("ui-button:" + props.id + ":enable", function(e, enabled) {
-      enable(enabled);
-    });
-    bus.listen("ui-button:" + props.id + ":activate", function(e, active) {
-      activate(active);
-    });
+	function activate(active) {
+		if (active !== undefined && !active) {
+			button.classList.remove('button-active');
+		} else {
+			button.classList.add('button-active');
+		}
+	}
 
-    bus.listen("ui-button:" + props.id + ":toggle", function() {
-      toggle();
-    });
+	function toggle() {
+		if (button.classList.contains('button-active')) {
+			button.classList.remove('button-active');
+		} else {
+			button.classList.add('button-active');
+		}
+	}
 
-    bus.listen("ui-button:" + props.id + ":link-active", function(e, linkedDiv) {
-      bus.listen("ui-show", function(e, id) {
-        if (linkedDiv == id) {
-          activate(true);
-        }
-      });
-      bus.listen("ui-hide", function(e, id) {
-        if (linkedDiv == id) {
-          activate(false);
-        }
-      });
-      bus.listen("ui-toggle", function(e, id) {
-        if (linkedDiv == id) {
-          toggle();
-        }
-      });
-    });
+	bus.listen('ui-button:' + props.id + ':enable', function(e, enabled) {
+		enable(enabled);
+	});
+	bus.listen('ui-button:' + props.id + ':activate', function(e, active) {
+		activate(active);
+	});
 
-    return button;
-  }
-});
+	bus.listen('ui-button:' + props.id + ':toggle', function() {
+		toggle();
+	});
+
+	bus.listen('ui-button:' + props.id + ':link-active', function(event, linkedDiv) {
+		bus.listen('ui-show', function(e, id) {
+			if (linkedDiv === id) {
+				activate(true);
+			}
+		});
+		bus.listen('ui-hide', function(e, id) {
+			if (linkedDiv === id) {
+				activate(false);
+			}
+		});
+		bus.listen('ui-toggle', function(e, id) {
+			if (linkedDiv === id) {
+				toggle();
+			}
+		});
+	});
+
+	return button;
+}

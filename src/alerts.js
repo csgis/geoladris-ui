@@ -1,36 +1,41 @@
-define([ "message-bus", "./commons", "module" ], function(bus, commons, module) {
-  var config = module.config();
+import commons from './commons';
 
-  if (!config.timeout) {
-    config.timeout = 5;
-  }
+let bus;
+let timeout = 5;
 
-  var wrapper = commons.getOrCreateElem("div", {
-    id : "ui-alerts-wrapper",
-    parent : config.parentDiv || "center"
-  });
-  var container = commons.getOrCreateElem("div", {
-    id : "ui-alerts-container",
-    parent : wrapper
-  });
+export default function(options, injector) {
+	if (bus) return; // already initialized
 
-  bus.listen("ui-alert", function(e, msg) {
-    var div = commons.getOrCreateElem("div", {
-      parent : container,
-      html : msg.message,
-      css : "ui-alert ui-alert-" + msg.severity
-    });
+	bus = injector.get('bus');
 
-    var close = commons.getOrCreateElem("div", {
-      parent : div,
-      css : "ui-alerts-close"
-    });
-    close.addEventListener("click", function() {
-      container.removeChild(div);
-    });
+	if (options.timeout) timeout = options.timeout;
 
-    setTimeout(function() {
-      container.removeChild(div);
-    }, config.timeout * 1000);
-  });
-});
+	var wrapper = commons.getOrCreateElem('div', {
+		id: 'ui-alerts-wrapper',
+		parent: options.parentDiv || 'center'
+	});
+	var container = commons.getOrCreateElem('div', {
+		id: 'ui-alerts-container',
+		parent: wrapper
+	});
+
+	bus.listen('ui-alert', function(e, msg) {
+		var div = commons.getOrCreateElem('div', {
+			parent: container,
+			html: msg.message,
+			css: 'ui-alert ui-alert-' + msg.severity
+		});
+
+		var close = commons.getOrCreateElem('div', {
+			parent: div,
+			css: 'ui-alerts-close'
+		});
+		close.addEventListener('click', function() {
+			container.removeChild(div);
+		});
+
+		setTimeout(function() {
+			container.removeChild(div);
+		}, timeout * 1000);
+	});
+}

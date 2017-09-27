@@ -1,92 +1,90 @@
-define([ "geoladris-tests" ], function(tests) {
-  var bus;
-  var injector;
-  var module;
+import bus from '@geoladris/event-bus';
+import di from '@csgis/di';
+import { replaceParent } from './utils';
+import sinon from 'sinon';
+import module from '../src/accordion-group';
+import assert from 'assert';
 
-  describe("accordion-group", function() {
-    var parentId = "myparent";
-    var groupId = "mygroup";
+const parentId = 'myparent';
+const groupId = 'mygroup';
 
-    beforeEach(function(done) {
-      var initialization = tests.init();
-      bus = initialization.bus;
-      injector = initialization.injector;
-      injector.require([ "accordion-group" ], function(m) {
-        module = m;
-        done();
-      });
-      tests.replaceParent(parentId);
-    });
+describe('accordion-group', function() {
+	di.bind('bus', bus);
+	bus.send = sinon.spy(bus, 'send');
 
-    function initGroup(visible) {
-      module({
-        id : groupId,
-        parent : parentId,
-        title : "Accordion Group 1",
-        visible : visible
-      });
-    }
+	beforeEach(function() {
+		bus.stopListenAll();
+		replaceParent(parentId);
+	});
 
-    function header() {
-      return document.getElementById(groupId + "-header");
-    }
+	function initGroup(visible) {
+		module({
+			id: groupId,
+			parent: parentId,
+			title: 'Accordion Group 1',
+			visible: visible
+		}, di);
+	}
 
-    function content() {
-      return document.getElementById(groupId);
-    }
+	function header() {
+		return document.getElementById(groupId + '-header');
+	}
 
-    it("adds header on create", function() {
-      var title = "Accordion Group 1";
-      module({
-        id : "mygroup",
-        parent : parentId,
-        title : title
-      });
+	function content() {
+		return document.getElementById(groupId);
+	}
 
-      var container = document.getElementById(parentId).children[0];
-      var header = document.getElementById("mygroup-header");
-      expect(container.children.length).toBe(2);
-      expect(header.parentNode).toBe(container);
-      expect(header).not.toBe(null);
-      expect(header.classList.contains("accordion-header")).toBe(true);
-      expect(header.querySelector("p").classList.contains("accordion-header-text")).toBe(true);
-      expect(header.textContent).toBe(title);
-    });
+	it('adds header on create', function() {
+		var title = 'Accordion Group 1';
+		module({
+			id: 'mygroup',
+			parent: parentId,
+			title: title
+		}, di);
 
-    it("adds container on create", function() {
-      initGroup();
+		var container = document.getElementById(parentId).children[0];
+		var header = document.getElementById('mygroup-header');
+		assert(container.children.length === 2);
+		assert(header.parentNode === container);
+		assert(header !== null);
+		assert(header.classList.contains('accordion-header'));
+		assert(header.querySelector('p').classList.contains('accordion-header-text'));
+		assert(header.textContent === title);
+	});
 
-      var container = document.getElementById(parentId).children[0];
-      expect(container.children.length).toBe(2);
-      var content = document.getElementById("mygroup");
-      expect(content).not.toBe(null);
-      expect(content.parentNode).toBe(container);
-    });
+	it('adds container on create', function() {
+		initGroup();
 
-    it("shows content if visible property on add-group", function() {
-      initGroup(true);
-      expect(content().style.display).not.toBe("none");
-    });
+		var container = document.getElementById(parentId).children[0];
+		assert(container.children.length === 2);
+		var content = document.getElementById('mygroup');
+		assert(content !== null);
+		assert(content.parentNode === container);
+	});
 
-    it("ignores undefined properties on visibility", function() {
-      initGroup(true);
+	it('shows content if visible property on add-group', function() {
+		initGroup(true);
+		assert(content().style.display !== 'none');
+	});
 
-      bus.send("ui-accordion:" + groupId + ":visibility", {});
+	it('ignores undefined properties on visibility', function() {
+		initGroup(true);
 
-      expect(header().style["visibility"]).not.toBe("hidden");
-      expect(content().style["visibility"]).not.toBe("hidden");
-    });
+		bus.send('ui-accordion:' + groupId + ':visibility', {});
 
-    it("updates header and content if specified on visibility", function() {
-      initGroup();
+		assert(header().style.visibility !== 'hidden');
+		assert(content().style.visibility !== 'hidden');
+	});
 
-      bus.send("ui-accordion-group:" + groupId + ":visibility", {
-        header : false,
-        content : false
-      });
+	it('updates header and content if specified on visibility', function() {
+		initGroup();
 
-      expect(bus.send).toHaveBeenCalledWith("ui-hide", groupId);
-      expect(bus.send).toHaveBeenCalledWith("ui-hide", groupId + "-header");
-    });
-  });
+		bus.send('ui-accordion-group:' + groupId + ':visibility', {
+			header: false,
+			content: false
+		});
+
+		sinon.assert.calledWith(bus.send, 'ui-hide', groupId);
+		sinon.assert.calledWith(bus.send, 'ui-hide', groupId + '-header');
+	});
 });

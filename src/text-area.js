@@ -1,22 +1,24 @@
-define([ "jquery", "message-bus", "./commons" ], function($, bus, commons) {
-  return function(props) {
-    var container = commons.createContainer(props.id, props.parent, props.css);
-    var label = commons.createLabel(props.id, container, props.label);
-    var input = commons.getOrCreateElem("textarea", {
-      id : props.id,
-      parent : container,
-      css : props.css + " ui-textarea"
-    });
+import commons from './commons';
 
-    input.cols = props.cols;
-    input.rows = props.rows;
+export default function(props, injector) {
+	let bus = injector.get('bus');
 
-    commons.linkDisplay(input, container);
+	var container = commons.createContainer(props.id, props.parent, props.css);
+	commons.createLabel(props.id, container, props.label);
+	var input = commons.getOrCreateElem('textarea', {
+		id: props.id,
+		parent: container,
+		css: props.css + ' ui-textarea'
+	});
 
-    bus.listen(props.id + "-field-value-fill", function(e, message) {
-      message[props.id] = input.value;
-    });
+	input.cols = props.cols;
+	input.rows = props.rows;
 
-    return input;
-  }
-});
+	commons.linkDisplay(input, container);
+
+	bus.listen(props.id + '-field-value-fill', function(e, message) {
+		message[props.id] = input.value;
+	});
+
+	return input;
+}

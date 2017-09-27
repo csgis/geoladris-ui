@@ -1,51 +1,54 @@
-define([ "message-bus", "./commons", "./buttons", "./dialog" ], function(bus, commons, buttons, uiDialog) {
-  return function(props) {
-    props.modal = true;
-    props.css = (props.css || "") + " ui-confirm-dialog";
-    if (!props.messages) {
-      props.messages = {};
-    }
+import commons from './commons';
+import dialogs from './dialogs';
+import buttons from './buttons';
 
-    var dialog = uiDialog(props);
+export default function(props, injector) {
+	let bus = injector.get('bus');
+	props.modal = true;
+	props.css = (props.css || '') + ' ui-confirm-dialog';
+	if (!props.messages) {
+		props.messages = {};
+	}
 
-    if (props.messages.question) {
-      var message = commons.getOrCreateElem("div", {
-        id : props.id + "-message",
-        parent : props.id,
-        css : "ui-confirm-dialog-message",
-        html : props.messages["question"]
-      });
-    }
+	var dialog = dialogs(props, injector);
 
-    var buttonsContainer = props.id + "-confirm-buttons-container";
-    commons.getOrCreateElem("div", {
-      id : buttonsContainer,
-      parent : props.id,
-      css : "ui-confirm-dialog-buttons-container"
-    });
-    buttons({
-      id : props.id + "-ok",
-      parent : buttonsContainer,
-      css : "dialog-ok-button ui-confirm-dialog-ok",
-      text : props.messages.ok,
-      clickEventName : "ui-confirm-dialog:" + props.id + ":ok"
-    });
-    buttons({
-      id : props.id + "-cancel",
-      parent : buttonsContainer,
-      css : "dialog-ok-button ui-confirm-dialog-cancel",
-      text : props.messages.cancel,
-      clickEventName : "ui-confirm-dialog:" + props.id + ":cancel"
-    });
+	if (props.messages.question) {
+		commons.getOrCreateElem('div', {
+			id: props.id + '-message',
+			parent: props.id,
+			css: 'ui-confirm-dialog-message',
+			html: props.messages.question
+		});
+	}
 
-    bus.listen("ui-confirm-dialog:" + props.id + ":cancel", function() {
-      bus.send("ui-hide", props.id);
-    });
+	var buttonsContainer = props.id + '-confirm-buttons-container';
+	commons.getOrCreateElem('div', {
+		id: buttonsContainer,
+		parent: props.id,
+		css: 'ui-confirm-dialog-buttons-container'
+	});
+	buttons({
+		id: props.id + '-ok',
+		parent: buttonsContainer,
+		css: 'dialog-ok-button ui-confirm-dialog-ok',
+		text: props.messages.ok,
+		clickEventName: 'ui-confirm-dialog:' + props.id + ':ok'
+	});
+	buttons({
+		id: props.id + '-cancel',
+		parent: buttonsContainer,
+		css: 'dialog-ok-button ui-confirm-dialog-cancel',
+		text: props.messages.cancel,
+		clickEventName: 'ui-confirm-dialog:' + props.id + ':cancel'
+	});
 
-    bus.listen("ui-confirm-dialog:" + props.id + ":ok", function() {
-      bus.send("ui-hide", props.id);
-    });
+	bus.listen('ui-confirm-dialog:' + props.id + ':cancel', function() {
+		bus.send('ui-hide', props.id);
+	});
 
-    return dialog;
-  }
-});
+	bus.listen('ui-confirm-dialog:' + props.id + ':ok', function() {
+		bus.send('ui-hide', props.id);
+	});
+
+	return dialog;
+}

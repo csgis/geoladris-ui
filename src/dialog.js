@@ -1,106 +1,108 @@
-define([ "message-bus", "./commons" ], function(bus, commons) {
-  var zIndex;
+import commons from './commons';
 
-  function showOnTop(container) {
-    container.style.display = "";
-    var i = parseInt(container.style.zIndex);
-    if (!zIndex) {
-      zIndex = i + 1;
-    } else {
-      container.style.zIndex = zIndex++;
-    }
-  }
+let zIndex;
 
-  return function(props) {
-    var container = commons.getOrCreateElem("div", {
-      id : props.id + "-dialog-container",
-      parent : props.parent,
-      css : "dialog-container"
-    });
+function showOnTop(container) {
+	container.style.display = '';
+	var i = parseInt(container.style.zIndex);
+	if (!zIndex) {
+		zIndex = i + 1;
+	} else {
+		container.style.zIndex = zIndex++;
+	}
+}
 
-    if (props.modal) {
-      container.classList.add("dialog-modal");
-    }
+export default function(props, injector) {
+	let bus = injector.get('bus');
 
-    var div = commons.getOrCreateElem("div", {
-      id : props.id,
-      parent : container,
-      css : "dialog " + (props.css || "")
-    });
+	var container = commons.getOrCreateElem('div', {
+		id: props.id + '-dialog-container',
+		parent: props.parent,
+		css: 'dialog-container'
+	});
 
-    bus.listen("ui-show", function(e, id) {
-      if (id == props.id) {
-        showOnTop(container);
-      }
-    });
-    bus.listen("ui-hide", function(e, id) {
-      if (id == props.id) {
-        container.style.display = "none";
-      }
-    });
-    bus.listen("ui-toggle", function(e, id) {
-      if (id == props.id) {
-        if (container.style.display == "none") {
-          showOnTop(container);
-        } else {
-          container.style.display = "none";
-        }
-      }
-    });
+	if (props.modal) {
+		container.classList.add('dialog-modal');
+	}
 
-    var title = commons.getOrCreateElem("div", {
-      parent : div,
-      css : "dialog-title",
-      html : props.title
-    });
+	var div = commons.getOrCreateElem('div', {
+		id: props.id,
+		parent: container,
+		css: 'dialog ' + (props.css || '')
+	});
 
-    var dragging = false;
-    var startX, startY;
-    var startOffsetTop;
-    var startOffsetLeft;
+	bus.listen('ui-show', function(e, id) {
+		if (id === props.id) {
+			showOnTop(container);
+		}
+	});
+	bus.listen('ui-hide', function(e, id) {
+		if (id === props.id) {
+			container.style.display = 'none';
+		}
+	});
+	bus.listen('ui-toggle', function(e, id) {
+		if (id === props.id) {
+			if (container.style.display === 'none') {
+				showOnTop(container);
+			} else {
+				container.style.display = 'none';
+			}
+		}
+	});
 
-    var originalCursor = title.style["cursor"];
-    title.addEventListener("mousedown", function(event) {
-      title.style["cursor"] = "move";
-      dragging = true;
-      startX = event.clientX;
-      startY = event.clientY;
-      startOffsetTop = div.offsetTop;
-      startOffsetLeft = div.offsetLeft;
-    });
-    title.addEventListener("mouseup", function(event) {
-      dragging = false;
-      title.style["cursor"] = "originalCursor";
-    });
+	var title = commons.getOrCreateElem('div', {
+		parent: div,
+		css: 'dialog-title',
+		html: props.title
+	});
 
-    window.addEventListener("mousemove", function(event) {
-      if (!dragging) {
-        return;
-      }
+	var dragging = false;
+	var startX;
+	var startY;
+	var startOffsetTop;
+	var startOffsetLeft;
 
-      div.style["position"] = "fixed";
-      div.style["top"] = startOffsetTop + (event.clientY - startY) + "px";
-      div.style["left"] = startOffsetLeft + (event.clientX - startX) + "px";
-      div.style["right"] = "unset";
-      div.style["bottom"] = "unset";
-    });
+	title.addEventListener('mousedown', function(event) {
+		title.style.cursor = 'move';
+		dragging = true;
+		startX = event.clientX;
+		startY = event.clientY;
+		startOffsetTop = div.offsetTop;
+		startOffsetLeft = div.offsetLeft;
+	});
+	title.addEventListener('mouseup', function() {
+		dragging = false;
+		title.style.cursor = 'originalCursor';
+	});
 
-    if (props.closeButton) {
-      var close = commons.getOrCreateElem("div", {
-        parent : div,
-        css : "dialog-close"
-      });
-      close.addEventListener("click", function() {
-        bus.send("ui-hide", props.id);
-      });
-    }
+	window.addEventListener('mousemove', function(event) {
+		if (!dragging) {
+			return;
+		}
 
-    if (props.visible) {
-      bus.send("ui-show", props.id);
-    } else {
-      bus.send("ui-hide", props.id);
-    }
+		div.style.position = 'fixed';
+		div.style.top = startOffsetTop + (event.clientY - startY) + 'px';
+		div.style.left = startOffsetLeft + (event.clientX - startX) + 'px';
+		div.style.right = 'unset';
+		div.style.bottom = 'unset';
+	});
 
-    return div;
-  };
-});
+	if (props.closeButton) {
+		var close = commons.getOrCreateElem('div', {
+			parent: div,
+			css: 'dialog-close'
+		});
+		close.addEventListener('click', function() {
+			bus.send('ui-hide', props.id);
+		});
+	}
+
+	if (props.visible) {
+		bus.send('ui-show', props.id);
+	} else {
+		bus.send('ui-hide', props.id);
+	}
+
+	return div;
+}

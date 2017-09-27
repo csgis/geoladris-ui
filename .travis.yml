@@ -1,14 +1,12 @@
-language: java
-
-script:
-  - mvn verify  
-
+language: node_js
+node_js:
+  - "node"
+sudo: false
+addons:
+  chrome: stable
+cache:
+  yarn: true
+  directories:
+    - node_modules
 after_success:
-  - mvn deploy -s deploy-settings.xml
-
-notifications:
-  email:
-    recipients:
-      - notify@barbatti.de
-  on_success: always
-
+  - yarn run coverage
