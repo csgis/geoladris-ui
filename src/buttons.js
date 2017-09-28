@@ -1,99 +1,99 @@
+import di from '@csgis/di';
 import commons from './commons';
 
-export default function(props, injector) {
-	let bus = injector.get('bus');
-
-	var button = commons.getOrCreateElem('div', {
-		id: props.id,
-		parent: props.parent,
-		css: props.css,
-		priority: props.priority
-	});
-	if (props.tooltip) {
-		button.title = props.tooltip;
-	}
-	button.classList.add('button-enabled');
-
-	var iconDiv = commons.getOrCreateElem('div', {
-		parent: button,
-		html: props.html || props.text,
-		css: 'button-content'
-	});
-
-	if (props.image) {
-		iconDiv.style['background-image'] = 'url(' + props.image + ')';
+class Button {
+	constructor(opts) {
+		this.createUI(opts);
+		this.wire(opts);
 	}
 
-	if (props.clickEventName) {
-		button.addEventListener('click', function(e) {
-			if (button.classList.contains('button-enabled')) {
-				e.stopPropagation();
-				bus.send(props.clickEventName, props.clickEventMessage);
+	createUI(opts) {
+		this.elem = commons.getOrCreateElem('div', {
+			id: opts.id,
+			parent: opts.parent,
+			css: opts.css,
+			priority: opts.priority
+		});
+
+		if (opts.tooltip) {
+			this.elem.title = opts.tooltip;
+		}
+
+		this.elem.classList.add('button-enabled');
+
+		let iconDiv = commons.getOrCreateElem('div', {
+			parent: this.elem,
+			html: opts.html || opts.text,
+			css: 'button-content'
+		});
+
+		if (opts.image) {
+			iconDiv.style['background-image'] = 'url(' + opts.image + ')';
+		}
+	}
+
+	wire(opts) {
+		const bus = di.get('bus');
+
+		this.elem.addEventListener('click', (e) => {
+			if (!this.elem.classList.contains('button-enabled')) return;
+
+			e.stopPropagation();
+
+			if (opts.clickEventName) {
+				bus.send(opts.clickEventName, opts.clickEventMessage);
+			} else if (opts.clickEventCallback) {
+				opts.clickEventCallback(this.elem);
 			}
 		});
-	} else if (props.clickEventCallback) {
-		button.addEventListener('click', function(e) {
-			if (button.classList.contains('button-enabled')) {
-				e.stopPropagation();
-				props.clickEventCallback(button);
-			}
+
+		bus.listen('ui-button:' + opts.id + ':enable', (e, enabled) => this.enable(enabled));
+		bus.listen('ui-button:' + opts.id + ':activate', (e, active) => this.activate(active));
+		bus.listen('ui-button:' + opts.id + ':toggle', () => this.toggle());
+		bus.listen('ui-button:' + opts.id + ':link-active', (event, linkedDiv) => {
+			bus.listen('ui-show', (e, id) => {
+				if (linkedDiv === id) {
+					this.activate(true);
+				}
+			});
+			bus.listen('ui-hide', (e, id) => {
+				if (linkedDiv === id) {
+					this.activate(false);
+				}
+			});
+			bus.listen('ui-toggle', (e, id) => {
+				if (linkedDiv === id) {
+					this.toggle();
+				}
+			});
 		});
 	}
 
-	function enable(enabled) {
+	enable(enabled) {
 		if (enabled !== undefined && !enabled) {
-			button.classList.remove('button-enabled');
-			button.classList.add('button-disabled');
+			this.elem.classList.remove('button-enabled');
+			this.elem.classList.add('button-disabled');
 		} else {
-			button.classList.add('button-enabled');
-			button.classList.remove('button-disabled');
+			this.elem.classList.add('button-enabled');
+			this.elem.classList.remove('button-disabled');
 		}
 	}
 
-	function activate(active) {
+	activate(active) {
 		if (active !== undefined && !active) {
-			button.classList.remove('button-active');
+			this.elem.classList.remove('button-active');
 		} else {
-			button.classList.add('button-active');
+			this.elem.classList.add('button-active');
 		}
 	}
 
-	function toggle() {
-		if (button.classList.contains('button-active')) {
-			button.classList.remove('button-active');
+	toggle() {
+		if (this.elem.classList.contains('button-active')) {
+			this.elem.classList.remove('button-active');
 		} else {
-			button.classList.add('button-active');
+			this.elem.classList.add('button-active');
 		}
 	}
-
-	bus.listen('ui-button:' + props.id + ':enable', function(e, enabled) {
-		enable(enabled);
-	});
-	bus.listen('ui-button:' + props.id + ':activate', function(e, active) {
-		activate(active);
-	});
-
-	bus.listen('ui-button:' + props.id + ':toggle', function() {
-		toggle();
-	});
-
-	bus.listen('ui-button:' + props.id + ':link-active', function(event, linkedDiv) {
-		bus.listen('ui-show', function(e, id) {
-			if (linkedDiv === id) {
-				activate(true);
-			}
-		});
-		bus.listen('ui-hide', function(e, id) {
-			if (linkedDiv === id) {
-				activate(false);
-			}
-		});
-		bus.listen('ui-toggle', function(e, id) {
-			if (linkedDiv === id) {
-				toggle();
-			}
-		});
-	});
-
-	return button;
 }
+
+export default (opts) => new Button(opts).elem;

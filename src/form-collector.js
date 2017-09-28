@@ -1,15 +1,17 @@
-export default function(props, injector) {
-	let bus = injector.get('bus');
+import di from '@csgis/di';
+
+export default function() {
+	let bus = di.get('bus');
 
 	bus.listen('ui-form-collector:extend', function(e, msg) {
 		function updateButton() {
-			var enabled = true;
+			let enabled = true;
 			msg.requiredDivs.forEach(function(id) {
-				var input = document.getElementById(id);
-				var tag = input.tagName.toLowerCase();
+				let input = document.getElementById(id);
+				let tag = input.tagName.toLowerCase();
 				if (tag === 'input' && input.type === 'file') {
-					var parent = input.parentNode;
-					var placeholder = parent.getElementsByClassName('ui-file-input-placeholder')[0];
+					let parent = input.parentNode;
+					let placeholder = parent.getElementsByClassName('ui-file-input-placeholder')[0];
 					enabled = enabled && !!placeholder.innerHTML;
 				} else {
 					enabled = enabled && !!input.value;
@@ -18,7 +20,7 @@ export default function(props, injector) {
 
 			if (enabled) {
 				msg.divs.forEach(function(id) {
-					var input = document.getElementById(id);
+					let input = document.getElementById(id);
 					if (input && input.getAttribute('geoladris-type') === 'date') {
 						enabled = enabled && !!Date.parse(input.value);
 					}
@@ -29,7 +31,7 @@ export default function(props, injector) {
 		}
 
 		msg.divs.forEach(function(id) {
-			var input = document.getElementById(id);
+			let input = document.getElementById(id);
 			if (input && input.getAttribute('geoladris-type') === 'date') {
 				input.addEventListener('input', updateButton);
 			}
@@ -37,8 +39,8 @@ export default function(props, injector) {
 
 		if (msg.requiredDivs) {
 			msg.requiredDivs.forEach(function(id) {
-				var input = document.getElementById(id);
-				var tag = input.tagName.toLowerCase();
+				let input = document.getElementById(id);
+				let tag = input.tagName.toLowerCase();
 				// Check type != date so we don't add listeners twice (see
 				// above)
 				if (input && input.getAttribute('geoladris-type') !== 'date') {
@@ -51,20 +53,20 @@ export default function(props, injector) {
 			updateButton();
 		}
 
-		var button = document.getElementById(msg.button);
+		let button = document.getElementById(msg.button);
 		button.addEventListener('click', function() {
 			if (!button.classList.contains('button-enabled')) {
 				return;
 			}
 
-			var rawMessage = {};
-			var i;
+			let rawMessage = {};
+			let i;
 			for (i = 0; i < msg.divs.length; i++) {
-				var fieldName = msg.divs[i];
+				let fieldName = msg.divs[i];
 				bus.send(fieldName + '-field-value-fill', rawMessage);
 			}
 
-			var translatedMessage;
+			let translatedMessage;
 			if (msg.names) {
 				translatedMessage = {};
 				for (i = 0; i < msg.divs.length; i++) {

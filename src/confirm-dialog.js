@@ -1,54 +1,62 @@
+import di from '@csgis/di';
 import commons from './commons';
-import dialogs from './dialogs';
+import dialogs from './dialog';
 import buttons from './buttons';
 
-export default function(props, injector) {
-	let bus = injector.get('bus');
-	props.modal = true;
-	props.css = (props.css || '') + ' ui-confirm-dialog';
-	if (!props.messages) {
-		props.messages = {};
+class ConfirmDialog {
+	constructor(opts) {
+		this.createUI(opts);
+		this.wire();
 	}
 
-	var dialog = dialogs(props, injector);
+	createUI(opts) {
+		opts.modal = true;
+		opts.css = (opts.css || '') + ' ui-confirm-dialog';
+		if (!opts.messages) {
+			opts.messages = {};
+		}
 
-	if (props.messages.question) {
+		this.elem = dialogs(opts);
+
+		if (opts.messages.question) {
+			commons.getOrCreateElem('div', {
+				id: opts.id + '-message',
+				parent: opts.id,
+				css: 'ui-confirm-dialog-message',
+				html: opts.messages.question
+			});
+		}
+
+		let buttonsContainer = opts.id + '-confirm-buttons-container';
 		commons.getOrCreateElem('div', {
-			id: props.id + '-message',
-			parent: props.id,
-			css: 'ui-confirm-dialog-message',
-			html: props.messages.question
+			id: buttonsContainer,
+			parent: opts.id,
+			css: 'ui-confirm-dialog-buttons-container'
+		});
+		buttons({
+			id: opts.id + '-ok',
+			parent: buttonsContainer,
+			css: 'dialog-ok-button ui-confirm-dialog-ok',
+			text: opts.messages.ok,
+			clickEventName: 'ui-confirm-dialog:' + opts.id + ':ok'
+		});
+		buttons({
+			id: opts.id + '-cancel',
+			parent: buttonsContainer,
+			css: 'dialog-ok-button ui-confirm-dialog-cancel',
+			text: opts.messages.cancel,
+			clickEventName: 'ui-confirm-dialog:' + opts.id + ':cancel'
 		});
 	}
 
-	var buttonsContainer = props.id + '-confirm-buttons-container';
-	commons.getOrCreateElem('div', {
-		id: buttonsContainer,
-		parent: props.id,
-		css: 'ui-confirm-dialog-buttons-container'
-	});
-	buttons({
-		id: props.id + '-ok',
-		parent: buttonsContainer,
-		css: 'dialog-ok-button ui-confirm-dialog-ok',
-		text: props.messages.ok,
-		clickEventName: 'ui-confirm-dialog:' + props.id + ':ok'
-	});
-	buttons({
-		id: props.id + '-cancel',
-		parent: buttonsContainer,
-		css: 'dialog-ok-button ui-confirm-dialog-cancel',
-		text: props.messages.cancel,
-		clickEventName: 'ui-confirm-dialog:' + props.id + ':cancel'
-	});
+	wire() {
+		const bus = di.get('bus');
 
-	bus.listen('ui-confirm-dialog:' + props.id + ':cancel', function() {
-		bus.send('ui-hide', props.id);
-	});
-
-	bus.listen('ui-confirm-dialog:' + props.id + ':ok', function() {
-		bus.send('ui-hide', props.id);
-	});
-
-	return dialog;
+		let id = this.elem.id;
+		let hide = () =>  bus.send('ui-hide', id);
+		bus.listen('ui-confirm-dialog:' + id + ':cancel', hide);
+		bus.listen('ui-confirm-dialog:' + id + ':ok', hide);
+	}
 }
+
+export default (opts) => new ConfirmDialog(opts).elem;

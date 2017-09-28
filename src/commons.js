@@ -1,5 +1,7 @@
+import di from '@csgis/di';
+
 function getOrCreateElem(type, props) {
-	var elem;
+	let elem;
 	if (props.id) {
 		elem = document.getElementById(props.id);
 	}
@@ -14,7 +16,7 @@ function getOrCreateElem(type, props) {
 		elem.className = props.css || '';
 
 		if (props.parent) {
-			var parent = props.parent;
+			let parent = props.parent;
 			if (typeof parent === 'string') {
 				parent = document.getElementById(parent);
 			}
@@ -32,14 +34,14 @@ function getOrCreateElem(type, props) {
 }
 
 function append(elem, parent, priority) {
-	var nextElem;
+	let nextElem;
 
 	if (priority) {
 		elem.priority = priority;
 
-		for (var i = 0; i < parent.children.length; i++) {
-			var child = parent.children[i];
-			var p = child.priority;
+		for (let i = 0; i < parent.children.length; i++) {
+			let child = parent.children[i];
+			let p = child.priority;
 			if (!p || p > priority) {
 				nextElem = child;
 				break;
@@ -55,7 +57,7 @@ function append(elem, parent, priority) {
 }
 
 function createLabel(id, parent, text) {
-	var label = getOrCreateElem('label', {
+	let label = getOrCreateElem('label', {
 		id: id + '-label',
 		parent: parent,
 		html: text,
@@ -65,7 +67,7 @@ function createLabel(id, parent, text) {
 		label.style.display = 'none';
 	}
 
-	bus.listen('ui-input:' + id + ':set-label', function(e, labelText) {
+	di.get('bus').listen('ui-input:' + id + ':set-label', function(e, labelText) {
 		if (labelText) {
 			label.innerHTML = labelText;
 			label.style.display = '';
@@ -78,7 +80,7 @@ function createLabel(id, parent, text) {
 }
 
 function createContainer(id, parent, css) {
-	var containerCss = '';
+	let containerCss = '';
 	if (css) {
 		containerCss = css.split('\s+').map(function(a) {
 			return a + '-container';
@@ -92,7 +94,7 @@ function createContainer(id, parent, css) {
 }
 
 function linkDisplay(e1, e2) {
-	var observer = new MutationObserver(function() {
+	let observer = new MutationObserver(function() {
 		e2.style.display = e1.style.display;
 	});
 
@@ -101,6 +103,7 @@ function linkDisplay(e1, e2) {
 		attributeFilter: ['style']
 	});
 }
+
 
 export default {
 	getOrCreateElem,

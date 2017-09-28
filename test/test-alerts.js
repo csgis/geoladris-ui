@@ -1,30 +1,29 @@
+import assert from 'assert';
+import * as utils from './utils';
+
 import bus from '@geoladris/event-bus';
 import di from '@csgis/di';
-import {
-	replaceParent
-} from './utils';
-import module from '../src/alerts';
-import assert from 'assert';
 
-const parentId = 'center';
-// This comes from ui-alerts.js
-const containerId = 'ui-alerts-container';
+import module from '../src/alerts';
+
+// This comes from alerts.js
+const CONTAINER_ID = 'ui-alerts-container';
 
 describe('alerts', function() {
 	di.bind('bus', bus);
 
-	// Init just once
-	replaceParent(parentId);
-	module({
-		parentDiv: parentId
-	}, di);
-
+	before(function() {
+		utils.replaceParent();
+		module({
+			parentDiv: utils.PARENT_ID
+		});
+	});
 	beforeEach(function() {
-		document.getElementById(containerId).innerHTML = '';
+		document.getElementById(CONTAINER_ID).innerHTML = '';
 	});
 
 	it('creates a container on init', function() {
-		var container = document.getElementById(containerId);
+		let container = document.getElementById(CONTAINER_ID);
 		assert(container !== null);
 		assert.equal(0, container.children.length);
 	});
@@ -34,7 +33,7 @@ describe('alerts', function() {
 			message: 'Message',
 			severity: 'danger'
 		});
-		assert.equal(1, document.getElementById(containerId).children.length);
+		assert.equal(1, document.getElementById(CONTAINER_ID).children.length);
 	});
 
 	it('adds a close button to the alert div on ui-alert', function() {
@@ -43,8 +42,8 @@ describe('alerts', function() {
 			severity: 'danger'
 		});
 
-		var container = document.getElementById(containerId);
-		var alertDiv = container.children[0];
+		let container = document.getElementById(CONTAINER_ID);
+		let alertDiv = container.children[0];
 		assert.equal(1, alertDiv.children.length);
 		assert.equal('ui-alerts-close', alertDiv.children[0].className);
 	});
@@ -55,8 +54,8 @@ describe('alerts', function() {
 			severity: 'danger'
 		});
 
-		var container = document.getElementById(containerId);
-		var alertDiv = container.children[0];
+		let container = document.getElementById(CONTAINER_ID);
+		let alertDiv = container.children[0];
 		assert(alertDiv.textContent === 'Message');
 	});
 
@@ -66,8 +65,8 @@ describe('alerts', function() {
 			severity: 'danger'
 		});
 
-		var container = document.getElementById(containerId);
-		var alertDiv = container.children[0];
+		let container = document.getElementById(CONTAINER_ID);
+		let alertDiv = container.children[0];
 		assert(alertDiv.className.match('ui-alert-danger').length > 0);
 	});
 });

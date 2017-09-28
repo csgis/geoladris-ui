@@ -1,68 +1,64 @@
+import di from '@csgis/di';
 import commons from './commons';
 import $ from 'jquery';
 
+class AccordionGroup {
+	constructor(opts) {
+		this.createUI(opts);
+		this.wire();
+	}
 
-export default function(props, injector) {
-	let bus = injector.get('bus');
-
-	function visibility(id, visible) {
-		if (visible !== undefined) {
-			if (visible) {
-				bus.send('ui-show', id);
-			} else {
-				bus.send('ui-hide', id);
-			}
+	createUI(opts) {
+		let containerCss = '';
+		let headerCss = '';
+		if (opts.css) {
+			let classes = opts.css.split('\s+');
+			containerCss = classes.map(a => a + '-container').join(' ');
+			headerCss = classes.map(a => a + '-header').join(' ');
 		}
-	}
 
-	var containerCss = '';
-	var headerCss = '';
-	if (props.css) {
-		var classes = props.css.split('\s+');
-		containerCss = classes.map(function(a) {
-			return a + '-container';
-		}).join(' ');
-		headerCss = classes.map(function(a) {
-			return a + '-header';
-		}).join(' ');
-	}
-	var container = commons.getOrCreateElem('div', {
-		id: props.id + '-container',
-		parent: props.parent,
-		css: containerCss
-	});
-
-	var header = commons.getOrCreateElem('div', {
-		id: props.id + '-header',
-		parent: container,
-		css: headerCss + ' accordion-header'
-	});
-	commons.getOrCreateElem('p', {
-		parent: header,
-		html: props.title,
-		css: 'accordion-header-text'
-	});
-	var content = commons.getOrCreateElem('div', {
-		id: props.id,
-		parent: container,
-		css: (props.css || '') + ' accordion-content'
-	});
-
-	header.addEventListener('click', function() {
-		$(content).slideToggle({
-			duration: 300
+		let container = commons.getOrCreateElem('div', {
+			id: opts.id + '-container',
+			parent: opts.parent,
+			css: containerCss
 		});
-	});
 
-	content.style.display = props.visible ? '' : 'none';
+		this.header = commons.getOrCreateElem('div', {
+			id: opts.id + '-header',
+			parent: container,
+			css: headerCss + ' accordion-header'
+		});
+		commons.getOrCreateElem('p', {
+			parent: this.header,
+			html: opts.title,
+			css: 'accordion-header-text'
+		});
 
-	bus.listen('ui-accordion-group:' + props.id + ':visibility', function(e, msg) {
-		visibility(props.id + '-header', msg.header);
-		visibility(props.id, msg.content);
-	});
+		this.content = commons.getOrCreateElem('div', {
+			id: opts.id,
+			parent: container,
+			css: (opts.css || '') + ' accordion-content'
+		});
 
-	return {
-		header: header,
-		content: content
-	};
+		this.content.style.display = opts.visible ? '' : 'none';
+	}
+
+	wire() {
+		this.header.addEventListener('click', () => $(this.content).slideToggle({
+			duration: 300
+		}));
+
+		let bus = di.get('bus');
+
+		bus.listen('ui-accordion-group:' + this.content.id + ':visibility', (e, msg) => {
+			if (msg.header !== undefined) {
+				bus.send(msg.header ? 'ui-show' : 'ui-hide', this.header.id);
+			}
+			if (msg.content !== undefined) {
+				bus.send(msg.content ? 'ui-show' : 'ui-hide', this.content.id);
+			}
+		});
+	}
 }
+
+export default (props) => new AccordionGroup(props);

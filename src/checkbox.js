@@ -1,18 +1,22 @@
+import di from '@csgis/di';
 import commons from './commons';
 
-export default function(props) {
-	var container = commons.createContainer(props.id, props.parent, props.css);
-	var input = commons.getOrCreateElem('input', {
-		id: props.id,
-		parent: container,
-		css: (props.css || '') + ' ui-checkbox'
-	});
-	input.type = 'checkbox';
+class Checkbox {
+	constructor(opts) {
+		const bus = di.get('bus');
 
-	commons.linkDisplay(input, container);
+		let container = commons.createContainer(opts.id, opts.parent, opts.css);
+		this.input = commons.getOrCreateElem('input', {
+			id: opts.id,
+			parent: container,
+			css: (opts.css || '') + ' ui-checkbox'
+		});
+		this.input.type = 'checkbox';
 
-	var label = commons.createLabel(props.id, container, props.label);
-	label.addEventListener('click', () => input.click());
-
-	return input;
+		let label = commons.createLabel(opts.id, container, opts.label, bus);
+		commons.linkDisplay(this.input, container);
+		label.addEventListener('click', () => this.input.click());
+	}
 }
+
+export default (opts) => new Checkbox(opts).input;

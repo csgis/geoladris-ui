@@ -1,108 +1,122 @@
 import commons from './commons';
+import di from '@csgis/di';
 
 let zIndex;
 
-function showOnTop(container) {
-	container.style.display = '';
-	var i = parseInt(container.style.zIndex);
-	if (!zIndex) {
-		zIndex = i + 1;
-	} else {
-		container.style.zIndex = zIndex++;
-	}
-}
+class Dialog {
+	constructor(opts) {
+		const bus = di.get('bus');
 
-export default function(props, injector) {
-	let bus = injector.get('bus');
+		this.createUI(opts);
+		this.wire(opts, bus);
 
-	var container = commons.getOrCreateElem('div', {
-		id: props.id + '-dialog-container',
-		parent: props.parent,
-		css: 'dialog-container'
-	});
-
-	if (props.modal) {
-		container.classList.add('dialog-modal');
+		if (opts.visible) {
+			bus.send('ui-show', opts.id);
+		} else {
+			bus.send('ui-hide', opts.id);
+		}
 	}
 
-	var div = commons.getOrCreateElem('div', {
-		id: props.id,
-		parent: container,
-		css: 'dialog ' + (props.css || '')
-	});
+	createUI(opts) {
+		this.container = commons.getOrCreateElem('div', {
+			id: opts.id + '-dialog-container',
+			parent: opts.parent,
+			css: 'dialog-container'
+		});
 
-	bus.listen('ui-show', function(e, id) {
-		if (id === props.id) {
-			showOnTop(container);
+		if (opts.modal) {
+			this.container.classList.add('dialog-modal');
 		}
-	});
-	bus.listen('ui-hide', function(e, id) {
-		if (id === props.id) {
-			container.style.display = 'none';
+
+		this.elem = commons.getOrCreateElem('div', {
+			id: opts.id,
+			parent: this.container,
+			css: 'dialog ' + (opts.css || '')
+		});
+
+		this.title = commons.getOrCreateElem('div', {
+			parent: this.elem,
+			css: 'dialog-title',
+			html: opts.title
+		});
+
+		if (opts.closeButton) {
+			this.close = commons.getOrCreateElem('div', {
+				parent: this.elem,
+				css: 'dialog-close'
+			});
 		}
-	});
-	bus.listen('ui-toggle', function(e, id) {
-		if (id === props.id) {
-			if (container.style.display === 'none') {
-				showOnTop(container);
-			} else {
-				container.style.display = 'none';
+	}
+
+	wire(opts, bus) {
+		let elemId = this.elem.id;
+		bus.listen('ui-show', (e, id) => {
+			if (id === elemId) {
+				this.showOnTop();
 			}
-		}
-	});
-
-	var title = commons.getOrCreateElem('div', {
-		parent: div,
-		css: 'dialog-title',
-		html: props.title
-	});
-
-	var dragging = false;
-	var startX;
-	var startY;
-	var startOffsetTop;
-	var startOffsetLeft;
-
-	title.addEventListener('mousedown', function(event) {
-		title.style.cursor = 'move';
-		dragging = true;
-		startX = event.clientX;
-		startY = event.clientY;
-		startOffsetTop = div.offsetTop;
-		startOffsetLeft = div.offsetLeft;
-	});
-	title.addEventListener('mouseup', function() {
-		dragging = false;
-		title.style.cursor = 'originalCursor';
-	});
-
-	window.addEventListener('mousemove', function(event) {
-		if (!dragging) {
-			return;
-		}
-
-		div.style.position = 'fixed';
-		div.style.top = startOffsetTop + (event.clientY - startY) + 'px';
-		div.style.left = startOffsetLeft + (event.clientX - startX) + 'px';
-		div.style.right = 'unset';
-		div.style.bottom = 'unset';
-	});
-
-	if (props.closeButton) {
-		var close = commons.getOrCreateElem('div', {
-			parent: div,
-			css: 'dialog-close'
 		});
-		close.addEventListener('click', function() {
-			bus.send('ui-hide', props.id);
+		bus.listen('ui-hide', (e, id) => {
+			if (id === opts.id) {
+				this.container.style.display = 'none';
+			}
 		});
+		bus.listen('ui-toggle', (e, id) => {
+			if (id === opts.id) {
+				if (this.container.style.display === 'none') {
+					this.showOnTop();
+				} else {
+					this.container.style.display = 'none';
+				}
+			}
+		});
+
+		let dragging = false;
+		let startX;
+		let startY;
+		let startOffsetTop;
+		let startOffsetLeft;
+
+		this.title.addEventListener('mousedown', (event) => {
+			this.title.style.cursor = 'move';
+			dragging = true;
+			startX = event.clientX;
+			startY = event.clientY;
+			startOffsetTop = this.elem.offsetTop;
+			startOffsetLeft = this.elem.offsetLeft;
+		});
+
+		this.title.addEventListener('mouseup', () => {
+			dragging = false;
+			this.title.style.cursor = 'originalCursor';
+		});
+
+		window.addEventListener('mousemove', (event) => {
+			if (!dragging) {
+				return;
+			}
+
+			this.elem.style.position = 'fixed';
+			this.elem.style.top = startOffsetTop + (event.clientY - startY) + 'px';
+			this.elem.style.left = startOffsetLeft + (event.clientX - startX) + 'px';
+			this.elem.style.right = 'unset';
+			this.elem.style.bottom = 'unset';
+		});
+
+
+		if (opts.closeButton) {
+			this.close.addEventListener('click', () => bus.send('ui-hide', elemId));
+		}
 	}
 
-	if (props.visible) {
-		bus.send('ui-show', props.id);
-	} else {
-		bus.send('ui-hide', props.id);
+	showOnTop() {
+		this.container.style.display = '';
+		let i = parseInt(this.container.style.zIndex);
+		if (!zIndex) {
+			zIndex = i + 1;
+		} else {
+			this.container.style.zIndex = zIndex++;
+		}
 	}
-
-	return div;
 }
+
+export default (props) => new Dialog(props).elem;

@@ -1,13 +1,17 @@
-export default function(props, injector) {
-	let bus = injector.get('bus');
+import di from '@csgis/di';
 
-	var divLists = [];
+let bus = null;
+let elemLists = [];
 
+function init() {
+	if (bus) return; // already initalized
+
+	bus = di.get('bus');
 	bus.listen('ui-show', function(e, id) {
-		for (var i = 0; i < divLists.length; i++) {
-			var j;
-			var divList = divLists[i];
-			var showIndex = -1;
+		for (let i = 0; i < elemLists.length; i++) {
+			let j;
+			let divList = elemLists[i];
+			let showIndex = -1;
 			for (j = 0; j < divList.length; j++) {
 				if (divList[j] === id) {
 					showIndex = j;
@@ -24,11 +28,12 @@ export default function(props, injector) {
 			}
 		}
 	});
+}
 
-	return function(msg) {
-		divLists.push(msg.divs);
-		for (var i = 1; i < msg.divs.length; i++) {
-			bus.send('ui-hide', msg.divs[i]);
-		}
-	};
+export default function(elems) {
+	init();
+	elemLists.push(elems);
+	for (let i = 1; i < elems.length; i++) {
+		bus.send('ui-hide', elems[i]);
+	}
 }

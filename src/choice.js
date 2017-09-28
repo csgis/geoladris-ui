@@ -1,41 +1,52 @@
+import di from '@csgis/di';
 import commons from './commons';
 
-export default function(props, injector) {
-	let bus = injector.get('bus');
-	var container = commons.createContainer(props.id, props.parent, props.css);
-	commons.createLabel(props.id, container, props.label);
-	var input = commons.getOrCreateElem('select', {
-		id: props.id,
-		parent: container,
-		css: (props.css || '') + ' ui-choice'
-	});
+class Choice {
+	constructor(opts) {
+		this.createUI(opts);
+		this.wire();
+	}
 
-	commons.linkDisplay(input, container);
+	createUI(opts) {
+		var container = commons.createContainer(opts.id, opts.parent, opts.css);
+		commons.createLabel(opts.id, container, opts.label);
+		this.input = commons.getOrCreateElem('select', {
+			id: opts.id,
+			parent: container,
+			css: (opts.css || '') + ' ui-choice'
+		});
 
-	function addValues(values) {
-		if (!values) {
-			return;
-		}
+		commons.linkDisplay(this.input, container);
 
-		values.forEach(function(v) {
-			var option = commons.getOrCreateElem('option', {
-				parent: input,
+		this.addValues(opts.values);
+	}
+
+	wire() {
+		const bus = di.get('bus');
+
+		let id = this.input.id;
+		bus.listen('ui-choice-field:' + id + ':set-values', (e, values) => {
+			document.getElementById(id).innerHTML = '';
+			this.addValues(values);
+		});
+
+		bus.listen(id + '-field-value-fill', (e, message) => {
+			let input = document.getElementById(id);
+			message[id] = input.options[input.selectedIndex].value;
+		});
+	}
+
+	addValues(values) {
+		if (!values) return;
+
+		values.forEach(v => {
+			let option = commons.getOrCreateElem('option', {
+				parent: this.input,
 				html: typeof v === 'string' ? v : v.text
 			});
 			option.value = typeof v === 'string' ? v : v.value;
 		});
 	}
-
-	addValues(props.values);
-
-	bus.listen('ui-choice-field:' + props.id + ':set-values', function(e, values) {
-		input.innerHTML = '';
-		addValues(values);
-	});
-
-	bus.listen(props.id + '-field-value-fill', function(e, message) {
-		message[props.id] = input.options[input.selectedIndex].value;
-	});
-
-	return input;
 }
+
+export default (opts) => new Choice(opts).input;

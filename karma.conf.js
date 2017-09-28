@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const webpackConfig = {
 	devtool: 'inline-source-map',
@@ -12,7 +13,9 @@ const webpackConfig = {
 			test: /\.js$/,
 			exclude: /node_modules/,
 			loader: 'babel-loader',
-			query: {compact: false}
+			query: {
+				compact: false
+			}
 		}, {
 			test: /\.js$/,
 			exclude: /node_modules|\-test\.js$/,
@@ -23,7 +26,12 @@ const webpackConfig = {
 				}
 			}
 		}]
-	}
+	},
+	plugins: [new webpack.ProvidePlugin({
+		jQuery: 'jquery',
+		$: 'jquery',
+		'window.jQuery': 'jquery'
+	})]
 };
 
 module.exports = function c(config) {

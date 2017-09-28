@@ -1,32 +1,27 @@
+import di from '@csgis/di';
 import commons from './commons';
 
-let bus;
-let timeout = 5;
+function init(options) {
+	const bus = di.get('bus');
+	const timeout = options.timeout || 5;
 
-export default function(options, injector) {
-	if (bus) return; // already initialized
-
-	bus = injector.get('bus');
-
-	if (options.timeout) timeout = options.timeout;
-
-	var wrapper = commons.getOrCreateElem('div', {
+	let wrapper = commons.getOrCreateElem('div', {
 		id: 'ui-alerts-wrapper',
 		parent: options.parentDiv || 'center'
 	});
-	var container = commons.getOrCreateElem('div', {
+	let container = commons.getOrCreateElem('div', {
 		id: 'ui-alerts-container',
 		parent: wrapper
 	});
 
 	bus.listen('ui-alert', function(e, msg) {
-		var div = commons.getOrCreateElem('div', {
+		let div = commons.getOrCreateElem('div', {
 			parent: container,
 			html: msg.message,
 			css: 'ui-alert ui-alert-' + msg.severity
 		});
 
-		var close = commons.getOrCreateElem('div', {
+		let close = commons.getOrCreateElem('div', {
 			parent: div,
 			css: 'ui-alerts-close'
 		});
@@ -38,4 +33,12 @@ export default function(options, injector) {
 			container.removeChild(div);
 		}, timeout * 1000);
 	});
+}
+
+let load = init;
+export default function(opts) {
+	if (load) {
+		load(opts);
+		load = null;
+	}
 }

@@ -1,4 +1,5 @@
 import commons from './commons';
+import di from '@csgis/di';
 import $ from 'jquery';
 
 const ATTR_DIRECTION = 'gb-ui-sliding-direction';
@@ -52,10 +53,10 @@ function toggle(id) {
 	}
 }
 
-function init(props, injector) {
+function init(props) {
 	if (bus) return; // already initalized
 
-	bus = injector.get('bus');
+	bus = di.get('bus');
 	duration = props.duration || 0;
 
 	bus.listen('ui-sliding-div:collapse', function(e, id) {
@@ -69,8 +70,8 @@ function init(props, injector) {
 	});
 }
 
-export default function(props, injector) {
-	init(props, injector);
+export default function(props) {
+	init(props);
 
 	var direction = props.direction || 'vertical';
 	var handlePosition = props.handlePosition || 'bottom';
