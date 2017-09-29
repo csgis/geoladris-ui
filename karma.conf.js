@@ -18,7 +18,7 @@ const webpackConfig = {
       }
     }, {
       test: /\.js$/,
-      exclude: /node_modules|\-test\.js$/,
+      exclude: /node_modules|test\/.*\.js$/,
       use: {
         loader: 'istanbul-instrumenter-loader',
         options: {
