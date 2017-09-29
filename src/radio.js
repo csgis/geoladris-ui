@@ -1,32 +1,32 @@
 import commons from './commons';
 
-export default function(props) {
-	var container = commons.createContainer(props.id, props.parent, props.css);
+class Radio {
+  constructor(opts) {
+    let container = commons.createContainer(opts.id, opts.parent, opts.css);
 
-	var input = commons.getOrCreateElem('input', {
-		id: props.id,
-		parent: container,
-		css: (props.css || '') + ' ui-radio'
-	});
+    this.input = commons.getOrCreateElem('input', {
+      id: opts.id,
+      parent: container,
+      css: (opts.css || '') + ' ui-radio'
+    });
 
-	commons.linkDisplay(input, container);
+    commons.linkDisplay(this.input, container);
 
-	if (props.parent) {
-		var name;
-		if (typeof props.parent !== 'string') {
-			name = props.parent.id;
-		} else {
-			name = props.parent;
-		}
-		input.name = name;
-	}
+    if (opts.parent) {
+      let name;
+      if (typeof opts.parent !== 'string') {
+        name = opts.parent.id;
+      } else {
+        name = opts.parent;
+      }
+      this.input.name = name;
+    }
 
-	input.type = 'radio';
+    this.input.type = 'radio';
 
-	var label = commons.createLabel(props.id, container, props.label);
-	label.addEventListener('click', function() {
-		input.click();
-	});
-
-	return input;
+    let label = commons.createLabel(opts.id, container, opts.label);
+    label.addEventListener('click', () => this.input.click());
+  }
 }
+
+export default (props) => new Radio(props).input;

@@ -1,88 +1,91 @@
 import commons from './commons';
+import di from '@csgis/di';
 
-export default function(props, injector) {
-	let bus = injector.get('bus');
+class Loader {
+  constructor(opts) {
+    this.ids = {};
+    this.originalMessage = opts.originalMessage || 'Loading';
 
-	var ids = {};
+    this.createUI();
+    this.wire();
+  }
 
-	var config = module.config();
-	if (!config.originalMessage) {
-		config.originalMessage = 'Loading';
-	}
-	var message;
-	var intervalId;
+  createUI() {
+    this.loadingShade = commons.getOrCreateElem('div', {
+      id: 'wait-mask',
+      parent: document.body
+    });
+    this.loadingMsg = commons.getOrCreateElem('div', {
+      id: 'loading-msg',
+      parent: this.loadingShade
+    });
 
-  // Create divs
-	var loadingShade = commons.getOrCreateElem('div', {
-		id: 'wait-mask',
-		parent: document.body
-	});
-	var loadingMsg = commons.getOrCreateElem('div', {
-		id: 'loading-msg',
-		parent: loadingShade
-	});
+    this.loadingShade.style.display = 'none';
+  }
 
-  // Hide divs by default
-	loadingShade.style.display = 'none';
+  wire() {
+    const bus = di.get('bus');
+    const that = this;
+    bus.listen('ui-loading:start', function (e, msg) {
+      if (that.ids[msg]) {
+        that.ids[msg]++;
+      } else {
+        that.ids[msg] = 1;
+      }
 
-	function updateMessage() {
-		var keys = Object.keys(ids);
-		if (keys.length === 1) {
-			message = keys[0];
-		} else {
-			message = config.originalMessage;
-		}
-		loadingMsg.innerHTML = message + '...';
-	}
+      that.updateMessage();
+      that.loadingShade.style.display = '';
+      that.loadingMsg.style.width = that.loadingMsg.offsetWidth + 'px';
 
-	bus.listen('ui-loading:start', function(e, msg) {
-		if (ids[msg]) {
-			ids[msg]++;
-		} else {
-			ids[msg] = 1;
-		}
+      if (!that.intervalId) {
+        // Add a dot to the message each 0.5s, up to 3 dots
+        that.intervalId = setInterval(function () {
+          let divText = that.loadingMsg.innerHTML;
+          if (divText.length < that.message.length + 3) {
+            that.loadingMsg.innerHTML = divText + '.';
+          } else {
+            that.loadingMsg.innerHTML = that.message;
+          }
+        }, 500);
+      }
+    });
 
-		updateMessage();
-		loadingShade.style.display = '';
-		loadingMsg.style.width = loadingMsg.offsetWidth + 'px';
+    bus.listen('ui-loading:end', function (e, msg) {
+      if (!that.ids[msg] || that.ids[msg] <= 0) {
+        console.warn('Trying to finish non-started loading: ' + msg);
+        return;
+      }
 
-		if (!intervalId) {
-      // Add a dot to the message each 0.5s, up to 3 dots
-			intervalId = setInterval(function() {
-				var divText = loadingMsg.innerHTML;
-				if (divText.length < message.length + 3) {
-					loadingMsg.innerHTML = divText + '.';
-				} else {
-					loadingMsg.innerHTML = message;
-				}
-			}, 500);
-		}
-	});
+      that.ids[msg]--;
+      if (!that.ids[msg]) {
+        delete that.ids[msg];
+      }
 
-	bus.listen('ui-loading:end', function(e, msg) {
-		if (!ids[msg] || ids[msg] <= 0) {
-			console.warn('Trying to finish non-started loading: ' + msg);
-			return;
-		}
+      let anyoneLoading = false;
+      Object.keys(that.ids).forEach(function (key) {
+        if (that.ids[key]) {
+          anyoneLoading = true;
+        }
+      });
 
-		ids[msg]--;
-		if (!ids[msg]) {
-			delete ids[msg];
-		}
+      if (!anyoneLoading) {
+        that.loadingShade.style.display = 'none';
+        clearInterval(that.intervalId);
+        that.intervalId = null;
+      } else {
+        that.updateMessage();
+      }
+    });
+  }
 
-		var anyoneLoading = false;
-		Object.keys(ids).forEach(function(key) {
-			if (ids[key]) {
-				anyoneLoading = true;
-			}
-		});
+  updateMessage() {
+    let keys = Object.keys(this.ids);
+    this.message = (keys.length === 1) ? keys[0] : this.originalMessage;
+    this.loadingMsg.innerHTML = this.message + '...';
+  }
+}
 
-		if (!anyoneLoading) {
-			loadingShade.style.display = 'none';
-			clearInterval(intervalId);
-			intervalId = null;
-		} else {
-			updateMessage();
-		}
-	});
+let loader;
+export default function (opts) {
+  if (!loader) loader = new Loader(opts || {});
 }

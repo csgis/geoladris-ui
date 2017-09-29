@@ -22,6 +22,7 @@
   "devDependencies": {
     "@csgis/di": "^0.0.1-alpha.1",
     "@geoladris/event-bus": "^0.0.1-alpha.2",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.1",
     "babel-loader": "^7.1.2",
@@ -42,8 +43,11 @@
     "webpack": "^3.6.0"
   },
   "scripts": {
+    "build": "babel src --out-dir dist",
+    "prepublish": "yarn run build",
     "test": "karma start",
     "test:debug": "karma start --single-run=false --auto-watch --browsers=Chrome --reporters=progress",
-    "lint": "eslint src test"
+    "lint": "eslint src test",
+    "coverage": "yarn run test && codecov --disable=gcov -f coverage/lcov/lcov.info"
   }
 }

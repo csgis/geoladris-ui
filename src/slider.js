@@ -1,118 +1,130 @@
+import di from '@csgis/di';
 import commons from './commons';
 import noUiSlider from 'nouislider';
 
-export default function(props, injector) {
-	let bus = injector.get('bus');
+class Slider {
+  constructor(opts) {
+    this.snap = opts.snap;
+    this.pips = opts.pips;
 
-	var container = commons.createContainer(props.id, props.parent, props.css);
-	commons.createLabel(props.id, container, props.label);
-	var slider = commons.getOrCreateElem('div', {
-		id: props.id,
-		parent: container,
-		css: 'ui-slider-input ' + (props.css || '')
-	});
+    this.createUI(opts);
+    this.wire(opts);
+  }
 
-	commons.linkDisplay(slider, container);
+  createUI(opts) {
+    let container = commons.createContainer(opts.id, opts.parent, opts.css);
+    commons.createLabel(opts.id, container, opts.label);
+    this.slider = commons.getOrCreateElem('div', {
+      id: opts.id,
+      parent: container,
+      css: 'ui-slider-input ' + (opts.css || '')
+    });
 
-	var useDates;
+    commons.linkDisplay(this.slider, container);
 
-	function parseValue(v) {
-		var val = parseFloat(v);
-		return useDates ? new Date(val) : val;
-	}
+    this.addValues(opts.values);
+    if (opts.value) {
+      this.slider.noUiSlider.set(this.useDates ? opts.value.getTime() : opts.value);
+    }
+  }
 
-	function dispatch(name) {
-		slider.dispatchEvent(new CustomEvent(name, {
-			detail: {
-				value: parseValue(slider.noUiSlider.get())
-			}
-		}));
-	}
+  wire(opts) {
+    let bus = di.get('bus');
+    let that = this;
 
-	function addValues(values) {
-		if (!values || values.constructor !== Array || !values.length) {
-			return;
-		}
+    if (opts.id) {
+      bus.listen('ui-slider:' + opts.id + ':set-values', (e, values) => {
+        let slider = document.getElementById(that.slider.id);
+        slider.innerHTML = '';
+        that.addValues(values);
+      });
 
-		if (values[0] instanceof Date) {
-			useDates = true;
-			values = values.map(function(date) {
-				return date.getTime();
-			});
-		}
+      bus.listen('ui-slider:' + opts.id + ':set-value', (e, value) => {
+        let slider = document.getElementById(that.slider.id);
+        slider.noUiSlider.set(value);
+      });
 
-		values.sort(function(a, b) {
-			return a - b;
-		});
+      bus.listen(opts.id + '-field-value-fill', (e, message) => {
+        let slider = document.getElementById(that.slider.id);
+        message[opts.id] = parseFloat(slider.noUiSlider.get());
+      });
+    }
+  }
 
-		var range = {
-			'min': values[0],
-			'max': values[values.length - 1]
-		};
+  parseValue(v) {
+    let val = parseFloat(v);
+    return this.useDates ? new Date(val) : val;
+  }
 
-		var unitPerc = 100.0 / (range.max - range.min);
-		for (var i = 1; i < values.length - 1; i++) {
-			var value = values[i];
-			var perc = unitPerc * (value - range.min);
-			range[perc + '%'] = value;
-		}
+  dispatch(name) {
+    this.slider.dispatchEvent(new CustomEvent(name, {
+      detail: {
+        value: this.parseValue(this.slider.noUiSlider.get())
+      }
+    }));
+  }
 
-		if (slider.noUiSlider) {
-			slider.noUiSlider.updateOptions({
-				start: values[0],
-				range: range
-			});
-		} else {
-			var options = {
-				animate: false,
-				start: values[0],
-				range: range,
-				snap: props.snap
-			};
+  addValues(v) {
+    let values = v;
+    if (!values || values.constructor !== Array || !values.length) {
+      return;
+    }
 
-			if (props.pips === true || props.pips instanceof Function) {
-				options.pips = {
-					mode: 'steps',
-					density: 100
-				};
-			}
-			noUiSlider.create(slider, options);
-		}
+    if (values[0] instanceof Date) {
+      this.useDates = true;
+      values = values.map(function (date) {
+        return date.getTime();
+      });
+    }
 
-		slider.noUiSlider.on('change', function() {
-			dispatch('change');
-		});
-		slider.noUiSlider.on('slide', function() {
-			dispatch('slide');
-		});
+    values.sort(function (a, b) {
+      return a - b;
+    });
 
-		if (props.pips instanceof Function) {
-			var nodes = slider.querySelectorAll('.noUi-value.noUi-value-horizontal.noUi-value-large');
-			Array.prototype.forEach.call(nodes, function(el) {
-				el.innerHTML = props.pips(parseValue(el.innerHTML));
-			});
-		}
-	}
+    let range = {
+      'min': values[0],
+      'max': values[values.length - 1]
+    };
 
-	addValues(props.values);
-	if (props.value) {
-		slider.noUiSlider.set(useDates ? props.value.getTime() : props.value);
-	}
+    let unitPerc = 100.0 / (range.max - range.min);
+    for (let i = 1; i < values.length - 1; i++) {
+      let value = values[i];
+      let perc = unitPerc * (value - range.min);
+      range[perc + '%'] = value;
+    }
 
-	if (props.id) {
-		bus.listen('ui-slider:' + props.id + ':set-values', function(e, values) {
-			slider.innerHTML = '';
-			addValues(values);
-		});
+    if (this.slider.noUiSlider) {
+      this.slider.noUiSlider.updateOptions({
+        start: values[0],
+        range: range
+      });
+    } else {
+      let options = {
+        animate: false,
+        start: values[0],
+        range: range,
+        snap: this.snap
+      };
 
-		bus.listen('ui-slider:' + props.id + ':set-value', function(e, value) {
-			slider.noUiSlider.set(value);
-		});
+      if (this.pips === true || this.pips instanceof Function) {
+        options.pips = {
+          mode: 'steps',
+          density: 100
+        };
+      }
+      noUiSlider.create(this.slider, options);
+    }
 
-		bus.listen(props.id + '-field-value-fill', function(e, message) {
-			message[props.id] = parseFloat(slider.noUiSlider.get());
-		});
-	}
+    this.slider.noUiSlider.on('change', () => this.dispatch('change'));
+    this.slider.noUiSlider.on('slide', () => this.dispatch('slide'));
 
-	return slider;
+    if (this.pips instanceof Function) {
+      let nodes = this.slider.querySelectorAll('.noUi-value.noUi-value-horizontal.noUi-value-large');
+      Array.prototype.forEach.call(nodes, (el) => {
+        el.innerHTML = this.pips(this.parseValue(el.innerHTML));
+      });
+    }
+  }
 }
+
+export default (opts) => new Slider(opts).slider;

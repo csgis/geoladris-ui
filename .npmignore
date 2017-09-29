@@ -1,5 +1,4 @@
-dist
-coverage
+!dist
 .classpath
 .project
 .settings

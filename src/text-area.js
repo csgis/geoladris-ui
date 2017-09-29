@@ -1,24 +1,26 @@
+import di from '@csgis/di';
 import commons from './commons';
 
-export default function(props, injector) {
-	let bus = injector.get('bus');
+class TextArea {
+  constructor(opts) {
+    let container = commons.createContainer(opts.id, opts.parent, opts.css);
+    commons.createLabel(opts.id, container, opts.label);
+    let input = commons.getOrCreateElem('textarea', {
+      id: opts.id,
+      parent: container,
+      css: opts.css + ' ui-textarea'
+    });
 
-	var container = commons.createContainer(props.id, props.parent, props.css);
-	commons.createLabel(props.id, container, props.label);
-	var input = commons.getOrCreateElem('textarea', {
-		id: props.id,
-		parent: container,
-		css: props.css + ' ui-textarea'
-	});
+    input.cols = opts.cols;
+    input.rows = opts.rows;
 
-	input.cols = props.cols;
-	input.rows = props.rows;
+    commons.linkDisplay(input, container);
 
-	commons.linkDisplay(input, container);
-
-	bus.listen(props.id + '-field-value-fill', function(e, message) {
-		message[props.id] = input.value;
-	});
-
-	return input;
+    this.input = input;
+    di.get('bus').listen(opts.id + '-field-value-fill', (e, message) => {
+      message[opts.id] = input.value;
+    });
+  }
 }
+
+export default (opts) => new TextArea(opts).input;
