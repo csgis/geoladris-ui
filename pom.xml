@@ -7,6 +7,29 @@
 	<name>ui</name>
 	<groupId>de.csgis.geoladris</groupId>
 	<version>1.0.0-SNAPSHOT</version>
+	<description>UI library for Geoladris.</description>
+	<url>https://github.com/csgis/geoladris-ui</url>
+	<packaging>jar</packaging>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Victor Gonzalez</name>
+			<email>victor.gonzalez@geomati.co</email>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/csgis/geoladris-ui.git</connection>
+		<developerConnection>scm:git:ssh://github.com:csgis/geoladris-ui.git</developerConnection>
+		<url>http://github.com/csgis/geoladris-ui/tree/master</url>
+	</scm>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,27 +40,25 @@
 		<yarn.version>v0.28.4</yarn.version>
 	</properties>
 
-	<distributionManagement>
-		<repository>
-			<id>csgis-releases</id>
-			<url>http://service.csgis.de/mvn/repository/releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>csgis-snapshots</id>
-			<url>http://service.csgis.de/mvn/repository/snapshots</url>
-		</snapshotRepository>
-	</distributionManagement>
-
 	<repositories>
 		<repository>
-			<id>csgis-releases</id>
-			<url>http://service.csgis.de/mvn/repository/releases/</url>
+			<id>snapshots-repo</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases><enabled>false</enabled></releases>
+			<snapshots><enabled>true</enabled></snapshots>
 		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
 		<repository>
-			<id>csgis-snapshots</id>
-			<url>http://service.csgis.de/mvn/repository/snapshots/</url>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
-    </repositories>
+	</distributionManagement>
 
 	<dependencies>
 		<dependency>
@@ -46,7 +67,6 @@
 			<version>${geoladris.core.version}</version>
 		</dependency>
 	</dependencies>
-
 
 	<build>
 		<resources>
@@ -118,30 +138,73 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
-	<profiles>
-		<profile>
-			<id>npm</id>
-			<activation>
-				<file>
-					<missing>package.json</missing>
-				</file>
-			</activation>
-			<properties>
-				<skip.npm>true</skip.npm>
-			</properties>
-		</profile>
-		<profile>
-			<id>karma</id>
-			<activation>
-				<file>
-					<missing>karma.conf.js</missing>
-				</file>
-			</activation>
-			<properties>
-				<skip.karma>true</skip.karma>
-			</properties>
-		</profile>
-	</profiles>
+    <profiles>
+        <profile>
+            <id>sign</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                            <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>npm</id>
+            <activation>
+                <file>
+                    <missing>package.json</missing>
+                </file>
+            </activation>
+            <properties>
+                <skip.npm>true</skip.npm>
+            </properties>
+        </profile>
+        <profile>
+            <id>karma</id>
+            <activation>
+                <file>
+                    <missing>karma.conf.js</missing>
+                </file>
+            </activation>
+            <properties>
+                <skip.karma>true</skip.karma>
+            </properties>
+        </profile>
+    </profiles>
 </project>
