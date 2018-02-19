@@ -1,6 +1,6 @@
 {
   "name": "@csgis-geoladris/ui",
-  "version": "1.0.0-alpha.2",
+  "version": "0.1.0",
   "license": "MIT",
   "author": "Víctor González <victor.gonzalez@geomati.co>",
   "dependencies": {
